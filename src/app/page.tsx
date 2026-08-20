@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Brand, Header } from "@/components/header";
+import { HeroMockup } from "@/components/hero-mockup";
 import { OperationShowcase, UseCaseAccordion } from "@/components/use-case-accordion";
+import { RevealHeroTitle, RevealTitle } from "@/components/reveal-title";
 import { bookingUrl, footerGroups } from "@/lib/site";
 
 const clientLogos = [
@@ -35,8 +37,7 @@ function BookingLink({ inverse = false }: { inverse?: boolean }) {
 function SectionIntro({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="section-intro">
-      <h2>{title}</h2>
-      <p>{children}</p>
+      <RevealTitle subtitle={children}>{title}</RevealTitle>
     </div>
   );
 }
@@ -51,11 +52,9 @@ export default function Home() {
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <h1>The ops platform built around how your business works.</h1>
-            <p>
-              Tell us what’s getting difficult to operate and Superspace turns it into software your team can use every
-              day.
-            </p>
+            <RevealHeroTitle subtitle="Tell us what’s getting difficult to operate and Superspace turns it into software your team can use every day.">
+              The ops platform built around how your business works.
+            </RevealHeroTitle>
             <BookingLink />
           </div>
           <div className="v2-product-card">
@@ -67,25 +66,18 @@ export default function Home() {
               priority
               sizes="(max-width: 768px) 100vw, 1440px"
             />
-            <Image
-              className="v2-product-card__screen"
-              src="/assets/figma/hero-challenges.png"
-              alt="Superspace challenge workspace"
-              width={1287}
-              height={820}
-              priority
-            />
+            <HeroMockup />
           </div>
         </section>
 
         <section className="v2-use-cases shell" aria-labelledby="use-cases-title">
           <SectionIntro title="Start with the operation that needs fixing.">
-            You don’t need to move your entire business to SuperSpace. Start with one part that has become difficult to
+            You don’t need to move your entire business to Superspace. Start with one part that has become difficult to
             run with spreadsheets, messages, manual work, or software that no longer fits.
           </SectionIntro>
           <UseCaseAccordion />
           <p className="v2-use-cases__prompt">
-            Your operation look any different? <a href="#conversation">Let’s talk.</a>
+            Does your operation look any different? <a href="#conversation">Let’s talk.</a>
           </p>
         </section>
 
@@ -117,12 +109,11 @@ export default function Home() {
         <section className="v2-conversation shell" id="conversation">
           <Image src="/assets/chromatic-metal-2.png" alt="" fill sizes="(max-width: 768px) 100vw, 1440px" />
           <div className="v2-conversation__copy">
-            <h2>
+            <RevealTitle subtitle="We’ll map your operation and show you what it could look like as one system.">
               Show us how your
               <br />
               company operates.
-            </h2>
-            <p>We’ll map your operation and show you what it could look like as one system.</p>
+            </RevealTitle>
             <BookingLink inverse />
           </div>
         </section>

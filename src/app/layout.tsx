@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Superspace — Operational infrastructure for scaling companies",
   description: "Custom software outcomes. Platform economics.",
   icons: {
-    icon: "/brand/superspace-favicon.svg",
+    icon: "/brand/superspace-favicon.png",
   },
 };
 

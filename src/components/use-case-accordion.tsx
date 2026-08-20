@@ -4,6 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useId, useState } from "react";
 import { motion as motionTokens } from "@/lib/motion";
+import { RevealTitle } from "@/components/reveal-title";
 
 const useCases = [
   {
@@ -11,28 +12,28 @@ const useCases = [
     title: "Manufacturing",
     description: "Coordinate production, people and materials as work moves through your operation.",
     capabilities: "Work orders · Production stages · Materials · Assignments",
-    image: "/assets/figma/use-manufacturing.png",
+    image: "/assets/use-case-manufacturing.jpg",
   },
   {
     id: "logistics",
     title: "Logistics",
-    description: "Keep movement, inventory and exceptions connected from origin to delivery.",
-    capabilities: "Shipments · Inventory · Routes · Exceptions",
-    image: "/assets/figma/use-logistics.png",
+    description: "Keep goods, locations and teams coordinated as things move from one place to another.",
+    capabilities: "Inventory movements · Transfers · Locations · Dispatch",
+    image: "/assets/use-case-logistics.jpg",
   },
   {
     id: "service-ops",
-    title: "Service Ops",
-    description: "Give every service team a single view of the work, customers and next action.",
-    capabilities: "Requests · Scheduling · Teams · Customer history",
-    image: "/assets/figma/use-service-ops.png",
+    title: "Service Operations",
+    description: "Coordinate the people, availability and work behind every service you deliver.",
+    capabilities: "Scheduling · Assignments · Availability · Service records",
+    image: "/assets/use-case-service.jpg",
   },
   {
     id: "approvals",
     title: "Review & Approvals",
-    description: "Route critical decisions through the people and context needed to make them.",
-    capabilities: "Requests · Policies · Reviewers · Audit trails",
-    image: "/assets/raw-15.png",
+    description: "Turn document-heavy, multi-step processes into structured operations your team can follow.",
+    capabilities: "Intake · Documents · Reviews · Approvals",
+    image: "/assets/use-case-review.jpg",
   },
 ] as const;
 
@@ -41,24 +42,30 @@ const platformStories = [
     id: "built-around-you",
     title: "Built around your business",
     description: "Your workspace reflects the people, work, rules and terminology your operation actually uses.",
+    capabilities: "Your terminology · Your processes · Your permissions · Your business rules",
     mockup: "/assets/figma/hero-challenges.png",
   },
   {
     id: "managed",
     title: "Managed by us",
-    description: "We run the infrastructure and keep your system improving as your operation changes.",
+    description:
+      "Use Superspace like any other software. We take care of running and maintaining the platform behind it.",
+    capabilities: "No deployments · No infrastructure to manage · No maintenance team · Support included",
     mockup: "/assets/figma/hero-challenges.png",
   },
   {
     id: "ready",
     title: "Ready for your team",
-    description: "Give people an interface that fits the work they do every day.",
+    description:
+      "Give each person access to the work and information they need, with responsibilities and permissions built in.",
+    capabilities: "Roles and permissions · Team access · Clear ownership · Shared operational context",
     mockup: "/assets/figma/hero-challenges.png",
   },
   {
     id: "evolves",
     title: "Built to evolve",
-    description: "Add new workflows and capabilities without rebuilding the foundation.",
+    description: "Your workspace reflects the people, work, rules and terminology your operation actually uses.",
+    capabilities: "Add new processes · Extend your model · Adapt as operations change · Expand when you’re ready",
     mockup: "/assets/figma/hero-challenges.png",
   },
 ] as const;
@@ -163,7 +170,7 @@ export function OperationShowcase() {
   return (
     <div className="operation-showcase">
       <div className="operation-showcase__left">
-        <h2 id="operation-title">Your operation, running on Superspace.</h2>
+        <RevealTitle id="operation-title">Your operation, running on Superspace.</RevealTitle>
         <div className="operation-showcase__rail" role="tablist" aria-label="How Superspace works">
           {platformStories.map((story) => {
             const isActive = activeId === story.id;
@@ -195,7 +202,8 @@ export function OperationShowcase() {
                       exit={reduceMotion ? undefined : { height: 0, opacity: 0, y: -4 }}
                       transition={motionTokens.fast}
                     >
-                      {story.description}
+                      <span>{story.description}</span>
+                      <small>{story.capabilities}</small>
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -208,7 +216,7 @@ export function OperationShowcase() {
       <div className="operation-showcase__stage" role="tabpanel" id={panelId} aria-label={active.title}>
         <Image
           className="operation-showcase__metal"
-          src="/assets/chromatic-metal-1.png"
+          src="/assets/chromatic-metal-3.png"
           alt=""
           fill
           sizes="(max-width: 760px) 100vw, 960px"
