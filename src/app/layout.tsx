@@ -4,8 +4,15 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Superspace — Operational infrastructure for scaling companies",
   description: "Custom software outcomes. Platform economics.",
+  icons: {
+    icon: "/brand/superspace-favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
 }

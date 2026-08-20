@@ -4,8 +4,7 @@ export const platformPillars = [
   {
     id: "matrix",
     title: "Matrix, your company modeled.",
-    description:
-      "The people, customers, projects, contracts, orders and relationships that make your business work.",
+    description: "The people, customers, projects, contracts, orders and relationships that make your business work.",
     number: "01",
   },
   {
@@ -17,8 +16,7 @@ export const platformPillars = [
   {
     id: "atlas",
     title: "Atlas, your company understood.",
-    description:
-      "The knowledge your people and systems need to operate with context.",
+    description: "The knowledge your people and systems need to operate with context.",
     number: "03",
   },
 ] as const;

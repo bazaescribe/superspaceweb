@@ -31,7 +31,9 @@ export function ComparisonDemo() {
       <div className="comparison__workspace" role="tabpanel" id={`${id}-${selected}`} aria-label={state.label}>
         {selected === "tools" ? <ToolSprawl /> : <ConnectedSystem />}
         <div className="comparison__caption">
-          <span>{state.eyebrow}</span><strong>{state.title}</strong><p>{state.copy}</p>
+          <span>{state.eyebrow}</span>
+          <strong>{state.title}</strong>
+          <p>{state.copy}</p>
         </div>
       </div>
       <div className="segmented" role="tablist" aria-label="Compare operational approaches">
@@ -45,7 +47,9 @@ export function ComparisonDemo() {
             aria-controls={`${id}-${item.id}`}
             tabIndex={selected === item.id ? 0 : -1}
             onClick={() => setSelected(item.id)}
-          >{item.label}</button>
+          >
+            {item.label}
+          </button>
         ))}
       </div>
     </div>
@@ -55,11 +59,42 @@ export function ComparisonDemo() {
 function ToolSprawl() {
   return (
     <>
-      <div className="tool-window tool-window--one"><span>Spreadsheets</span><b>Quarterly plan</b><i /><i /><i /></div>
-      <div className="tool-window tool-window--two"><span>Project space</span><b>Delivery board</b><i /><i /><i /><i /></div>
-      <div className="tool-window tool-window--three"><span>Operations</span><b>Live queue</b><div className="window-bars"><i /><i /><i /><i /><i /></div></div>
-      <div className="tool-files"><span>Shipping labels</span><span>Orders</span><span>Invoices</span></div>
-      <div className="notification-icons"><b>132</b><b>928</b><b>32,402</b></div>
+      <div className="tool-window tool-window--one">
+        <span>Spreadsheets</span>
+        <b>Quarterly plan</b>
+        <i />
+        <i />
+        <i />
+      </div>
+      <div className="tool-window tool-window--two">
+        <span>Project space</span>
+        <b>Delivery board</b>
+        <i />
+        <i />
+        <i />
+        <i />
+      </div>
+      <div className="tool-window tool-window--three">
+        <span>Operations</span>
+        <b>Live queue</b>
+        <div className="window-bars">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
+      </div>
+      <div className="tool-files">
+        <span>Shipping labels</span>
+        <span>Orders</span>
+        <span>Invoices</span>
+      </div>
+      <div className="notification-icons">
+        <b>132</b>
+        <b>928</b>
+        <b>32,402</b>
+      </div>
     </>
   );
 }
@@ -69,8 +104,19 @@ function ConnectedSystem() {
   return (
     <div className="system-map" aria-hidden="true">
       <div className="system-map__lines" />
-      {nodes.map((node, index) => <span className={`system-node system-node--${index + 1}`} key={node}>{node}</span>)}
-      <div className="system-core"><small>Superspace</small><strong>Operations<br />model</strong></div>
+      {nodes.map((node, index) => (
+        <span className={`system-node system-node--${index + 1}`} key={node}>
+          {node}
+        </span>
+      ))}
+      <div className="system-core">
+        <small>Superspace</small>
+        <strong>
+          Operations
+          <br />
+          model
+        </strong>
+      </div>
     </div>
   );
 }
@@ -81,12 +127,26 @@ export function IndustryTabs() {
   return (
     <div className="industry-demo">
       <div className="industry-tabs" role="tablist" aria-label="Industries">
-        {industries.map((item, index) => <button role="tab" aria-selected={index === active} key={item.id} onClick={() => setActive(index)}>{item.label}</button>)}
+        {industries.map((item, index) => (
+          <button role="tab" aria-selected={index === active} key={item.id} onClick={() => setActive(index)}>
+            {item.label}
+          </button>
+        ))}
       </div>
       <div className="industry-image" role="tabpanel" aria-label={industry.title}>
-        <Image src={industry.image} alt="" fill sizes="(max-width: 768px) 100vw, 1440px" priority={industry.id === "marketplaces"} />
+        <Image
+          src={industry.image}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 1440px"
+          priority={industry.id === "marketplaces"}
+        />
         <div className="industry-image__shade" />
-        <div className="industry-image__copy"><strong>{industry.title}</strong><p>{industry.copy}</p><span>{industry.detail}</span></div>
+        <div className="industry-image__copy">
+          <strong>{industry.title}</strong>
+          <p>{industry.copy}</p>
+          <span>{industry.detail}</span>
+        </div>
       </div>
     </div>
   );
