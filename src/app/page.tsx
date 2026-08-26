@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Brand, Header } from "@/components/header";
+import { FooterElasticField } from "@/components/footer-elastic-field";
 import { HeroMockup } from "@/components/hero-mockup";
-import { OperationShowcase, UseCaseAccordion } from "@/components/use-case-accordion";
-import { RevealHeroTitle, RevealTitle } from "@/components/reveal-title";
+import { Reveal } from "@/components/reveal";
+import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/components/use-case-accordion";
 import { bookingUrl, footerGroups } from "@/lib/site";
 
 const clientLogos = [
@@ -34,14 +35,6 @@ function BookingLink({ inverse = false }: { inverse?: boolean }) {
   );
 }
 
-function SectionIntro({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="section-intro">
-      <RevealTitle subtitle={children}>{title}</RevealTitle>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <div className="site-v2">
@@ -52,45 +45,44 @@ export default function Home() {
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <RevealHeroTitle subtitle="Tell us what’s getting difficult to operate and Superspace turns it into software your team can use every day.">
-              The ops platform built around how your business works.
-            </RevealHeroTitle>
-            <BookingLink />
+            <h1>
+              One platform to rule your operation.{" "}
+              <span>
+                Operational Software tailored to how your business actually works – without building and maintaining
+                custom infrastructure yourself.
+              </span>
+            </h1>
+            <div className="hero-actions">
+              <a className="hero-action hero-action--secondary" href="#platform">
+                See how it works
+              </a>
+              <a
+                className="hero-action"
+                href={bookingUrl}
+                {...(bookingUrl.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
+              >
+                Talk to us <Arrow />
+              </a>
+            </div>
           </div>
-          <div className="v2-product-card">
-            <Image
-              className="v2-product-card__metal"
-              src="/assets/chromatic-metal-1.png"
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1440px"
-            />
-            <HeroMockup />
-          </div>
+          <HeroMockup />
         </section>
 
-        <section className="v2-use-cases shell" aria-labelledby="use-cases-title">
-          <SectionIntro title="Start with the operation that needs fixing.">
-            You don’t need to move your entire business to Superspace. Start with one part that has become difficult to
-            run with spreadsheets, messages, manual work, or software that no longer fits.
-          </SectionIntro>
-          <UseCaseAccordion />
-          <p className="v2-use-cases__prompt">
-            Does your operation look any different? <a href="#conversation">Let’s talk.</a>
-          </p>
-        </section>
-
-        <section className="v2-operation shell" id="platform" aria-labelledby="operation-title">
-          <OperationShowcase />
-        </section>
+        <PlatformShowcase />
+        <OperationsGrid />
+        <IndustriesAccordion />
 
         <section className="v2-proof shell" id="company">
-          <SectionIntro title="Built by people who’ve shipped this before.">
-            Our team has built and scaled infrastructure across early-stage startups, high-growth scale-ups, and global
-            enterprises.
-          </SectionIntro>
-          <div className="v2-logo-strip" role="list" aria-label="Companies our team has worked with">
+          <Reveal>
+            <h2 className="section-heading">
+              Built by people who’ve shipped this before.{" "}
+              <span>
+                We’ve built and scaled infrastructure across early-stage startups, high-growth scale-ups, and global
+                enterprises.
+              </span>
+            </h2>
+          </Reveal>
+          <Reveal className="v2-logo-strip" delay={0.08} role="list" aria-label="Companies our team has worked with">
             {clientLogos.map((logo) => (
               <div className="v2-logo-card" key={logo.name} role="listitem">
                 <Image
@@ -103,19 +95,18 @@ export default function Home() {
                 />
               </div>
             ))}
-          </div>
+          </Reveal>
         </section>
 
         <section className="v2-conversation shell" id="conversation">
           <Image src="/assets/chromatic-metal-2.png" alt="" fill sizes="(max-width: 768px) 100vw, 1440px" />
-          <div className="v2-conversation__copy">
-            <RevealTitle subtitle="We’ll map your operation and show you what it could look like as one system.">
-              Show us how your
-              <br />
-              company operates.
-            </RevealTitle>
+          <Reveal className="v2-conversation__copy">
+            <h2>
+              Show us how your company operates.{" "}
+              <span>We&apos;ll map your operation and show you what it could look like as one system.</span>
+            </h2>
             <BookingLink inverse />
-          </div>
+          </Reveal>
         </section>
       </main>
       <footer className="v2-footer shell">
@@ -152,6 +143,7 @@ export default function Home() {
         </div>
         <Brand large />
       </footer>
+      <FooterElasticField />
     </div>
   );
 }
