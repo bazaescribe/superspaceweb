@@ -30,8 +30,8 @@ const platformStories = [
   {
     id: "expandable",
     label: "Expandable",
-    title: "Managed by us.",
-    description: "Use Superspace like any other app. We take care of running and maintaining the platform behind it.",
+    title: "Built to evolve.",
+    description: "As your operation changes, add the workflows, tools and structure you need next.",
     mockup: "/assets/figma/feature-expandable.png",
   },
 ] as const;
