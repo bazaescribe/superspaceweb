@@ -99,7 +99,7 @@ export default function Home() {
         </section>
 
         <section className="v2-conversation shell" id="conversation">
-          <Image src="/assets/chromatic-metal-2.png" alt="" fill sizes="(max-width: 768px) 100vw, 1440px" />
+          <Image src="/assets/figma/conversation-background.png" alt="" fill sizes="(max-width: 768px) 100vw, 1280px" />
           <Reveal className="v2-conversation__copy">
             <h2>
               Show us how your company operates.{" "}

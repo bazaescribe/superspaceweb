@@ -1,49 +1,38 @@
 "use client";
 
 import Image from "next/image";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { AnalyticsUpIcon, Car01Icon, Factory02Icon, HandHelpingIcon } from "@hugeicons/core-free-icons";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
-import { useId, useRef, useState } from "react";
-import { motion as motionTokens } from "@/lib/motion";
+import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 
 const platformStories = [
   {
-    id: "built-around-you",
-    title: "Built around your business",
+    id: "tailored",
+    label: "Tailored experience",
+    title: "Built around your business.",
     description: "Your workspace reflects the people, work, rules and terminology your operation actually uses.",
-    accent: "#170fff",
-    icon: Factory02Icon,
-    mockup: "/assets/figma/hero-challenges.png",
-    mockupClass: "platform-showcase__screen--workspace",
+    mockup: "/assets/figma/feature-tailored.png",
   },
   {
     id: "managed",
-    title: "Managed by us",
+    label: "Reduced overhead",
+    title: "Managed by us.",
     description: "Use Superspace like any other app. We take care of running and maintaining the platform behind it.",
-    accent: "#eb6b40",
-    icon: Car01Icon,
-    mockup: "/assets/raw-20.png",
-    mockupClass: "platform-showcase__screen--calendar",
+    mockup: "/assets/figma/feature-managed.png",
   },
   {
-    id: "ready",
-    title: "Ready for your team",
+    id: "team",
+    label: "Quick and Easy",
+    title: "Ready for your team.",
     description:
-      "Give each person access to the work and information they need, with responsibilities and permissions built in.",
-    accent: "#36a05f",
-    icon: HandHelpingIcon,
-    mockup: "/assets/figma/hero-challenges.png",
-    mockupClass: "platform-showcase__screen--team",
+      "Give each one access to the work and information they need. Permissions and responsibilities built in.",
+    mockup: "/assets/figma/feature-team.png",
   },
   {
-    id: "evolves",
-    title: "Built to evolve",
-    description: "Add the workflows and tools you need as your business changes, without another disconnected system.",
-    accent: "#171717",
-    icon: AnalyticsUpIcon,
-    mockup: "/assets/figma/hero-challenges.png",
-    mockupClass: "platform-showcase__screen--evolve",
+    id: "expandable",
+    label: "Expandable",
+    title: "Managed by us.",
+    description: "Use Superspace like any other app. We take care of running and maintaining the platform behind it.",
+    mockup: "/assets/figma/feature-expandable.png",
   },
 ] as const;
 
@@ -116,119 +105,110 @@ type PlatformStoryId = (typeof platformStories)[number]["id"];
 type IndustryId = (typeof industries)[number]["id"];
 
 export function PlatformShowcase() {
-  const [activeId, setActiveId] = useState<PlatformStoryId>("built-around-you");
+  const [activeId, setActiveId] = useState<PlatformStoryId>(platformStories[0].id);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.25 });
-  const panelId = useId();
-  const activeIndex = platformStories.findIndex((story) => story.id === activeId);
-  const active = platformStories[activeIndex];
 
-  const advanceStory = () => {
-    setActiveId((currentId) => {
-      const currentIndex = platformStories.findIndex((story) => story.id === currentId);
-      return platformStories[(currentIndex + 1) % platformStories.length].id;
-    });
+  useEffect(() => {
+    let frame = 0;
+    const updateActiveStory = () => {
+      frame = 0;
+      const viewportCenter = window.innerHeight / 2;
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+      cardRefs.current.forEach((card, index) => {
+        if (!card) return;
+        const bounds = card.getBoundingClientRect();
+        const distance = Math.abs(bounds.top + bounds.height / 2 - viewportCenter);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+      setActiveId((current) => {
+        const next = platformStories[nearestIndex].id;
+        return current === next ? current : next;
+      });
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateActiveStory);
+    };
+    updateActiveStory();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  const scrollToStory = (id: PlatformStoryId) => {
+    const index = platformStories.findIndex((story) => story.id === id);
+    cardRefs.current[index]?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="platform-showcase shell"
-      id="platform"
-      aria-labelledby="platform-title"
-    >
-      <motion.h2
-        id="platform-title"
-        className="section-heading"
-        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.7, once: true }}
-        transition={{ duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
-      >
+    <section className="platform-showcase shell" id="platform" aria-labelledby="platform-title">
+      <h2 id="platform-title" className="section-heading">
         Custom where it matters. Standard where it shouldn&apos;t.{" "}
         <span>Superspace is a managed operational platform built around the way your business actually works.</span>
-      </motion.h2>
-      <motion.div
-        className="platform-showcase__tabs"
-        role="tablist"
-        aria-label="How Superspace works"
-        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.45, once: true }}
-        transition={{ delay: 0.08, duration: 0.56, ease: [0.22, 0.86, 0.24, 1] }}
-      >
-        {platformStories.map((story) => {
-          const isActive = story.id === activeId;
-          return (
-            <button
-              className={isActive ? "platform-tab platform-tab--active" : "platform-tab"}
+      </h2>
+      <div className="platform-showcase__content">
+        <nav className="platform-showcase__nav" aria-label="Superspace benefits">
+          {platformStories.map((story) => {
+            const isActive = story.id === activeId;
+            return (
+              <button
+                className={isActive ? "platform-bullet platform-bullet--active" : "platform-bullet"}
+                key={story.id}
+                type="button"
+                aria-current={isActive ? "true" : undefined}
+                onClick={() => scrollToStory(story.id)}
+              >
+                <span aria-hidden="true" />
+                {story.label}
+              </button>
+            );
+          })}
+        </nav>
+        <div className="platform-showcase__cards">
+          {platformStories.map((story, index) => (
+            <article
+              className="platform-feature-card"
+              id={`platform-${story.id}`}
               key={story.id}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={panelId}
-              onClick={() => setActiveId(story.id)}
-              style={{ "--tab-accent": story.accent } as React.CSSProperties}
+              ref={(element) => {
+                cardRefs.current[index] = element;
+              }}
             >
-              <span className="platform-tab__progress" aria-hidden="true">
-                {isActive && isInView && (
-                  <motion.span
-                    className="platform-tab__progress-fill"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: reduceMotion ? 0 : 5.6, ease: "linear" }}
-                    onAnimationComplete={reduceMotion ? undefined : advanceStory}
-                  />
-                )}
-              </span>
-              <HugeiconsIcon aria-hidden="true" icon={story.icon} size={24} strokeWidth={1.4} />
-              <span className="platform-tab__title">{story.title}</span>
-              <small>{story.description}</small>
-            </button>
-          );
-        })}
-      </motion.div>
-      <motion.div
-        className="platform-showcase__stage"
-        id={panelId}
-        role="tabpanel"
-        aria-label={active.title}
-        style={{ "--stage-accent": active.accent } as React.CSSProperties}
-        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.2, once: true }}
-        transition={{ delay: 0.12, duration: 0.64, ease: [0.22, 0.86, 0.24, 1] }}
-      >
-        <div className="platform-showcase__dots" aria-hidden="true" />
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            className="platform-showcase__mockup"
-            key={active.id}
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={motionTokens.standard}
-          >
-            <Image
-              className={`platform-showcase__screen ${active.mockupClass}`}
-              src={active.mockup}
-              alt="Superspace workspace"
-              width={1287}
-              height={820}
-              sizes="(max-width: 760px) 120vw, 1100px"
-              priority
-            />
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+              <p>
+                <strong>{story.title}</strong> <span>{story.description}</span>
+              </p>
+              <motion.div
+                className="platform-feature-card__mockup"
+                initial={reduceMotion ? false : { opacity: 0, y: 48 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ amount: 0.18, once: true }}
+                transition={{ duration: 1.1, ease: [0.22, 0.86, 0.24, 1] }}
+              >
+                <Image
+                  src={story.mockup}
+                  alt={`${story.label} in a Superspace workspace`}
+                  fill
+                  sizes="(max-width: 720px) calc(100vw - 64px), 886px"
+                />
+              </motion.div>
+            </article>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
 
 export function OperationsGrid() {
   const reduceMotion = useReducedMotion();
-
   return (
     <section className="operations-grid shell" aria-labelledby="operations-title">
       <motion.h2
