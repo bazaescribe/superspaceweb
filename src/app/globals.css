@@ -126,14 +126,15 @@
   }
   .hero-product__screen {
     aspect-ratio: 1279.503 / 831;
-    border: 0;
-    box-shadow: none;
+    border: 1px solid var(--color-inverse);
+    border-radius: 8px;
+    box-shadow: var(--shadow-hero-mockup);
     left: 50%;
     overflow: hidden;
     position: absolute;
-    top: 96px;
+    top: 80px;
     translate: -50% 0;
-    width: min(1100px, calc(100vw - 96px));
+    width: min(1279.503px, calc(100vw - 72px));
     z-index: 1;
   }
   .hero-product__screen img {
@@ -202,8 +203,8 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-8);
-    min-height: 627px;
+    gap: var(--space-12);
+    height: 627px;
     overflow: hidden;
     padding: var(--space-16);
     position: relative;
@@ -220,20 +221,19 @@
     font-weight: 400;
   }
   .platform-feature-card__mockup {
-    aspect-ratio: 1512 / 964;
-    align-self: center;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
-    position: relative;
-    width: min(100%, 640px);
+    align-self: stretch;
+    border: 1px solid var(--color-inverse);
+    border-radius: 8px;
+    box-shadow: var(--shadow-mockup);
+    flex-shrink: 0;
+    line-height: 0;
+    width: 100%;
   }
   .platform-feature-card__mockup img {
-    object-fit: cover;
-  }
-  .platform-feature-card:nth-child(3) .platform-feature-card__mockup {
-    aspect-ratio: 3024 / 1964;
+    border-radius: inherit;
+    display: block;
+    height: auto;
+    width: 100%;
   }
 
   .operations-grid__cards {
@@ -385,7 +385,7 @@
     .hero-product__screen {
       left: 50%;
       top: 72px;
-      width: calc(100vw - 48px);
+      width: calc(100vw - 32px);
     }
     .platform-showcase__content {
       display: block;
@@ -407,7 +407,7 @@
     }
     .platform-feature-card {
       gap: var(--space-6);
-      min-height: 0;
+      height: 320px;
       padding: var(--space-6);
     }
     .platform-feature-card p {

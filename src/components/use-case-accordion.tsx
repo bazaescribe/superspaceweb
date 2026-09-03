@@ -36,6 +36,8 @@ const platformStories = [
   },
 ] as const;
 
+const figmaMockupAssetVersion = "20260902";
+
 const industries = [
   {
     id: "manufacturing",
@@ -193,10 +195,12 @@ export function PlatformShowcase() {
                 transition={{ duration: 1.1, ease: [0.22, 0.86, 0.24, 1] }}
               >
                 <Image
-                  src={story.mockup}
+                  src={`${story.mockup}?v=${figmaMockupAssetVersion}`}
                   alt={`${story.label} in a Superspace workspace`}
-                  fill
+                  height={story.id === "team" ? 1964 : 964}
                   sizes="(max-width: 720px) calc(100vw - 64px), 886px"
+                  unoptimized
+                  width={story.id === "team" ? 3024 : 1512}
                 />
               </motion.div>
             </article>
