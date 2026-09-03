@@ -84,5 +84,5 @@ export const footerGroups = [
   { title: "Platform", links: ["Matrix", "Flow", "Atlas"] },
   { title: "Company", links: ["About us", "Terms", "Support"] },
   { title: "Learn", links: ["Docs", "Blog", "Changelog"] },
-  { title: "Social", links: ["LinkedIn", "Product Hunt", "Github", "X"] },
+  { title: "Social", links: ["LinkedIn", "Product Hunt", "GitHub", "X"] },
 ] as const;

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Superspace — Operational infrastructure for scaling companies",
-  description: "Custom software outcomes. Platform economics.",
+  title: "Superspace — Operational infrastructure for growing companies",
+  description: "Custom operational software without the custom-software overhead.",
   icons: {
     icon: "/brand/superspace-favicon.png",
   },

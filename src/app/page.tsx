@@ -48,7 +48,7 @@ export default function Home() {
             <h1>
               One platform to rule your operation.{" "}
               <span>
-                Operational Software tailored to how your business actually works – without building and maintaining
+                Operational software tailored to how your business actually works – without building and maintaining
                 custom infrastructure yourself.
               </span>
             </h1>
@@ -77,8 +77,8 @@ export default function Home() {
             <h2 className="section-heading">
               Built by people who’ve shipped this before.{" "}
               <span>
-                We’ve built and scaled infrastructure across early-stage startups, high-growth scale-ups, and global
-                enterprises.
+                We’ve built and scaled operational infrastructure across early-stage startups, high-growth scale-ups,
+                and global enterprises.
               </span>
             </h2>
           </Reveal>
@@ -103,7 +103,7 @@ export default function Home() {
           <Reveal className="v2-conversation__copy">
             <h2>
               Show us how your company operates.{" "}
-              <span>We&apos;ll map your operation and show you what it could look like as one system.</span>
+              <span>We&apos;ll map your operation and show how it can run as one system.</span>
             </h2>
             <BookingLink inverse />
           </Reveal>

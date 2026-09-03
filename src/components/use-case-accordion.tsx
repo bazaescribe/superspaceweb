@@ -16,22 +16,22 @@ const platformStories = [
     id: "managed",
     label: "Reduced overhead",
     title: "Managed by us.",
-    description: "Use Superspace like any other app. We take care of running and maintaining the platform behind it.",
+    description: "Use Superspace like any other app. We run and maintain the platform behind it.",
     mockup: "/assets/figma/feature-managed.png",
   },
   {
     id: "team",
-    label: "Quick and Easy",
+    label: "Quick to adopt",
     title: "Ready for your team.",
     description:
-      "Give each one access to the work and information they need. Permissions and responsibilities built in.",
+      "Give every team member the work and information they need, with permissions and responsibilities built in.",
     mockup: "/assets/figma/feature-team.png",
   },
   {
     id: "expandable",
     label: "Expandable",
     title: "Built to evolve.",
-    description: "As your operation changes, add the workflows, tools and structure you need next.",
+    description: "As your operation changes, add the workflows, tools, and structure you need to keep moving.",
     mockup: "/assets/figma/feature-expandable.png",
   },
 ] as const;
@@ -42,21 +42,21 @@ const industries = [
   {
     id: "manufacturing",
     title: "Manufacturing",
-    description: "Coordinate production, people and materials as work moves through your operation.",
+    description: "Coordinate production, people, and materials as work moves through your operation.",
     capabilities: "Work orders · Production stages · Materials · Assignments",
     image: "/assets/use-case-manufacturing.jpg",
   },
   {
     id: "logistics",
     title: "Logistics",
-    description: "Keep goods, locations and teams coordinated as things move from one place to another.",
+    description: "Keep goods, locations, and teams coordinated across every move.",
     capabilities: "Inventory movements · Transfers · Locations · Dispatch",
     image: "/assets/use-case-logistics.jpg",
   },
   {
     id: "field-services",
     title: "Field Services",
-    description: "Coordinate the people, availability and work behind every service you deliver.",
+    description: "Coordinate the people, availability, and work behind every service you deliver.",
     capabilities: "Scheduling · Assignments · Availability · Service records",
     image: "/assets/use-case-service.jpg",
   },
@@ -91,7 +91,7 @@ const operationCards: Array<{ title: string; description: string; span?: "wide" 
       "Turn approvals, handoffs, recurring processes and business rules into workflows your team can actually follow.",
   },
   {
-    title: "Manage customers & partners.",
+    title: "Manage customers and partners.",
     description:
       "Give your team the information and workflows they need while creating dedicated experiences for customers, suppliers or other external partners.",
     span: "wide",
@@ -224,7 +224,7 @@ export function OperationsGrid() {
         transition={{ duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
       >
         Built for the operations your business depends on.{" "}
-        <span>From managing orders to coordinating field teams, we got you covered.</span>
+        <span>Bring the work, data, and decisions your operation depends on into one system.</span>
       </motion.h2>
       <motion.div
         className="operations-grid__cards"
@@ -246,7 +246,7 @@ export function OperationsGrid() {
         ))}
       </motion.div>
       <p className="operations-grid__prompt">
-        Your operation looks any different? <a href="#conversation">Let&apos;s talk.</a>
+        Does your operation work differently? <a href="#conversation">Let&apos;s talk.</a>
       </p>
     </section>
   );
@@ -267,7 +267,7 @@ export function IndustriesAccordion() {
         transition={{ duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
       >
         Different industries. One operational foundation.{" "}
-        <span>Superspace brings together the data &amp; capabilities your operations need.</span>
+        <span>Superspace brings together the data and capabilities your operations need.</span>
       </motion.h2>
       <motion.div
         className="industries__cards"
