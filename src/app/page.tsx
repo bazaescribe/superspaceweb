@@ -28,7 +28,7 @@ export default function Home() {
       </a>
       <Header />
       <main id="main-content">
-        <section className="hero shell v2-hero" id="top">
+        <section className="hero shell v2-hero" id="top" style={{ background: 'red' }}>
           <HeroLightField />
           <div className="v2-hero__copy">
             <h1>

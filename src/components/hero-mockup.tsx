@@ -10,8 +10,8 @@ export function HeroMockup() {
     <div className="hero-product">
       <motion.div
         className="hero-product__screen"
-        initial={reduceMotion ? false : { opacity: 0, y: 48 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: -72 }}
         transition={{ duration: 1.1, delay: 0.18, ease: [0.22, 0.86, 0.24, 1] }}
       >
         <Image src="/assets/figma/hero-workspace.png" alt="Superspace workspace home dashboard" fill priority />

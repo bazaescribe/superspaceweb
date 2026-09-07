@@ -122,6 +122,7 @@
     width: min(1279.503px, calc(100vw - 72px));
     z-index: 1;
   }
+
   .hero-product__screen img {
     display: block;
     object-fit: cover;
@@ -372,7 +373,6 @@
     }
     .hero-product__screen {
       left: 50%;
-      top: 72px;
       width: calc(100vw - 32px);
     }
     .platform-showcase__content {
