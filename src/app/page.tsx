@@ -1,12 +1,13 @@
 import Image from "next/image";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { SiteIcon } from "@/components/site-icon";
 import { Brand, Header } from "@/components/header";
 import { FooterElasticField } from "@/components/footer-elastic-field";
 import { HeroLightField } from "@/components/hero-light-field";
 import { HeroMockup } from "@/components/hero-mockup";
 import { Reveal } from "@/components/reveal";
 import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/components/use-case-accordion";
-import { bookingUrl, footerGroups } from "@/lib/site";
+import { BookingLink } from "@/components/booking-link";
+import { footerGroups } from "@/lib/site";
 
 const clientLogos = [
   { name: "DEV.F", src: "/assets/figma/logos/devf.svg", height: 17.69 },
@@ -18,23 +19,6 @@ const clientLogos = [
   { name: "Essity", src: "/assets/figma/logos/essity.png", height: 20 },
   { name: "Conduself", src: "/assets/figma/logos/conduself.png", height: 47 },
 ] as const;
-
-function Arrow() {
-  return <ArrowUpRight aria-hidden="true" className="arrow" size={14} strokeWidth={1.5} />;
-}
-
-function BookingLink({ inverse = false }: { inverse?: boolean }) {
-  const external = bookingUrl.startsWith("http");
-  return (
-    <a
-      className={`cta ${inverse ? "cta--inverse" : ""}`}
-      href={bookingUrl}
-      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-    >
-      Build your company OS <Arrow />
-    </a>
-  );
-}
 
 export default function Home() {
   return (
@@ -55,16 +39,10 @@ export default function Home() {
               </span>
             </h1>
             <div className="hero-actions">
-              <a className="hero-action hero-action--secondary" href="#platform">
+              <a className="button button--secondary" href="#platform">
                 See how it works
               </a>
-              <a
-                className="hero-action"
-                href={bookingUrl}
-                {...(bookingUrl.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}
-              >
-                Talk to us <Arrow />
-              </a>
+              <BookingLink />
             </div>
           </div>
           <HeroMockup />
@@ -107,7 +85,7 @@ export default function Home() {
               Show us how your company operates.{" "}
               <span>We&apos;ll map your operation and show how it can run as one system.</span>
             </h2>
-            <BookingLink inverse />
+            <BookingLink inverse className="conversation-cta" />
           </Reveal>
         </section>
       </main>
@@ -139,7 +117,7 @@ export default function Home() {
               <i />
             </span>
             <span className="language">
-              English <ChevronDown aria-hidden="true" size={12} strokeWidth={1.5} />
+              English <SiteIcon name="chevron" />
             </span>
           </div>
         </div>

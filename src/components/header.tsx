@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { SiteIcon } from "@/components/site-icon";
+import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { bookingUrl } from "@/lib/site";
 import { motion as motionTokens } from "@/lib/motion";
 
 const platformLinks = [
@@ -92,8 +92,6 @@ export function Header() {
     return () => observer.disconnect();
   }, []);
 
-  const externalBooking = bookingUrl.startsWith("http");
-
   return (
     <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
       <nav className="shell header__inner" aria-label="Primary navigation">
@@ -117,7 +115,7 @@ export function Header() {
               aria-controls="platform-navigation"
               onClick={() => setPlatformOpen((value) => !value)}
             >
-              Platform <ChevronDown aria-hidden="true" size={14} strokeWidth={1.5} />
+              Platform <SiteIcon name="chevron" />
             </button>
             <AnimatePresence initial={false}>
               {platformOpen && (
@@ -147,17 +145,15 @@ export function Header() {
         </div>
         <AnimatePresence initial={false}>
           {heroPassed && (
-            <motion.a
+            <motion.div
               className="header__cta"
-              href={bookingUrl}
-              {...(externalBooking ? { target: "_blank", rel: "noreferrer" } : {})}
               initial={reduceMotion ? false : { opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
               transition={motionTokens.fast}
             >
-              Build your company OS <ArrowUpRight aria-hidden="true" size={14} strokeWidth={1.5} />
-            </motion.a>
+              <BookingLink />
+            </motion.div>
           )}
         </AnimatePresence>
         <button
@@ -169,11 +165,7 @@ export function Header() {
           onClick={() => setOpen((value) => !value)}
         >
           <span className="sr-only">{open ? "Close" : "Open"} navigation</span>
-          {open ? (
-            <X aria-hidden="true" size={17} strokeWidth={1.5} />
-          ) : (
-            <Menu aria-hidden="true" size={17} strokeWidth={1.5} />
-          )}
+          <SiteIcon name={open ? "close" : "menu"} />
         </button>
       </nav>
       <div id="mobile-navigation" className={`mobile-nav ${open ? "mobile-nav--open" : ""}`} aria-hidden={!open}>
