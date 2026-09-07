@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { Brand, Header } from "@/components/header";
 import { FooterElasticField } from "@/components/footer-elastic-field";
+import { HeroLightField } from "@/components/hero-light-field";
 import { HeroMockup } from "@/components/hero-mockup";
 import { Reveal } from "@/components/reveal";
 import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/components/use-case-accordion";
@@ -44,6 +45,7 @@ export default function Home() {
       <Header />
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
+          <HeroLightField />
           <div className="v2-hero__copy">
             <h1>
               One platform to rule your operation.{" "}

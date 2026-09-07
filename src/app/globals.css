@@ -104,25 +104,12 @@
     color: var(--color-ink);
   }
   .hero-product {
-    background: var(--color-canvas);
+    background: transparent;
     height: 727px;
     margin-left: calc(50% - 50vw);
     overflow: hidden;
     position: relative;
     width: 100vw;
-  }
-  .hero-product::before {
-    background-image:
-      linear-gradient(178.542deg, var(--color-canvas) 36.719%, transparent 97.487%),
-      url("/assets/figma/hero-background.png");
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    content: "";
-    inset: 0;
-    pointer-events: none;
-    position: absolute;
-    z-index: 0;
   }
   .hero-product__screen {
     aspect-ratio: 1279.503 / 831;
@@ -1286,6 +1273,67 @@
     }
     .footer-elastic-field {
       display: none;
+    }
+  }
+}
+
+@layer page {
+  .v2-hero {
+    position: relative;
+    isolation: isolate;
+  }
+  .hero-optical-field {
+    position: absolute;
+    inset: 0 calc(50% - 50vw);
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(128deg, transparent 0 3px, #8dc5b033 4px, transparent 7px 19px),
+      linear-gradient(125deg, #123d3e 12%, #357e72 40%, #b69964 72%, #ebc49b);
+  }
+  .hero-optical-field canvas {
+    /* Exclude the opaque fixed header from the GPU compositing surface. */
+    position: absolute;
+    top: 60px;
+    display: block;
+    width: 100%;
+    height: calc(100% - 60px);
+    opacity: 0;
+  }
+  .hero-optical-field canvas[data-ready="true"] {
+    opacity: 1;
+  }
+  .hero-optical-field::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      var(--color-canvas) 26%,
+      rgb(255 255 255 / 0.99) 34%,
+      rgb(255 255 255 / 0.93) 43%,
+      rgb(255 255 255 / 0.68) 52%,
+      rgb(255 255 255 / 0.28) 64%,
+      rgb(255 255 255 / 0) 80%
+    );
+  }
+  .v2-hero__copy {
+    position: relative;
+  }
+  .v2-hero__copy h1 span {
+    color: #66717d;
+  }
+  @media (max-width: 768px) {
+    .hero-optical-field::after {
+      background: linear-gradient(
+        to bottom,
+        var(--color-canvas) 36%,
+        rgb(255 255 255 / 0.98) 44%,
+        rgb(255 255 255 / 0.75) 53%,
+        rgb(255 255 255 / 0.3) 66%,
+        rgb(255 255 255 / 0) 82%
+      );
     }
   }
 }
