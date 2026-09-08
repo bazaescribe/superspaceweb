@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { BookingLink } from "@/components/booking-link";
 import { Reveal } from "@/components/reveal";
+import { HeaderThemeRegion } from "@/components/header-theme";
 
 export type StoryCardProps = {
   title: string;
@@ -104,7 +105,11 @@ export function PillarsSection() {
 
 export function ImplementationSection() {
   return (
-    <section className="mt-section bg-black py-40 text-white max-[45rem]:py-20" aria-labelledby="implementation-title">
+    <HeaderThemeRegion
+      tone="dark"
+      className="mt-section bg-black py-40 text-white max-[45rem]:py-20"
+      aria-labelledby="implementation-title"
+    >
       <div className="shell">
         <Reveal>
           <h2 id="implementation-title" className="section-heading text-white">
@@ -133,6 +138,6 @@ export function ImplementationSection() {
           <BookingLink inverse className="mt-10" />
         </Reveal>
       </div>
-    </section>
+    </HeaderThemeRegion>
   );
 }

@@ -8,10 +8,11 @@ import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/compone
 import { BookingLink } from "@/components/booking-link";
 import { ImplementationSection, PillarsSection } from "@/components/home-story-sections";
 import { footerGroups } from "@/lib/site";
+import { HeaderThemeScope } from "@/components/header-theme";
 
 export default function Home() {
   return (
-    <div className="site-v2">
+    <HeaderThemeScope className="site-v2">
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -119,6 +120,6 @@ export default function Home() {
         <Brand large />
       </footer>
       <FooterElasticField />
-    </div>
+    </HeaderThemeScope>
   );
 }

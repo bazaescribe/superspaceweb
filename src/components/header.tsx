@@ -9,6 +9,8 @@ import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { motion as motionTokens } from "@/lib/motion";
+import { useHeaderTheme } from "@/components/header-theme";
+import type { HeaderTone } from "@/lib/header-theme";
 
 export function Brand({
   large = false,
@@ -56,16 +58,35 @@ const navigation = [
   { href: "/company", label: "Company" },
 ] as const;
 
-export function NavigationLink({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {
+export function NavigationLink({
+  href,
+  label,
+  onClick,
+  tone = "light",
+}: {
+  href: string;
+  label: string;
+  onClick?: () => void;
+  tone?: HeaderTone;
+}) {
   const pathname = usePathname();
   const state = navigationState(pathname, href);
   const active = Boolean(state);
+  const dark = tone === "dark";
   return (
     <Link
       href={href}
       onClick={onClick}
       aria-current={state}
-      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors hover:bg-navigation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:bg-subtle ${active ? "bg-navigation text-foreground" : "text-muted hover:text-foreground"}`}
+      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        dark
+          ? active
+            ? "bg-white/12 text-inverse"
+            : "text-inverse-muted hover:bg-white/8 hover:text-inverse active:bg-white/12"
+          : active
+            ? "bg-navigation text-foreground"
+            : "text-muted hover:bg-navigation hover:text-foreground active:bg-subtle"
+      }`}
     >
       <span
         aria-hidden="true"
@@ -76,8 +97,11 @@ export function NavigationLink({ href, label, onClick }: { href: string; label: 
   );
 }
 
-export function Header() {
+export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const pathname = usePathname();
+  const headerTheme = useHeaderTheme();
+  const tone = toneOverride ?? headerTheme?.tone ?? "light";
+  const dark = tone === "dark";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [heroPassed, setHeroPassed] = useState(false);
@@ -116,14 +140,18 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
+    <header
+      ref={headerTheme?.setHeaderElement}
+      className={`header ${scrolled ? "header--scrolled" : ""} ${dark ? "header--dark" : ""}`}
+      data-tone={tone}
+    >
       <nav className="shell header__inner" aria-label="Primary navigation">
         <Link className="header__brand" href="/" aria-label="Superspace home">
-          <Brand compactOnMobile />
+          <Brand compactOnMobile inverse={dark} />
         </Link>
         <div className="desktop-nav gap-1">
           {navigation.map((link) => (
-            <NavigationLink key={link.href} {...link} />
+            <NavigationLink key={link.href} {...link} tone={tone} />
           ))}
         </div>
         <AnimatePresence initial={false}>
@@ -135,7 +163,7 @@ export function Header() {
               exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
               transition={motionTokens.fast}
             >
-              <BookingLink />
+              <BookingLink inverse={dark} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -154,9 +182,9 @@ export function Header() {
       <div id="mobile-navigation" className={`mobile-nav ${open ? "mobile-nav--open" : ""}`} aria-hidden={!open}>
         <div className="shell mobile-nav__inner">
           {navigation.map((link) => (
-            <NavigationLink key={link.href} {...link} onClick={() => setOpen(false)} />
+            <NavigationLink key={link.href} {...link} tone={tone} onClick={() => setOpen(false)} />
           ))}
-          <BookingLink className="justify-self-start text-label" />
+          <BookingLink inverse={dark} className="justify-self-start text-label" />
         </div>
       </div>
     </header>
