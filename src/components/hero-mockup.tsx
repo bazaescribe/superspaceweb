@@ -1,21 +1,13 @@
-"use client";
-
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
+import { LiquidGradient } from "@/components/liquid-gradient";
 
 export function HeroMockup() {
-  const reduceMotion = useReducedMotion();
-
   return (
     <div className="hero-product">
-      <motion.div
-        className="hero-product__screen"
-        initial={reduceMotion ? false : { opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: -72 }}
-        transition={{ duration: 1.1, delay: 0.18, ease: [0.22, 0.86, 0.24, 1] }}
-      >
+      <LiquidGradient />
+      <div className="hero-product__screen">
         <Image src="/assets/figma/hero-workspace.png" alt="Superspace workspace home dashboard" fill priority />
-      </motion.div>
+      </div>
     </div>
   );
 }

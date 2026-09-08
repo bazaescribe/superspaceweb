@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -33,6 +34,14 @@ const platformStories = [
     title: "Built to evolve.",
     description: "As your operation changes, add the workflows, tools, and structure you need to keep moving.",
     mockup: "/assets/figma/feature-expandable.png",
+  },
+  {
+    id: "ai-native",
+    label: "Ready for AI",
+    title: "AI-native by design.",
+    description:
+      "Your platform understands your business context and puts autonomous agents to work—handling tasks, making decisions, and driving results without waiting for instructions.",
+    mockup: "/assets/figma/feature-ai-native.png",
   },
 ] as const;
 
@@ -197,10 +206,10 @@ export function PlatformShowcase() {
                 <Image
                   src={`${story.mockup}?v=${figmaMockupAssetVersion}`}
                   alt={`${story.label} in a Superspace workspace`}
-                  height={story.id === "team" ? 1964 : 964}
+                  height={story.id === "team" ? 1964 : story.id === "ai-native" ? 832 : 964}
                   sizes="(max-width: 720px) calc(100vw - 64px), 886px"
                   unoptimized
-                  width={story.id === "team" ? 3024 : 1512}
+                  width={story.id === "team" ? 3024 : story.id === "ai-native" ? 1248 : 1512}
                 />
               </motion.div>
             </article>
@@ -308,7 +317,9 @@ export function IndustriesAccordion() {
           );
         })}
       </motion.div>
-      <p className="industries__prompt">View more industries.</p>
+      <p className="industries__prompt">
+        <Link href="/solutions">Explore operational solutions.</Link>
+      </p>
     </section>
   );
 }

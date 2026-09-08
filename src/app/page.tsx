@@ -1,24 +1,13 @@
 import Image from "next/image";
-import { SiteIcon } from "@/components/site-icon";
+import Link from "next/link";
 import { Brand, Header } from "@/components/header";
 import { FooterElasticField } from "@/components/footer-elastic-field";
-import { HeroLightField } from "@/components/hero-light-field";
 import { HeroMockup } from "@/components/hero-mockup";
 import { Reveal } from "@/components/reveal";
 import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/components/use-case-accordion";
 import { BookingLink } from "@/components/booking-link";
+import { ImplementationSection, PillarsSection } from "@/components/home-story-sections";
 import { footerGroups } from "@/lib/site";
-
-const clientLogos = [
-  { name: "DEV.F", src: "/assets/figma/logos/devf.svg", height: 17.69 },
-  { name: "Aliada", src: "/assets/figma/logos/aliada.svg", height: 18 },
-  { name: "Liverpool", src: "/assets/figma/logos/liverpool.png", height: 19 },
-  { name: "Tecel", src: "/assets/figma/logos/tecel.png", height: 18 },
-  { name: "Microsoft", src: "/assets/figma/logos/microsoft.png", height: 17 },
-  { name: "Homely", src: "/assets/figma/logos/homely.png", height: 20 },
-  { name: "Essity", src: "/assets/figma/logos/essity.png", height: 20 },
-  { name: "Conduself", src: "/assets/figma/logos/conduself.png", height: 47 },
-] as const;
 
 export default function Home() {
   return (
@@ -28,16 +17,14 @@ export default function Home() {
       </a>
       <Header />
       <main id="main-content">
-        <section className="hero shell v2-hero" id="top" style={{ background: 'red' }}>
-          <HeroLightField />
+        <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <h1>
-              One platform to rule your operation.{" "}
-              <span>
-                Operational software tailored to how your business actually works – without building and maintaining
-                custom infrastructure yourself.
-              </span>
-            </h1>
+            <h1>The operating system for growing your business.</h1>
+            <p>
+              Manage your people, work and rules in a flexible and scalable platform.
+              <br />
+              Without building and maintaining custom software yourself.
+            </p>
             <div className="hero-actions">
               <a className="button button--secondary" href="#platform">
                 See how it works
@@ -48,11 +35,13 @@ export default function Home() {
           <HeroMockup />
         </section>
 
+        <PillarsSection />
         <PlatformShowcase />
-        <OperationsGrid />
-        <IndustriesAccordion />
+        <ImplementationSection />
+        {/* <OperationsGrid />
+        <IndustriesAccordion /> */}
 
-        <section className="v2-proof shell" id="company">
+        {/* <section className="v2-proof shell" id="company">
           <Reveal>
             <h2 className="section-heading">
               Built by people who’ve shipped this before.{" "}
@@ -62,23 +51,36 @@ export default function Home() {
               </span>
             </h2>
           </Reveal>
-          <Reveal className="v2-logo-strip" delay={0.08} role="list" aria-label="Companies our team has worked with">
-            {clientLogos.map((logo) => (
-              <div className="v2-logo-card" key={logo.name} role="listitem">
-                <Image
-                  className="v2-logo-card__image"
-                  src={logo.src}
-                  alt={logo.name}
-                  width={80}
-                  height={logo.height}
-                  sizes="80px"
-                />
+          <Reveal className="v2-proof-signal" delay={0.08}>
+            <div className="v2-proof-signal__intro">
+              <span>Early stage, by design</span>
+              <h3>Proving the model in real operations.</h3>
+              <p>
+                We are working with our first design partners one operational system at a time. We’ll publish customer
+                evidence when the work is ready—not before.
+              </p>
+              <Link href="/company">
+                Meet the thinking behind Superspace <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+            <div className="v2-proof-signal__metrics" aria-label="Superspace company signals">
+              <div>
+                <strong>01</strong>
+                <span>Focused operation to start</span>
               </div>
-            ))}
+              <div>
+                <strong>15–50</strong>
+                <span>Person teams in our initial focus</span>
+              </div>
+              <div>
+                <strong>LATAM / US</strong>
+                <span>Markets we are learning with</span>
+              </div>
+            </div>
           </Reveal>
-        </section>
+        </section> */}
 
-        <section className="v2-conversation shell" id="conversation">
+        {/* <section className="v2-conversation shell" id="conversation">
           <Image src="/assets/figma/conversation-background.png" alt="" fill sizes="(max-width: 768px) 100vw, 1280px" />
           <Reveal className="v2-conversation__copy">
             <h2>
@@ -87,14 +89,14 @@ export default function Home() {
             </h2>
             <BookingLink inverse className="conversation-cta" />
           </Reveal>
-        </section>
+        </section> */}
       </main>
       <footer className="v2-footer shell">
         <div className="v2-footer__top">
           <div className="v2-footer__identity">
             Superspace Industries
             <br />
-            Ontology Systems for Autonomous Operations
+            Operational Software for Growing Companies
             <br />
             Mexico City / MX
             <br />
@@ -104,21 +106,14 @@ export default function Home() {
             <div className="v2-footer__group" key={group.title}>
               <span>{group.title}</span>
               {group.links.map((link) => (
-                <a href="#top" key={link}>
-                  {link}
-                </a>
+                <Link href={link.href} key={link.href}>
+                  {link.label}
+                </Link>
               ))}
             </div>
           ))}
           <div className="v2-footer__actions">
-            <span className="social-dots" aria-label="Social links coming soon">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span className="language">
-              English <SiteIcon name="chevron" />
-            </span>
+            <span className="language">English · Español soon</span>
           </div>
         </div>
         <Brand large />

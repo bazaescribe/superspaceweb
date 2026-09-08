@@ -1,17 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { navigationState } from "@/lib/navigation";
 import { SiteIcon } from "@/components/site-icon";
 import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { motion as motionTokens } from "@/lib/motion";
-
-const platformLinks = [
-  ["Matrix", "#matrix"],
-  ["Flow", "#flow"],
-  ["Atlas", "#atlas"],
-] as const;
 
 export function Brand({
   large = false,
@@ -53,9 +50,35 @@ export function Brand({
   );
 }
 
+const navigation = [
+  { href: "/platform", label: "Platform" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/company", label: "Company" },
+] as const;
+
+export function NavigationLink({ href, label, onClick }: { href: string; label: string; onClick?: () => void }) {
+  const pathname = usePathname();
+  const state = navigationState(pathname, href);
+  const active = Boolean(state);
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      aria-current={state}
+      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors hover:bg-navigation focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:bg-subtle ${active ? "bg-navigation text-foreground" : "text-muted hover:text-foreground"}`}
+    >
+      <span
+        aria-hidden="true"
+        className={`h-1 w-1 shrink-0 bg-current transition-opacity ${active ? "opacity-100" : "opacity-0 group-hover:opacity-50 group-focus-visible:opacity-100"}`}
+      />
+      {label}
+    </Link>
+  );
+}
+
 export function Header() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [platformOpen, setPlatformOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [heroPassed, setHeroPassed] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -90,61 +113,21 @@ export function Header() {
 
     observer.observe(hero);
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return (
     <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
       <nav className="shell header__inner" aria-label="Primary navigation">
-        <a className="header__brand" href="#top" aria-label="Superspace home">
+        <Link className="header__brand" href="/" aria-label="Superspace home">
           <Brand compactOnMobile />
-        </a>
-        <div className="desktop-nav">
-          <div
-            className="nav-popover"
-            onMouseEnter={() => setPlatformOpen(true)}
-            onMouseLeave={() => setPlatformOpen(false)}
-            onBlur={(event) => {
-              if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget))
-                setPlatformOpen(false);
-            }}
-          >
-            <button
-              className={`nav-link nav-link--button ${platformOpen ? "nav-link--open" : ""}`}
-              type="button"
-              aria-expanded={platformOpen}
-              aria-controls="platform-navigation"
-              onClick={() => setPlatformOpen((value) => !value)}
-            >
-              Platform <SiteIcon name="chevron" />
-            </button>
-            <AnimatePresence initial={false}>
-              {platformOpen && (
-                <motion.div
-                  id="platform-navigation"
-                  className="nav-popover__panel"
-                  initial={reduceMotion ? false : { opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
-                  transition={motionTokens.fast}
-                >
-                  {platformLinks.map(([label, href]) => (
-                    <a href={href} key={label} onClick={() => setPlatformOpen(false)}>
-                      {label}
-                    </a>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-          <span className="nav-link nav-link--muted" aria-label="Company, coming soon">
-            Company
-          </span>
-          <span className="nav-link nav-link--muted" aria-label="Notes, coming soon">
-            Notes
-          </span>
+        </Link>
+        <div className="desktop-nav gap-1">
+          {navigation.map((link) => (
+            <NavigationLink key={link.href} {...link} />
+          ))}
         </div>
         <AnimatePresence initial={false}>
-          {heroPassed && (
+          {(heroPassed || pathname !== "/") && (
             <motion.div
               className="header__cta"
               initial={reduceMotion ? false : { opacity: 0, y: -8 }}
@@ -170,18 +153,10 @@ export function Header() {
       </nav>
       <div id="mobile-navigation" className={`mobile-nav ${open ? "mobile-nav--open" : ""}`} aria-hidden={!open}>
         <div className="shell mobile-nav__inner">
-          <span className="mobile-nav__label">Platform</span>
-          {platformLinks.map(([label, href]) => (
-            <a href={href} key={label} onClick={() => setOpen(false)}>
-              {label}
-            </a>
+          {navigation.map((link) => (
+            <NavigationLink key={link.href} {...link} onClick={() => setOpen(false)} />
           ))}
-          <span>
-            Company <em>Coming soon</em>
-          </span>
-          <span>
-            Notes <em>Coming soon</em>
-          </span>
+          <BookingLink className="justify-self-start text-label" />
         </div>
       </div>
     </header>

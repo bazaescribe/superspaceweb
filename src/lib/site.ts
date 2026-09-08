@@ -1,4 +1,4 @@
-export const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "#conversation";
+export const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "/contact";
 
 export const platformPillars = [
   {
@@ -81,8 +81,7 @@ export const industries = [
 ] as const;
 
 export const footerGroups = [
-  { title: "Platform", links: ["Matrix", "Flow", "Atlas"] },
-  { title: "Company", links: ["About us", "Terms", "Support"] },
-  { title: "Learn", links: ["Docs", "Blog", "Changelog"] },
-  { title: "Social", links: ["LinkedIn", "Product Hunt", "GitHub", "X"] },
+  { title: "Explore", links: [{ label: "Platform", href: "/platform" }, { label: "Solutions", href: "/solutions" }] },
+  { title: "Company", links: [{ label: "About", href: "/company" }, { label: "Contact", href: "/contact" }] },
+  { title: "Legal", links: [{ label: "Terms", href: "/terms" }, { label: "Privacy", href: "/privacy" }] },
 ] as const;
