@@ -222,11 +222,11 @@ html {
     left: 50%;
     overflow: hidden;
     position: absolute;
-    top: 152px;
+    top: 80px;
     transform: translateX(-50%);
     width: calc(100% - 160px);
     z-index: 1;
-    animation: hero-mockup-enter 900ms cubic-bezier(0.22, 0.86, 0.24, 1) 160ms both;
+    animation: hero-mockup-enter 900ms cubic-bezier(0.22, 0.86, 0.24, 1) 260ms both;
   }
 
   .hero-product__screen img {
@@ -478,7 +478,7 @@ html {
     }
     .hero-product__screen {
       left: 50%;
-      top: 104px;
+      top: 48px;
       width: calc(100% - 32px);
     }
     .platform-showcase__content {

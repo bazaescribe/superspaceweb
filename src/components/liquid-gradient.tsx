@@ -8,15 +8,15 @@ import {
 } from "@/lib/liquid-gradient/renderer";
 
 export const liquidGradientDefaults = {
-  colors: ["#000000", "#150054", "#BE47C4", "#FF8B17", "#1F1F1F"],
-  seed: 516,
-  speed: 2,
-  scale: 2,
-  amplitude: 0,
-  frequency: 0.46,
+  colors: ["#000000", "#9DD9D2", "#170FFF", "#EFD6AC", "#1F1F1F"],
+  seed: 512,
+  speed: 1,
+  scale: 1,
+  amplitude: 0.12,
+  frequency: 0.8,
   definition: 10,
-  bands: 0.7,
-  flowAngle: -58,
+  bands: 100,
+  flowAngle: 180,
   grain: true,
   grainAmount: 0.09,
   maxDpr: 1.5,
@@ -51,6 +51,11 @@ export function LiquidGradient({ className = "", ...props }: LiquidGradientProps
       aria-hidden="true"
       style={{ backgroundColor: "#000000" }}
     >
+      <div style={{
+        background: '#f00'
+      }}>
+
+      </div>
       <canvas ref={canvas} />
     </div>
   );

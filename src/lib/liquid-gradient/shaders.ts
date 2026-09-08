@@ -70,11 +70,11 @@ void main() {
   float frequency = max(u_frequency, 0.001);
   float broadBend = sin(p.x * frequency * 2.4 - t) * 0.34;
   broadBend += sin(p.x * frequency * 1.15 + t * 0.63 + 2.1) * 0.16;
-  float fineBend = (fbm(vec2(p.x * frequency * 1.4 - t * 0.12, u_seed * 0.013)) - 0.5);
-  float flow = p.y - broadBend - fineBend * (0.08 + u_amplitude * 0.22);
+  float fineBend = (fbm(vec2(p.x * frequency * 1.1 - t * 0.12, u_seed * 0.013)) - 0.5);
+  float flow = p.y - broadBend - fineBend * (0.035 + u_amplitude * 0.16);
 
   float coverage = mix(0.16, 0.42, clamp(u_bands, 0.0, 1.0));
-  float edge = mix(0.12, 0.012, clamp(u_definition / 10.0, 0.0, 1.0));
+  float edge = mix(0.16, 0.038, clamp(u_definition / 10.0, 0.0, 1.0));
   float mainRibbon = 1.0 - smoothstep(coverage, coverage + edge, abs(flow - 0.42));
   float lowerRibbon = 1.0 - smoothstep(coverage * 0.44, coverage * 0.44 + edge, abs(flow + 1.08));
   float upperRibbon = 1.0 - smoothstep(coverage * 0.25, coverage * 0.25 + edge, abs(flow - 1.42));
@@ -86,9 +86,10 @@ void main() {
   vec3 color = mix(shadowColor, ribbonColor, ribbon);
 
   // A narrow luminous edge gives each wave the photographic rim in the reference.
-  float rim = exp(-abs(abs(flow - 0.42) - coverage) * 58.0);
-  color += mix(u_color2, u_color3, along) * rim * 0.28;
-  color += (hash(gl_FragCoord.xy + fract(t) * 173.0) - 0.5) * u_grain;
+  float rim = exp(-abs(abs(flow - 0.42) - coverage) * 27.0);
+  color += mix(u_color2, u_color3, along) * rim * 0.2;
+  float grainMask = 0.35 + 0.65 * smoothstep(0.18, 0.82, ribbon);
+  color += (hash(gl_FragCoord.xy + fract(t) * 173.0) - 0.5) * u_grain * grainMask;
   gl_FragColor = vec4(clamp(color, 0.0, 1.0), 1.0);
 }
 `;
