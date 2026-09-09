@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const siteName = "Superspace";
 export const siteDescription =
   "A managed operational software platform built around the way growing companies actually work.";
-export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000");
+export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://superspaceweb.vercel.app");
 export const socialImage = {
   url: "/brand/superspace-social.png",
   width: 1200,
