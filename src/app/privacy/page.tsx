@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
 import { EditorialPage, EditorialSection } from "@/components/editorial-page";
-export const metadata: Metadata = {
-  title: "Privacy — Superspace",
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Privacy",
   description: "Website privacy information for Superspace.",
-};
+  path: "/privacy",
+});
 export default function PrivacyPage() {
   return (
     <EditorialPage

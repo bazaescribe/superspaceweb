@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { EditorialCta, EditorialPage, EditorialSection } from "@/components/editorial-page";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Company — Superspace",
-  description: "Why Superspace is building a managed operational software platform.",
-};
+export const metadata = createPageMetadata({
+  title: "Company",
+  description: "Why Superspace is building managed operational software for growing companies from Mexico City.",
+  path: "/company",
+});
 
 function CompanySignature() {
   return (

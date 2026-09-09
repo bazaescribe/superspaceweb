@@ -116,7 +116,7 @@ export function EditorialCta({
           <h2 className="text-display">{title}</h2>
           <p className="mt-4 max-w-xl text-body text-inverse-muted">{text}</p>
         </div>
-        <BookingLink inverse />
+        <BookingLink inverse placement="editorial_cta" />
       </div>
     </section>
   );

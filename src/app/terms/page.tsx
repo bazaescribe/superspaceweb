@@ -1,6 +1,11 @@
-import type { Metadata } from "next";
 import { EditorialPage, EditorialSection } from "@/components/editorial-page";
-export const metadata: Metadata = { title: "Terms — Superspace", description: "Website terms for Superspace." };
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Terms",
+  description: "Website terms for Superspace.",
+  path: "/terms",
+});
 export default function TermsPage() {
   return (
     <EditorialPage

@@ -1,12 +1,14 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { EditorialCta, EditorialPage, EditorialSection, ProductFrame, container } from "@/components/editorial-page";
 import { Reveal } from "@/components/reveal";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Solutions — Superspace",
-  description: "Operational systems for growing teams whose work has outgrown disconnected tools.",
-};
+export const metadata = createPageMetadata({
+  title: "Operational software solutions",
+  description:
+    "Connect complex orders, service operations, inventory, purchasing, approvals, and handoffs in one operational system.",
+  path: "/solutions",
+});
 const solutions = [
   [
     "Complex orders",
