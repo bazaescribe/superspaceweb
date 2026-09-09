@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { EditorialPage } from "@/components/editorial-page";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  robots: { index: false, follow: false },
+};
 export default function NotFound() {
   return (
     <EditorialPage

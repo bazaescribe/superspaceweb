@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { EditorialPage, EditorialSection, ProcessSteps, container } from "@/components/editorial-page";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Contact — Superspace",
-  description: "Discuss an operational system with Superspace.",
-};
+export const metadata = createPageMetadata({
+  title: "Contact",
+  description:
+    "Talk with Superspace about the workflow, handoffs, records, and exceptions your current tools cannot handle.",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

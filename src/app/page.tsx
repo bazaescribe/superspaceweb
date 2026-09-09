@@ -1,14 +1,21 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Brand, Header } from "@/components/header";
 import { FooterElasticField } from "@/components/footer-elastic-field";
 import { HeroMockup } from "@/components/hero-mockup";
-import { Reveal } from "@/components/reveal";
-import { IndustriesAccordion, OperationsGrid, PlatformShowcase } from "@/components/use-case-accordion";
+import { PlatformShowcase } from "@/components/use-case-accordion";
 import { BookingLink } from "@/components/booking-link";
 import { ImplementationSection, PillarsSection } from "@/components/home-story-sections";
 import { footerGroups } from "@/lib/site";
 import { HeaderThemeScope } from "@/components/header-theme";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Superspace — Operational software for growing companies",
+  description:
+    "Superspace models your people, work, and business rules as one flexible operational system—without the burden of custom software.",
+  path: "/",
+  absoluteTitle: true,
+});
 
 export default function Home() {
   return (
@@ -30,7 +37,7 @@ export default function Home() {
               <a className="button button--secondary" href="#platform">
                 See how it works
               </a>
-              <BookingLink />
+              <BookingLink placement="home_hero" />
             </div>
           </div>
           <HeroMockup />

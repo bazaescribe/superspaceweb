@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -9,11 +8,14 @@ import {
   ProcessSteps,
   container,
 } from "@/components/editorial-page";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Platform — Superspace",
-  description: "How Superspace models, runs, and contextualizes your operation.",
-};
+export const metadata = createPageMetadata({
+  title: "Operational software platform",
+  description:
+    "See how Superspace Matrix, Flow, and Atlas model your business, run its workflows, and keep operational context connected.",
+  path: "/platform",
+});
 const layers = [
   ["matrix", "Matrix", "Your company modeled"],
   ["flow", "Flow", "Your company in motion"],

@@ -135,7 +135,7 @@ export function ImplementationSection() {
               We&apos;ll explore what it could become on Superspace.
             </span>
           </h3>
-          <BookingLink inverse className="mt-10" />
+          <BookingLink inverse className="mt-10" placement="implementation_section" />
         </Reveal>
       </div>
     </HeaderThemeRegion>

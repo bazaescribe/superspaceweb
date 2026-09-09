@@ -163,7 +163,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
               exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
               transition={motionTokens.fast}
             >
-              <BookingLink inverse={dark} />
+              <BookingLink inverse={dark} placement="header_desktop" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -184,7 +184,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           {navigation.map((link) => (
             <NavigationLink key={link.href} {...link} tone={tone} onClick={() => setOpen(false)} />
           ))}
-          <BookingLink inverse={dark} className="justify-self-start text-label" />
+          <BookingLink inverse={dark} className="justify-self-start text-label" placement="header_mobile" />
         </div>
       </div>
     </header>
