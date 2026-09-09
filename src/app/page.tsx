@@ -29,9 +29,7 @@ export default function Home() {
           <div className="v2-hero__copy">
             <h1>The operating system for growing your business.</h1>
             <p>
-              Manage your people, work and rules in a flexible and scalable platform.
-              <br />
-              Without building and maintaining custom software yourself.
+              Manage your people, work and rules in a flexible and scalable platform. Without building and maintaining custom software yourself.
             </p>
             <div className="hero-actions">
               <a className="button button--secondary" href="#platform">

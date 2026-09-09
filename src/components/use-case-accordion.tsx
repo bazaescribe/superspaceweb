@@ -40,7 +40,7 @@ const platformStories = [
     label: "Ready for AI",
     title: "AI-native by design.",
     description:
-      "Your platform understands your business context and puts autonomous agents to work—handling tasks, making decisions, and driving results without waiting for instructions.",
+      "Put AI agents to work with the context to handle tasks, make decisions, and drive results.",
     mockup: "/assets/figma/feature-ai-native.png",
   },
 ] as const;
