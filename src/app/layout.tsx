@@ -34,10 +34,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
   icons: {
-    icon: [
-      { url: "/brand/superspace-favicon.svg", type: "image/svg+xml" },
-      { url: "/brand/superspace-favicon.png", type: "image/png" },
-    ],
+    icon: "/brand/superspace-favicon.png",
     apple: "/brand/superspace-favicon.png",
   },
   manifest: "/manifest.webmanifest",
