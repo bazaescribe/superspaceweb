@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { Brand, Header } from "@/components/header";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { BookingLink } from "@/components/booking-link";
-import { footerGroups } from "@/lib/site";
 
 export const container = "mx-auto w-[calc(100%-var(--site-gutter)*2)] max-w-content";
 
@@ -40,7 +39,7 @@ export function EditorialPage({
         </header>
         {children}
       </main>
-      <SiteFooter />
+      <Footer />
     </div>
   );
 }
@@ -149,37 +148,5 @@ export function ProcessSteps({ steps }: { steps: readonly (readonly [string, str
         </li>
       ))}
     </ol>
-  );
-}
-
-export function SiteFooter() {
-  return (
-    <footer className="v2-footer shell">
-      <div className="v2-footer__top">
-        <div className="v2-footer__identity">
-          Superspace Industries
-          <br />
-          Operational software
-          <br />
-          Mexico City / MX
-          <br />
-          Est. 2024
-        </div>
-        {footerGroups.map((group) => (
-          <div className="v2-footer__group" key={group.title}>
-            <span>{group.title}</span>
-            {group.links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
-        ))}
-        <div className="v2-footer__actions">
-          <span className="language">English · Español soon</span>
-        </div>
-      </div>
-      <Brand large />
-    </footer>
   );
 }

@@ -1,11 +1,9 @@
-import Link from "next/link";
-import { Brand, Header } from "@/components/header";
-import { FooterElasticField } from "@/components/footer-elastic-field";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { HeroMockup } from "@/components/hero-mockup";
 import { PlatformShowcase } from "@/components/use-case-accordion";
 import { BookingLink } from "@/components/booking-link";
 import { ImplementationSection, PillarsSection } from "@/components/home-story-sections";
-import { footerGroups } from "@/lib/site";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -29,7 +27,8 @@ export default function Home() {
           <div className="v2-hero__copy">
             <h1>The operating system for growing your business.</h1>
             <p>
-              Manage your people, work and rules in a flexible and scalable platform. Without building and maintaining custom software yourself.
+              Manage your people, work and rules in a flexible and scalable platform. Without building and maintaining
+              custom software yourself.
             </p>
             <div className="hero-actions">
               <a className="button button--secondary" href="#platform">
@@ -97,34 +96,7 @@ export default function Home() {
           </Reveal>
         </section> */}
       </main>
-      <footer className="v2-footer shell">
-        <div className="v2-footer__top">
-          <div className="v2-footer__identity">
-            Superspace Industries
-            <br />
-            Operational Software for Growing Companies
-            <br />
-            Mexico City / MX
-            <br />
-            Est. 2024
-          </div>
-          {footerGroups.map((group) => (
-            <div className="v2-footer__group" key={group.title}>
-              <span>{group.title}</span>
-              {group.links.map((link) => (
-                <Link href={link.href} key={link.href}>
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          ))}
-          <div className="v2-footer__actions">
-            <span className="language">English · Español soon</span>
-          </div>
-        </div>
-        <Brand large />
-      </footer>
-      <FooterElasticField />
+      <Footer />
     </HeaderThemeScope>
   );
 }
