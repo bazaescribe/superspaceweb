@@ -184,6 +184,25 @@ html {
   .implementation-card__image img {
     object-fit: cover;
   }
+  .shape-system-visual,
+  .shape-system-visual canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .shape-system-visual canvas {
+    z-index: 1;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .shape-system-visual canvas[data-ready="true"] {
+    opacity: 1;
+  }
+  .shape-system-visual canvas[data-ready="true"] + img {
+    opacity: 0;
+  }
   .implementation-card p {
     min-height: 115px;
     padding: 32px;

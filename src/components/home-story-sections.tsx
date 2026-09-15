@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookingLink } from "@/components/booking-link";
 import { Reveal } from "@/components/reveal";
 import { HeaderThemeRegion } from "@/components/header-theme";
+import { ShapeSystemCard } from "@/components/shape-system-card";
 
 export type StoryCardProps = {
   title: string;
@@ -71,9 +72,6 @@ const implementationSteps: StoryCardProps[] = [
   {
     title: "Shape the system.",
     description: "We configure your connected model, workflows, access, and automation around the way your team works.",
-    visual: (
-      <Image src="/assets/figma/implementation/shape-system.png" alt="A connected system model" fill sizes="(max-width: 720px) 100vw, 33vw" />
-    ),
   },
   {
     title: "Put it to work.",
@@ -135,13 +133,17 @@ export function ImplementationSection() {
         <div className="mt-10 grid grid-cols-3 gap-1 max-[45rem]:mt-6 max-[45rem]:grid-cols-1 max-[45rem]:gap-4">
           {implementationSteps.map((card, index) => (
             <Reveal className="h-full" key={card.title} delay={index * 0.06}>
-              <article className={`implementation-card implementation-card--${index + 1}`}>
-                <div className="implementation-card__image">{card.visual}</div>
-                <p>
-                  <strong>{card.title} </strong>
-                  {card.description}
-                </p>
-              </article>
+              {index === 1 ? (
+                <ShapeSystemCard title={card.title} description={card.description} />
+              ) : (
+                <article className={`implementation-card implementation-card--${index + 1}`}>
+                  <div className="implementation-card__image">{card.visual}</div>
+                  <p>
+                    <strong>{card.title} </strong>
+                    {card.description}
+                  </p>
+                </article>
+              )}
             </Reveal>
           ))}
         </div>
