@@ -3,7 +3,7 @@ import { Footer } from "@/components/footer";
 import { HeroMockup } from "@/components/hero-mockup";
 import { PlatformShowcase } from "@/components/use-case-accordion";
 import { BookingLink } from "@/components/booking-link";
-import { ImplementationSection, PillarsSection } from "@/components/home-story-sections";
+import { ImplementationSection, PillarsSection, StartCtaSection } from "@/components/home-story-sections";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -43,6 +43,7 @@ export default function Home() {
         <PillarsSection />
         <PlatformShowcase />
         <ImplementationSection />
+        <StartCtaSection />
         {/* <OperationsGrid />
         <IndustriesAccordion /> */}
 

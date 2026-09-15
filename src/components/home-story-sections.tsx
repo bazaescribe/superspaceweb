@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { BookingLink } from "@/components/booking-link";
 import { Reveal } from "@/components/reveal";
 import { HeaderThemeRegion } from "@/components/header-theme";
@@ -60,24 +62,34 @@ const pillars: StoryCardProps[] = [
 
 const implementationSteps: StoryCardProps[] = [
   {
-    eyebrow: "01 · Understand",
     title: "Map the operation.",
     description: "We learn the people, information, rules, and handoffs behind the work you need to improve.",
-    visualVariant: "dark",
+    visual: (
+      <Image src="/assets/figma/implementation/map-operation.png" alt="A visual map of an operation" fill sizes="(max-width: 720px) 100vw, 33vw" />
+    ),
   },
   {
-    eyebrow: "02 · Configure",
     title: "Shape the system.",
     description: "We configure your connected model, workflows, access, and automation around the way your team works.",
-    visualVariant: "dark",
+    visual: (
+      <Image src="/assets/figma/implementation/shape-system.png" alt="A connected system model" fill sizes="(max-width: 720px) 100vw, 33vw" />
+    ),
   },
   {
-    eyebrow: "03 · Launch",
     title: "Put it to work.",
     description:
       "Your team starts with working software while we continue to operate and evolve the platform behind it.",
-    visualVariant: "dark",
+    visual: (
+      <Image src="/assets/figma/implementation/put-to-work.png" alt="An active automated workflow" fill sizes="(max-width: 720px) 100vw, 33vw" />
+    ),
   },
+];
+
+const implementationLinks = [
+  { label: "Download the brochure", href: "/brochure" },
+  { label: "Explore our offerings", href: "/solutions" },
+  { label: "Learn about the platform", href: "/platform" },
+  { label: "Learn about us", href: "/company" },
 ];
 
 export function PillarsSection() {
@@ -122,22 +134,41 @@ export function ImplementationSection() {
         </Reveal>
         <div className="mt-10 grid grid-cols-3 gap-1 max-[45rem]:mt-6 max-[45rem]:grid-cols-1 max-[45rem]:gap-4">
           {implementationSteps.map((card, index) => (
-            <Reveal key={card.title} delay={index * 0.06}>
-              <StoryCard {...card} />
+            <Reveal className="h-full" key={card.title} delay={index * 0.06}>
+              <article className={`implementation-card implementation-card--${index + 1}`}>
+                <div className="implementation-card__image">{card.visual}</div>
+                <p>
+                  <strong>{card.title} </strong>
+                  {card.description}
+                </p>
+              </article>
             </Reveal>
           ))}
         </div>
-        <Reveal className="mt-40 max-w-[720px] max-[45rem]:mt-20" delay={0.08}>
-          <h3 className="font-display text-section leading-[1.25] tracking-[-0.015em]">
-            Start with one part of your operation.{" "}
-            <span className="text-muted">
-              Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.
-              We&apos;ll explore what it could become on Superspace.
-            </span>
-          </h3>
-          <BookingLink inverse className="mt-10" placement="implementation_section" />
+        <Reveal className="implementation-links" delay={0.08}>
+          <h3>Want to learn more?</h3>
+          <nav aria-label="Learn more about Superspace">
+            {implementationLinks.map((item) => (
+              <Link href={item.href} key={item.label}>{item.label}</Link>
+            ))}
+          </nav>
         </Reveal>
       </div>
     </HeaderThemeRegion>
+  );
+}
+
+export function StartCtaSection() {
+  return (
+    <section className="shell start-cta" aria-labelledby="start-cta-title">
+      <Reveal className="max-w-[720px]">
+        <h2 id="start-cta-title">Start with one part of your operation.</h2>
+        <p>
+          Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.
+          We&apos;ll explore what it could become on Superspace.
+        </p>
+        <BookingLink className="mt-5" placement="home_start_cta" />
+      </Reveal>
+    </section>
   );
 }

@@ -163,6 +163,90 @@ html {
 }
 
 @layer page {
+  .implementation-card {
+    display: flex;
+    height: 100%;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 12px;
+    color: white;
+  }
+  .implementation-card--1 { background: #2b0869; }
+  .implementation-card--2 { background: #004643; }
+  .implementation-card--3 { background: #cf1259; }
+  .implementation-card__image {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    overflow: hidden;
+  }
+  .implementation-card__image img {
+    object-fit: cover;
+  }
+  .implementation-card p {
+    min-height: 115px;
+    padding: 32px;
+    font-size: 14px;
+    line-height: normal;
+    letter-spacing: 0.01em;
+    color: rgb(255 255 255 / 0.6);
+  }
+  .implementation-card strong {
+    font-weight: 400;
+    color: white;
+  }
+  .implementation-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    margin-top: 160px;
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: normal;
+    letter-spacing: 0.01em;
+  }
+  .implementation-links h3 {
+    font-weight: 400;
+  }
+  .implementation-links nav {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .implementation-links a {
+    width: fit-content;
+    color: #99a1af;
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+  .implementation-links a:hover,
+  .implementation-links a:focus-visible { color: white; }
+  .start-cta {
+    padding-block: 160px;
+  }
+  .start-cta h2 {
+    font-family: var(--font-display);
+    font-size: 40px;
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+  }
+  .start-cta p {
+    margin-top: 6px;
+    max-width: 720px;
+    color: #99a1af;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: 0.01em;
+  }
+  @media (max-width: 45rem) {
+    .implementation-card p { min-height: 0; padding: 24px; }
+    .implementation-links { grid-template-columns: 1fr; gap: 32px; margin-top: 80px; }
+    .implementation-links nav { grid-column: auto; }
+    .start-cta { padding-block: 80px; }
+    .start-cta h2 { font-size: 32px; }
+  }
   .header {
     height: 88px;
     transition: height var(--duration-standard) var(--ease-standard);
