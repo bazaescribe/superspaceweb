@@ -25,16 +25,16 @@ export default function Home() {
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <h1>The operating system for growing your business.</h1>
+            <h1>Software for operations heavy organizations.</h1>
             <p>
-              Manage your people, work and rules in a flexible and scalable platform. Without building and maintaining
-              custom software yourself.
+              Superspace turns the people, assets, workflows, permissions, and rules behind real world operations into
+              one executable system.
             </p>
             <div className="hero-actions">
               <a className="button button--secondary" href="#platform">
-                See how it works
+                How it works?
               </a>
-              <BookingLink placement="home_hero" />
+              <BookingLink placement="home_hero" label="Let’s talk" designIcon />
             </div>
           </div>
           <HeroMockup />

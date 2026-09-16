@@ -33,8 +33,8 @@ export function Brand({
         src={`/brand/superspace-logo${variant}.svg`}
         alt=""
         aria-hidden="true"
-        width={1713}
-        height={293}
+        width={1666.24}
+        height={256}
         priority={!large}
       />
       {compactOnMobile && (
@@ -43,8 +43,8 @@ export function Brand({
           src={`/brand/superspace-symbol${variant}.svg`}
           alt=""
           aria-hidden="true"
-          width={182}
-          height={292}
+          width={344}
+          height={480}
           priority
         />
       )}
@@ -78,11 +78,11 @@ export function NavigationLink({
       href={href}
       onClick={onClick}
       aria-current={state}
-      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content ${
         dark
           ? active
-            ? "bg-white/12 text-inverse"
-            : "text-inverse-muted hover:bg-white/8 hover:text-inverse active:bg-white/12"
+            ? "bg-background-tertiary text-content"
+            : "text-content-secondary hover:bg-background-secondary hover:text-content active:bg-background-tertiary"
           : active
             ? "bg-navigation text-foreground"
             : "text-muted hover:bg-navigation hover:text-foreground active:bg-subtle"
@@ -144,6 +144,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
       ref={headerTheme?.setHeaderElement}
       className={`header ${scrolled ? "header--scrolled" : ""} ${dark ? "header--dark" : ""}`}
       data-tone={tone}
+      data-theme={tone}
     >
       <nav className="shell header__inner" aria-label="Primary navigation">
         <Link className="header__brand" href="/" aria-label="Superspace home">

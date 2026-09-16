@@ -11,7 +11,8 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#ffffff",
     theme_color: "#170fff",
     icons: [
-      { src: "/brand/superspace-favicon.png", sizes: "679x679", type: "image/png" },
+      { src: "/brand/superspace-favicon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      { src: "/brand/superspace-favicon.png", sizes: "512x512", type: "image/png", purpose: "any" },
     ],
   };
 }

@@ -51,11 +51,12 @@ function ShapeSystemVisual({ hovered }: { hovered: boolean }) {
     <div className="shape-system-visual" aria-hidden="true">
       {!reduceMotion ? <canvas ref={canvas} /> : null}
       <Image
-        src="/assets/figma/implementation/shape-system.png"
+        src="/assets/figma/illustration/Map.svg"
         alt=""
         fill
         sizes="(max-width: 720px) 100vw, 33vw"
         priority={false}
+        style={{ objectFit: "contain", padding: "10.803571%" }}
       />
     </div>
   );
@@ -63,6 +64,7 @@ function ShapeSystemVisual({ hovered }: { hovered: boolean }) {
 
 export function ShapeSystemCard({ description, title }: ShapeSystemCardProps) {
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
 
   function updateHover(nextHovered: boolean, pointerType: string) {
     if (pointerType === "mouse") setHovered(nextHovered);
@@ -70,12 +72,15 @@ export function ShapeSystemCard({ description, title }: ShapeSystemCardProps) {
 
   return (
     <article
-      className="implementation-card implementation-card--2"
+      className="implementation-card implementation-card--1"
+      tabIndex={0}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       onPointerEnter={(event) => updateHover(true, event.pointerType)}
       onPointerLeave={(event) => updateHover(false, event.pointerType)}
     >
       <div className="implementation-card__image">
-        <ShapeSystemVisual hovered={hovered} />
+        <ShapeSystemVisual hovered={hovered || focused} />
       </div>
       <p>
         <strong>{title} </strong>

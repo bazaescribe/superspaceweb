@@ -5,6 +5,8 @@ import { BookingLink } from "@/components/booking-link";
 import { Reveal } from "@/components/reveal";
 import { HeaderThemeRegion } from "@/components/header-theme";
 import { ShapeSystemCard } from "@/components/shape-system-card";
+import { WorkOrbitCard } from "@/components/work-orbit-card";
+import { ConnectBlockCard } from "@/components/connect-block-card";
 
 export type StoryCardProps = {
   title: string;
@@ -34,7 +36,7 @@ export function StoryCard({ title, description, eyebrow, visual, visualVariant =
             {eyebrow}
           </span>
         ) : null}
-        <p className={`text-[14px] leading-[1.22] tracking-[0.01em] ${dark ? "text-inverse-muted" : "text-muted"}`}>
+        <p className={`text-[14px] leading-normal tracking-[0.01em] ${dark ? "text-inverse-muted" : "text-muted"}`}>
           <strong className={`font-normal ${dark ? "text-inverse" : "text-foreground"}`}>{title} </strong>
           {description}
         </p>
@@ -66,28 +68,47 @@ const implementationSteps: StoryCardProps[] = [
     title: "Map the operation.",
     description: "We learn the people, information, rules, and handoffs behind the work you need to improve.",
     visual: (
-      <Image src="/assets/figma/implementation/map-operation.png" alt="A visual map of an operation" fill sizes="(max-width: 720px) 100vw, 33vw" />
+      <Image
+        src="/assets/figma/illustration/Map.svg"
+        alt="A visual map of an operation"
+        fill
+        sizes="(max-width: 720px) 100vw, 33vw"
+      />
     ),
   },
   {
     title: "Shape the system.",
     description: "We configure your connected model, workflows, access, and automation around the way your team works.",
+    visual: (
+      <Image
+        src="/assets/figma/implementation/shape-system.png"
+        alt="A connected operational system"
+        fill
+        sizes="(max-width: 720px) 100vw, 33vw"
+      />
+    ),
   },
   {
     title: "Put it to work.",
     description:
       "Your team starts with working software while we continue to operate and evolve the platform behind it.",
     visual: (
-      <Image src="/assets/figma/implementation/put-to-work.png" alt="An active automated workflow" fill sizes="(max-width: 720px) 100vw, 33vw" />
+      <Image
+        src="/assets/figma/implementation/put-to-work.png"
+        alt="An active automated workflow"
+        fill
+        sizes="(max-width: 720px) 100vw, 33vw"
+      />
     ),
   },
 ];
 
 const implementationLinks = [
-  { label: "Download the brochure", href: "/brochure" },
-  { label: "Explore our offerings", href: "/solutions" },
-  { label: "Learn about the platform", href: "/platform" },
-  { label: "Learn about us", href: "/company" },
+  { label: "About the platform", href: "/platform" },
+  { label: "Explore offerings", href: "/solutions" },
+  { label: "FAQ", href: null },
+  { label: "Download Brochure", href: null },
+  { label: "About us", href: "/company" },
 ];
 
 export function PillarsSection() {
@@ -115,14 +136,10 @@ export function PillarsSection() {
 
 export function ImplementationSection() {
   return (
-    <HeaderThemeRegion
-      tone="dark"
-      className="mt-section bg-black py-40 text-white max-[45rem]:py-20"
-      aria-labelledby="implementation-title"
-    >
+    <HeaderThemeRegion tone="dark" className="implementation-section mt-section" aria-labelledby="implementation-title">
       <div className="shell">
         <Reveal>
-          <h2 id="implementation-title" className="section-heading text-white">
+          <h2 id="implementation-title" className="section-heading">
             From operational challenge to working software.{" "}
             <span>
               We work with your team to understand the operation, configure the platform, and launch a system your
@@ -133,16 +150,12 @@ export function ImplementationSection() {
         <div className="mt-10 grid grid-cols-3 gap-1 max-[45rem]:mt-6 max-[45rem]:grid-cols-1 max-[45rem]:gap-4">
           {implementationSteps.map((card, index) => (
             <Reveal className="h-full" key={card.title} delay={index * 0.06}>
-              {index === 1 ? (
+              {index === 0 ? (
                 <ShapeSystemCard title={card.title} description={card.description} />
+              ) : index === 2 ? (
+                <WorkOrbitCard title={card.title} description={card.description} />
               ) : (
-                <article className={`implementation-card implementation-card--${index + 1}`}>
-                  <div className="implementation-card__image">{card.visual}</div>
-                  <p>
-                    <strong>{card.title} </strong>
-                    {card.description}
-                  </p>
-                </article>
+                <ConnectBlockCard title={card.title} description={card.description} />
               )}
             </Reveal>
           ))}
@@ -150,9 +163,17 @@ export function ImplementationSection() {
         <Reveal className="implementation-links" delay={0.08}>
           <h3>Want to learn more?</h3>
           <nav aria-label="Learn more about Superspace">
-            {implementationLinks.map((item) => (
-              <Link href={item.href} key={item.label}>{item.label}</Link>
-            ))}
+            {implementationLinks.map((item) =>
+              item.href ? (
+                <Link href={item.href} key={item.label}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span aria-disabled="true" key={item.label}>
+                  {item.label}
+                </span>
+              ),
+            )}
           </nav>
         </Reveal>
       </div>
@@ -169,7 +190,7 @@ export function StartCtaSection() {
           Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.
           We&apos;ll explore what it could become on Superspace.
         </p>
-        <BookingLink className="mt-5" placement="home_start_cta" />
+        <BookingLink className="mt-5" placement="home_start_cta" label="Let’s talk" designIcon />
       </Reveal>
     </section>
   );

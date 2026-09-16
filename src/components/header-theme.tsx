@@ -130,7 +130,7 @@ export function HeaderThemeRegion({
   }, [registerRegion, tone]);
 
   return (
-    <section ref={element} {...props}>
+    <section ref={element} data-theme={tone} {...props}>
       {children}
     </section>
   );

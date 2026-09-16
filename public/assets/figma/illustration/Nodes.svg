@@ -1,0 +1,46 @@
+<svg width="230" height="366" viewBox="0 0 230 366" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path d="M227 142V242L102.5 362.5" stroke="white"/>
+<path d="M227 3V103L102.5 223.5" stroke="white"/>
+<path d="M227 142H187L103 224H42.9438L3 263H103L227 142Z" fill="url(#pattern0_931_2523)"/>
+<rect x="3.5" y="263.5" width="99" height="99" stroke="white"/>
+<path d="M127 3L3 124H103L227 3H127Z" fill="url(#pattern1_931_2523)"/>
+<rect x="3.5" y="124.5" width="99" height="99" stroke="white"/>
+<path d="M3 263L43 223.5" stroke="white"/>
+<path d="M186 142.5H227" stroke="white"/>
+<path d="M227 142.5L102.5 263.5" stroke="white" stroke-dasharray="6 6"/>
+<path d="M227 3.5L102.5 124.5" stroke="white" stroke-dasharray="6 6"/>
+<path d="M3.5 124L127 3.5H227" stroke="white"/>
+<circle cx="3.5" cy="124.5" r="3.5" fill="white"/>
+<circle cx="102.5" cy="124.5" r="3.5" fill="white"/>
+<circle cx="102.5" cy="223.5" r="3.5" fill="white"/>
+<circle cx="3.5" cy="223.5" r="3.5" fill="white"/>
+<circle cx="3.5" cy="263.5" r="3.5" fill="white"/>
+<circle cx="102.5" cy="263.5" r="3.5" fill="white"/>
+<circle cx="102.5" cy="362.5" r="3.5" fill="white"/>
+<circle cx="3.5" cy="362.5" r="3.5" fill="white"/>
+<circle cx="127.5" cy="3.5" r="3.5" fill="white"/>
+<circle cx="226.5" cy="3.5" r="3.5" fill="white"/>
+<circle cx="226.5" cy="102.5" r="3.5" fill="white"/>
+<circle cx="226.5" cy="142.5" r="3.5" fill="white"/>
+<circle cx="226.5" cy="241.5" r="3.5" fill="white"/>
+<defs>
+<pattern id="pattern0_931_2523" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 3 142)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern0_931_2523_inner">
+<g clip-path="url(#clip0_931_2523)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern1_931_2523" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 3 3)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern1_931_2523_inner">
+<g clip-path="url(#clip1_931_2523)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><clipPath id="clip0_931_2523">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip1_931_2523">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+</defs>
+</svg>

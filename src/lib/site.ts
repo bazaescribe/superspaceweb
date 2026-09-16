@@ -81,7 +81,34 @@ export const industries = [
 ] as const;
 
 export const footerGroups = [
-  { title: "Explore", links: [{ label: "Platform", href: "/platform" }, { label: "Solutions", href: "/solutions" }] },
-  { title: "Company", links: [{ label: "About", href: "/company" }, { label: "Contact", href: "/contact" }] },
-  { title: "Legal", links: [{ label: "Terms", href: "/terms" }, { label: "Privacy", href: "/privacy" }] },
+  {
+    title: "Explore",
+    links: [
+      { label: "Platform", href: "/platform" },
+      { label: "Offerings", href: "/solutions" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About us", href: "/company" },
+      { label: "FAQ", href: null },
+      { label: "Changelog", href: null },
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/superspaceai/" },
+      { label: "X (Twitter)", href: "https://x.com/superspaceai" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Terms", href: "/terms" },
+      { label: "Privacy", href: "/privacy" },
+    ],
+  },
 ] as const;

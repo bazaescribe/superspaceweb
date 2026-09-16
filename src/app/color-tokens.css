@@ -1,0 +1,62 @@
+/* Figma Colors collection. Explicit theme scopes can be nested in either mode.
+   The dark accent uses Accent/Darker, approved for card hover contrast. */
+@layer tokens {
+  :root {
+    --color-background-light: #ffffff;
+    --color-background-secondary-light: #f9fafb;
+    --color-background-tertiary-light: #f3f4f6;
+    --color-content-light: #09090b;
+    --color-content-secondary-light: rgb(9 9 11 / 0.6);
+    --color-content-tertiary-light: rgb(9 9 11 / 0.3);
+    --color-accent-light: #170fff;
+    --color-border-light: #f3f4f6;
+    --color-background-dark: #09090b;
+    --color-background-secondary-dark: rgb(255 255 255 / 0.04);
+    --color-background-tertiary-dark: rgb(255 255 255 / 0.08);
+    --color-content-dark: #ffffff;
+    --color-content-secondary-dark: rgb(255 255 255 / 0.6);
+    --color-content-tertiary-dark: rgb(255 255 255 / 0.3);
+    --color-accent-dark: #231f91;
+    --color-border-dark: #ffffff;
+  }
+
+  :root,
+  [data-theme="light"] {
+    color-scheme: light;
+    --color-background: var(--color-background-light);
+    --color-background-secondary: var(--color-background-secondary-light);
+    --color-background-tertiary: var(--color-background-tertiary-light);
+    --color-content: var(--color-content-light);
+    --color-content-secondary: var(--color-content-secondary-light);
+    --color-content-tertiary: var(--color-content-tertiary-light);
+    --color-accent: var(--color-accent-light);
+    --color-border: var(--color-border-light);
+  }
+
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --color-background: var(--color-background-dark);
+    --color-background-secondary: var(--color-background-secondary-dark);
+    --color-background-tertiary: var(--color-background-tertiary-dark);
+    --color-content: var(--color-content-dark);
+    --color-content-secondary: var(--color-content-secondary-dark);
+    --color-content-tertiary: var(--color-content-tertiary-dark);
+    --color-accent: var(--color-accent-dark);
+    --color-border: var(--color-border-dark);
+  }
+
+  /* Keep the established CSS and Tailwind vocabulary connected to the same
+     semantic system. Rebind aliases at theme boundaries, not per section. */
+  :root,
+  [data-theme] {
+    --color-canvas: var(--color-background);
+    --color-surface: var(--color-background-secondary);
+    --color-surface-subtle: var(--color-background-tertiary);
+    --color-ink: var(--color-content);
+    --color-muted: var(--color-content-secondary);
+    --color-line: var(--color-background-tertiary);
+    --color-inverse: var(--color-content-dark);
+    --color-inverse-muted: var(--color-content-secondary-dark);
+    --color-panel-dark: var(--color-background-dark);
+  }
+}

@@ -1,0 +1,95 @@
+<svg width="403" height="358" viewBox="0 0 403 358" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path d="M44.5 280.575L134 331.575L178.5 306.075V204.075L89.5 153.075L44.5 178.423V280.575Z" stroke="white" stroke-linecap="round"/>
+<path d="M44.5 178.575L134 229.575L178.5 204.075" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M178.5 306.075V204.075L134 229.575L133.5 331.075L178.5 306.075Z" fill="url(#pattern0_994_7855)"/>
+<path d="M134 331.575V229.575" stroke="white"/>
+<path d="M224.5 178.075L314 229.075L358.5 203.575V101.575L269.5 50.5752L224.5 75.9229V178.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M224.5 76.0752L314 127.075L358.5 101.575" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M358.5 203.575V101.575L314 127.075L313.5 228.575L358.5 203.575Z" fill="url(#pattern1_994_7855)"/>
+<path d="M314 229.075V127.075" stroke="white"/>
+<path d="M268.5 153.075L358 204.075L402.5 178.575V127.575L313.5 76.5752L268.5 101.923V153.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M268.5 102.075L358 153.075L402.5 127.575" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M402.5 178.575V127.575L358 153.075L357.5 203.575L402.5 178.575Z" fill="url(#pattern2_994_7855)"/>
+<path d="M358 204.075V153.075" stroke="white"/>
+<path d="M0.5 306.075L90 357.075L134.5 331.575V280.575L45.5 229.575L0.5 254.923V306.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M0.5 255.075L90 306.075L134.5 280.575" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M134.5 331.575V280.575L90 306.075L89.5 356.575L134.5 331.575Z" fill="url(#pattern3_994_7855)"/>
+<path d="M90 357.075V306.075" stroke="white"/>
+<path d="M89.5 255.075L179 306.075L223.5 280.575V127.575L134.5 76.5752L89.5 101.923V255.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M89.5 103.075L179 154.075L223.5 128.575" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M223.5 280.575V128.575L179 154.075L178.5 305.575L223.5 280.575Z" fill="url(#pattern4_994_7855)"/>
+<path d="M178.5 306.575L178.5 154.575" stroke="white"/>
+<path d="M179.5 204.075L269 255.075L313.5 229.575V76.5752L224.5 25.5752L179.5 50.9229V204.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M179.5 52.0752L269 103.075L313.5 77.5752" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M313.5 229.575V77.5752L269 103.075L268.5 254.575L313.5 229.575Z" fill="url(#pattern5_994_7855)"/>
+<path d="M268.5 255.575L268.5 103.575" stroke="white"/>
+<path d="M134.5 229.075L224 280.075L268.5 254.575V51.5752L179.5 0.575195L134.5 25.9229V229.075Z" stroke="white" stroke-linecap="round"/>
+<path d="M134.5 26.0752L224 77.0747L268.5 51.5752" stroke="white" stroke-linecap="round" stroke-dasharray="6 6"/>
+<path d="M268.5 254.575V51.5752L224 77.0752L223.5 279.575L268.5 254.575Z" fill="url(#pattern6_994_7855)"/>
+<path d="M223.5 280.575L223.5 77.5752" stroke="white"/>
+<defs>
+<pattern id="pattern0_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 133.5 204.075)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern0_994_7855_inner">
+<g clip-path="url(#clip0_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern1_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 313.5 101.575)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern1_994_7855_inner">
+<g clip-path="url(#clip1_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern2_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 357.5 127.575)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern2_994_7855_inner">
+<g clip-path="url(#clip2_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern3_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 89.5 280.575)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern3_994_7855_inner">
+<g clip-path="url(#clip3_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern4_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 178.5 128.575)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern4_994_7855_inner">
+<g clip-path="url(#clip4_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern5_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 268.5 77.5752)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern5_994_7855_inner">
+<g clip-path="url(#clip5_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><pattern id="pattern6_994_7855" patternUnits="userSpaceOnUse" patternTransform="matrix(19.56 0 0 19.56 223.5 51.5752)" preserveAspectRatio="none" viewBox="0 0 163 163" width="1" height="1">
+<g id="pattern6_994_7855_inner">
+<g clip-path="url(#clip6_994_7855)">
+<path d="M0 0L163 163" stroke="white" stroke-width="8"/>
+</g>
+</g>
+</pattern><clipPath id="clip0_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip1_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip2_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip3_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip4_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip5_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+<clipPath id="clip6_994_7855">
+<rect width="163" height="163" fill="white"/>
+</clipPath>
+</defs>
+</svg>

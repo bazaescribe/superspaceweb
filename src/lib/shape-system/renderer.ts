@@ -156,9 +156,12 @@ export function mountShapeSystem(canvas: HTMLCanvasElement): ShapeSystemControll
 
   const surfacePieces: DrawPiece[] = [];
   for (const surface of SHAPE_SYSTEM_SURFACES) {
-    const polygon = surface.nodes.map((id) => nodeMap.get(id)!);
+    const polygon = surface.points.map(worldPoint);
     const offsets = polygon.map((point) => point.x + point.y);
-    const minimum = Math.floor(Math.min(...offsets) / SHAPE_SYSTEM_STYLE.hatchGap) * SHAPE_SYSTEM_STYLE.hatchGap;
+    const origin = worldPoint(surface.hatchOrigin);
+    const phase = origin.x + origin.y;
+    const minimum =
+      Math.ceil((Math.min(...offsets) - phase) / SHAPE_SYSTEM_STYLE.hatchGap) * SHAPE_SYSTEM_STYLE.hatchGap + phase;
     const maximum = Math.max(...offsets);
     for (let offset = minimum; offset <= maximum; offset += SHAPE_SYSTEM_STYLE.hatchGap) {
       const hits = lineIntersections(polygon, offset);

@@ -1,26 +1,25 @@
 /* Tailwind v4 theme: aliases retain the homepage as the source of truth.
    Preflight is intentionally omitted to preserve the existing global reset. */
 @theme inline {
-  --color-canvas: var(--color-inverse);
-  --color-foreground: var(--color-ink);
-  --color-muted: #66717d;
-  --color-surface: #f9fafb;
-  --color-surface-elevated: var(--color-inverse);
-  --color-subtle: var(--color-line);
-  --color-inverse: #ffffff;
-  --color-inverse-muted: #c4cbd3;
-  --color-dark: var(--color-panel-dark);
-  --color-accent: rgb(23 15 255);
-  --color-navigation: var(--color-surface-subtle);
-  --font-display: "Gabarito Variable", Arial, Helvetica, sans-serif;
+  --color-canvas: var(--color-background);
+  --color-foreground: var(--color-content);
+  --color-muted: var(--color-content-secondary);
+  --color-surface: var(--color-background-secondary);
+  --color-surface-elevated: var(--color-background);
+  --color-subtle: var(--color-background-tertiary);
+  --color-inverse: var(--color-content-dark);
+  --color-inverse-muted: var(--color-content-secondary-dark);
+  --color-dark: var(--color-background-dark);
+  --color-navigation: var(--color-background-tertiary);
+  --font-display: "Rethink Sans Variable", Arial, Helvetica, sans-serif;
   --font-body: "Inter Variable", Arial, Helvetica, sans-serif;
   --text-display: var(--marketing-display);
-  --text-display--line-height: 1.25;
+  --text-display--line-height: 1.04;
   --text-section: var(--marketing-section);
-  --text-section--line-height: 1.3;
+  --text-section--line-height: normal;
   --text-feature: 1.25rem;
   --text-feature--line-height: 1.4;
-  --text-body: 0.9375rem;
+  --text-body: 1rem;
   --text-body--line-height: 1.6;
   --text-label: 0.8125rem;
   --text-label--line-height: 1.4;
@@ -32,20 +31,30 @@
   --container-reading: 42.5rem;
   --spacing-gutter: var(--site-gutter);
   --spacing-section: var(--marketing-section-space);
-  --spacing-hero: var(--hero-space);
+  --spacing-hero: calc(var(--header-height) + var(--hero-space));
   --ease-standard: cubic-bezier(0.22, 0.86, 0.24, 1);
   --default-transition-duration: 180ms;
   --default-transition-timing-function: cubic-bezier(0.22, 0.86, 0.24, 1);
 }
+/* These utilities resolve the scoped token at the element, including dark mode. */
+@theme {
+  --color-background: var(--color-background-light);
+  --color-background-secondary: var(--color-background-secondary-light);
+  --color-background-tertiary: var(--color-background-tertiary-light);
+  --color-content: var(--color-content-light);
+  --color-content-secondary: var(--color-content-secondary-light);
+  --color-content-tertiary: var(--color-content-tertiary-light);
+  --color-accent: var(--color-accent-light);
+}
 @layer tokens {
   :root {
-    --marketing-display: 1.75rem;
+    --marketing-display: 3rem;
     --marketing-section: 1.5rem;
     --marketing-section-space: 120px;
   }
   @media (max-width: 45rem) {
     :root {
-      --marketing-display: 1.5rem;
+      --marketing-display: 2rem;
       --marketing-section: 1.375rem;
       --marketing-section-space: 80px;
     }
