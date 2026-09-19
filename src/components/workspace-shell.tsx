@@ -1,0 +1,46 @@
+"use client";
+
+import type { ReactNode, RefObject } from "react";
+import { Activity, Bell, ChevronDown, CircleHelp, Home, Inbox, MoreHorizontal, Search, Settings2, Sparkles, Users, Workflow } from "lucide-react";
+import styles from "./hero-mockup.module.css";
+
+type NavEntry = { label: string; icon?: ReactNode; dot?: string; count?: string };
+export const defaultWorkspaceEntries: { heading?: string; item?: NavEntry }[] = [
+  { item: { label: "Home", icon: <Home /> } },
+  { item: { label: "Inbox", icon: <Inbox />, count: "8" } },
+  { heading: "Admin" },
+  { item: { label: "Team", icon: <Users /> } },
+  { item: { label: "Automations", icon: <Workflow /> } },
+  { item: { label: "Activity", icon: <Activity /> } },
+  { heading: "Favorites" },
+  { item: { label: "Requests", dot: "#00b9ad", count: "12" } },
+  { item: { label: "Onboard new keeper", dot: "#a742da" } },
+  { heading: "Work" },
+  { item: { label: "Clients", dot: "#ff4141" } },
+  { item: { label: "Services", dot: "#ff9800" } },
+  { item: { label: "Keepers", dot: "#f5c500" } },
+  { item: { label: "Invoices", dot: "#26bb62" } },
+];
+
+export function WorkspaceSidebar({ active, onNavigate, query = "", onQueryChange, searchInput, organization = "ACME Corp.", organizationSubtitle = "Enterprise", entries = defaultWorkspaceEntries, onMessage }: {
+  active: string;
+  onNavigate: (label: string) => void;
+  query?: string;
+  onQueryChange?: (query: string) => void;
+  searchInput?: RefObject<HTMLInputElement | null>;
+  organization?: string;
+  organizationSubtitle?: string;
+  entries?: { heading?: string; item?: NavEntry }[];
+  onMessage?: (message: string) => void;
+}) {
+  return <aside className={styles.sidebar} aria-label="Workspace navigation">
+    <button className={styles.organization} onClick={() => onMessage?.(`${organization} · ${organizationSubtitle}`)}><span className={styles.brandMark}><Sparkles size={19} fill="white" /></span><span><strong>{organization}</strong><small>{organizationSubtitle}</small></span><ChevronDown size={15} className={styles.orgChevron} /></button>
+    <label className={styles.searchBox}><Search size={15} /><input ref={searchInput} value={query} onChange={event => onQueryChange?.(event.target.value)} placeholder="Search or ask" aria-label="Search workspace" /><kbd>⌘K</kbd></label>
+    <nav>{entries.map((entry, index) => entry.heading ? <span key={entry.heading} className={styles.navHeading}>{entry.heading}</span> : entry.item ? <button key={`${entry.item.label}-${index}`} className={`${styles.navItem} ${active === entry.item.label ? styles.navActive : ""}`} onClick={() => onNavigate(entry.item!.label)} aria-current={active === entry.item.label ? "page" : undefined}>{entry.item.dot ? <i className={styles.navDot} style={{ background: entry.item.dot }} /> : <span className={styles.navIcon}>{entry.item.icon}</span>}<span>{entry.item.label}</span>{entry.item.count && <b>{entry.item.count}</b>}</button> : null)}</nav>
+    <div className={styles.sidebarBottom}><button className={styles.navItem} onClick={() => onMessage?.("Help center is part of this preview")}><span className={styles.navIcon}><CircleHelp /></span><span>Help</span></button><button className={styles.profile} onClick={() => onMessage?.("Signed in as Jane Doe")}><span className={styles.jane}>JD</span><span><strong>Jane Doe</strong><small>jane@mail.com</small></span><ChevronDown size={15} /></button></div>
+  </aside>;
+}
+
+export function WorkspaceTopbar({ title, icon, menuOpen, onMenuToggle, onMessage }: { title: string; icon: ReactNode; menuOpen: boolean; onMenuToggle: () => void; onMessage: (message: string) => void }) {
+  return <header className={styles.topbar}><div><span className={styles.topIcon}>{icon}</span>{title}</div><div className={styles.menuWrap}><button aria-label="More options" aria-expanded={menuOpen} className={styles.iconButton} onClick={onMenuToggle}><MoreHorizontal size={19} /></button>{menuOpen && <div className={styles.menu}><button onClick={() => { onMenuToggle(); onMessage("Workspace settings are part of this preview"); }}><Settings2 size={15} /> Workspace settings</button><button onClick={() => { onMenuToggle(); onMessage("Notifications are up to date"); }}><Bell size={15} /> Notifications</button></div>}</div></header>;
+}

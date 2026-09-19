@@ -183,9 +183,11 @@ export function ImplementationSection() {
 
 export function StartCtaSection() {
   return (
-    <section className="shell start-cta" aria-labelledby="start-cta-title">
+    <section className="start-cta" aria-labelledby="start-cta-title">
       <Reveal className="max-w-[720px]">
-        <h2 id="start-cta-title">Start with one part of your operation.</h2>
+        <h2 id="start-cta-title">
+          Your operation already knows what it needs. <span>Let’s build the software around it.</span>
+        </h2>
         <p>
           Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.
           We&apos;ll explore what it could become on Superspace.

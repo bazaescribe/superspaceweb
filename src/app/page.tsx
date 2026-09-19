@@ -1,10 +1,15 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeroMockup } from "@/components/hero-mockup";
-import { PlatformShowcase } from "@/components/use-case-accordion";
 import { BookingLink } from "@/components/booking-link";
-import { ImplementationSection, PillarsSection, StartCtaSection } from "@/components/home-story-sections";
-import { HeaderThemeScope } from "@/components/header-theme";
+import { StartCtaSection } from "@/components/home-story-sections";
+import {
+  CustomBuiltMatters,
+  FlexibleSolutions,
+  ImplementationExperience,
+  OperationsSystem,
+} from "@/components/home-v24";
+import { HeaderThemeRegion, HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -25,25 +30,34 @@ export default function Home() {
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <h1>Software for operations heavy organizations.</h1>
+            <h1>The Custom Operating System for Complex Operations.</h1>
             <p>
-              Superspace turns the people, assets, workflows, permissions, and rules behind real world operations into
-              one executable system.
+              Superspace connects your team, rules, workflows, and assets into a single flexible platform. Get
+              custom-built operational software in days, fully managed by us.
             </p>
             <div className="hero-actions">
-              <a className="button button--secondary" href="#platform">
+              <BookingLink placement="home_hero" label="Explore a partnership" designIcon />
+              <a className="button button--secondary" href="#system">
                 How it works?
               </a>
-              <BookingLink placement="home_hero" label="Let’s talk" designIcon />
             </div>
           </div>
           <HeroMockup />
         </section>
 
-        <PillarsSection />
-        <PlatformShowcase />
-        <ImplementationSection />
-        <StartCtaSection />
+        <div className="v24-spine" id="system">
+          <OperationsSystem />
+          <FlexibleSolutions />
+        </div>
+        <HeaderThemeRegion tone="dark" className="v24-dark">
+          <div className="v24-spine">
+            <ImplementationExperience />
+            <CustomBuiltMatters />
+          </div>
+        </HeaderThemeRegion>
+        <div className="v24-spine v24-cta-spine">
+          <StartCtaSection />
+        </div>
         {/* <OperationsGrid />
         <IndustriesAccordion /> */}
 
