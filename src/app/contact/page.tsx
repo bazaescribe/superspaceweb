@@ -45,13 +45,13 @@ export default function ContactPage() {
         </div>
         <div className="flex flex-col items-start rounded-panel bg-surface p-6 md:p-10">
           <span className="text-label text-muted">Contact</span>
-          <h2 className="mt-10 max-w-sm text-section">Booking details are being finalized.</h2>
+          <h2 className="mt-10 max-w-sm text-section">Start a conversation with our team.</h2>
           <p className="mb-8 mt-4 text-body text-muted">
-            For now, the site is ready to route inquiries once the team confirms the booking calendar or commercial
-            email. No form data is collected on this page.
+            Tell us what your team is working through and where your current tools fall short. Connect with Superspace
+            on LinkedIn to begin.
           </p>
-          <Link className="button button--secondary mt-auto" href="/solutions">
-            Review common workflows
+          <Link className="button button--secondary mt-auto" href="https://www.linkedin.com/company/superspaceai/">
+            Connect on LinkedIn
           </Link>
         </div>
       </section>

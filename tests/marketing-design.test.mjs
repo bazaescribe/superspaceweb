@@ -49,25 +49,23 @@ test("primary and secondary reading text meet AA in light, dark and card hover c
     }
   }
   assert.ok(contrast(color("content-secondary-dark"), color("accent-dark")) >= 4.5);
-  assert.ok(contrast(color("content-dark"), color("accent-light")) >= 4.5);
+  assert.ok(contrast(color("content-light"), color("accent-light")) >= 4.5);
 });
 
-test("footer preserves Figma ordering, canonical routes and deliberately empty destinations", () => {
+test("footer preserves Figma ordering, canonical routes and working destinations", () => {
   assert.deepEqual(
     footerGroups.map((g) => g.links.map((l) => l.label)),
     [
-      ["Platform", "Offerings"],
-      ["About us", "FAQ", "Changelog"],
-      ["LinkedIn", "X (Twitter)", "Contact"],
-      ["Terms", "Privacy"],
+      ["Home", "Platform", "Offerings", "Deployment", "FAQ", "Changelog"],
+      ["Manifesto", "Careers", "Engineering Blog"],
+      ["LinkedIn", "X (Twitter)", "Mail"],
     ],
   );
   for (const { links } of footerGroups)
     for (const { label, href } of links) {
-      if (href === null) {
-        assert.ok(["FAQ", "Changelog"].includes(label));
-      } else if (href.startsWith("/")) {
-        assert.ok(existsSync(new URL(`src/app${href}/page.tsx`, root)), href);
+      assert.ok(href, `${label} must have a destination`);
+      if (href.startsWith("/")) {
+        assert.ok(href === "/" || existsSync(new URL(`src/app${href}/page.tsx`, root)), href);
       } else assert.ok(new URL(href).protocol === "https:");
     }
 });

@@ -1,48 +1,46 @@
 import Link from "next/link";
-import Image from "next/image";
-import { Brand } from "@/components/header";
-import { FooterElasticField } from "@/components/footer-elastic-field";
+import { FooterReveal, FooterWordmark } from "@/components/footer-wordmark";
 import { footerGroups } from "@/lib/site";
+import { SectionBuffer } from "@/components/section-system";
 
 export function Footer() {
   return (
-    <div className="site-footer">
+    <FooterReveal>
       <footer className="v2-footer shell">
         <div className="v2-footer__top">
-          <div className="v2-footer__identity">
-            Superspace Ontology Systems
-            <br />
-            Operational Software for Growing Companies
-            <br />
-            Mexico City / MX
-            <br />
-            Est. 2024
-          </div>
           {footerGroups.map((group) => (
             <nav className="v2-footer__group" aria-label={group.title} key={group.title}>
-              {group.links.map((link) =>
-                link.href ? (
-                  <Link href={link.href} key={link.label}>
-                    {link.label}
-                  </Link>
-                ) : (
-                  <span aria-disabled="true" key={link.label}>
-                    {link.label}
-                  </span>
-                ),
-              )}
+              <h2 className="v2-footer__label">{group.title}</h2>
+              {group.links.map((link) => (
+                <Link href={link.href} key={link.label}>
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           ))}
           <div className="v2-footer__actions">
+            <p>
+              Superspace Intelligent Industries.
+              <br />
+              Operational infrastructure for growing businesses.
+              <br />
+              Mexico City, MX.
+              <br />
+              Est. 2024. 2026 All Rights Reserved.
+            </p>
+            <div className="v2-footer__legal">
+              <Link href="/terms">Services Agreement</Link>
+              <Link href="/privacy">Privacy Policy</Link>
+              <Link href="/llms.txt">LLMs</Link>
+            </div>
             <span className="language" aria-label="Current language: English">
-              English
-              <Image src="/brand/language-chevron.svg" alt="" width={14} height={14} />
+              English <span>Español</span> <span>Português</span> <span>日本語</span>
             </span>
           </div>
         </div>
-        <Brand large />
+        <FooterWordmark />
       </footer>
-      <FooterElasticField />
-    </div>
+      <SectionBuffer />
+    </FooterReveal>
   );
 }

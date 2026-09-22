@@ -2,14 +2,14 @@
    The dark accent uses Accent/Darker, approved for card hover contrast. */
 @layer tokens {
   :root {
-    --color-background-light: #ffffff;
+    --color-background-light: #fafafa;
     --color-background-secondary-light: #f9fafb;
     --color-background-tertiary-light: #f3f4f6;
     --color-content-light: #09090b;
     --color-content-secondary-light: rgb(9 9 11 / 0.6);
     --color-content-tertiary-light: rgb(9 9 11 / 0.3);
-    --color-accent-light: #0d31ff;
-    --color-border-light: #edeff2;
+    --color-accent-light: #f865b0;
+    --color-border-light: #e8eaee;
     --color-background-dark: #09090b;
     --color-background-secondary-dark: rgb(255 255 255 / 0.04);
     --color-background-tertiary-dark: rgb(255 255 255 / 0.08);
@@ -17,7 +17,7 @@
     --color-content-secondary-dark: rgb(255 255 255 / 0.6);
     --color-content-tertiary-dark: rgb(255 255 255 / 0.3);
     --color-accent-dark: #231f91;
-    --color-accent-highlight-dark: #c3f73a;
+    --color-accent-highlight-dark: #f865b0;
     --color-border-dark: #202225;
   }
 
@@ -59,5 +59,33 @@
     --color-inverse: var(--color-content-dark);
     --color-inverse-muted: var(--color-content-secondary-dark);
     --color-panel-dark: var(--color-background-dark);
+  }
+}
+
+/* Fixed light palette for illustrative product workspaces inside either site theme. */
+@layer tokens {
+  :root {
+    --preview-ink: #09090b;
+    --preview-muted: #626874;
+    --preview-faint: #9098a5;
+    --preview-surface: #f9fafb;
+    --preview-subtle: #f3f4f6;
+    --preview-border: #edeff2;
+    --preview-white: #ffffff;
+    --preview-blue: #305dcc;
+    --preview-blue-soft: #e9efff;
+    --preview-green: #15824d;
+    --preview-green-soft: #e0f2e7;
+    --preview-purple: #6949b7;
+    --preview-purple-soft: #eee8fb;
+    --preview-orange: #b67148;
+    --preview-orange-soft: #fff2d8;
+    --preview-red: #d84943;
+    --preview-red-soft: #fceae8;
+    --preview-pink: #a35c8e;
+    --preview-pink-soft: #f7e9f1;
+    --preview-teal: #488d79;
+    --preview-teal-soft: #e9f0ee;
+    --preview-yellow: #ffd65b;
   }
 }

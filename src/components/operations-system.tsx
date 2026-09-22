@@ -6,12 +6,12 @@ import { Circle, FileSpreadsheet, Hash, Mail, MoreHorizontal, ShieldCheck } from
 import { OrderWorkspace } from "./order-workspace";
 import styles from "./operations-system.module.css";
 
-export function OperationsSystem() {
-  const [connected, setConnected] = useState(false);
+export function OperationsSystem({ embedded = false, initialConnected = false }: { embedded?: boolean; initialConnected?: boolean } = {}) {
+  const [connected, setConnected] = useState(initialConnected);
   const id = useId();
   return (
-    <section className={styles.section} aria-labelledby={`${id}-title`}>
-      <header className="v24-heading-row">
+    <section className={`${styles.section} ${embedded ? styles.embedded : ""}`} aria-labelledby={embedded ? undefined : `${id}-title`} aria-label={embedded ? (connected ? "Connected Superspace workspace" : "Disconnected operational tools") : undefined}>
+      {!embedded && <header className="v24-heading-row">
         <h2 id={`${id}-title`}>
           Your operation already has a system. <span>It just isn’t software yet.</span>
         </h2>
@@ -23,7 +23,7 @@ export function OperationsSystem() {
             <Image src="/brand/superspace-logo.svg" alt="Superspace" width={91} height={14} />
           </button>
         </div>
-      </header>
+      </header>}
       <div id={`${id}-demo`} className={`${styles.stage} ${connected ? styles.connected : ""}`}>
         <div className={styles.fragments} inert={connected} aria-hidden={connected}>
           <article className={`${styles.card} ${styles.email}`}>

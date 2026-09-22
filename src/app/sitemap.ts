@@ -1,7 +1,21 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/lib/seo";
 
-const routes = ["/", "/platform", "/solutions", "/company", "/contact", "/privacy", "/terms"] as const;
+const routes = [
+  "/",
+  "/platform",
+  "/offering",
+  "/deployment",
+  "/solutions",
+  "/company",
+  "/careers",
+  "/engineering-blog",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/faq",
+  "/changelog",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route) => ({

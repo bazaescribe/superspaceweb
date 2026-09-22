@@ -54,8 +54,8 @@ export function Brand({
 
 const navigation = [
   { href: "/platform", label: "Platform" },
-  { href: "/solutions", label: "Solutions" },
-  { href: "/company", label: "Company" },
+  { href: "/offering", label: "Offerings" },
+  { href: "/deployment", label: "Deployment" },
 ] as const;
 
 export function NavigationLink({
@@ -104,20 +104,20 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const dark = tone === "dark";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [heroPassed, setHeroPassed] = useState(false);
+  const [heroActionsPassed, setHeroActionsPassed] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && open) {
         setOpen(false);
         buttonRef.current?.focus();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [open]);
 
   useEffect(() => {
     const updateScrollState = () => setScrolled(window.scrollY > 0);
@@ -127,15 +127,15 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   }, []);
 
   useEffect(() => {
-    const hero = document.querySelector(".hero");
-    if (!hero) return;
+    const heroActions = document.querySelector(".hero-actions");
+    if (!heroActions) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setHeroPassed(!entry.isIntersecting && entry.boundingClientRect.bottom <= 62),
-      { rootMargin: "-62px 0px 0px 0px", threshold: 0 },
+      ([entry]) => setHeroActionsPassed(!entry.isIntersecting && entry.boundingClientRect.bottom <= 64),
+      { rootMargin: "-64px 0px 0px 0px", threshold: 0 },
     );
 
-    observer.observe(hero);
+    observer.observe(heroActions);
     return () => observer.disconnect();
   }, [pathname]);
 
@@ -156,7 +156,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           ))}
         </div>
         <AnimatePresence initial={false}>
-          {(heroPassed || pathname !== "/") && (
+          {(heroActionsPassed || pathname !== "/") && (
             <motion.div
               className="header__cta"
               initial={reduceMotion ? false : { opacity: 0, y: -8 }}
@@ -180,7 +180,12 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           <SiteIcon name={open ? "close" : "menu"} />
         </button>
       </nav>
-      <div id="mobile-navigation" className={`mobile-nav ${open ? "mobile-nav--open" : ""}`} aria-hidden={!open}>
+      <div
+        id="mobile-navigation"
+        className={`mobile-nav ${open ? "mobile-nav--open" : ""}`}
+        aria-hidden={!open}
+        inert={!open}
+      >
         <div className="shell mobile-nav__inner">
           {navigation.map((link) => (
             <NavigationLink key={link.href} {...link} tone={tone} onClick={() => setOpen(false)} />
