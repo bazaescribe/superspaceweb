@@ -2,8 +2,15 @@
   border-bottom: 1px solid var(--color-border);
   color: var(--color-content);
 }
-.embedded { width: 100%; height: 100%; border: 0; }
-.embedded .stage { height: 100%; border: 0; }
+.embedded {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.embedded .stage {
+  height: 100%;
+  border: 0;
+}
 .switcher {
   display: flex;
   gap: 4px;
@@ -111,6 +118,37 @@
     0 22px 46px -18px color-mix(in srgb, var(--color-accent-light) 22%, transparent);
   overflow: hidden;
   transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.stage[data-before-reveal] .fragments > :is(.card, .floatingMessage) {
+  opacity: 0;
+  translate: 0 18px;
+  filter: blur(4px);
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 0.86, 0.24, 1),
+    translate 0.58s cubic-bezier(0.22, 0.86, 0.24, 1),
+    filter 0.55s cubic-bezier(0.22, 0.86, 0.24, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--before-reveal-delay, 0s);
+}
+.stage[data-before-reveal="visible"] .fragments > :is(.card, .floatingMessage) {
+  opacity: 1;
+  translate: 0;
+  filter: none;
+}
+.stage[data-before-reveal] .sheet {
+  --before-reveal-delay: 0.16s;
+}
+.stage[data-before-reveal] .chat {
+  --before-reveal-delay: 0.32s;
+}
+.stage[data-before-reveal] .approval {
+  --before-reveal-delay: 0.48s;
+}
+.stage[data-before-reveal] .floatingMessageOne {
+  --before-reveal-delay: 0.64s;
+}
+.stage[data-before-reveal] .floatingMessageTwo {
+  --before-reveal-delay: 0.78s;
 }
 .cardBar {
   height: 47px;
@@ -1050,6 +1088,11 @@
   .section *:before {
     animation: none !important;
     transition: none !important;
+  }
+  .stage[data-before-reveal] .fragments > :is(.card, .floatingMessage) {
+    opacity: 1;
+    translate: none;
+    filter: none;
   }
 }
 

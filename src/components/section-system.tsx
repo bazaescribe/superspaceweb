@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { RevealTitle } from "./reveal-title";
 
 type Item = { title: string; description: string; visual: ReactNode };
 
@@ -18,9 +19,9 @@ export function SectionHeader({
 }) {
   return (
     <header className="system-section__header">
-      <h2>
+      <RevealTitle>
         {primary} <span>{accent}</span>
-      </h2>
+      </RevealTitle>
       {action && (
         <Link href={action.href} className="system-section__action">
           {action.label}
@@ -34,22 +35,25 @@ export function SectionBuffer() {
   return <div className="system-section__buffer" aria-hidden="true" />;
 }
 
-export function SystemSection({
-  primary,
-  accent,
-  action,
-  children,
-}: {
-  primary: string;
-  accent: string;
-  action?: { label: string; href: string };
+type SystemSectionProps = {
   children: ReactNode;
-}) {
+  className?: string;
+  buffer?: boolean;
+} & (
+  | { variant?: "standard"; primary: string; accent: string; action?: { label: string; href: string } }
+  | { variant: "custom"; header: ReactNode }
+);
+
+export function SystemSection(props: SystemSectionProps) {
   return (
-    <section className="system-section">
-      <SectionHeader primary={primary} accent={accent} action={action} />
-      {children}
-      <SectionBuffer />
+    <section className={`system-section ${props.className ?? ""}`}>
+      {props.variant === "custom" ? (
+        props.header
+      ) : (
+        <SectionHeader primary={props.primary} accent={props.accent} action={props.action} />
+      )}
+      {props.children}
+      {props.buffer !== false && <SectionBuffer />}
     </section>
   );
 }

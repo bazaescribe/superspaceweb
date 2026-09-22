@@ -26,10 +26,10 @@ export default function Home() {
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
           <div className="v2-hero__copy">
-            <h1>The Operating System for Complex Operations.</h1>
+            <h1>Your operations. Finally, working as one.</h1>
             <p>
-              Superspace is the platform for running your core operations. Shaped around your workflows, data, and
-              rules, without having to build and maintain a custom internal system.
+              One operating system for your workflows, people, data, and agents. Modeled around how your business
+              actually works.
             </p>
             <div className="hero-actions">
               <BookingLink placement="home_hero" label="See it in action" designIcon />

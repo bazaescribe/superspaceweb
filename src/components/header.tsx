@@ -33,8 +33,8 @@ export function Brand({
         src={`/brand/superspace-logo${variant}.svg`}
         alt=""
         aria-hidden="true"
-        width={1666.24}
-        height={256}
+        width={1376}
+        height={240}
         priority={!large}
       />
       {compactOnMobile && (
@@ -43,8 +43,8 @@ export function Brand({
           src={`/brand/superspace-symbol${variant}.svg`}
           alt=""
           aria-hidden="true"
-          width={344}
-          height={480}
+          width={14.375}
+          height={20}
           priority
         />
       )}
