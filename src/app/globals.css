@@ -2371,7 +2371,7 @@ html {
   .system-pain__copy {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     min-width: 0;
     padding: 32px;
     border-right: 1px solid var(--color-border);

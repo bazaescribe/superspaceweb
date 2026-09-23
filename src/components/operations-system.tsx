@@ -14,6 +14,7 @@ import {
 import { OrderWorkspace } from "./order-workspace";
 import styles from "./operations-system.module.css";
 
+
 export function OperationsSystem({
   embedded = false,
   initialConnected = false,
@@ -56,20 +57,18 @@ export function OperationsSystem({
           <article className={`${styles.card} ${styles.email}`}>
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
-                <Mail size={13} />
+                <Image src='/assets/figma/logos/Logo-gmail.png' width={20} height={20} alt="Gmail Logo"></Image>
               </span>
               <span>
-                Inbox <small>All mail</small>
+                Inbox <small>selena.gomez@acme.com</small>
               </span>
               <MoreHorizontal size={16} />
             </div>
             <div className={styles.cardBody}>
-              <div className={styles.meta}>
-                NORTHSTAR SUPPLY <span>·</span> ORDER #1048
-              </div>
-              <h3>A small change to the order</h3>
               <div className={styles.person}>
-                <b>EL</b>
+                <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
+                  <Image src='/assets/figma/photos/User-Emma.png' width={28} height={28} alt="Gmail Logo"></Image>
+                </div>
                 <span>
                   Emma Lewis <small>emma@northstar.co &nbsp;·&nbsp; to Operations</small>
                 </span>
@@ -92,11 +91,11 @@ export function OperationsSystem({
             </div>
           </article>
           <article className={`${styles.card} ${styles.sheet}`}>
-            <div className={styles.cardBar}>
-              <span className={styles.sheetMark}>
-                <FileSpreadsheet size={13} />
+            <div className={styles.cardBar} style={{ color: 'white'}}>
+              <span className={styles.mailMark}>
+                <Image src='/assets/figma/logos/Logo-Excel.png' width={20} height={20} alt="Gmail Logo"></Image>
               </span>
-              <span>
+              <span style={{color: 'white'}}>
                 Orders_final_v3.xlsx <small>Saved to Drive</small>
               </span>
               <span className={styles.sheetShare}>Share</span>
@@ -146,20 +145,22 @@ export function OperationsSystem({
           </article>
           <article className={`${styles.card} ${styles.chat}`}>
             <div className={styles.cardBar}>
-              <span className={styles.chatMark}>
-                <Hash size={14} />
+              <span className={styles.mailMark}>
+                <Image src='/assets/figma/logos/Logo-Slack.png' width={28} height={28} alt="Gmail Logo"></Image>
               </span>
-              <span>
+              <span style={{ color: 'white'}}>
                 dispatch <small>9 members</small>
               </span>
               <span className={styles.unread}>2 new</span>
             </div>
             <div className={styles.chatThread}>
               <div className={styles.chatMessage}>
-                <b className={styles.chatAvatar}>MR</b>
+                <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
+                  <Image src='/assets/figma/photos/User-Marcel.png' width={28} height={28} alt="Gmail Logo"></Image>
+                </div>
                 <div>
                   <span className={styles.messageMeta}>
-                    Marco Ruiz <time>9:32</time>
+                    Marcel Ruiz <time>9:32</time>
                   </span>
                   <p className={styles.messageBubble}>
                     Sheet says <strong>200</strong>. Are we shipping 240?
@@ -175,7 +176,9 @@ export function OperationsSystem({
                 </div>
               </div>
               <div className={styles.chatMessage}>
-                <b className={`${styles.chatAvatar} ${styles.chatAvatarBlue}`}>SB</b>
+                <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
+                  <Image src='/assets/figma/photos/User-Sofia.png' width={28} height={28} alt="Gmail Logo"></Image>
+                </div>
                 <div>
                   <span className={styles.messageMeta}>
                     Sofía Bianchi <time>9:36</time>
@@ -187,8 +190,8 @@ export function OperationsSystem({
           </article>
           <article className={`${styles.card} ${styles.approval}`}>
             <div className={styles.cardBar}>
-              <span className={styles.approvalMark}>
-                <ShieldCheck size={14} />
+              <span className={styles.mailMark}>
+                <Image src='/assets/figma/logos/Logo-Notion.png' width={28} height={28} alt="Gmail Logo"></Image>
               </span>
               <span>
                 Purchase approval <small>Procurement</small>
@@ -210,14 +213,18 @@ export function OperationsSystem({
             </div>
           </article>
           <div className={`${styles.floatingMessage} ${styles.floatingMessageOne}`}>
-            <b>EL</b>
+            <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
+              <Image src='/assets/figma/photos/User-Emma.png' width={28} height={28} alt="Gmail Logo"></Image>
+            </div>
             <span>
               <strong>Emma Lewis</strong>
               <small>Just confirming: 240, please.</small>
             </span>
           </div>
           <div className={`${styles.floatingMessage} ${styles.floatingMessageTwo}`}>
-            <b>AL</b>
+            <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
+              <Image src='/assets/figma/photos/User-Alex.png' width={28} height={28} alt="Gmail Logo"></Image>
+            </div>
             <span>
               <strong>Alex Lee</strong>
               <small>Is PO–2084 approved yet?</small>
