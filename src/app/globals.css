@@ -770,7 +770,7 @@ html {
     left: 50%;
     overflow: hidden;
     position: absolute;
-    top: var(--space-12);
+    top: 5rem;
     transform: translateX(-50%);
     max-width: var(--container-7xl);
     z-index: 1;
@@ -1311,7 +1311,7 @@ html {
 
 @layer components {
   .header {
-    background: linear-gradient(var(--color-background), color-mix(in srgb, var(--color-background) 80%, transparent));
+    background: linear-gradient(var(--color-background), color-mix(in srgb, var(--color-background) 64%, transparent));
     backdrop-filter: blur(32px);
     border-bottom: 1px solid transparent;
     height: var(--header-height);

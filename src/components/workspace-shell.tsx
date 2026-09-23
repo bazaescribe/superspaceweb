@@ -1,7 +1,10 @@
 "use client";
 
 import type { ReactNode, RefObject } from "react";
-import { Activity, Bell, ChevronDown, CircleHelp, Home, Inbox, MoreHorizontal, Search, Settings2, Sparkles, Users, Workflow } from "lucide-react";
+import { 
+  Activity, 
+  Bell, 
+  ChevronDown, CircleHelp, Home, Inbox, MoreHorizontal, Search, Settings2, Sparkles, Users, Workflow } from "lucide-react";
 import styles from "./hero-mockup.module.css";
 
 type NavEntry = { label: string; icon?: ReactNode; dot?: string; count?: string };
@@ -22,7 +25,7 @@ export const defaultWorkspaceEntries: { heading?: string; item?: NavEntry }[] = 
   { item: { label: "Invoices", dot: "#26bb62" } },
 ];
 
-export function WorkspaceSidebar({ active, onNavigate, query = "", onQueryChange, searchInput, organization = "ACME Corp.", organizationSubtitle = "Enterprise", entries = defaultWorkspaceEntries, onMessage }: {
+export function WorkspaceSidebar({ active, onNavigate, query = "", onQueryChange, searchInput, organization = "Aliada", organizationSubtitle = "Work", entries = defaultWorkspaceEntries, onMessage }: {
   active: string;
   onNavigate: (label: string) => void;
   query?: string;
@@ -34,9 +37,31 @@ export function WorkspaceSidebar({ active, onNavigate, query = "", onQueryChange
   onMessage?: (message: string) => void;
 }) {
   return <aside className={styles.sidebar} aria-label="Workspace navigation">
-    <button className={styles.organization} onClick={() => onMessage?.(`${organization} · ${organizationSubtitle}`)}><span className={styles.brandMark}><Sparkles size={19} fill="white" /></span><span><strong>{organization}</strong><small>{organizationSubtitle}</small></span><ChevronDown size={15} className={styles.orgChevron} /></button>
-    <label className={styles.searchBox}><Search size={15} /><input ref={searchInput} value={query} onChange={event => onQueryChange?.(event.target.value)} placeholder="Search or ask" aria-label="Search workspace" /><kbd>⌘K</kbd></label>
-    <nav>{entries.map((entry, index) => entry.heading ? <span key={entry.heading} className={styles.navHeading}>{entry.heading}</span> : entry.item ? <button key={`${entry.item.label}-${index}`} className={`${styles.navItem} ${active === entry.item.label ? styles.navActive : ""}`} onClick={() => onNavigate(entry.item!.label)} aria-current={active === entry.item.label ? "page" : undefined}>{entry.item.dot ? <i className={styles.navDot} style={{ background: entry.item.dot }} /> : <span className={styles.navIcon}>{entry.item.icon}</span>}<span>{entry.item.label}</span>{entry.item.count && <b>{entry.item.count}</b>}</button> : null)}</nav>
+    <div className="p-2 px-3" style={{ height:'48px'}}>
+      <button className={styles.organization} onClick={() => onMessage?.(`${organization} · ${organizationSubtitle}`)}>
+        <div className="flex gap-2">
+          <div className={styles.brandMark}><Sparkles size={19} fill="white" /></div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm">{organization}</p>
+            <div className="bg-[#FF55AC] py-[2px] px-2 rounded-xl text-[10px] text-white">{organizationSubtitle}</div>
+          </div>
+        </div>
+        <div className="bg-black/5 rounded-md flex justify-center items-center" style={{ width: '20px', height: '20px'}}>
+          <ChevronDown size={15} className="text-black/40"/>
+        </div>
+      </button>
+    </div>
+    
+    <div className="p-2 px-3">
+      <label className={styles.searchBox}>
+        <Search size={15} />
+        <input ref={searchInput} value={query} onChange={event => onQueryChange?.(event.target.value)} placeholder="Search or ask" aria-label="Search workspace" /><kbd>⌘K</kbd>
+      </label>
+    </div>
+    
+    <div className="p-2 px-3">
+      <nav>{entries.map((entry, index) => entry.heading ? <span key={entry.heading} className={styles.navHeading}>{entry.heading}</span> : entry.item ? <button key={`${entry.item.label}-${index}`} className={`${styles.navItem} ${active === entry.item.label ? styles.navActive : ""}`} onClick={() => onNavigate(entry.item!.label)} aria-current={active === entry.item.label ? "page" : undefined}>{entry.item.dot ? <i className={styles.navDot} style={{ background: entry.item.dot }} /> : <span className={styles.navIcon}>{entry.item.icon}</span>}<span>{entry.item.label}</span>{entry.item.count && <b>{entry.item.count}</b>}</button> : null)}</nav>
+    </div>
     <div className={styles.sidebarBottom}><button className={styles.navItem} onClick={() => onMessage?.("Help center is part of this preview")}><span className={styles.navIcon}><CircleHelp /></span><span>Help</span></button><button className={styles.profile} onClick={() => onMessage?.("Signed in as Jane Doe")}><span className={styles.jane}>JD</span><span><strong>Jane Doe</strong><small>jane@mail.com</small></span><ChevronDown size={15} /></button></div>
   </aside>;
 }
