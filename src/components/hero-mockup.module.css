@@ -80,6 +80,7 @@
   height: 34px;
   border: 1px solid rgba(0, 0, 0, .08);
   background: var(--color-content-dark);
+  box-shadow: 0px 3px 5px -3px rgba(0, 0, 0, .12);
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -127,7 +128,7 @@
 }
 .navItem:hover,
 .navActive {
-  background: rgba(0, 0, 0, .06) !important;
+  background: rgba(0, 0, 0, .04) !important;
   color: var(--color-content-light) !important;
 }
 .navIcon {

@@ -5,16 +5,16 @@ import Image from "next/image";
 import {
   ArrowUpRight,
   Check,
-  Clock3,
+  Clock as Clock3,
+  DotsThree as MoreHorizontal,
   Heart,
-  Home,
-  MoreHorizontal,
+  House as Home,
   Plus,
-  Sparkles,
-  UserRound,
+  Sparkle as Sparkles,
+  UserCircle as UserRound,
   Users,
   X,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import styles from "./hero-mockup.module.css";
 import { WorkspaceSidebar, WorkspaceTopbar } from "./workspace-shell";
 
@@ -102,7 +102,7 @@ export function HeroMockup() {
   );
   return (
     <div className="hero-product">
-      <div className='hero-point-field' aria-hidden="true" />
+      <div className="hero-point-field" aria-hidden="true" />
       <div className="hero-product__screen" ref={frame}>
         <div
           className={styles.canvas}

@@ -3,7 +3,14 @@
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { useInView } from "motion/react";
-import { Circle, FileSpreadsheet, Hash, Mail, MoreHorizontal, ShieldCheck } from "lucide-react";
+import {
+  Circle,
+  DotsThree as MoreHorizontal,
+  Envelope as Mail,
+  Hash,
+  MicrosoftExcelLogo as FileSpreadsheet,
+  ShieldCheck,
+} from "@phosphor-icons/react";
 import { OrderWorkspace } from "./order-workspace";
 import styles from "./operations-system.module.css";
 

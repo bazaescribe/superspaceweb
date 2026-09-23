@@ -3,20 +3,20 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
-  Box,
   Check,
-  CheckCheck,
-  Clock3,
+  Checks as CheckCheck,
+  Clock as Clock3,
+  Cube as Box,
   FileText,
-  Home,
-  Layers,
+  House as Home,
   MapPin,
   Package,
   ShieldCheck,
+  Stack as Layers,
   Users,
-  Workflow,
+  FlowArrow as Workflow,
   Wrench,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { WorkspaceSidebar, WorkspaceTopbar } from "./workspace-shell";
 import styles from "./solution-workspace.module.css";
 
