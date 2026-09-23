@@ -16,10 +16,10 @@ import {
   Users,
   CaretUpDownIcon,
   SidebarSimpleIcon,
-  HouseLineIcon
+  HouseLineIcon,
 } from "@phosphor-icons/react";
 import styles from "./hero-mockup.module.css";
-import Image from "next/image";
+import Image, { type ImageProps } from "next/image";
 
 type NavEntry = { label: string; icon?: ReactNode; dot?: string; count?: string };
 export const defaultWorkspaceEntries: { heading?: string; item?: NavEntry }[] = [
@@ -47,6 +47,7 @@ export function WorkspaceSidebar({
   searchInput,
   organization = "Aliada",
   organizationSubtitle = "Work",
+  businessLogo,
   entries = defaultWorkspaceEntries,
   onMessage,
 }: {
@@ -57,6 +58,7 @@ export function WorkspaceSidebar({
   searchInput?: RefObject<HTMLInputElement | null>;
   organization?: string;
   organizationSubtitle?: string;
+  businessLogo?: ImageProps["src"];
   entries?: { heading?: string; item?: NavEntry }[];
   onMessage?: (message: string) => void;
 }) {
@@ -69,7 +71,11 @@ export function WorkspaceSidebar({
         >
           <div className="flex gap-2">
             <div className={styles.brandMark}>
-              <Sparkles size={19} fill="white" />
+              {businessLogo ? (
+                <Image src={businessLogo} alt={`${organization} logo`} fill sizes="28px" className={styles.brandLogo} />
+              ) : (
+                <Sparkles size={19} fill="white" />
+              )}
             </div>
             <div className="flex items-center gap-2">
               <p className="text-sm">{organization}</p>
@@ -85,7 +91,7 @@ export function WorkspaceSidebar({
       <div className="p-2 px-3">
         <label className={styles.searchBox}>
           <div className="flex items-center gap-2">
-            <Image src={'/brand/superspace-symbol.svg'} width={12} height={16} alt="Superspace Symbol"></Image>
+            <Image src={"/brand/superspace-symbol.svg"} width={12} height={16} alt="Superspace Symbol"></Image>
             <span className="text-xs text-black/30">Search or ask</span>
           </div>
           <kbd>⌘K</kbd>

@@ -62,7 +62,11 @@ export function HeroMockup() {
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     if (!frame.current) return;
-    const observer = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / 1280));
+    const observer = new ResizeObserver(([entry]) => {
+      const mobile = window.matchMedia("(max-width: 650px)").matches;
+      const mobileScale = Math.max(720 / 1280, (entry.contentRect.width - 24) / 1064);
+      setScale(mobile ? mobileScale : entry.contentRect.width / 1280);
+    });
     observer.observe(frame.current);
     return () => observer.disconnect();
   }, []);
@@ -119,6 +123,7 @@ export function HeroMockup() {
             }}
             searchInput={searchInput}
             onMessage={announce}
+            businessLogo="/assets/figma/logos/Logo-Aliada.png"
           />
           <div className={styles.workspace}>
             <WorkspaceTopbar

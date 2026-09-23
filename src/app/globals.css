@@ -1123,12 +1123,21 @@ html {
       text-wrap: pretty;
     }
     .hero-product {
-      height: 360px;
+      height: 486px;
     }
     .hero-product__screen {
-      left: 50%;
-      top: 48px;
-      width: calc(100% - 32px);
+      aspect-ratio: auto;
+      bottom: 0;
+      height: 390px;
+      left: 16px;
+      right: 0;
+      top: auto;
+      width: auto;
+      border-right: 0;
+      border-bottom: 0;
+      border-radius: 8px 0 0;
+      transform: none;
+      animation: none;
     }
     .platform-showcase__content {
       display: block;
@@ -1756,7 +1765,7 @@ html {
   }
   .v2-footer {
     margin-top: 0;
-    padding: var(--space-20) 0;
+    padding-block: var(--space-20);
   }
   .site-footer {
     border-top: 1px solid var(--color-border);

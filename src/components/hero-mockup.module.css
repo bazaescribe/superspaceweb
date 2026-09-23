@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 9px;
-  padding: 1px;
+  padding: 2px;
   padding-right: 6px;
   text-align: left;
   border-radius: 6px;
@@ -52,13 +52,20 @@
   background: rgba(0, 0, 0, .04);
 }
 .brandMark {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
+  position: relative;
+  overflow: hidden;
   border-radius: 5px;
   display: grid;
   place-items: center;
   color: var(--color-content-dark);
   background: cadetblue;
+}
+.brandLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .organization strong,
 .profile strong {
@@ -84,28 +91,17 @@
   border-radius: 6px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 0 9px;
   color: var(--color-content-secondary-light);
 }
-.searchBox input {
-  min-width: 0;
-  flex: 1;
-  border: 0;
-  outline: none;
-  color: var(--preview-ink);
-  font-size: 11px;
-  background: transparent;
-}
-.searchBox input::placeholder {
-  color: var(--color-content-secondary-light);
-}
 .searchBox kbd {
-  font-size: 9px;
+  font-size: 8px;
   color: var(--color-content-secondary-light);
   background: var(--color-background-secondary-light);
   border-radius: 3px;
-  padding: 2px 3px;
+  padding: 4px 6px;
 }
 .sidebar nav {
   display: flex;
@@ -205,7 +201,7 @@
   height: 48px;
   flex: none;
   border-bottom: 0.5px solid white;
-  box-shadow: 0 1 0 rgba(0, 0, 0, .08);
+  box-shadow: 0 1 0 rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -705,4 +701,13 @@
   margin-left: 10px;
   display: grid;
   place-items: center;
+}
+
+@media (max-width: 650px) {
+  .canvas {
+    margin-left: 24px;
+  }
+  .sidebar {
+    display: none;
+  }
 }
