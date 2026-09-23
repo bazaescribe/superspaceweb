@@ -22,14 +22,14 @@ export default function Home() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <Header />
+      <Header/>
       <main id="main-content">
         <section className="hero shell v2-hero" id="top">
-          <div className="v2-hero__copy">
-            <h1>Your operations. Finally, working as one.</h1>
-            <p>
+          <div className="">
+            <h1 className="text-5xl font-black max-w-2xl">Your operations. Finally, working as one.</h1>
+            <p className="max-w-2xl mt-2">
               One operating system for your workflows, people, data, and agents. Modeled around how your business
-              actually works.
+              actually works. Without having to develop software yourself.
             </p>
             <div className="hero-actions">
               <BookingLink placement="home_hero" label="See it in action" designIcon />
@@ -38,9 +38,8 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <HeroMockup />
         </section>
-
+        <HeroMockup />
         <HomeSections />
         <div className="v24-spine v24-cta-spine">
           <StartCtaSection />

@@ -102,7 +102,7 @@ export function HeroMockup() {
   );
   return (
     <div className="hero-product">
-      <div className="hero-point-field" aria-hidden="true" />
+      <div className='hero-point-field' aria-hidden="true" />
       <div className="hero-product__screen" ref={frame}>
         <div
           className={styles.canvas}
