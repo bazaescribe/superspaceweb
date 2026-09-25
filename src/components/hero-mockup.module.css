@@ -181,6 +181,8 @@
   color: var(--color-content-secondary-light);
 }
 .jane {
+  position: relative;
+  overflow: hidden;
   height: 29px;
   width: 29px;
   border-radius: 50%;
@@ -190,6 +192,9 @@
   color: var(--color-content-dark);
   font-size: 10px;
   font-weight: 600;
+}
+.profileAvatar {
+  object-fit: cover;
 }
 .workspace {
   width: 1064px;

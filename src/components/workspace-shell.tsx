@@ -6,8 +6,6 @@ import {
   CaretDown as ChevronDown,
   DotsThree as MoreHorizontal,
   FlowArrow as Workflow,
-  House as Home,
-  MagnifyingGlass as Search,
   Pulse as Activity,
   Question as CircleHelp,
   SlidersHorizontal as Settings2,
@@ -42,14 +40,14 @@ export const defaultWorkspaceEntries: { heading?: string; item?: NavEntry }[] = 
 export function WorkspaceSidebar({
   active,
   onNavigate,
-  query = "",
-  onQueryChange,
-  searchInput,
   organization = "Aliada",
   organizationSubtitle = "Work",
   businessLogo,
   entries = defaultWorkspaceEntries,
   onMessage,
+  userName = "Jane Doe",
+  userEmail = "jane@mail.com",
+  userAvatar,
 }: {
   active: string;
   onNavigate: (label: string) => void;
@@ -61,6 +59,9 @@ export function WorkspaceSidebar({
   businessLogo?: ImageProps["src"];
   entries?: { heading?: string; item?: NavEntry }[];
   onMessage?: (message: string) => void;
+  userName?: string;
+  userEmail?: string;
+  userAvatar?: ImageProps["src"];
 }) {
   return (
     <aside className={styles.sidebar} aria-label="Workspace navigation">
@@ -131,11 +132,21 @@ export function WorkspaceSidebar({
           </span>
           <span>Help</span>
         </button>
-        <button className={styles.profile} onClick={() => onMessage?.("Signed in as Jane Doe")}>
-          <span className={styles.jane}>JD</span>
+        <button className={styles.profile} onClick={() => onMessage?.(`Signed in as ${userName}`)}>
+          <span className={styles.jane}>
+            {userAvatar ? (
+              <Image src={userAvatar} alt="" fill sizes="29px" className={styles.profileAvatar} />
+            ) : (
+              userName
+                .split(" ")
+                .map((part) => part[0])
+                .join("")
+                .slice(0, 2)
+            )}
+          </span>
           <span>
-            <strong>Jane Doe</strong>
-            <small>jane@mail.com</small>
+            <strong>{userName}</strong>
+            <small>{userEmail}</small>
           </span>
           <ChevronDown size={15} />
         </button>
@@ -146,7 +157,6 @@ export function WorkspaceSidebar({
 
 export function WorkspaceTopbar({
   title,
-  icon,
   menuOpen,
   onMenuToggle,
   onMessage,

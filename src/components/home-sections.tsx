@@ -3,10 +3,9 @@
 import Image from "next/image";
 import { HeaderThemeRegion } from "./header-theme";
 import { CardCarousel, HorizontalSelection, SystemSection } from "./section-system";
-import { BookingLink } from "./booking-link";
 import { OperationsSystem } from "./operations-system";
-import { RevealTitle } from "./reveal-title";
 import { ArchitectureSection } from "./architecture-section";
+import { UseCasesSection } from "./use-cases-section";
 
 const image = (src: string, alt: string) => <Image src={src} alt={alt} fill sizes="(max-width: 720px) 100vw, 850px" />;
 const cards = [
@@ -81,35 +80,6 @@ function PainContent() {
   );
 }
 
-function SolutionHeader() {
-  return (
-    <header className="system-solution__header">
-      <RevealTitle>
-        The <span>Operating System</span> for Complex Operations.
-      </RevealTitle>
-      <p>
-        Superspace consolidates all your information, knowledge and processes into a simple, secure and scalable
-        platform your team can use everywhere.
-      </p>
-      <BookingLink placement="home_solution" label="See it in action" designIcon />
-    </header>
-  );
-}
-
-function SolutionContent() {
-  return (
-    <div className="system-solution__visual">
-      <Image
-        src="/assets/figma/home-solution-ipad.png"
-        alt="Superspace workspace displayed on a tablet"
-        width={1175}
-        height={586}
-        sizes="(max-width: 720px) 720px, (max-width: 1280px) 100vw, 1175px"
-      />
-    </div>
-  );
-}
-
 export function HomeSections() {
   return (
     <div id="system">
@@ -121,9 +91,7 @@ export function HomeSections() {
         >
           <PainContent />
         </SystemSection>
-        <SystemSection variant="custom" className="system-section--solution" header={<SolutionHeader />} buffer={false}>
-          <SolutionContent />
-        </SystemSection>
+        <UseCasesSection />
         <SystemSection
           primary="One platform, everything operational."
           accent="From one flow to your whole company."
