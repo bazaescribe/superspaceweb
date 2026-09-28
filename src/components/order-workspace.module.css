@@ -10,9 +10,6 @@
   line-height: 1.35;
   position: relative;
 }
-.app aside {
-  width: 190px;
-}
 .app * {
   box-sizing: border-box;
 }
@@ -439,15 +436,7 @@
   box-shadow: 0 10px 25px color-mix(in srgb, var(--preview-ink) 13%, transparent);
   font-size: 10px;
 }
-@media (max-width: 650px) {
-  .app aside {
-    display: none;
-  }
-}
 @media (max-width: 1000px) {
-  .app aside {
-    width: 170px;
-  }
   .list {
     width: 210px;
   }

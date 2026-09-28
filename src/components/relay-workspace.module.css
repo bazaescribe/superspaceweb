@@ -1,38 +1,11 @@
 .app {
-  display: flex;
-  width: 100%;
-  min-width: 1040px;
-  height: 100%;
-  overflow: hidden;
-  background: var(--preview-white);
-  color: var(--preview-ink);
-  font:
-    400 10px/1.2 "Inter Variable",
-    Arial,
-    sans-serif;
-}
-.app * {
-  box-sizing: border-box;
-}
-.app button {
-  border: 0;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-.app aside {
-  display: flex;
-  width: 240px;
+  composes: app from "./use-case-workspace.module.css";
 }
 .workspace {
   display: flex;
   flex: 1;
   min-width: 0;
   flex-direction: column;
-}
-.workspace > header {
-  height: 48px;
-  font-size: 12px;
 }
 .deliveryView {
   display: grid;
@@ -372,9 +345,6 @@
 @media (max-width: 720px) {
   .cardAnchor {
     top: 24px;
-  }
-  .app {
-    width: 1040px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

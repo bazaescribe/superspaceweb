@@ -1,0 +1,332 @@
+.app {
+  composes: app from "./use-case-workspace.module.css";
+  position: relative;
+}
+.app input {
+  font: inherit;
+}
+.main {
+  font:
+    400 11px/1.35 "Inter Variable",
+    sans-serif;
+  min-height: 0;
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.summary {
+  flex: none;
+  border-bottom: 1px solid #e8eaee;
+  background: #fafafa;
+  padding: 22px 20px 13px;
+}
+.metrics {
+  height: 78px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(130px, 1fr)) minmax(180px, 1fr);
+  gap: 16px;
+}
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+.metric > span {
+  color: rgba(9, 9, 11, 0.6);
+  font-size: 11px;
+}
+.metric strong {
+  font-size: 27px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+  margin: 2px 0 3px;
+}
+.metric small {
+  color: #00ad77;
+  font-size: 9px;
+}
+.metric small i {
+  font-style: normal;
+  color: rgba(9, 9, 11, 0.3);
+  margin-left: 12px;
+}
+.metric small.negative {
+  color: #ff3040;
+}
+.shopify {
+  align-self: start;
+  height: 34px;
+  border: 0;
+  border-radius: 7px;
+  background: #f5f5f5;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-style: italic;
+  cursor: pointer;
+}
+.shopify b {
+  font-size: 13px;
+}
+.shopify span {
+  margin-left: auto;
+  color: #00ad77;
+  background: #e5faf4;
+  border-radius: 99px;
+  padding: 3px 7px;
+  font-size: 8px;
+  font-style: normal;
+}
+.toolbar {
+  height: 34px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.leftTools,
+.actions,
+.viewToggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.toolbar label {
+  width: 231px;
+  height: 33px;
+  border: 1px solid #e8eaee;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 9px;
+  background: #fafafa;
+}
+.toolbar input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  min-width: 0;
+  width: 100%;
+  font-size: 10px;
+}
+.toolbar button {
+  height: 32px;
+  border: 1px solid #e8eaee;
+  border-radius: 6px;
+  background: #f5f5f5;
+  padding: 0 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.viewToggle {
+  padding: 3px;
+  border: 1px solid #e8eaee;
+  border-radius: 6px;
+  gap: 2px;
+}
+.viewToggle button {
+  width: 24px;
+  height: 25px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+}
+.viewToggle .selected {
+  background: white;
+  box-shadow: 0 1px 4px #0002;
+}
+.actions button {
+  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 0 14px;
+  border: 0;
+}
+.actions button:last-child {
+  background: #09090b;
+  color: white;
+}
+.catalog {
+  min-height: 0;
+  grid-auto-rows: max-content;
+  flex: 1;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(140px, 1fr));
+  gap: 18px;
+  padding: 20px;
+  background: #fafafa;
+  align-content: start;
+}
+.app .card {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  min-width: 0;
+  border: 1px solid #e2e3e5;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #f5f5f5;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 24px -17px #0008;
+}
+.photo {
+  flex: none;
+  width: 100%;
+  display: block;
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background: #eee;
+}
+.photo img {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+}
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: none;
+  padding: 7.27cqw;
+  gap: 5.45cqw;
+}
+.cardBody > strong {
+  font-size: 6.36cqw;
+  line-height: normal;
+  font-weight: 400;
+}
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  color: rgba(9, 9, 11, 0.6);
+  font-size: 5.45cqw;
+}
+.meta span {
+  white-space: nowrap;
+}
+.tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.tags em {
+  font-style: normal;
+  font-size: 4.54cqw;
+  background: rgba(9, 9, 11, 0.08);
+  border-radius: 99px;
+  padding: 1.82cqw 3.64cqw;
+  white-space: nowrap;
+}
+.tags em.urgent {
+  color: #ff3040;
+  background: #ffe8eb;
+}
+.tags em.warning {
+  color: #f08800;
+  background: rgba(240, 136, 0, 0.08);
+}
+.tags em.healthy {
+  color: #00bc7d;
+  background: rgba(0, 188, 125, 0.08);
+}
+.tags em.cool {
+  color: #00a7df;
+  background: #e2f6fd;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+}
+.app .list .card {
+  container-type: normal;
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 76px;
+  flex-direction: row;
+  align-items: center;
+}
+.list .photo {
+  flex: none;
+  width: 100%;
+  width: 76px;
+  height: 76px;
+  aspect-ratio: 1;
+}
+.list .cardBody {
+  padding: 12px 16px;
+  gap: 16px;
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(160px, 1.4fr) minmax(180px, 1fr) minmax(190px, 1fr);
+  align-items: center;
+  flex: 1;
+}
+.empty {
+  grid-column: 1/-1;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  color: #999;
+}
+.toast {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  background: #111;
+  color: white;
+  border-radius: 7px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 12px 30px #0003;
+}
+.app button:focus-visible,
+.app input:focus-visible {
+  outline: 2px solid #ff55ac;
+  outline-offset: 2px;
+}
+@media (max-width: 1180px) {
+  .catalog {
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+  }
+  .metrics {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .shopify {
+    display: none;
+  }
+}
+
+.list .cardBody > strong {
+  font-size: 14px;
+}
+.list .meta {
+  font-size: 12px;
+}
+.list .tags em {
+  font-size: 10px;
+  padding: 4px 8px;
+}

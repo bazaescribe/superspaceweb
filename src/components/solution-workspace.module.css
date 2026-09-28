@@ -40,6 +40,8 @@
   box-shadow: var(--shadow-mockup);
 }
 .canvas {
+  position: relative;
+  isolation: isolate;
   width: 1120px;
   height: 720px;
   display: flex;

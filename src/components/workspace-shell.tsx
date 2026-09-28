@@ -1,41 +1,22 @@
 "use client";
 
-import type { ReactNode, RefObject } from "react";
-import {
-  Bell,
-  CaretDown as ChevronDown,
-  DotsThree as MoreHorizontal,
-  FlowArrow as Workflow,
-  Pulse as Activity,
-  Question as CircleHelp,
-  SlidersHorizontal as Settings2,
-  Sparkle as Sparkles,
-  Tray as Inbox,
-  Users,
-  CaretUpDownIcon,
-  SidebarSimpleIcon,
-  HouseLineIcon,
-} from "@phosphor-icons/react";
-import styles from "./hero-mockup.module.css";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { Bell, SlidersHorizontal as Settings2 } from "@phosphor-icons/react";
 import Image, { type ImageProps } from "next/image";
+import styles from "./workspace-shell.module.css";
 
 type NavEntry = { label: string; icon?: ReactNode; dot?: string; count?: string };
 export const defaultWorkspaceEntries: { heading?: string; item?: NavEntry }[] = [
-  { item: { label: "Home", icon: <HouseLineIcon /> } },
-  { item: { label: "Inbox", icon: <Inbox />, count: "8" } },
-  { heading: "Admin" },
-  { item: { label: "Team", icon: <Users /> } },
-  { item: { label: "Automations", icon: <Workflow /> } },
-  { item: { label: "Activity", icon: <Activity /> } },
-  { heading: "Favorites" },
-  { item: { label: "Requests", dot: "#00b9ad", count: "12" } },
-  { item: { label: "Onboard new keeper", dot: "#a742da" } },
-  { heading: "Work" },
-  { item: { label: "Clients", dot: "#ff4141" } },
-  { item: { label: "Services", dot: "#ff9800" } },
-  { item: { label: "Keepers", dot: "#f5c500" } },
-  { item: { label: "Invoices", dot: "#26bb62" } },
+  { item: { label: "Home" } },
+  { item: { label: "Inbox" } },
+  { item: { label: "Team" } },
+  { item: { label: "Database" } },
+  { item: { label: "Apps" } },
 ];
+
+function ShellIcon({ name, size = 14 }: { name: string; size?: number }) {
+  return <Image src={`/assets/figma/shell/${name}.svg`} alt="" width={size} height={size} unoptimized />;
+}
 
 export function WorkspaceSidebar({
   active,
@@ -47,7 +28,7 @@ export function WorkspaceSidebar({
   onMessage,
   userName = "Jane Doe",
   userEmail = "jane@mail.com",
-  userAvatar,
+  userAvatar = "/assets/figma/shell/avatar.png",
 }: {
   active: string;
   onNavigate: (label: string) => void;
@@ -63,105 +44,197 @@ export function WorkspaceSidebar({
   userEmail?: string;
   userAvatar?: ImageProps["src"];
 }) {
+  const sidebar = useRef<HTMLElement>(null);
+  const dialog = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const current = ["Home", "Inbox", "Database", "Apps"].includes(active) ? active : "Apps";
+  function openPalette() {
+    setSearch("");
+    setPaletteOpen(true);
+  }
+  function closePalette() {
+    setPaletteOpen(false);
+  }
+  useEffect(() => {
+    if (!paletteOpen) return;
+    dialog.current?.querySelector("input")?.focus({ preventScroll: true });
+    const siblings = Array.from(sidebar.current?.parentElement?.children ?? []).filter(
+      (element): element is HTMLElement => element instanceof HTMLElement && element !== sidebar.current,
+    );
+    const previous = siblings.map((element) => element.inert);
+    siblings.forEach((element) => {
+      element.inert = true;
+    });
+    const paletteTrigger = trigger.current;
+    return () => {
+      siblings.forEach((element, index) => {
+        element.inert = previous[index];
+      });
+      paletteTrigger?.focus({ preventScroll: true });
+    };
+  }, [paletteOpen]);
+  useEffect(() => {
+    const root = sidebar.current?.parentElement;
+    function onKey(event: KeyboardEvent) {
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        event.key.toLowerCase() === "k" &&
+        root?.contains(document.activeElement)
+      ) {
+        event.preventDefault();
+        openPalette();
+      }
+    }
+    root?.addEventListener("keydown", onKey);
+    return () => root?.removeEventListener("keydown", onKey);
+  }, []);
+  const actions = [
+    ...new Set([
+      "Home",
+      "Inbox",
+      "Database",
+      "Apps",
+      ...entries.flatMap((entry) => (entry.item ? [entry.item.label] : [])),
+    ]),
+  ];
   return (
-    <aside className={styles.sidebar} aria-label="Workspace navigation">
-      <div className="p-2 px-3" style={{ height: "48px" }}>
+    <aside ref={sidebar} className={styles.sidebar} aria-label="Workspace navigation">
+      <div className={styles.sidebarTop} inert={paletteOpen}>
         <button
-          className={styles.organization}
+          className={`${styles.railButton} ${styles.organization}`}
+          aria-label={`Business options: ${organization}`}
+          title={organization}
           onClick={() => onMessage?.(`${organization} · ${organizationSubtitle}`)}
         >
-          <div className="flex gap-2">
-            <div className={styles.brandMark}>
-              {businessLogo ? (
-                <Image src={businessLogo} alt={`${organization} logo`} fill sizes="28px" className={styles.brandLogo} />
-              ) : (
-                <Sparkles size={19} fill="white" />
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="text-sm">{organization}</p>
-              <div className="bg-[#FF55AC] py-[2px] px-2 rounded-xl text-[10px] text-white">{organizationSubtitle}</div>
-            </div>
-          </div>
-          <div className="rounded-md flex justify-center items-center" style={{ width: "20px", height: "20px" }}>
-            <CaretUpDownIcon size={14} className="text-black/50" />
-          </div>
+          {businessLogo && <Image src={businessLogo} alt="" width={28} height={28} className={styles.brandLogo} />}
         </button>
-      </div>
-
-      <div className="p-2 px-3">
-        <label className={styles.searchBox}>
-          <div className="flex items-center gap-2">
-            <Image src={"/brand/superspace-symbol.svg"} width={12} height={16} alt="Superspace Symbol"></Image>
-            <span className="text-xs text-black/30">Search or ask</span>
-          </div>
-          <kbd>⌘K</kbd>
-        </label>
-      </div>
-
-      <div className="p-2 px-3">
-        <nav>
-          {entries.map((entry, index) =>
-            entry.heading ? (
-              <span key={entry.heading} className={styles.navHeading}>
-                {entry.heading}
-              </span>
-            ) : entry.item ? (
+        <button
+          className={`${styles.railButton} ${styles.paletteTrigger}`}
+          ref={trigger}
+          aria-expanded={paletteOpen}
+          aria-label="Open action palette"
+          aria-haspopup="dialog"
+          aria-keyshortcuts="Meta+K Control+K"
+          title="Search or ask (⌘K)"
+          onClick={openPalette}
+        >
+          <ShellIcon name="palette" size={60} />
+        </button>
+        {[
+          ["Home", "Inbox"],
+          ["Database", "Apps"],
+        ].map((group, index) => (
+          <nav className={styles.navGroup} aria-label={index === 0 ? "Basic options" : "Work options"} key={index}>
+            {group.map((label) => (
               <button
-                key={`${entry.item.label}-${index}`}
-                className={`${styles.navItem} ${active === entry.item.label ? styles.navActive : ""}`}
-                onClick={() => onNavigate(entry.item!.label)}
-                aria-current={active === entry.item.label ? "page" : undefined}
+                key={label}
+                className={`${styles.railButton} ${current === label ? styles.navActive : ""}`}
+                aria-label={label}
+                title={label}
+                aria-current={current === label ? "page" : undefined}
+                onClick={() => onNavigate(label)}
               >
-                {entry.item.dot ? (
-                  <i className={styles.navDot} style={{ background: entry.item.dot }} />
-                ) : (
-                  <span className={styles.navIcon}>{entry.item.icon}</span>
-                )}
-                <span>{entry.item.label}</span>
-                {entry.item.count && <b>{entry.item.count}</b>}
+                <ShellIcon name={label.toLowerCase()} />
               </button>
-            ) : null,
-          )}
-        </nav>
+            ))}
+          </nav>
+        ))}
       </div>
-      <div className={styles.sidebarBottom}>
-        <button className={styles.navItem} onClick={() => onMessage?.("Help center is part of this preview")}>
-          <span className={styles.navIcon}>
-            <CircleHelp />
-          </span>
-          <span>Help</span>
+      <div className={styles.sidebarBottom} inert={paletteOpen}>
+        <button
+          className={styles.railButton}
+          aria-label="Help"
+          title="Help"
+          onClick={() => onMessage?.("Help center is part of this preview")}
+        >
+          <ShellIcon name="help" />
         </button>
-        <button className={styles.profile} onClick={() => onMessage?.(`Signed in as ${userName}`)}>
-          <span className={styles.jane}>
-            {userAvatar ? (
-              <Image src={userAvatar} alt="" fill sizes="29px" className={styles.profileAvatar} />
-            ) : (
-              userName
-                .split(" ")
-                .map((part) => part[0])
-                .join("")
-                .slice(0, 2)
-            )}
-          </span>
-          <span>
-            <strong>{userName}</strong>
-            <small>{userEmail}</small>
-          </span>
-          <ChevronDown size={15} />
+        <button
+          className={styles.profile}
+          aria-label={`User options: ${userName}`}
+          title={`${userName} · ${userEmail}`}
+          onClick={() => onMessage?.(`Signed in as ${userName}`)}
+        >
+          <Image src={userAvatar} alt="" width={30} height={30} className={styles.profileAvatar} />
         </button>
       </div>
+      {paletteOpen && (
+        <div
+          className={styles.paletteOverlay}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closePalette();
+          }}
+        >
+          <div
+            role="dialog"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                event.stopPropagation();
+                closePalette();
+              }
+              if (event.key === "Tab") {
+                const controls = dialog.current?.querySelectorAll<HTMLElement>("input, button");
+                if (!controls?.length) return;
+                const first = controls[0];
+                const last = controls[controls.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                  event.preventDefault();
+                  last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                  event.preventDefault();
+                  first.focus();
+                }
+              }
+            }}
+            ref={dialog}
+            className={styles.palette}
+            aria-label="Action palette"
+          >
+            <div className={styles.paletteHeader}>
+              <input
+                aria-label="Search actions"
+                placeholder="Search or ask…"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+              <button aria-label="Close action palette" onClick={() => closePalette()}>
+                Esc
+              </button>
+            </div>
+            <div className={styles.paletteActions}>
+              {actions
+                .filter((label) => label.toLowerCase().includes(search.toLowerCase()))
+                .map((label) => (
+                  <button
+                    key={label}
+                    onClick={() => {
+                      closePalette();
+                      onNavigate(label);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
 
 export function WorkspaceTopbar({
   title,
+  section = title === "Home" || title === "Inbox" ? undefined : "Apps",
   menuOpen,
   onMenuToggle,
   onMessage,
 }: {
   title: string;
+  section?: string;
   icon: ReactNode;
   menuOpen: boolean;
   onMenuToggle: () => void;
@@ -170,12 +243,17 @@ export function WorkspaceTopbar({
   return (
     <header className={styles.topbar}>
       <div>
-        <SidebarSimpleIcon size={14} />
+        {section && (
+          <>
+            <span className={styles.breadcrumb}>{section}</span>
+            <ShellIcon name="chevron" />
+          </>
+        )}
         {title}
       </div>
       <div className={styles.menuWrap}>
         <button aria-label="More options" aria-expanded={menuOpen} className={styles.iconButton} onClick={onMenuToggle}>
-          <MoreHorizontal size={19} />
+          <ShellIcon name="more" size={16} />
         </button>
         {menuOpen && (
           <div className={styles.menu}>

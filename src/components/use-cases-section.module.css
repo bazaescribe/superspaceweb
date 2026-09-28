@@ -110,34 +110,13 @@
   backface-visibility: hidden;
 }
 .pendingApp {
-  display: flex;
-  min-width: 1040px;
-  width: 100%;
-  height: 100%;
-  background: white;
-  color: var(--preview-ink);
-  font:
-    400 11px/1.35 "Inter Variable",
-    sans-serif;
-}
-.pendingApp button {
-  border: 0;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-.pendingApp aside {
-  display: flex;
-  width: 240px;
+  composes: app from "./use-case-workspace.module.css";
 }
 .pendingWorkspace {
   display: flex;
   min-width: 0;
   flex: 1;
   flex-direction: column;
-}
-.pendingWorkspace > header {
-  height: 48px;
 }
 .pendingCanvas {
   display: grid;
@@ -196,9 +175,6 @@
   }
   .panel {
     overflow-x: auto;
-  }
-  .pendingApp {
-    width: 940px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

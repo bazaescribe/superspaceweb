@@ -1,0 +1,196 @@
+.sidebar {
+  width: 52px;
+  flex: 0 0 52px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--color-border-light);
+  background: #f0f0f0;
+}
+.sidebarTop,
+.sidebarBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  gap: 12px;
+}
+.sidebarBottom {
+  gap: 8px;
+  margin-top: auto;
+}
+.sidebar button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.railButton {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 8px;
+  background: transparent;
+  padding: 0;
+}
+.railButton:hover,
+.navActive,
+.organization {
+  background: rgba(9, 9, 11, 0.04);
+}
+.brandLogo {
+  border-radius: 6px;
+  object-fit: cover;
+}
+.paletteTrigger {
+  position: relative;
+}
+.paletteTrigger > img {
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  pointer-events: none;
+}
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.profile {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.08);
+}
+.profileAvatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.sidebar button:focus-visible,
+.topbar button:focus-visible,
+.palette input:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+.breadcrumb {
+  color: rgba(9, 9, 11, 0.3);
+}
+.paletteOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 20px 20px;
+  background: #0003;
+}
+.palette {
+  height: fit-content;
+  width: min(420px, 90%);
+  padding: 12px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  background: var(--color-background-light);
+  color: var(--color-content-light);
+  box-shadow: 0 12px 40px #0002;
+}
+.paletteHeader {
+  display: flex;
+  gap: 8px;
+}
+.paletteHeader input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+}
+.paletteHeader button {
+  border-radius: 4px;
+  background: #0001;
+  padding: 4px;
+}
+.paletteActions {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow: auto;
+}
+.paletteActions button {
+  background: transparent;
+  text-align: left;
+  padding: 10px;
+  border-radius: 6px;
+}
+.paletteActions button:hover {
+  background: #0001;
+}
+.topbar {
+  height: 48px;
+  flex: none;
+  border-bottom: 1px solid var(--color-border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 24px;
+  background: var(--color-background-light);
+  font-size: 12px;
+}
+.topbar > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topIcon {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+.iconButton {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: transparent;
+}
+.iconButton:hover {
+  background: var(--color-background-secondary-light);
+}
+.menuWrap {
+  position: relative;
+}
+.menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 180px;
+  padding: 5px;
+  z-index: 5;
+  border: 1px solid var(--color-background-secondary-light);
+  border-radius: 8px;
+  box-shadow: 0 12px 25px color-mix(in srgb, var(--preview-ink) 12%, transparent);
+  background: var(--color-content-dark);
+}
+.menu button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  text-align: left;
+  padding: 8px;
+  font-size: 11px;
+  border-radius: 5px;
+}
+.menu button:hover {
+  background: var(--color-background-secondary-light);
+}
