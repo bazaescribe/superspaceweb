@@ -2,34 +2,13 @@
 
 import Image from "next/image";
 import { HeaderThemeRegion } from "./header-theme";
-import { CardCarousel, HorizontalSelection, SystemSection } from "./section-system";
+import { HorizontalSelection, SystemSection } from "./section-system";
 import { OperationsSystem } from "./operations-system";
 import { ArchitectureSection } from "./architecture-section";
 import { UseCasesSection } from "./use-cases-section";
+import { KeyFeatures } from "./key-features";
 
 const image = (src: string, alt: string) => <Image src={src} alt={alt} fill sizes="(max-width: 720px) 100vw, 850px" />;
-const cards = [
-  {
-    title: "Complex orders",
-    description: "Coordinate orders, requirements, owners and delivery in one operational view.",
-    visual: image("/assets/figma/hero-workspace.png", "Complex order workspace"),
-  },
-  {
-    title: "People ops",
-    description: "Give teams one shared place to manage the work and the people involved.",
-    visual: image("/assets/figma/feature-team.png", "People operations workspace"),
-  },
-  {
-    title: "Inventory & assets",
-    description: "Track locations, availability, movement and the rules behind them.",
-    visual: image("/assets/figma/feature-expandable.png", "Inventory and assets"),
-  },
-  {
-    title: "Service operations",
-    description: "Connect requests, assignments and service records in one flow.",
-    visual: image("/assets/figma/use-service-ops.png", "Service operations"),
-  },
-];
 const stages = [
   {
     title: "Understand",
@@ -92,13 +71,7 @@ export function HomeSections() {
           <PainContent />
         </SystemSection>
         <UseCasesSection />
-        <SystemSection
-          primary="One platform, everything operational."
-          accent="From one flow to your whole company."
-          action={{ label: "View offerings", href: "/offering" }}
-        >
-          <CardCarousel cards={cards} />
-        </SystemSection>
+        <KeyFeatures />
       </div>
       <HeaderThemeRegion tone="dark" className="v24-dark" data-theme="dark">
         <div className="v24-spine system-spine">
