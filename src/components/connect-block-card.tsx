@@ -6,14 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import { maskedConnectFallback } from "@/lib/connect-blocks/fallback";
 import type { ConnectController } from "@/lib/connect-blocks/renderer";
 
-export function ConnectBlockCard({ title, description }: { title: string; description: string }) {
+export function ConnectBlockVisual({ active = true }: { active?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const controller = useRef<ConnectController | null>(null);
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
   const [fallback, setFallback] = useState("/assets/figma/illustration/Connect.svg");
   const reducedMotion = useReducedMotion();
-  const active = hovered || focused;
   const activeRef = useRef(active);
   useEffect(() => {
     activeRef.current = active;
@@ -47,6 +44,24 @@ export function ConnectBlockCard({ title, description }: { title: string; descri
     };
   }, [reducedMotion]);
   return (
+    <div className="shape-system-visual connect-block-visual" aria-hidden="true">
+      {!reducedMotion ? <canvas ref={canvas} /> : null}
+      <Image
+        src={fallback}
+        alt=""
+        fill
+        unoptimized
+        sizes="(max-width: 720px) 100vw, 33vw"
+        style={{ objectFit: "contain", padding: "18.035714% 14.017857%" }}
+      />
+    </div>
+  );
+}
+
+export function ConnectBlockCard({ title, description }: { title: string; description: string }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  return (
     <article
       className="implementation-card implementation-card--2"
       tabIndex={0}
@@ -58,17 +73,7 @@ export function ConnectBlockCard({ title, description }: { title: string; descri
       onPointerLeave={() => setHovered(false)}
     >
       <div className="implementation-card__image">
-        <div className="shape-system-visual connect-block-visual" aria-hidden="true">
-          {!reducedMotion ? <canvas ref={canvas} /> : null}
-          <Image
-            src={fallback}
-            alt=""
-            fill
-            unoptimized
-            sizes="(max-width: 720px) 100vw, 33vw"
-            style={{ objectFit: "contain", padding: "18.035714% 14.017857%" }}
-          />
-        </div>
+        <ConnectBlockVisual active={hovered || focused} />
       </div>
       <p>
         <strong>{title} </strong>

@@ -76,45 +76,121 @@ function useSelection(length: number, interval?: number, canAdvance = true) {
   return { active, select, cycle };
 }
 
-export function SplitContent({ items, interval }: { items: readonly Item[]; interval?: number }) {
+export function SplitContent({
+  items,
+  interval,
+  variant = "standard",
+}: {
+  items: readonly Item[];
+  interval?: number;
+  variant?: "steps" | "standard";
+}) {
+  const reduceMotion = useReducedMotion();
+  const [playing, setPlaying] = useState(true);
+  const [pageVisible, setPageVisible] = useState(true);
+  const [stepActive, setStepActive] = useState(0);
+  const [stepCycle, setStepCycle] = useState(0);
+  const progressRef = useRef<SVGCircleElement>(null);
+  const elapsed = useRef(0);
+  useEffect(() => {
+    const update = () => setPageVisible(!document.hidden);
+    update();
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     if (!interval || !sectionRef.current) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0 });
+    const threshold = variant === "steps" ? 0.2 : 0;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting && entry.intersectionRatio >= threshold),
+      { threshold, rootMargin: variant === "steps" ? "-64px 0px 0px" : "0px" },
+    );
     observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, [interval]);
-  const { active, select, cycle } = useSelection(items.length, interval, !interval || inView);
+  }, [interval, variant]);
+  const canPlay = playing && inView && pageVisible && !reduceMotion;
+  useEffect(() => {
+    if (variant !== "steps" || !interval || !canPlay || items.length < 2) return;
+    let frame: number;
+    let previous = performance.now();
+    const tick = (now: number) => {
+      elapsed.current += now - previous;
+      previous = now;
+      if (elapsed.current >= interval) {
+        elapsed.current = 0;
+        setStepActive((value) => (value + 1) % items.length);
+        setStepCycle((value) => value + 1);
+      }
+      progressRef.current?.style.setProperty("stroke-dashoffset", String(100 * (1 - elapsed.current / interval)));
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [canPlay, interval, items.length, variant]);
+  const selection = useSelection(items.length, variant === "steps" ? undefined : interval, !interval || inView);
+  const active = variant === "steps" ? stepActive : selection.active;
+  const cycle = variant === "steps" ? stepCycle : selection.cycle;
+  const select = (index: number) => {
+    if (variant !== "steps") return selection.select(index);
+    elapsed.current = 0;
+    progressRef.current?.style.setProperty("stroke-dashoffset", "100");
+    setStepActive(index);
+    setStepCycle((value) => value + 1);
+  };
   const id = useId();
-  const reduceMotion = useReducedMotion();
   return (
-    <div className="system-split" ref={sectionRef}>
-      <div className="system-split__choices" role="group" aria-label="Select content">
-        {items.map((item, index) => (
+    <div className={`system-split ${variant === "steps" ? "system-split--steps" : ""}`} ref={sectionRef}>
+      <div className="system-split__sidebar">
+        <div className="system-split__choices" role="group" aria-label="Select content">
+          {items.map((item, index) => (
+            <button
+              type="button"
+              key={item.title}
+              className="system-choice"
+              aria-pressed={active === index}
+              aria-expanded={active === index}
+              aria-controls={`${id}-visual`}
+              onClick={() => select(index)}
+            >
+              <strong>{item.title}</strong>
+              <span className="system-choice__details" aria-hidden={active !== index}>
+                <span className="system-choice__details-inner">{item.description}</span>
+                {variant !== "steps" && interval && active === index && inView && (
+                  <i
+                    key={`${cycle}-${inView}`}
+                    className="system-choice__progress"
+                    style={{ animationDuration: `${interval}ms` }}
+                  />
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
+        {variant === "steps" && interval && (
           <button
             type="button"
-            key={item.title}
-            className="system-choice"
-            aria-pressed={active === index}
-            aria-controls={`${id}-visual`}
-            onClick={() => select(index)}
+            className="system-split__playback"
+            aria-label={playing && !reduceMotion ? "Stop automatic steps" : "Play automatic steps"}
+            onClick={() => setPlaying((value) => !value)}
+            disabled={!!reduceMotion}
           >
-            <strong>{item.title}</strong>
-            <span className="system-choice__details" aria-hidden={active !== index}>
-              <span className="system-choice__details-inner">{item.description}</span>
-              {interval && active === index && inView && (
-                <i
-                  key={`${cycle}-${inView}`}
-                  className="system-choice__progress"
-                  style={{ animationDuration: `${interval}ms` }}
-                />
-              )}
+            <svg viewBox="0 0 42 42" aria-hidden="true">
+              <circle cx="21" cy="21" r="19" className="system-split__track" />
+              <circle ref={progressRef} cx="21" cy="21" r="19" pathLength="100" className="system-split__ring" />
+            </svg>
+            <span aria-hidden="true">
+              {playing && !reduceMotion ? <i className="system-split__stop" /> : <i className="system-split__start" />}
             </span>
           </button>
-        ))}
+        )}
       </div>
-      <div className="system-split__visual" id={`${id}-visual`} aria-live="polite">
+      <div
+        className="system-split__visual"
+        id={`${id}-visual`}
+        aria-live={variant === "steps" && canPlay ? "off" : "polite"}
+      >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={active}

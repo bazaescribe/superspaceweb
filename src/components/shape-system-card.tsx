@@ -10,7 +10,7 @@ type ShapeSystemCardProps = {
   title: string;
 };
 
-function ShapeSystemVisual({ hovered }: { hovered: boolean }) {
+export function ShapeSystemVisual({ hovered }: { hovered: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const controller = useRef<ShapeSystemController | null>(null);
   const hoveredState = useRef(hovered);

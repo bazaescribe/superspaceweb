@@ -5,18 +5,24 @@ import { useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { WorkOrbitController } from "@/lib/work-orbits";
 
-export function WorkOrbitCard({ title, description }: { title: string; description: string }) {
+export function WorkOrbitVisual({
+  active = true,
+  pointer = [0, 0],
+}: {
+  active?: boolean;
+  pointer?: readonly [number, number];
+}) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const controller = useRef<WorkOrbitController | null>(null);
-  const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
   const reducedMotion = useReducedMotion();
-  const active = hovered || focused;
   const activeRef = useRef(active);
   useEffect(() => {
     activeRef.current = active;
     controller.current?.setActive(active && !reducedMotion);
   }, [active, reducedMotion]);
+  useEffect(() => {
+    controller.current?.setPointer(pointer[0], pointer[1]);
+  }, [pointer]);
   useEffect(() => {
     if (reducedMotion || !canvas.current) return;
     const abort = new AbortController();
@@ -44,6 +50,24 @@ export function WorkOrbitCard({ title, description }: { title: string; descripti
     };
   }, [reducedMotion]);
   return (
+    <div className="shape-system-visual work-orbit-visual" aria-hidden="true">
+      {!reducedMotion ? <canvas ref={canvas} /> : null}
+      <Image
+        src="/assets/figma/illustration/Work.svg"
+        alt=""
+        fill
+        sizes="(max-width: 720px) 100vw, 33vw"
+        style={{ objectFit: "cover", transform: "scale(1.069642857)" }}
+      />
+    </div>
+  );
+}
+
+export function WorkOrbitCard({ title, description }: { title: string; description: string }) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pointer, setPointer] = useState<readonly [number, number]>([0, 0]);
+  return (
     <article
       className="implementation-card implementation-card--3"
       tabIndex={0}
@@ -54,28 +78,16 @@ export function WorkOrbitCard({ title, description }: { title: string; descripti
       }}
       onPointerLeave={() => {
         setHovered(false);
-        controller.current?.setPointer(0, 0);
+        setPointer([0, 0]);
       }}
       onPointerMove={(e) => {
         if (e.pointerType !== "mouse") return;
         const r = e.currentTarget.getBoundingClientRect();
-        controller.current?.setPointer(
-          ((e.clientX - r.left) / r.width) * 2 - 1,
-          ((e.clientY - r.top) / r.height) * 2 - 1,
-        );
+        setPointer([((e.clientX - r.left) / r.width) * 2 - 1, ((e.clientY - r.top) / r.height) * 2 - 1]);
       }}
     >
       <div className="implementation-card__image">
-        <div className="shape-system-visual work-orbit-visual" aria-hidden="true">
-          {!reducedMotion ? <canvas ref={canvas} /> : null}
-          <Image
-            src="/assets/figma/illustration/Work.svg"
-            alt=""
-            fill
-            sizes="(max-width: 720px) 100vw, 33vw"
-            style={{ objectFit: "cover", transform: "scale(1.069642857)" }}
-          />
-        </div>
+        <WorkOrbitVisual active={hovered || focused} pointer={pointer} />
       </div>
       <p>
         <strong>{title} </strong>

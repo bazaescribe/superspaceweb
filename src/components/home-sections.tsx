@@ -1,14 +1,16 @@
 "use client";
 
-import Image from "next/image";
+import { ShapeSystemVisual } from "./shape-system-card";
+import { ConnectBlockVisual } from "./connect-block-card";
+import { WorkOrbitVisual } from "./work-orbit-card";
 import { HeaderThemeRegion } from "./header-theme";
-import { HorizontalSelection, SystemSection } from "./section-system";
+import { SplitContent, SystemSection } from "./section-system";
 import { OperationsSystem } from "./operations-system";
 import { ArchitectureSection } from "./architecture-section";
 import { UseCasesSection } from "./use-cases-section";
 import { KeyFeatures } from "./key-features";
+import { QuickActions } from "./quick-actions";
 
-const image = (src: string, alt: string) => <Image src={src} alt={alt} fill sizes="(max-width: 720px) 100vw, 850px" />;
 const stages = [
   {
     title: "Understand",
@@ -32,13 +34,20 @@ const stages = [
   },
 ].map((stage, index) => ({
   ...stage,
-  visual: image(
-    index === 0
-      ? "/assets/figma/implementation/map-operation.png"
-      : index === 1
-        ? "/assets/figma/implementation/shape-system.png"
-        : "/assets/figma/implementation/put-to-work.png",
-    `${stage.title} operational stage`,
+  visual: (
+    <div
+      className={`deployment-diagram deployment-diagram--${index}`}
+      aria-label={`${stage.title} operational stage`}
+      role="img"
+    >
+      {index < 2 ? (
+        <ShapeSystemVisual hovered={index === 1} />
+      ) : index === 2 ? (
+        <ConnectBlockVisual />
+      ) : (
+        <WorkOrbitVisual />
+      )}
+    </div>
   ),
 }));
 
@@ -83,12 +92,14 @@ export function HomeSections() {
             <ArchitectureSection />
           </SystemSection>
           <SystemSection
-            primary="We learn how your business works."
-            accent="And fit Superspace around it."
-            action={{ label: "Explore deployment", href: "/deployment" }}
+            className="system-section--deployment"
+            primary="Your business professionally modeled."
+            accent="Managed by us."
+            action={{ label: "Explore the Deployment", href: "/deployment" }}
           >
-            <HorizontalSelection items={stages} />
+            <SplitContent items={stages} variant="steps" interval={6500} />
           </SystemSection>
+          <QuickActions />
         </div>
       </HeaderThemeRegion>
     </div>

@@ -2523,3 +2523,32 @@ html {
     .v24-dark > .v24-spine, .v24-cta-spine { padding-bottom: 0; }
   }
 }
+
+@layer page {
+  .system-split__sidebar { display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--color-border); }
+  .system-split__sidebar .system-split__choices { flex: 1; border-right: 0; }
+  .system-split--steps .system-split__sidebar { padding: 32px; justify-content: space-between; }
+  .system-split--steps .system-split__choices { flex: none; padding: 0; gap: 24px; justify-content: flex-start; }
+  .system-split--steps .system-choice { gap: 0; }
+  .system-split--steps .system-choice strong { line-height: 1.2; }
+  .system-split--steps .system-choice[aria-pressed="true"] { gap: 4px; }
+  .system-split--steps .system-choice__details { width: 100%; max-width: 320px; overflow: hidden; }
+  .system-section--deployment .system-section__header h2 { font-size: 32px; }
+  .system-section--deployment .system-section__header h2 span { color: var(--color-content-tertiary); }
+  .system-split__playback { position: relative; width: 42px; height: 42px; flex: none; padding: 0; border: 0; border-radius: 50%; background: var(--color-background-secondary); cursor: pointer; }
+  .system-split__playback svg { position: absolute; inset: 0; width: 42px; height: 42px; fill: none; stroke-width: 2; transform: rotate(-90deg); }
+  .system-split__track { stroke: var(--color-background-secondary); }
+  .system-split__ring { stroke: var(--color-content); stroke-dasharray: 100; stroke-dashoffset: 100; }
+  .system-split__playback span { position: absolute; inset: 6px; display: grid; place-items: center; border-radius: 50%; background: var(--color-content); color: var(--color-background); }
+  .system-split__stop { width: 9px; height: 9px; border: 1.5px solid currentColor; border-radius: 2px; }
+  .system-split__start { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 7px solid currentColor; margin-left: 2px; }
+  .deployment-diagram { position: absolute; width: min(100%, 636px); aspect-ratio: 1; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .system-split--steps .deployment-diagram img { padding: 0; }
+  .deployment-diagram--4 { transform: translate(-50%, -50%) rotate(12deg); }
+  @media (max-width: 720px) {
+    .system-split__sidebar { border-right: 0; }
+    .system-split--steps .system-split__sidebar { padding: 24px; min-height: 350px; gap: 32px; border-bottom: 1px solid var(--color-border); }
+    .system-split--steps .system-split__choices { min-height: 0; border-bottom: 0; }
+    .system-section--deployment .system-section__header h2 { font-size: 24px; }
+  }
+}
