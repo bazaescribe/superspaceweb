@@ -8,6 +8,7 @@ import { RelayWorkspace } from "./relay-workspace";
 import { InventoryWorkspace } from "./inventory-workspace";
 import { ScheduleWorkspace } from "./schedule-workspace";
 import { AccountWorkspace } from "./account-workspace";
+import { ShimmerAccent } from "./shimmer-accent";
 import styles from "./use-cases-section.module.css";
 
 const useCases = [
@@ -47,7 +48,7 @@ export function UseCasesSection() {
       <header className={styles.header}>
         <div>
           <h2 id={`${id}-title`}>
-            The <span>Operating System</span> built around how your business work.
+            The <ShimmerAccent>Operating System</ShimmerAccent> built around how your business work.
           </h2>
           <p>
             From coordinating deliveries to managing inventory and field teams, SuperSpace adapts to the people,

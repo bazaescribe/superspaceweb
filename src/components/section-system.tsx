@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { RevealTitle } from "./reveal-title";
+import { ShimmerAccent } from "./shimmer-accent";
 
 type Item = { title: string; description: string; visual: ReactNode };
 
@@ -12,15 +13,17 @@ export function SectionHeader({
   primary,
   accent,
   action,
+  expressive,
 }: {
   primary: string;
   accent: string;
   action?: { label: string; href: string };
+  expressive?: boolean;
 }) {
   return (
     <header className="system-section__header">
       <RevealTitle>
-        {primary} <span>{accent}</span>
+        {primary} {expressive ? <ShimmerAccent>{accent}</ShimmerAccent> : <span>{accent}</span>}
       </RevealTitle>
       {action && (
         <Link href={action.href} className="system-section__action">
@@ -40,7 +43,13 @@ type SystemSectionProps = {
   className?: string;
   buffer?: boolean;
 } & (
-  | { variant?: "standard"; primary: string; accent: string; action?: { label: string; href: string } }
+  | {
+      variant?: "standard";
+      primary: string;
+      accent: string;
+      action?: { label: string; href: string };
+      expressive?: boolean;
+    }
   | { variant: "custom"; header: ReactNode }
 );
 
@@ -50,7 +59,12 @@ export function SystemSection(props: SystemSectionProps) {
       {props.variant === "custom" ? (
         props.header
       ) : (
-        <SectionHeader primary={props.primary} accent={props.accent} action={props.action} />
+        <SectionHeader
+          primary={props.primary}
+          accent={props.accent}
+          action={props.action}
+          expressive={props.expressive}
+        />
       )}
       {props.children}
       {props.buffer !== false && <SectionBuffer />}

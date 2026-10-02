@@ -188,7 +188,7 @@ html {
   }
   .v24-heading-row h2 span,
   .start-cta h2 span {
-    color: var(--color-accent);
+    color: var(--color-content-tertiary);
   }
   .v24-pills {
     display: flex;
@@ -1252,11 +1252,11 @@ html {
     color: inherit;
   }
   ::selection {
-    background: var(--color-accent);
+    background: var(--color-content);
     color: var(--color-inverse);
   }
   ::-moz-selection {
-    background: var(--color-accent);
+    background: var(--color-content);
     color: var(--color-inverse);
   }
   button,
@@ -2302,7 +2302,7 @@ html {
   .system-section { min-width: 0; }
   .system-section__header { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 160px 32px 32px; border-bottom: 1px solid var(--color-border); }
   .system-section__header h2 { max-width: 640px; margin: 0; color: var(--color-content); font: 700 28px/1.1 var(--font-display); letter-spacing: .01em; }
-  .system-section__header h2 span { color: var(--color-accent); }
+  .system-section__header h2 span { color: var(--color-content-tertiary); }
   .system-section__action { flex: none; padding: 11px 18px; border-radius: 6px; background: var(--color-background-secondary); color: var(--color-content); font: 700 10px/1.1 var(--font-body); text-transform: uppercase; letter-spacing: .01em; text-decoration: none; }
   .system-section__buffer { height: 80px; border-bottom: 1px solid var(--color-border); background: repeating-linear-gradient(135deg, transparent 0 6px, var(--color-border) 6px 7px, transparent 7px 13px); }
   .system-split { display: grid; grid-template-columns: 1fr 2fr; height: 640px; border-bottom: 1px solid var(--color-border); }
@@ -2359,9 +2359,6 @@ html {
     font-size: 32px;
     line-height: 1.2;
   }
-  .system-section--pain .system-section__header h2 span {
-    color: var(--color-content-tertiary);
-  }
   .system-pain {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -2416,7 +2413,7 @@ html {
     letter-spacing: -0.025em;
   }
   .system-solution__header h2 span {
-    color: var(--color-accent);
+    color: var(--color-content-tertiary);
   }
   .system-solution__header p {
     max-width: 640px;
@@ -2534,7 +2531,6 @@ html {
   .system-split--steps .system-choice[aria-pressed="true"] { gap: 4px; }
   .system-split--steps .system-choice__details { width: 100%; max-width: 320px; overflow: hidden; }
   .system-section--deployment .system-section__header h2 { font-size: 32px; }
-  .system-section--deployment .system-section__header h2 span { color: var(--color-content-tertiary); }
   .system-split__playback { position: relative; width: 42px; height: 42px; flex: none; padding: 0; border: 0; border-radius: 50%; background: var(--color-background-secondary); cursor: pointer; }
   .system-split__playback svg { position: absolute; inset: 0; width: 42px; height: 42px; fill: none; stroke-width: 2; transform: rotate(-90deg); }
   .system-split__track { stroke: var(--color-background-secondary); }

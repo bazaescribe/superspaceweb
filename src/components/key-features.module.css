@@ -2,9 +2,6 @@
   font-size: 32px;
   line-height: normal;
 }
-.section :global(.system-section__header h2 span) {
-  color: rgba(9, 9, 11, 0.3);
-}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

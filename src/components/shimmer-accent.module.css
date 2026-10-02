@@ -1,0 +1,23 @@
+.accent {
+  background-image: linear-gradient(
+    45deg,
+    #070709,
+    #ff6c09,
+    #f7007c,
+    #4a36fe,
+    #070709
+  );
+  background-size: 220% 220%;
+  background-position: 50% 50%;
+  background-repeat: repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent {
+    background-position: 50% 50%;
+  }
+}

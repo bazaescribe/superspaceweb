@@ -23,9 +23,6 @@
   font: 700 40px/1.04 var(--font-display);
   letter-spacing: -0.025em;
 }
-.header h2 span {
-  color: var(--color-accent);
-}
 .header p {
   max-width: 640px;
   margin: 0;

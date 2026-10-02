@@ -7,6 +7,7 @@ import { HeaderThemeRegion } from "@/components/header-theme";
 import { ShapeSystemCard } from "@/components/shape-system-card";
 import { WorkOrbitCard } from "@/components/work-orbit-card";
 import { ConnectBlockCard } from "@/components/connect-block-card";
+import { ShimmerAccent } from "@/components/shimmer-accent";
 
 export type StoryCardProps = {
   title: string;
@@ -186,7 +187,8 @@ export function StartCtaSection() {
     <section className="start-cta" aria-labelledby="start-cta-title">
       <Reveal className="max-w-[720px]">
         <h2 id="start-cta-title">
-          Your operation already knows what it needs. <span>Let’s build the software around it.</span>
+          Your operation already knows what it needs.{" "}
+          <ShimmerAccent>Let’s build the software around it.</ShimmerAccent>
         </h2>
         <p>
           Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.
