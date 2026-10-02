@@ -1,3 +1,4 @@
+import { SiteHero } from "@/components/site-hero";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { Header } from "@/components/header";
@@ -7,7 +8,6 @@ import { BookingLink } from "@/components/booking-link";
 export const container = "mx-auto w-[calc(100%-var(--site-gutter)*2)] max-w-content";
 
 export function EditorialPage({
-  eyebrow: label,
   title,
   intro,
   children,
@@ -26,17 +26,8 @@ export function EditorialPage({
       </a>
       <Header />
       <main id="main-content">
-        <header className={`${container} pt-hero pb-12 md:pb-16`}>
-          <p className="mb-6 flex items-center gap-3 text-label text-muted">
-            <span className="h-1.5 w-1.5 bg-foreground" aria-hidden="true" />
-            {label}
-          </p>
-          <div className="grid gap-6 md:grid-cols-12 md:gap-12">
-            <h1 className="max-w-reading text-display md:col-span-7 [&_span]:text-muted">{title}</h1>
-            <p className="max-w-reading text-body text-muted md:col-span-5">{intro}</p>
-          </div>
-          {visual && <div className="mt-10 md:mt-16">{visual}</div>}
-        </header>
+        <SiteHero title={title} intro={intro} />
+        {visual && <div className={`${container} mb-section`}>{visual}</div>}
         {children}
       </main>
       <Footer />

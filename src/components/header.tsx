@@ -78,20 +78,16 @@ export function NavigationLink({
       href={href}
       onClick={onClick}
       aria-current={state}
-      className={`group inline-flex min-h-10 items-center gap-2 rounded-control px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content ${
+      className={`inline-flex min-h-10 items-center px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content ${
         dark
           ? active
-            ? "bg-background-tertiary text-content"
-            : "text-content-secondary hover:bg-background-secondary hover:text-content active:bg-background-tertiary"
+            ? "text-content"
+            : "text-content/40 hover:text-content focus-visible:text-content"
           : active
-            ? "bg-navigation text-foreground"
-            : "text-muted hover:bg-navigation hover:text-foreground active:bg-subtle"
+            ? "text-foreground"
+            : "text-foreground/40 hover:text-foreground focus-visible:text-foreground"
       }`}
     >
-      <span
-        aria-hidden="true"
-        className={`h-1 w-1 shrink-0 bg-current transition-opacity ${active ? "opacity-100" : "opacity-0 group-hover:opacity-50 group-focus-visible:opacity-100"}`}
-      />
       {label}
     </Link>
   );

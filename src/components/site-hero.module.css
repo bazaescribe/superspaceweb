@@ -1,0 +1,28 @@
+.content {
+  padding-top: calc(var(--header-height) + var(--hero-space));
+}
+.copy {
+  max-width: 42rem;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.home .title {
+  font-size: 48px;
+  line-height: 1;
+}
+.intro {
+  margin: 8px 0 0;
+}
+.compactField {
+  height: 80px;
+  padding: 0;
+  width: 100%;
+}
+.withActions {
+  height: 160px;
+}

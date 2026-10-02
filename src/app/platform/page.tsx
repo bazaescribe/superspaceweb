@@ -1,13 +1,14 @@
+import { SiteHero } from "@/components/site-hero";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  EditorialCta,
-  EditorialPage,
-  EditorialSection,
-  ProductFrame,
-  ProcessSteps,
-  container,
-} from "@/components/editorial-page";
+import { ProductFrame, ProcessSteps } from "@/components/editorial-page";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import { HeaderThemeScope } from "@/components/header-theme";
+import { BookingLink } from "@/components/booking-link";
+import { SystemSection, SectionBuffer } from "@/components/section-system";
+import { StartCtaSection } from "@/components/home-story-sections";
+import styles from "./platform.module.css";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -126,122 +127,184 @@ function ContextView() {
 }
 export default function PlatformPage() {
   return (
-    <EditorialPage
-      eyebrow="The platform"
-      title={
-        <>
-          Your operation, <span>expressed as one working system.</span>
-        </>
-      }
-      intro="Superspace combines a short implementation engagement with an ongoing software platform. We model how your business works, configure the system around it, and keep it operating as your team’s shared workspace."
-      visual={<SystemOverview />}
-    >
-      <div className={`${container} mb-12 flex gap-3 text-label text-muted`}>
-        <span aria-hidden="true">↓</span>Explore the layers
-      </div>
-      <EditorialSection
-        id="matrix"
-        number="01"
-        title={
-          <>
-            Matrix. <span>Model what the business is made of.</span>
-          </>
-        }
-        visual={<ObjectModel />}
-      >
-        <p className="font-display text-feature text-foreground">
-          Customers, orders, locations, products, people, contracts and assets become connected operational objects—not
-          rows scattered across unrelated tools.
-        </p>
-        <p>
-          Matrix is the structural layer. It defines what may exist in an operation, how those things relate, who can
-          see them, and which details matter to each team. Underneath, this is an ontology: a precise model of the
-          business that the software can operate.
-        </p>
-      </EditorialSection>
-      <EditorialSection
-        id="flow"
-        number="02"
-        title={
-          <>
-            Flow. <span>Make rules and handoffs executable.</span>
-          </>
-        }
-        tone="warm"
-        visual={
-          <ProductFrame label="Flow / Order fulfillment">
-            <div
-              className="overflow-x-auto"
-              tabIndex={0}
-              role="region"
-              aria-label="Order fulfillment example; scroll horizontally on small screens"
-            >
-              <Image
-                className="block h-auto w-full min-w-[640px] md:min-w-0"
-                src="/assets/figma/feature-tailored.png"
-                alt="Illustrative Superspace order fulfillment workflow"
-                width={1512}
-                height={964}
-                sizes="(max-width: 1280px) 100vw, 1184px"
+    <HeaderThemeScope className="site-v2">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <Header />
+      <main id="main-content">
+        <SiteHero
+          title="Your operation, expressed as one working system."
+          intro={
+            <>
+              {" "}
+              Superspace combines a focused implementation engagement with an ongoing software platform. We model how
+              your business works, configure the system around it, and keep it operating as your team’s shared
+              workspace.{" "}
+            </>
+          }
+          actions={
+            <>
+              {" "}
+              <BookingLink placement="platform_hero" label="See it in action" designIcon />
+              <a className="button button--secondary" href="#matrix">
+                Explore the platform
+              </a>{" "}
+            </>
+          }
+        />
+        <div className="v24-spine system-spine">
+          <div className={styles.overview}>
+            <SystemOverview />
+          </div>
+          <SectionBuffer />
+          <div id="matrix" className={styles.anchor}>
+            <SystemSection primary="Matrix. " accent="Model what the business is made of.">
+              <div className={styles.split}>
+                <div className={styles.copy}>
+                  <h3>Your business, connected.</h3>
+                  <p>
+                    Customers, orders, locations, products, people, contracts and assets become connected operational
+                    objects.
+                  </p>
+                  <p>
+                    Matrix defines what exists in your operation, how those things relate, who can see them, and which
+                    details matter to each team. It gives the software a precise model of how your business works.
+                  </p>
+                </div>
+                <div className={styles.visual}>
+                  <ObjectModel />
+                </div>
+              </div>
+            </SystemSection>
+          </div>
+          <div id="flow" className={styles.anchor}>
+            <SystemSection primary="Flow. " accent="Make rules and handoffs executable.">
+              <div className={styles.split}>
+                <div className={styles.copy}>
+                  <h3>Move work forward, consistently.</h3>
+                  <p>
+                    Flow turns status changes, assignments, approvals and exceptions into workflows that teams can see
+                    and follow.
+                  </p>
+                  <p>
+                    Actions create change. Transitions define what can happen next. Events record what happened. People
+                    stay involved where judgment is required, and repeatable work follows clear rules.
+                  </p>
+                </div>
+                <div className={styles.visual}>
+                  <ProductFrame label="Flow / Order fulfillment">
+                    <div
+                      className="overflow-x-auto"
+                      tabIndex={0}
+                      role="region"
+                      aria-label="Order fulfillment example; scroll horizontally on small screens"
+                    >
+                      <Image
+                        className="block h-auto w-full min-w-[640px] md:min-w-0"
+                        src="/assets/figma/feature-tailored.png"
+                        alt="Illustrative Superspace order fulfillment workflow"
+                        width={1512}
+                        height={964}
+                        sizes="(max-width: 1280px) 100vw, 1184px"
+                      />
+                    </div>
+                    <p className="px-5 pt-4 text-label text-muted md:hidden">Scroll across to explore the workflow →</p>
+                    <p className="px-5 py-4 text-label text-muted">
+                      Illustrative product environment. Names and operational data are fictional.
+                    </p>
+                  </ProductFrame>
+                </div>
+              </div>
+            </SystemSection>
+          </div>
+          <div id="atlas" className={styles.anchor}>
+            <SystemSection primary="Atlas. " accent="Keep context attached to the work.">
+              <div className={styles.split}>
+                <div className={styles.copy}>
+                  <h3>The information to act with confidence.</h3>
+                  <p>
+                    Atlas brings the operating knowledge, history and relationships people need into the context of each
+                    record.
+                  </p>
+                  <p>
+                    Today, Atlas keeps context connected to your work. As the platform evolves, this reliable
+                    operational model becomes the foundation for increasingly autonomous operations.
+                  </p>
+                </div>
+                <div className={styles.visual}>
+                  <ContextView />
+                </div>
+              </div>
+            </SystemSection>
+          </div>
+          <div id="data-ownership" className={styles.anchor}>
+            <SystemSection primary="Your data belongs to your company. " accent="You can export it at any time.">
+              <div className={styles.ownership}>
+                <div className={styles.copy}>
+                  <h3>Your operation. Your information.</h3>
+                  <p>
+                    Your company owns the data it brings into Superspace and the operational data it creates while using
+                    the platform. You can export your data at any time, including if you decide to move on.
+                  </p>
+                  <p>
+                    Our job is to make that information useful: well structured, connected to your workflows, and
+                    supported by a service your team can rely on. We want you to stay because Superspace keeps
+                    delivering value.
+                  </p>
+                </div>
+                <dl className={styles.principles}>
+                  <div>
+                    <dt>Owned by you</dt>
+                    <dd>Your company retains ownership of its data.</dd>
+                  </div>
+                  <div>
+                    <dt>Available to export</dt>
+                    <dd>Take your data with you whenever you need it.</dd>
+                  </div>
+                  <div>
+                    <dt>More useful together</dt>
+                    <dd>Structure and service that help your operation work better every day.</dd>
+                  </div>
+                </dl>
+              </div>
+            </SystemSection>
+          </div>
+          <SystemSection
+            primary="From operating map "
+            accent="to everyday software."
+            action={{ label: "Explore deployment", href: "/deployment" }}
+          >
+            <div className={styles.process}>
+              <ProcessSteps
+                steps={[
+                  [
+                    "Choose the operation",
+                    "Start with one important workflow that is already proven but strained by fragmented tools.",
+                  ],
+                  [
+                    "Model the graph",
+                    "Map the objects, relationships, roles, rules, handoffs and exceptions that define the work.",
+                  ],
+                  [
+                    "Configure and validate",
+                    "Shape the workspace with the team, test real scenarios and refine responsibilities before rollout.",
+                  ],
+                  [
+                    "Operate and evolve",
+                    "Use it like another SaaS product. Initially, changes and extensions are handled through paid support hours.",
+                  ],
+                ]}
               />
             </div>
-            <p className="px-5 pt-4 text-label text-muted md:hidden">Scroll across to explore the workflow →</p>
-            <p className="px-5 py-4 text-label text-muted">
-              Illustrative product environment. Names and operational data are fictional.
-            </p>
-          </ProductFrame>
-        }
-      >
-        <p className="font-display text-feature text-foreground">
-          Flow turns status changes, assignments, approvals and exceptions into workflows that teams can see and follow.
-        </p>
-        <p>
-          Actions create change. Transitions constrain what can happen next. Events record what happened. People stay in
-          the loop where judgment is required; repeatable work is handled consistently.
-        </p>
-      </EditorialSection>
-      <EditorialSection
-        id="atlas"
-        number="03"
-        title={
-          <>
-            Atlas. <span>Keep context attached to the work.</span>
-          </>
-        }
-        visual={<ContextView />}
-      >
-        <p className="font-display text-feature text-foreground">
-          Atlas is the contextual layer: the operating knowledge, history and relationships people need to understand a
-          record and act correctly.
-        </p>
-        <p>
-          Today, Atlas is about contextualization—not autonomous agents. The longer-term direction is software that can
-          support increasingly autonomous operations, grounded in a reliable operational model.
-        </p>
-      </EditorialSection>
-      <EditorialSection id="implementation" number="04" title="From operating map to everyday software.">
-        <ProcessSteps
-          steps={[
-            [
-              "Choose the operation",
-              "Start with one important workflow that is already proven but strained by fragmented tools.",
-            ],
-            [
-              "Model the graph",
-              "Map the objects, relationships, roles, rules, handoffs and exceptions that define the work.",
-            ],
-            [
-              "Configure and validate",
-              "Shape the workspace with the team, test real scenarios and refine responsibilities before rollout.",
-            ],
-            [
-              "Operate and evolve",
-              "Use it like another SaaS product. Initially, changes and extensions are handled through paid support hours.",
-            ],
-          ]}
-        />
-      </EditorialSection>
-      <EditorialCta title="Map the operation behind your next system." />
-    </EditorialPage>
+          </SystemSection>
+        </div>
+        <div className="v24-spine v24-cta-spine">
+          <StartCtaSection />
+          <SectionBuffer />
+        </div>
+      </main>
+      <Footer />
+    </HeaderThemeScope>
   );
 }

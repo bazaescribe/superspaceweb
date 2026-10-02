@@ -1,7 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import type { ReactNode } from "react";
+import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
+import { motionEase } from "@/lib/motion";
 
 type RevealProps = {
   children: ReactNode;
@@ -12,16 +14,16 @@ type RevealProps = {
 };
 
 export function Reveal({ children, className, delay = 0, ...props }: RevealProps) {
-  const reduceMotion = useReducedMotion();
+  const { ref, entered, reducedMotion } = useScrollEntrance();
 
   return (
     <motion.div
+      ref={ref}
       className={className}
       {...props}
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ amount: 0.35, once: true }}
-      transition={{ delay, duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
+      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+      animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ delay: reducedMotion ? 0 : delay, duration: reducedMotion ? 0 : 0.62, ease: motionEase }}
     >
       {children}
     </motion.div>

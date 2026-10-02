@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { HeroBlueprint } from "./site-hero";
 import {
   ArrowUpRight,
   Check,
@@ -105,8 +106,7 @@ export function HeroMockup() {
     `${person.name} ${person.role} ${person.groups.join(" ")}`.toLowerCase().includes(query.toLowerCase()),
   );
   return (
-    <div className="hero-product">
-      <div className="hero-point-field" aria-hidden="true" />
+    <HeroBlueprint>
       <div className="hero-product__screen" ref={frame}>
         <div
           className={styles.canvas}
@@ -305,7 +305,7 @@ export function HeroMockup() {
           )}
         </div>
       </div>
-    </div>
+    </HeroBlueprint>
   );
 }
 
