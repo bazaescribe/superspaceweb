@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { navigationState } from "@/lib/navigation";
 import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Menu09Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
@@ -176,6 +176,16 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const [scrolled, setScrolled] = useState(false);
   const [heroActionsPassed, setHeroActionsPassed] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const chromeRef = useRef<HTMLElement>(null);
+  const shadeRef = useRef<HTMLDivElement>(null);
+  const setThemeHeaderElement = headerTheme?.setHeaderElement;
+  const setChromeElement = useCallback(
+    (element: HTMLElement | null) => {
+      chromeRef.current = element;
+      setThemeHeaderElement?.(element);
+    },
+    [setThemeHeaderElement],
+  );
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -238,22 +248,36 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const updateChromeMask = (latest: { clipPath?: unknown }) => {
+    const match = String(latest.clipPath).match(/inset\(0(?:px)? 0(?:px)? ([\d.]+)% 0(?:px)?\)/);
+    if (!match) return;
+    const shade = shadeRef.current?.getBoundingClientRect();
+    if (!shade) return;
+    const edge = shade.top + shade.height * (1 - Number(match[1]) / 100);
+    chromeRef.current?.querySelectorAll<HTMLElement>("[data-menu-mask]").forEach((element) => {
+      const { top, height } = element.getBoundingClientRect();
+      const covered = Math.max(0, Math.min(height, edge - top));
+      element.style.clipPath =
+        element.dataset.menuMask === "negative" ? `inset(0 0 ${height - covered}px 0)` : `inset(${covered}px 0 0 0)`;
+    });
+  };
+
   const closeMenu = () => setOpen(false);
   const menuOpenChrome = open || menuVisible;
 
   return (
     <header
-      ref={headerTheme?.setHeaderElement}
+      ref={setChromeElement}
       className={`header ${scrolled ? "header--scrolled" : ""} ${dark ? "header--dark" : ""} ${menuOpenChrome ? "header--menu-open" : ""}`}
       data-tone={tone}
       data-theme={tone}
     >
       <nav className="shell header__inner" aria-label="Primary navigation">
         <Link className="header__brand" href="/" aria-label="Superspace home" onClick={closeMenu}>
-          <span className="header__brand-tone">
+          <span className="header__brand-tone" data-menu-mask="tone">
             <Brand compactOnMobile inverse={dark} />
           </span>
-          <span className="header__brand-negative" aria-hidden="true">
+          <span className="header__brand-negative" data-menu-mask="negative" aria-hidden="true">
             <Brand compactOnMobile inverse />
           </span>
         </Link>
@@ -285,23 +309,12 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
         >
           <span className="sr-only">{open ? "Close" : "Open"} navigation</span>
           <span className="menu-button__icon" aria-hidden="true">
-            <AnimatePresence initial={false} mode="wait">
-              <motion.span
-                key={open ? "close" : "menu"}
-                className="menu-button__glyph"
-                initial={reduceMotion ? false : { opacity: 0, rotate: open ? -45 : 45, scale: 0.7 }}
-                animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: open ? 45 : -45, scale: 0.7 }}
-                transition={motionTokens.fast}
-              >
-                <HugeiconsIcon
-                  icon={open ? Cancel01Icon : Menu09Icon}
-                  size={22}
-                  strokeWidth={1.75}
-                  focusable="false"
-                />
-              </motion.span>
-            </AnimatePresence>
+            <span className="menu-button__glyph" data-menu-mask="tone">
+              <HugeiconsIcon icon={open ? Cancel01Icon : Menu09Icon} size={22} strokeWidth={1.75} focusable="false" />
+            </span>
+            <span className="menu-button__glyph menu-button__glyph--negative" data-menu-mask="negative">
+              <HugeiconsIcon icon={open ? Cancel01Icon : Menu09Icon} size={22} strokeWidth={1.75} focusable="false" />
+            </span>
           </span>
         </button>
       </nav>
@@ -318,23 +331,17 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
                 exit="closed"
               >
                 <motion.div
+                  ref={shadeRef}
                   className="mobile-nav__shade"
                   variants={shadeVariants}
+                  onUpdate={updateChromeMask}
                   transition={reduceMotion ? { duration: 0 } : shadeTransition}
                   aria-hidden="true"
                 />
                 <div className="shell mobile-nav__inner">
-                  <motion.div
-                    className="mobile-nav__content"
-                    variants={reduceMotion ? undefined : linksVariants}
-                  >
+                  <motion.div className="mobile-nav__content" variants={reduceMotion ? undefined : linksVariants}>
                     {mobileNavigation.map((link) => (
-                      <MobileNavLink
-                        key={link.href}
-                        {...link}
-                        reduceMotion={reduceMotion}
-                        onClick={closeMenu}
-                      />
+                      <MobileNavLink key={link.href} {...link} reduceMotion={reduceMotion} onClick={closeMenu} />
                     ))}
                     <motion.div
                       className="mobile-nav__cta"

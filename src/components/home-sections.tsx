@@ -1,8 +1,6 @@
 "use client";
 
-import { ShapeSystemVisual } from "./shape-system-card";
-import { ConnectBlockVisual } from "./connect-block-card";
-import { WorkOrbitVisual } from "./work-orbit-card";
+import { ImplementationField } from "./implementation-field";
 import { HeaderThemeRegion } from "./header-theme";
 import { SplitContent, SystemSection } from "./section-system";
 import { OperationsSystem } from "./operations-system";
@@ -32,24 +30,7 @@ const stages = [
     title: "Evolve",
     description: "We keep your system running and adapt it as your business and operational needs change.",
   },
-].map((stage, index) => ({
-  ...stage,
-  visual: (
-    <div
-      className={`deployment-diagram deployment-diagram--${index}`}
-      aria-label={`${stage.title} operational stage`}
-      role="img"
-    >
-      {index < 2 ? (
-        <ShapeSystemVisual hovered={index === 1} />
-      ) : index === 2 ? (
-        <ConnectBlockVisual />
-      ) : (
-        <WorkOrbitVisual />
-      )}
-    </div>
-  ),
-}));
+];
 
 function PainContent() {
   return (
@@ -97,7 +78,14 @@ export function HomeSections() {
             accent="Managed by us."
             action={{ label: "Explore the Deployment", href: "/deployment" }}
           >
-            <SplitContent items={stages} variant="steps" interval={6500} />
+            <SplitContent
+              items={stages}
+              variant="steps"
+              interval={6500}
+              renderVisual={(active, playing, reducedMotion) => (
+                <ImplementationField active={active} playing={playing} reducedMotion={reducedMotion} />
+              )}
+            />
           </SystemSection>
           <QuickActions />
         </div>

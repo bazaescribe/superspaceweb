@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { RevealTitle } from "./reveal-title";
 import { ShimmerAccent } from "./shimmer-accent";
 
-type Item = { title: string; description: string; visual: ReactNode };
+type Item = { title: string; description: string; visual?: ReactNode };
 
 export function SectionHeader({
   primary,
@@ -94,10 +94,12 @@ export function SplitContent({
   items,
   interval,
   variant = "standard",
+  renderVisual,
 }: {
   items: readonly Item[];
   interval?: number;
   variant?: "steps" | "standard";
+  renderVisual?: (active: number, playing: boolean, reducedMotion: boolean) => ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
   const [playing, setPlaying] = useState(true);
@@ -205,18 +207,22 @@ export function SplitContent({
         id={`${id}-visual`}
         aria-live={variant === "steps" && canPlay ? "off" : "polite"}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={active}
-            className="system-split__visual-state"
-            initial={reduceMotion ? false : { opacity: 0, y: 12, filter: "blur(5px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -8, filter: "blur(4px)" }}
-            transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 0.86, 0.24, 1] }}
-          >
-            {items[active]?.visual}
-          </motion.div>
-        </AnimatePresence>
+        {renderVisual ? (
+          renderVisual(active, canPlay, !!reduceMotion)
+        ) : (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={active}
+              className="system-split__visual-state"
+              initial={reduceMotion ? false : { opacity: 0, y: 12, filter: "blur(5px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -8, filter: "blur(4px)" }}
+              transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 0.86, 0.24, 1] }}
+            >
+              {items[active]?.visual}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </div>
     </div>
   );
