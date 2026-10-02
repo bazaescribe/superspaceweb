@@ -1430,20 +1430,84 @@ html {
   }
   .menu-button {
     align-items: center;
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    background: color-mix(in srgb, var(--color-content) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-content) 10%, transparent);
+    border-radius: 10px;
+    color: var(--color-content);
     cursor: pointer;
     display: none;
-    height: 40px;
+    flex: none;
+    height: 44px;
     justify-content: center;
     margin-left: auto;
     padding: 0;
-    width: 40px;
+    position: relative;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+    width: 44px;
+  }
+  .menu-button__icon {
+    display: grid;
+    height: 22px;
+    place-items: center;
+    width: 22px;
+  }
+  .menu-button__glyph {
+    display: grid;
+    place-items: center;
+  }
+  .menu-button:focus-visible {
+    outline: 2px solid var(--color-content);
+    outline-offset: 3px;
+  }
+  .menu-button:active {
+    transform: scale(0.96);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .menu-button:hover {
+      background: color-mix(in srgb, var(--color-content) 9%, transparent);
+      border-color: color-mix(in srgb, var(--color-content) 16%, transparent);
+    }
   }
   .header--dark .menu-button {
-    border-color: rgb(255 255 255 / 0.2);
+    background: rgb(255 255 255 / 0.08);
+    border-color: rgb(255 255 255 / 0.14);
     color: var(--color-inverse);
+  }
+  .header--dark .menu-button:focus-visible {
+    outline-color: var(--color-inverse);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .header--dark .menu-button:hover {
+      background: rgb(255 255 255 / 0.14);
+      border-color: rgb(255 255 255 / 0.22);
+    }
+  }
+  .header--menu-open {
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    color: var(--color-content-dark);
+  }
+  .header--menu-open .menu-button,
+  .header--menu-open.header--dark .menu-button {
+    background: rgb(255 255 255 / 0.1);
+    border-color: rgb(255 255 255 / 0.18);
+    color: var(--color-content-dark);
+  }
+  .header--menu-open .menu-button:focus-visible {
+    outline-color: var(--color-content-dark);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .header--menu-open .menu-button:hover,
+    .header--menu-open.header--dark .menu-button:hover {
+      background: rgb(255 255 255 / 0.16);
+      border-color: rgb(255 255 255 / 0.26);
+    }
   }
   .mobile-nav {
     display: none;
@@ -1903,55 +1967,72 @@ html {
       width: auto;
     }
     .mobile-nav {
-      background: var(--color-canvas);
-      border-bottom: 1px solid var(--color-border);
       display: block;
-      inset: 100% 0 auto;
-      opacity: 0;
-      padding: var(--space-6) 0;
-      pointer-events: none;
+      inset: 0;
+      position: fixed;
+      z-index: 29;
+    }
+    .mobile-nav__shade {
+      background: var(--color-background-dark);
+      inset: 0;
       position: absolute;
-      transform: translateY(-12px);
-      transition:
-        opacity var(--duration-fast) var(--ease-standard),
-        transform var(--duration-standard) var(--ease-standard),
-        visibility 0s linear var(--duration-standard);
-      visibility: hidden;
-    }
-    .header--dark .mobile-nav {
-      background: var(--color-background);
-      border-bottom-color: var(--color-background-tertiary);
-      color: var(--color-content);
-    }
-    .mobile-nav--open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-      transition:
-        opacity var(--duration-fast) var(--ease-standard),
-        transform var(--duration-standard) var(--ease-standard);
-      visibility: visible;
     }
     .mobile-nav__inner {
-      display: grid;
-      gap: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding-bottom: max(2rem, env(safe-area-inset-bottom));
+      padding-top: calc(var(--header-height) + 2.75rem);
+      position: relative;
+      z-index: 1;
     }
-    .mobile-nav__label {
-      color: var(--color-muted);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .mobile-nav__content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
     }
-    .mobile-nav a,
-    .mobile-nav span {
-      font-size: 17px;
+    .mobile-nav__item {
+      overflow: hidden;
+    }
+    .mobile-nav__link {
+      color: rgb(255 255 255 / 0.38);
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(2.75rem, 12vw, 4rem);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      padding: 0.18em 0;
       text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-standard);
     }
-    .mobile-nav em {
-      color: var(--color-muted);
-      font-size: var(--text-meta);
-      font-style: normal;
-      margin-left: var(--space-2);
+    .mobile-nav__link-label {
+      display: inline-block;
+    }
+    .mobile-nav__link--active,
+    .mobile-nav__link:focus-visible {
+      color: var(--color-content-dark);
+    }
+    .mobile-nav__link:focus-visible {
+      outline: none;
+    }
+    .mobile-nav__link:focus-visible .mobile-nav__link-label {
+      box-shadow: 0 2px 0 0 currentColor;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .mobile-nav__link:hover {
+        color: var(--color-content-dark);
+      }
+    }
+    .mobile-nav__cta {
+      margin-top: auto;
+      padding-bottom: 0.5rem;
+      padding-top: 2.5rem;
+    }
+    .mobile-nav__booking {
+      min-height: 48px;
+      padding-inline: 20px;
     }
     .v2-hero {
       gap: var(--hero-space);

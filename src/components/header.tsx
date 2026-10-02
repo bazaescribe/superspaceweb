@@ -4,11 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navigationState } from "@/lib/navigation";
-import { SiteIcon } from "@/components/site-icon";
 import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { motion as motionTokens } from "@/lib/motion";
+import { createPortal } from "react-dom";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { motion as motionTokens, motionEase } from "@/lib/motion";
 import { useHeaderTheme } from "@/components/header-theme";
 import type { HeaderTone } from "@/lib/header-theme";
 
@@ -58,6 +60,47 @@ const navigation = [
   { href: "/deployment", label: "Deployment" },
 ] as const;
 
+const mobileNavigation = [{ href: "/", label: "Home" }, ...navigation] as const;
+
+const shadeTransition = { duration: 0.48, ease: motionEase };
+
+const menuVariants = {
+  closed: {},
+  open: {},
+} as const;
+
+const shadeVariants = {
+  closed: { clipPath: "inset(0 0 100% 0)" },
+  open: { clipPath: "inset(0 0 0% 0)" },
+} as const;
+
+const linkVariants = {
+  closed: {
+    opacity: 0,
+    y: 28,
+    transition: { duration: 0.2, ease: motionEase },
+  },
+  open: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.52, ease: motionEase },
+  },
+} as const;
+
+const reducedLinkVariants = {
+  closed: { opacity: 0 },
+  open: { opacity: 1, transition: { duration: 0 } },
+} as const;
+
+const linksVariants = {
+  closed: {
+    transition: { staggerChildren: 0.04, staggerDirection: -1 as const },
+  },
+  open: {
+    transition: { staggerChildren: 0.075, delayChildren: 0.32 },
+  },
+} as const;
+
 export function NavigationLink({
   href,
   label,
@@ -93,16 +136,51 @@ export function NavigationLink({
   );
 }
 
+function MobileNavLink({
+  href,
+  label,
+  onClick,
+  reduceMotion,
+}: {
+  href: string;
+  label: string;
+  onClick: () => void;
+  reduceMotion: boolean | null;
+}) {
+  const pathname = usePathname();
+  const state = navigationState(pathname, href);
+  const active = Boolean(state);
+
+  return (
+    <motion.div className="mobile-nav__item" variants={reduceMotion ? reducedLinkVariants : linkVariants}>
+      <Link
+        href={href}
+        onClick={onClick}
+        aria-current={state}
+        className={`mobile-nav__link ${active ? "mobile-nav__link--active" : ""}`}
+      >
+        <span className="mobile-nav__link-label">{label}</span>
+      </Link>
+    </motion.div>
+  );
+}
+
 export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const pathname = usePathname();
   const headerTheme = useHeaderTheme();
   const tone = toneOverride ?? headerTheme?.tone ?? "light";
   const dark = tone === "dark";
   const [open, setOpen] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [heroActionsPassed, setHeroActionsPassed] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -135,16 +213,44 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     return () => observer.disconnect();
   }, [pathname]);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (open) setMenuVisible(true);
+  }, [open]);
+
+  useEffect(() => {
+    if (!menuVisible) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuVisible]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 768px)").matches) setOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const closeMenu = () => setOpen(false);
+  const menuOpenChrome = open || menuVisible;
+
   return (
     <header
       ref={headerTheme?.setHeaderElement}
-      className={`header ${scrolled ? "header--scrolled" : ""} ${dark ? "header--dark" : ""}`}
+      className={`header ${scrolled ? "header--scrolled" : ""} ${dark ? "header--dark" : ""} ${menuOpenChrome ? "header--menu-open" : ""}`}
       data-tone={tone}
       data-theme={tone}
     >
       <nav className="shell header__inner" aria-label="Primary navigation">
-        <Link className="header__brand" href="/" aria-label="Superspace home">
-          <Brand compactOnMobile inverse={dark} />
+        <Link className="header__brand" href="/" aria-label="Superspace home" onClick={closeMenu}>
+          <Brand compactOnMobile inverse={dark || menuOpenChrome} />
         </Link>
         <div className="desktop-nav gap-1">
           {navigation.map((link) => (
@@ -165,7 +271,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           )}
         </AnimatePresence>
         <button
-          className="menu-button"
+          className={`menu-button ${open ? "menu-button--open" : ""}`}
           type="button"
           ref={buttonRef}
           aria-expanded={open}
@@ -173,22 +279,71 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           onClick={() => setOpen((value) => !value)}
         >
           <span className="sr-only">{open ? "Close" : "Open"} navigation</span>
-          <SiteIcon name={open ? "close" : "menu"} />
+          <span className="menu-button__icon" aria-hidden="true">
+            <AnimatePresence initial={false} mode="wait">
+              <motion.span
+                key={open ? "close" : "menu"}
+                className="menu-button__glyph"
+                initial={reduceMotion ? false : { opacity: 0, rotate: open ? -45 : 45, scale: 0.7 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, rotate: open ? 45 : -45, scale: 0.7 }}
+                transition={motionTokens.fast}
+              >
+                <HugeiconsIcon
+                  icon={open ? Cancel01Icon : Menu01Icon}
+                  size={22}
+                  strokeWidth={1.75}
+                  focusable="false"
+                />
+              </motion.span>
+            </AnimatePresence>
+          </span>
         </button>
       </nav>
-      <div
-        id="mobile-navigation"
-        className={`mobile-nav ${open ? "mobile-nav--open" : ""}`}
-        aria-hidden={!open}
-        inert={!open}
-      >
-        <div className="shell mobile-nav__inner">
-          {navigation.map((link) => (
-            <NavigationLink key={link.href} {...link} tone={tone} onClick={() => setOpen(false)} />
-          ))}
-          <BookingLink inverse={dark} className="justify-self-start text-label" placement="header_mobile" />
-        </div>
-      </div>
+      {portalReady &&
+        createPortal(
+          <AnimatePresence onExitComplete={() => setMenuVisible(false)}>
+            {open && (
+              <motion.div
+                id="mobile-navigation"
+                className="mobile-nav"
+                variants={menuVariants}
+                initial="closed"
+                animate="open"
+                exit="closed"
+              >
+                <motion.div
+                  className="mobile-nav__shade"
+                  variants={shadeVariants}
+                  transition={reduceMotion ? { duration: 0 } : shadeTransition}
+                  aria-hidden="true"
+                />
+                <div className="shell mobile-nav__inner">
+                  <motion.div
+                    className="mobile-nav__content"
+                    variants={reduceMotion ? undefined : linksVariants}
+                  >
+                    {mobileNavigation.map((link) => (
+                      <MobileNavLink
+                        key={link.href}
+                        {...link}
+                        reduceMotion={reduceMotion}
+                        onClick={closeMenu}
+                      />
+                    ))}
+                    <motion.div
+                      className="mobile-nav__cta"
+                      variants={reduceMotion ? reducedLinkVariants : linkVariants}
+                    >
+                      <BookingLink inverse className="mobile-nav__booking" placement="header_mobile" />
+                    </motion.div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
     </header>
   );
 }
