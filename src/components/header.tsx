@@ -9,7 +9,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
+import { Menu09Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { motion as motionTokens, motionEase } from "@/lib/motion";
 import { useHeaderTheme } from "@/components/header-theme";
 import type { HeaderTone } from "@/lib/header-theme";
@@ -42,11 +42,11 @@ export function Brand({
       {compactOnMobile && (
         <Image
           className="brand__symbol"
-          src={`/brand/superspace-symbol${variant}.svg`}
+          src={`/brand/superspace-logo${variant}.svg`}
           alt=""
           aria-hidden="true"
           width={14.375}
-          height={20}
+          height={22}
           priority
         />
       )}
@@ -250,7 +250,12 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     >
       <nav className="shell header__inner" aria-label="Primary navigation">
         <Link className="header__brand" href="/" aria-label="Superspace home" onClick={closeMenu}>
-          <Brand compactOnMobile inverse={dark || menuOpenChrome} />
+          <span className="header__brand-tone">
+            <Brand compactOnMobile inverse={dark} />
+          </span>
+          <span className="header__brand-negative" aria-hidden="true">
+            <Brand compactOnMobile inverse />
+          </span>
         </Link>
         <div className="desktop-nav gap-1">
           {navigation.map((link) => (
@@ -290,7 +295,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
                 transition={motionTokens.fast}
               >
                 <HugeiconsIcon
-                  icon={open ? Cancel01Icon : Menu01Icon}
+                  icon={open ? Cancel01Icon : Menu09Icon}
                   size={22}
                   strokeWidth={1.75}
                   focusable="false"
