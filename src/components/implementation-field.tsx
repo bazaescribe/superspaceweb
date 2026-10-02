@@ -29,9 +29,9 @@ function field(stage: number, t: number, strand: number): Point {
   let x: number;
   let y: number;
   if (stage === 0) {
-    const r = 0.7 + band * 0.045 + Math.sin(a * 3 + phase) * 0.09;
-    x = Math.cos(a + phase) * r;
-    y = Math.sin(a + phase) * r + Math.sin(a * 2 + phase) * 0.13;
+    const seed = Math.round(t * 100000) + strand * 7919;
+    x = (random(seed + 71) - 0.5) * 1.85;
+    y = (random(seed + 193) - 0.5) * 1.8;
   } else if (stage === 1) {
     const r = 0.65 + band * 0.065;
     const angle = -0.65 + strand * 0.28;
@@ -70,7 +70,21 @@ const DUST = Array.from({ length: 300 }, (_, i) => ({
   strand: i % 7,
   size: 0.5 + random(i + 50) * 1.1,
 }));
-const CORE_SIZES = [47, 67, 35, 55, 29];
+const CORE_SIZES = [30, 67, 35, 55, 29];
+const CONNECTIONS = [
+  [0, 12],
+  [12, 21],
+  [3, 17],
+  [17, 8],
+  [2, 25],
+  [25, 10],
+  [4, 19],
+  [19, 28],
+  [6, 15],
+  [15, 30],
+  [1, 23],
+  [23, 32],
+];
 type Props = { active: number; playing: boolean; reducedMotion: boolean };
 
 export function ImplementationField({ active, playing, reducedMotion }: Props) {
@@ -86,6 +100,7 @@ export function ImplementationField({ active, playing, reducedMotion }: Props) {
     const svg = svgRef.current;
     if (!svg) return;
     const paths = [...svg.querySelectorAll<SVGPathElement>("[data-orbit]")];
+    const vectors = [...svg.querySelectorAll<SVGPathElement>("[data-vector]")];
     const planets = [...svg.querySelectorAll<SVGCircleElement>("[data-planet]")];
     const dust = [...svg.querySelectorAll<SVGCircleElement>("[data-dust]")];
     const core = svg.querySelector<SVGCircleElement>("[data-core]")!;
@@ -97,14 +112,16 @@ export function ImplementationField({ active, playing, reducedMotion }: Props) {
     let frame = 0;
     let previous = 0;
     let time = 0;
+    let discoveryTime = 0;
+    let lastStage = controls.current.active;
     let visible = false;
     let disposed = false;
-    const project = (t: number, strand: number, drift = 0): Point => {
+    const project = (t: number, strand: number, drift = 0, scattered?: Point): Point => {
       let x = 0;
       let y = 0;
       for (let stage = 0; stage < 5; stage++) {
         if (weights[stage] < 0.00001) continue;
-        const point = field(stage, t, strand);
+        const point = stage === 0 && scattered ? scattered : field(stage, t, strand);
         x += point.x * weights[stage];
         y += point.y * weights[stage];
       }
@@ -134,27 +151,54 @@ export function ImplementationField({ active, playing, reducedMotion }: Props) {
         weights[s] += (target - weights[s]) * blend;
         if (Math.abs(weights[s] - target) > 0.0001) unsettled = true;
       }
-      if (animate && !reduce) time += dt;
+      if (selected !== lastStage) {
+        discoveryTime = 0;
+        lastStage = selected;
+      }
+      if (animate && !reduce) {
+        time += dt;
+        if (selected === 0) discoveryTime += dt;
+      }
       if (reduce) time = 0;
       const sizeScale = Math.min(width / 800, height / 600);
       paths.forEach((path, strand) => {
         let d = "";
         for (let j = 0; j <= 120; j++) {
-          const p = project(j / 120, strand);
+          const from = field(0, PLANETS[strand].t, PLANETS[strand].strand);
+          const to = field(0, PLANETS[strand + 12].t, PLANETS[strand + 12].strand);
+          const t = j / 120;
+          const p = project(t, strand, 0, { x: from.x + (to.x - from.x) * t, y: from.y + (to.y - from.y) * t });
           d += `${j ? "L" : "M"}${p.x.toFixed(1)},${p.y.toFixed(1)}`;
         }
         path.setAttribute("d", d);
         path.setAttribute(
           "opacity",
-          String(weights[0] * 0.13 + weights[1] * 0.32 + weights[2] * 0.25 + weights[3] * 0.2 + weights[4] * 0.18),
+          String(weights[1] * 0.32 + weights[2] * 0.25 + weights[3] * 0.2 + weights[4] * 0.18),
         );
       });
       planets.forEach((circle, i) => {
         const planet = PLANETS[i];
         const drift = Math.sin(time * (0.16 + i * 0.002) + i) * 0.014;
-        const p = project(Math.max(0.01, Math.min(0.99, planet.t + drift)), planet.strand, 0.012);
+        const p = project(
+          Math.max(0.01, Math.min(0.99, planet.t + drift)),
+          planet.strand,
+          0.012,
+          field(0, planet.t, planet.strand),
+        );
         const radius = planet.sizes.reduce((sum, size, stage) => sum + size * weights[stage], 0);
-        place(circle, p, radius * (i < 7 ? 0.8 : 1) * sizeScale * (1 + Math.sin(time * 0.5 + i) * 0.025));
+        place(circle, p, radius * (i < 7 ? 0.64 : 0.8) * sizeScale * (1 + Math.sin(time * 0.5 + i) * 0.025));
+      });
+      vectors.forEach((vector, i) => {
+        const [a, b] = CONNECTIONS[i];
+        const from = planets[a];
+        const to = planets[b];
+        vector.setAttribute(
+          "d",
+          `M${from.getAttribute("cx")},${from.getAttribute("cy")}L${to.getAttribute("cx")},${to.getAttribute("cy")}`,
+        );
+        const progress = reduce ? 1 : Math.max(0, Math.min(1, (discoveryTime - i * 0.25) / 1.8));
+        vector.setAttribute("stroke-dashoffset", String(1 - progress));
+        vector.setAttribute("opacity", String(weights[0] * 0.2 * progress));
       });
       dust.forEach((circle, i) => {
         const point = DUST[i];
@@ -164,15 +208,18 @@ export function ImplementationField({ active, playing, reducedMotion }: Props) {
         p.y += (random(i + 1800) - 0.5) * spread * sizeScale;
         place(circle, p);
       });
-      pulses.forEach((circle, i) => place(circle, project((time * 0.045 + i / 7) % 1, i), 1.6 * sizeScale));
+      pulses.forEach((circle, i) => {
+        place(circle, project((time * 0.045 + i / 7) % 1, i), 1.6 * sizeScale);
+        circle.setAttribute("opacity", String(1 - weights[0]));
+      });
       const coreRadius = CORE_SIZES.reduce((sum, size, s) => sum + size * weights[s], 0);
       place(
         core,
         {
-          x: width * 0.5 + Math.sin(time * 0.24) * 5 * sizeScale,
-          y: height * 0.46 + Math.cos(time * 0.21) * 5 * sizeScale,
+          x: width * (0.5 - weights[0] * 0.12) + Math.sin(time * 0.24) * 5 * sizeScale,
+          y: height * (0.46 + weights[0] * 0.09) + Math.cos(time * 0.21) * 5 * sizeScale,
         },
-        coreRadius * 0.8 * sizeScale,
+        coreRadius * 0.64 * sizeScale,
       );
       if ((!reduce && animate) || unsettled) frame = requestAnimationFrame(render);
     };
@@ -228,6 +275,19 @@ export function ImplementationField({ active, playing, reducedMotion }: Props) {
       <svg ref={svgRef} className={styles.canvas} viewBox="0 0 800 640" aria-hidden="true">
         {Array.from({ length: 7 }, (_, i) => (
           <path key={`orbit-${i}`} data-orbit fill="none" stroke={i === 4 ? "#F7007C" : "#FFFFFF"} strokeWidth="0.7" />
+        ))}
+        {CONNECTIONS.map((_, i) => (
+          <path
+            key={`vector-${i}`}
+            data-vector
+            fill="none"
+            stroke="#FFFFFF"
+            strokeWidth="0.8"
+            pathLength="1"
+            strokeDasharray="1"
+            strokeDashoffset="1"
+            opacity="0"
+          />
         ))}
         {DUST.map((point, i) => (
           <circle key={`dust-${i}`} data-dust r={point.size} fill="#FFFFFF" opacity={0.15 + random(i) * 0.4} />
