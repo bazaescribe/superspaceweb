@@ -1,0 +1,120 @@
+.carousel {
+  overflow: hidden;
+  padding: 96px 0 0;
+}
+.container {
+  width: min(calc(100% - var(--site-gutter) * 2), var(--content-max));
+  margin-inline: auto;
+}
+.track {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+  transition: transform 650ms var(--ease-standard);
+  touch-action: pan-y;
+}
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 48px -8px #0000001f;
+}
+.preview {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px);
+  transform: scale(1.08);
+  transition: opacity 300ms ease;
+}
+.slide > img {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.slide[data-loaded="true"] > img {
+  opacity: 1;
+}
+.slide[data-loaded="true"] > .preview {
+  opacity: 0;
+}
+.caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 211px;
+  padding: 24px;
+  color: white;
+  background: linear-gradient(transparent, #0003);
+  font: 400 14px/1.2 var(--font-body);
+}
+.caption img {
+  align-self: flex-start;
+  flex: none;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 24px;
+}
+.footer a {
+  padding: 10px 18px;
+  color: var(--color-content);
+  text-decoration: none;
+  font: 700 10px/1.2 var(--font-body);
+  text-transform: uppercase;
+}
+@media (max-width: 720px) {
+  .carousel {
+    padding-top: 48px;
+  }
+  .slide {
+    aspect-ratio: 4 / 3;
+  }
+  .caption {
+    width: 180px;
+    padding: 18px;
+    font-size: 12px;
+  }
+  .footer {
+    gap: 8px;
+  }
+  .footer a {
+    padding-inline: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .preview,
+  .slide > img {
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .carousel {
+    padding-top: 80px;
+  }
+  .slide {
+    aspect-ratio: 358 / 584;
+  }
+  .slide > img {
+    object-position: left center;
+  }
+  .preview {
+    background-position: left center;
+  }
+  .caption {
+    width: 211px;
+    padding: 24px;
+    font-size: 14px;
+  }
+}

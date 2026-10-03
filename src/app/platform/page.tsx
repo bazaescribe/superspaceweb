@@ -7,7 +7,6 @@ import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { BookingLink } from "@/components/booking-link";
 import { SystemSection, SectionBuffer } from "@/components/section-system";
-import { StartCtaSection } from "@/components/home-story-sections";
 import styles from "./platform.module.css";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -298,10 +297,6 @@ export default function PlatformPage() {
               />
             </div>
           </SystemSection>
-        </div>
-        <div className="v24-spine v24-cta-spine">
-          <StartCtaSection />
-          <SectionBuffer />
         </div>
       </main>
       <Footer />

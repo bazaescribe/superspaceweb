@@ -23,7 +23,7 @@ export function QuickActions() {
       className={styles.section}
       header={
         <header className="system-section__header">
-          <RevealTitle id="quick-actions-title">Wanna learn more?</RevealTitle>
+          <RevealTitle id="quick-actions-title">Want to learn more?</RevealTitle>
         </header>
       }
     >

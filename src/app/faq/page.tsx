@@ -1,4 +1,4 @@
-import { EditorialPage, EditorialSection, EditorialCta } from "@/components/editorial-page";
+import { EditorialPage, EditorialSection } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -42,7 +42,6 @@ export default function FaqPage() {
           <p>{answer}</p>
         </EditorialSection>
       ))}
-      <EditorialCta title="Let’s talk about your operation." />
     </EditorialPage>
   );
 }

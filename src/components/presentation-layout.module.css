@@ -1,0 +1,39 @@
+/* A bounded reading column and a flexible stage share one outer inset.
+   Keep the visual dominant without tying the copy to a literal third. */
+.frame {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.5fr);
+  gap: clamp(32px, 4vw, 64px);
+  height: clamp(600px, 50vw, 640px);
+  padding: 32px clamp(32px, 5vw, 80px);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.copy {
+  align-self: center;
+  width: 100%;
+  max-width: 360px;
+  min-width: 0;
+}
+
+@media (max-width: 900px) and (min-width: 721px) {
+  .frame {
+    grid-template-columns: minmax(240px, 0.9fr) minmax(0, 1fr);
+    gap: 24px;
+    padding: 32px;
+  }
+}
+
+@media (max-width: 720px) {
+  .frame {
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+  }
+
+  .copy {
+    max-width: none;
+  }
+}

@@ -1,0 +1,112 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-height: 320px;
+  justify-content: center;
+}
+.option {
+  appearance: none;
+  display: flex;
+  width: 100%;
+  padding: 20px 24px;
+  flex-direction: column;
+  gap: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--choice-background, #141416);
+  color: var(--choice-muted, #fff5);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 320ms var(--ease-standard),
+    background-color 320ms var(--ease-standard);
+}
+.option strong {
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  font-weight: 400;
+}
+/* Keep both states mounted so the mask, fade and expansion can reverse smoothly. */
+.details {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, black 0%, black 35%, transparent 65%);
+  mask-size: 100% 300%;
+  mask-position: 0 100%;
+  transition:
+    grid-template-rows 420ms var(--ease-standard),
+    opacity 320ms var(--ease-standard),
+    mask-position 420ms var(--ease-standard);
+}
+.detailsText {
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 4px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--choice-description, #fff9);
+}
+.option[aria-pressed="true"] {
+  color: var(--choice-content, white);
+}
+.option[aria-pressed="true"] strong {
+  font-weight: 700;
+}
+.option[aria-pressed="true"] .details {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  mask-position: 0 0;
+}
+.option:focus-visible {
+  outline: 2px solid var(--choice-content, white);
+  outline-offset: 3px;
+}
+
+.light {
+  --choice-background: #ebebed;
+  --choice-muted: var(--color-content-tertiary);
+  --choice-description: var(--color-content-secondary);
+  --choice-content: var(--color-content);
+}
+
+@media (max-width: 720px) {
+  .navigation {
+    justify-content: flex-start;
+    min-height: 91px;
+  }
+  .option {
+    padding: 0;
+    background: none;
+    cursor: default;
+    animation: mobile-copy-in 320ms ease both;
+  }
+  .option:not([aria-pressed="true"]) {
+    display: none;
+  }
+  .detailsText {
+    line-height: 1.2;
+  }
+}
+@keyframes mobile-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .option,
+  .details {
+    transition: none;
+    animation: none;
+  }
+}

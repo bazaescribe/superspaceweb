@@ -98,3 +98,62 @@
     padding: 32px 24px;
   }
 }
+
+/* Shared homepage surfaces, with the existing product diagrams retained. */
+.overview {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+  padding: 48px;
+}
+.split {
+  border: 0;
+  gap: 8px;
+}
+.copy {
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.split .copy,
+.visual {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+}
+.visual {
+  min-height: 600px;
+  padding: 48px 32px;
+  overflow: hidden;
+}
+.ownership {
+  border: 0;
+  gap: 8px;
+}
+.ownership .copy,
+.principles {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+}
+.principles {
+  padding: 24px 32px;
+}
+.process {
+  padding: 0;
+  border: 0;
+}
+@media (max-width: 720px) {
+  .overview,
+  .copy {
+    padding: 32px 24px;
+  }
+  .visual {
+    min-height: 400px;
+    padding: 32px 20px;
+  }
+  .principles {
+    padding: 8px 24px;
+  }
+}

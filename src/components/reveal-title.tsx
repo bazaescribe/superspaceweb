@@ -22,7 +22,7 @@ export function RevealTitle({
         ref={titleRef}
         id={id}
         className="scroll-title"
-        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+        initial={{ opacity: 0, y: 14 }}
         animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
         transition={entranceTransition}
       >
@@ -31,7 +31,7 @@ export function RevealTitle({
       {subtitle && (
         <motion.p
           className="reveal-subtitle"
-          initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
           transition={{ ...entranceTransition, delay: reduceMotion ? 0 : 0.06 }}
         >

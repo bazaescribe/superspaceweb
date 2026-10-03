@@ -2,10 +2,8 @@ import { SiteHero } from "@/components/site-hero";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
-import { SystemSection, SectionBuffer } from "@/components/section-system";
+import { SystemSection } from "@/components/section-system";
 import { OfferingsCatalog } from "@/components/offerings-catalog";
-import { BookingLink } from "@/components/booking-link";
-import { Reveal } from "@/components/reveal";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -40,19 +38,6 @@ export default function OfferingPage() {
             </p>
             <OfferingsCatalog />
           </SystemSection>
-          <section className="start-cta" aria-labelledby="offerings-cta-title">
-            <Reveal className="max-w-[720px]">
-              <h2 id="offerings-cta-title">
-                Don’t see your operation? <span>Let’s map it together.</span>
-              </h2>
-              <p>
-                If your work depends on disconnected tools and manual coordination, we can explore what a shared
-                operational system could look like for your team.
-              </p>
-              <BookingLink className="mt-5" placement="offerings_cta" label="Talk about your operation" designIcon />
-            </Reveal>
-          </section>
-          <SectionBuffer />
         </div>
       </main>
       <Footer />

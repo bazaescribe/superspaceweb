@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { EditorialCta, EditorialPage, EditorialSection } from "@/components/editorial-page";
+import { EditorialPage, EditorialSection } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -124,7 +124,6 @@ export default function CompanyPage() {
           </p>
         </div>
       </EditorialSection>
-      <EditorialCta title="Build the first system with us." />
     </EditorialPage>
   );
 }

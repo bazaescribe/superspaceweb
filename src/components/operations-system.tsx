@@ -19,7 +19,13 @@ export function OperationsSystem({
   embedded = false,
   initialConnected = false,
   animateBefore = false,
-}: { embedded?: boolean; initialConnected?: boolean; animateBefore?: boolean } = {}) {
+  revealedStep,
+}: {
+  embedded?: boolean;
+  initialConnected?: boolean;
+  animateBefore?: boolean;
+  revealedStep?: number;
+} = {}) {
   const [connected, setConnected] = useState(initialConnected);
   const id = useId();
   const stageRef = useRef<HTMLDivElement>(null);
@@ -51,10 +57,17 @@ export function OperationsSystem({
         id={`${id}-demo`}
         ref={stageRef}
         className={`${styles.stage} ${connected ? styles.connected : ""}`}
-        data-before-reveal={animateBefore ? (beforeInView ? "visible" : "pending") : undefined}
+        data-progressive={embedded || revealedStep !== undefined ? true : undefined}
+        data-before-reveal={
+          animateBefore && revealedStep === undefined ? (beforeInView ? "visible" : "pending") : undefined
+        }
       >
         <div className={styles.fragments} inert={connected} aria-hidden={connected}>
-          <article className={`${styles.card} ${styles.email}`}>
+          <article
+            className={`${styles.card} ${styles.email}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 0}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 0}
+          >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
                 <Image src='/assets/figma/logos/Logo-gmail.png' width={20} height={20} alt="Gmail Logo"></Image>
@@ -90,7 +103,11 @@ export function OperationsSystem({
               </div>
             </div>
           </article>
-          <article className={`${styles.card} ${styles.sheet}`}>
+          <article
+            className={`${styles.card} ${styles.sheet}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 1}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 1}
+          >
             <div className={styles.cardBar} style={{ color: 'white'}}>
               <span className={styles.mailMark}>
                 <Image src='/assets/figma/logos/Logo-Excel.png' width={20} height={20} alt="Gmail Logo"></Image>
@@ -143,7 +160,11 @@ export function OperationsSystem({
               <span>+</span>
             </div>
           </article>
-          <article className={`${styles.card} ${styles.chat}`}>
+          <article
+            className={`${styles.card} ${styles.chat}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 2}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 2}
+          >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
                 <Image src='/assets/figma/logos/Logo-Slack.png' width={28} height={28} alt="Gmail Logo"></Image>
@@ -188,7 +209,11 @@ export function OperationsSystem({
               </div>
             </div>
           </article>
-          <article className={`${styles.card} ${styles.approval}`}>
+          <article
+            className={`${styles.card} ${styles.approval}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 3}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 3}
+          >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
                 <Image src='/assets/figma/logos/Logo-Notion.png' width={28} height={28} alt="Gmail Logo"></Image>
@@ -212,7 +237,11 @@ export function OperationsSystem({
               </div>
             </div>
           </article>
-          <div className={`${styles.floatingMessage} ${styles.floatingMessageOne}`}>
+          <div
+            className={`${styles.floatingMessage} ${styles.floatingMessageOne}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 3}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 3}
+          >
             <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
               <Image src='/assets/figma/photos/User-Emma.png' width={28} height={28} alt="Gmail Logo"></Image>
             </div>
@@ -221,7 +250,11 @@ export function OperationsSystem({
               <small>Just confirming: 240, please.</small>
             </span>
           </div>
-          <div className={`${styles.floatingMessage} ${styles.floatingMessageTwo}`}>
+          <div
+            className={`${styles.floatingMessage} ${styles.floatingMessageTwo}`}
+            data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 3}
+            aria-hidden={revealedStep === undefined ? undefined : revealedStep < 3}
+          >
             <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
               <Image src='/assets/figma/photos/User-Alex.png' width={28} height={28} alt="Gmail Logo"></Image>
             </div>

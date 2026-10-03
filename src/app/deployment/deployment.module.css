@@ -446,3 +446,58 @@
     min-width: 980px;
   }
 }
+
+.summary {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+  padding: 40px;
+}
+.engagements,
+.managed,
+.fit {
+  border: 0;
+  gap: 8px;
+}
+.engagement,
+.fit > div {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+  overflow: hidden;
+}
+.engagement + .engagement,
+.fit > div + div,
+.responsibilities {
+  border: 0;
+}
+.cardArt {
+  border-radius: 10px;
+}
+.cardNote {
+  background: var(--color-background);
+  border-radius: 10px;
+}
+.managedCopy,
+.responsibilities {
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+}
+.tableScroll {
+  border: 0.5px solid var(--color-border);
+  border-radius: 10px;
+}
+.comparisonIntro {
+  padding: 0 0 24px;
+}
+.scoreLegend {
+  padding-left: 0;
+}
+@media (max-width: 720px) {
+  .summary {
+    padding: 32px 24px;
+  }
+  .mobileHint {
+    padding-left: 0;
+  }
+}

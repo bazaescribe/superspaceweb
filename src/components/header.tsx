@@ -45,8 +45,8 @@ export function Brand({
           src={`/brand/superspace-logo${variant}.svg`}
           alt=""
           aria-hidden="true"
-          width={14.375}
-          height={22}
+          width={1376}
+          height={240}
           priority
         />
       )}

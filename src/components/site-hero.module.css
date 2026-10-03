@@ -1,22 +1,27 @@
 .content {
-  padding-top: calc(var(--header-height) + var(--hero-space));
+  padding-top: calc(var(--header-height) + 96px);
 }
 .copy {
   max-width: 42rem;
 }
 .title {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: 40px;
-  font-weight: 900;
-  line-height: 1.2;
+  font: 700 40px/1.04 var(--font-display);
+  letter-spacing: 0.01em;
+}
+.home .copy {
+  max-width: 720px;
 }
 .home .title {
   font-size: 48px;
-  line-height: 1;
 }
 .intro {
   margin: 8px 0 0;
+}
+.content:not(.home) .intro {
+  max-width: 640px;
+  color: var(--color-content-secondary);
+  font: 400 16px/1.5 var(--font-body);
 }
 .compactField {
   height: 80px;
@@ -25,4 +30,32 @@
 }
 .withActions {
   height: 160px;
+}
+@media (max-width: 720px) {
+  .content {
+    padding-top: calc(var(--header-height) + 80px);
+  }
+  .title,
+  .home .title {
+    font-size: 40px;
+  }
+  .content:not(.home) .intro {
+    font-size: 14px;
+  }
+  .home .intro {
+    font: 400 14px/normal var(--font-body);
+    color: var(--color-content-secondary);
+  }
+  .content :global(.hero-actions) {
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .content :global(.hero-actions .button) {
+    flex: none;
+    min-height: 33px;
+    padding: 6px 18px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 }

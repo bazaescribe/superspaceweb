@@ -359,3 +359,45 @@
     transform: none;
   }
 }
+
+.grid {
+  gap: 8px;
+  border: 0;
+}
+.grid .cell {
+  border: 0;
+}
+.cell > article {
+  height: 100%;
+}
+.card {
+  padding: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-background-secondary);
+}
+.copy {
+  padding: 32px;
+}
+.image {
+  background: var(--color-background);
+}
+.card:hover {
+  background: var(--color-background-secondary);
+}
+@media (max-width: 640px) {
+  .grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 16px;
+    scrollbar-width: thin;
+  }
+  .grid .cell {
+    flex: 0 0 90%;
+    scroll-snap-align: start;
+  }
+  .copy {
+    padding: 24px;
+  }
+}

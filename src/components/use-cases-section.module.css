@@ -1,27 +1,20 @@
 .section {
   min-width: 0;
+  padding-top: 240px;
 }
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  padding: 160px 32px 48px;
-  border-bottom: 1px solid var(--color-border);
-  text-align: center;
-}
-.header > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  margin-bottom: 40px;
 }
 .header h2 {
   max-width: 640px;
   margin: 0;
   color: var(--color-content);
   font: 700 40px/1.04 var(--font-display);
-  letter-spacing: -0.025em;
+  letter-spacing: 0.01em;
 }
 .header p {
   max-width: 640px;
@@ -30,38 +23,21 @@
   font: 400 14px/1.2 var(--font-body);
   letter-spacing: 0.01em;
 }
-.header > a {
-  min-height: 33px;
-  padding: 6px 18px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.showcase {
-  position: relative;
-  height: 720px;
-  overflow: hidden;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-background);
-}
 .tabs {
-  position: absolute;
-  z-index: 4;
-  top: 32px;
-  left: 50%;
   display: flex;
   gap: 2px;
-  transform: translateX(-50%);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  background: var(--color-background-secondary);
+  width: fit-content;
+  max-width: 100%;
   padding: 2px;
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  background: var(--color-background-secondary);
+  margin-bottom: 40px;
 }
 .tabs button {
   min-height: 28px;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: 100px;
   background: transparent;
   padding: 6px 16px;
   color: var(--color-content-secondary);
@@ -78,104 +54,144 @@
   border-color: white;
   background: linear-gradient(0deg, #fafafa, white);
   box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
+    0 12px 16px #00000014,
+    0 0 0 1px #0000000a;
   color: var(--color-content);
 }
 .tabs button:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-content);
   outline-offset: 2px;
 }
-.mockupFrame {
-  position: absolute;
-  top: 96px;
-  right: 44px;
-  left: 44px;
-  height: 774px;
-  perspective: 1800px;
+.summaries {
+  display: grid;
+  max-width: 1024px;
+  min-height: 96px;
+  padding-bottom: 32px;
+}
+.summaryGrid {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-self: start;
+}
+.summaries h3 {
+  margin: 0 0 4px;
+  color: var(--color-content);
+  font: 700 20px/1.3 var(--font-display);
+  letter-spacing: 0.01em;
+}
+.summaries p {
+  margin: 0;
+  color: var(--color-content-secondary);
+  font: 400 14px/1.3 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.showcase {
+  --slide-width: 86.640625%;
+  --slide-gap: 40px;
+  overflow: clip;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: 1px 32px;
+  margin-block: -1px -32px;
+}
+.carouselContainer {
+  width: min(calc(100% - var(--site-gutter) * 2), var(--content-max));
+  margin-inline: auto;
+}
+.track {
+  display: flex;
+  gap: var(--slide-gap);
+  width: 100%;
+  transition: transform 650ms var(--ease-standard);
+  touch-action: pan-y;
 }
 .panel {
-  position: absolute;
-  inset: 0;
-  overflow: auto hidden;
+  position: relative;
+  flex: 0 0 var(--slide-width);
+  aspect-ratio: 1109 / 720;
+  overflow: hidden;
   border: 1px solid white;
-  border-radius: 12px;
-  background: var(--color-background-light);
-  box-shadow:
-    0 12px 48px -8px rgba(0, 0, 0, 0.12),
-    0 0 0 1px rgba(0, 0, 0, 0.04);
-  backface-visibility: hidden;
-}
-.pendingApp {
-  composes: app from "./use-case-workspace.module.css";
-}
-.pendingWorkspace {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-}
-.pendingCanvas {
-  display: grid;
-  flex: 1;
-  place-items: center;
-  background:
-    radial-gradient(circle, rgba(9, 9, 11, 0.055) 0.7px, transparent 0.9px) 0 0 / 18px 18px,
-    #f8f9fa;
-}
-.pendingCanvas > div {
-  width: min(420px, 70%);
-  border: 1px solid var(--preview-border);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 18px 46px -24px rgba(0, 0, 0, 0.18);
-  padding: 28px;
+  background: white;
+  box-shadow:
+    0 0 0 1px #0000000a,
+    0 12px 32px -8px #00000014;
 }
-.pendingCanvas span {
-  color: var(--preview-faint);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-.pendingCanvas h3 {
-  margin: 8px 0 4px;
-  font-size: 20px;
-}
-.pendingCanvas p {
-  margin: 0;
-  color: var(--preview-muted);
-  font-size: 12px;
+.panel img {
+  object-fit: cover;
 }
 @media (max-width: 720px) {
-  .header {
-    padding: 80px 20px 40px;
+  .section {
+    padding-top: 120px;
   }
   .header h2 {
     font-size: 32px;
   }
-  .showcase {
-    height: 520px;
-  }
   .tabs {
-    top: 24px;
-    max-width: calc(100% - 32px);
     overflow-x: auto;
   }
   .tabs button {
-    padding-inline: 13px;
+    padding-inline: 10px;
   }
-  .mockupFrame {
-    top: 80px;
-    right: 20px;
-    left: 20px;
-    height: 610px;
+  .summaries {
+    min-height: 210px;
   }
-  .panel {
-    overflow-x: auto;
+  .summaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+  }
+  .summaries h3 {
+    font-size: 18px;
+  }
+  .showcase {
+    --slide-width: 92%;
+    --slide-gap: 16px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .track,
   .tabs button {
     transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding-top: 240px;
+  }
+  .header {
+    margin-bottom: 32px;
+  }
+  .header h2 {
+    line-height: normal;
+  }
+  .tabs {
+    margin-bottom: 32px;
+    scrollbar-width: none;
+  }
+  .tabs button {
+    flex: none;
+    padding-inline: 16px;
+  }
+  .summaryGrid {
+    gap: 16px;
+  }
+  .summaries {
+    min-height: 198px;
+  }
+  .summaries h3 {
+    font-size: 20px;
+  }
+  .summaries p {
+    font-size: 12px;
+    line-height: normal;
+  }
+  .showcase {
+    --slide-width: 100%;
+  }
+  .panel {
+    border-radius: 3px;
   }
 }

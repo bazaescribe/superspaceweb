@@ -1,3 +1,4 @@
+import styles from "./editorial-page.module.css";
 import { SiteHero } from "@/components/site-hero";
 import type { ReactNode } from "react";
 import Image from "next/image";
@@ -20,7 +21,7 @@ export function EditorialPage({
   visual?: ReactNode;
 }) {
   return (
-    <div className="site-v2 bg-canvas text-foreground">
+    <div className={`site-v2 bg-canvas text-foreground ${styles.page}`}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -50,16 +51,13 @@ export function EditorialSection({
   tone?: "light" | "dark" | "warm";
   visual?: ReactNode;
 }) {
-  const surface =
-    tone === "dark"
-      ? "rounded-panel bg-dark p-6 text-inverse md:p-12"
-      : tone === "warm"
-        ? "rounded-panel bg-surface p-6 md:p-12"
-        : "border-t border-solid border-x-0 border-b-0 border-subtle pt-8 md:pt-10";
   return (
-    <section className={`${container} mb-section ${surface}`} id={id}>
-      <div className="grid gap-8 md:grid-cols-12 md:gap-12">
-        <div className="md:col-span-4">
+    <section
+      className={`${container} ${styles.section} ${styles[tone]} ${tone === "dark" ? "text-inverse" : ""}`}
+      id={id}
+    >
+      <div className={styles.layout}>
+        <div className={styles.heading}>
           {number && (
             <span className={`mb-5 block text-label ${tone === "dark" ? "text-inverse-muted" : "text-muted"}`}>
               {number} /
@@ -72,7 +70,7 @@ export function EditorialSection({
           </h2>
         </div>
         <div
-          className={`min-w-0 space-y-5 text-body md:col-span-8 ${tone === "dark" ? "text-inverse-muted [&_.text-foreground]:text-inverse" : "text-muted"}`}
+          className={`min-w-0 space-y-5 text-body ${tone === "dark" ? "text-inverse-muted [&_.text-foreground]:text-inverse" : "text-muted"}`}
         >
           {children}
         </div>
@@ -90,9 +88,7 @@ export function EditorialCta({
   text?: string;
 }) {
   return (
-    <section
-      className={`${container} relative isolate mb-8 overflow-hidden rounded-panel bg-dark px-6 py-16 text-inverse md:px-12 md:py-24`}
-    >
+    <section className={`${container} ${styles.cta} relative isolate overflow-hidden bg-dark text-inverse`}>
       <Image
         src="/assets/figma/conversation-background.png"
         alt=""
@@ -114,7 +110,7 @@ export function EditorialCta({
 
 export function ProductFrame({ children, label, note }: { children: ReactNode; label: string; note?: string }) {
   return (
-    <figure className="m-0 min-w-0 overflow-hidden rounded-panel border border-solid border-subtle bg-surface text-foreground shadow-panel">
+    <figure className={`${styles.frame} m-0 min-w-0 overflow-hidden bg-surface text-foreground`}>
       <figcaption className="flex items-center justify-between gap-4 border-x-0 border-t-0 border-b border-solid border-subtle px-5 py-4 text-label">
         <span>{label}</span>
         <span className="text-muted">Illustrative view</span>
@@ -127,15 +123,12 @@ export function ProductFrame({ children, label, note }: { children: ReactNode; l
 
 export function ProcessSteps({ steps }: { steps: readonly (readonly [string, string])[] }) {
   return (
-    <ol className="m-0 list-none p-0">
+    <ol className={styles.steps} tabIndex={0} aria-label="Process steps">
       {steps.map(([title, copy], index) => (
-        <li
-          key={title}
-          className="grid grid-cols-[2rem_1fr] gap-4 border-x-0 border-b-0 border-t border-solid border-subtle py-6 first:border-t-0 first:pt-0 md:grid-cols-[2rem_1fr_1.4fr] md:gap-6"
-        >
+        <li key={title} className={styles.step}>
           <span className="text-label text-muted">0{index + 1}</span>
           <h3 className="text-feature text-foreground">{title}</h3>
-          <p className="col-start-2 text-body text-muted md:col-start-auto">{copy}</p>
+          <p className="text-body text-muted">{copy}</p>
         </li>
       ))}
     </ol>

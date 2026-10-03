@@ -45,7 +45,7 @@ export function ConnectBlockVisual({ active = true }: { active?: boolean }) {
   }, [reducedMotion]);
   return (
     <div className="shape-system-visual connect-block-visual" aria-hidden="true">
-      {!reducedMotion ? <canvas ref={canvas} /> : null}
+      <canvas ref={canvas} />
       <Image
         src={fallback}
         alt=""

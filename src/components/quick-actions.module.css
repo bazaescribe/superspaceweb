@@ -71,3 +71,35 @@
     transition: none;
   }
 }
+.tiles {
+  border: 0;
+  gap: 8px;
+}
+.tile {
+  border: 0;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+}
+@media (max-width: 720px) {
+  .tile:nth-child(-n + 2) {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .section :global(.system-section__header h2) {
+    font-size: 28px;
+    line-height: normal;
+  }
+  .tile {
+    min-height: 0;
+    aspect-ratio: 160 / 90;
+    padding: 12px;
+    gap: 12px;
+    font-size: 12px;
+  }
+  .tile svg {
+    width: 14px;
+    height: 14px;
+  }
+}

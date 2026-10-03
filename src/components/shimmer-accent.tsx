@@ -12,10 +12,13 @@ export function ShimmerAccent({ children }: { children: ReactNode }) {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const backgroundPosition = useTransform(scrollYProgress, [0, 1], ["0% 0%", "100% 100%"]);
+  const backgroundPosition = useTransform(scrollYProgress, (value) => {
+    const position = reduceMotion ? 0 : value * 100;
+    return `${position}% ${position}%`;
+  });
 
   return (
-    <motion.span ref={ref} className={styles.accent} style={reduceMotion ? undefined : { backgroundPosition }}>
+    <motion.span ref={ref} className={styles.accent} style={{ backgroundPosition }}>
       {children}
     </motion.span>
   );

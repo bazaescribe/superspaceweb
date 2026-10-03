@@ -1,22 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import {
-  ArrowsClockwise,
-  ArrowUpRight,
-  Check,
-  CheckCircle,
-  Code,
-  DotsThree,
-  FilePdf,
-  Funnel,
-  GitBranch,
-  Kanban,
-  Lightning,
-  MapPin,
-  Paperclip,
-  Plus,
-  Table,
-  Truck,
-} from "@phosphor-icons/react";
+import { useRef, useSyncExternalStore, type CSSProperties } from "react";
+import { PresentationPlayback, usePresentationPlayback } from "./presentation-playback";
+import { ArrowsClockwise, DotsThree, Funnel, Kanban, MapPin, Plus, Table } from "@phosphor-icons/react";
 import { SystemSection } from "./section-system";
 import styles from "./key-features.module.css";
 
@@ -25,6 +12,18 @@ function Icon({ file }: { file: string }) {
   // Preserve the exported SVG's intrinsic dimensions.
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={`${assets}${file}.svg`} alt="" />;
+}
+function NewIcon({ file }: { file: string }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={`/assets/figma/features-iteration/${file}.svg`} alt="" />;
+}
+function PreviewHeader({ prefix, children }: { prefix: string; children: React.ReactNode }) {
+  return (
+    <div className={styles.previewHeader}>
+      <span>{prefix} /</span>
+      {children}
+    </div>
+  );
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -116,7 +115,7 @@ function PermissionsMockup() {
             <span>Finances</span>
             <span>Support</span>
             <span>
-              <Icon file="995c3" />
+              <NewIcon file="006d8" />
             </span>
           </div>
         </Field>
@@ -131,7 +130,7 @@ function PermissionsMockup() {
                 {title}
                 <p>{detail}</p>
               </div>
-              <Icon file="0ee22" />
+              <NewIcon file="0ee22" />
             </div>
           ))}
         </Field>
@@ -159,24 +158,38 @@ const events = [
 function ActivityMockup() {
   return (
     <div className={`${styles.panel} ${styles.activity}`} aria-hidden="true">
-      <div className={styles.panelBody}>
-        <Field label="Shipment">
-          <strong>F-91W</strong>
+      <PreviewHeader prefix="F91W">Order Details</PreviewHeader>
+      <div className={styles.auditBody}>
+        <div>
+          <strong>Delivery Request</strong>
+          <div className={styles.deliveryMeta}>
+            <Status>Delivered</Status>
+            <small>20 Sep 2026, 8:43 AM</small>
+          </div>
+        </div>
+        <Field label="Assigned Courier">
+          <div className={styles.courier}>
+            <span>MG</span>
+            <div>
+              Miguel Luis Galván<small>m.l.galvan@acme.com</small>
+            </div>
+          </div>
         </Field>
-        <div className={styles.timeline}>
-          <small>Effective permissions</small>
-          <div>
-            {events.map(([icon, text], index) => (
+        <Field label="Recorded Events">
+          <div className={styles.auditEvents}>
+            {events.map(([, text], index) => (
               <div key={text}>
-                {index > 0 && <Icon file={index < 5 ? "06939" : "30604"} />}
-                <div className={styles.event}>
-                  <Icon file={icon} />
-                  <span>{text}</span>
-                </div>
+                <NewIcon file={index < 3 ? "70c25" : index < 5 ? "256f6" : "3cd3c"} />
+                <span>{text.replace("Order placed", "Request placed")}</span>
+                {index < events.length - 1 && (
+                  <div className={styles.auditConnector}>
+                    <NewIcon file="0bb6c" />
+                  </div>
+                )}
               </div>
             ))}
           </div>
-        </div>
+        </Field>
       </div>
     </div>
   );
@@ -326,54 +339,25 @@ function ViewsMockup() {
 function IntegrationsMockup() {
   return (
     <div className={`${styles.panel} ${styles.detailPanel}`} aria-hidden="true">
-      <MockupHeader eyebrow="Workspace settings" title="Connections">
-        <span className={styles.iconTile}>
-          <Plus size={15} />
-        </span>
-      </MockupHeader>
-      <div className={styles.connectionList}>
+      <PreviewHeader prefix="Settings">Integrations</PreviewHeader>
+      <div className={styles.integrationsList}>
         {[
-          ["Slack", "Notify #dispatch of delivery updates", "Connected"],
-          ["Excel", "Sync the warehouse stock register", "Synced 2m ago"],
-          ["Gmail", "Attach incoming customer requests", "Connected"],
-        ].map(([name, description, state]) => (
-          <div className={styles.connection} key={name}>
-            <span className={styles.appLogo}>
-              <Image src={`/assets/figma/logos/Logo-${name}.png`} width={24} height={24} alt="" />
-            </span>
+          ["ce4c3", "Slack", "Notify #dispatch of delivery updates"],
+          ["65182", "Excel", "Sync the warehouse stock register"],
+          ["03e27", "Gmail", "Attach incoming customer requests"],
+          ["2e2fa", "Shopify", "Sync catalog availability"],
+          ["a3e98", "Outbound Webhook", "Send delivery.completed events"],
+          ["bfe05", "WhatsApp", "Keep customers up to date"],
+        ].map(([image, name, description]) => (
+          <div className={styles.integrationRow} key={name}>
+            <Image src={`/assets/figma/features-iteration/${image}.png`} alt="" width={36} height={36} />
             <div>
               <b>{name}</b>
               <p>{description}</p>
-              <small>
-                <CheckCircle size={10} weight="fill" />
-                {state}
-              </small>
             </div>
-            <ArrowUpRight size={12} />
+            <NewIcon file="0ee22" />
           </div>
         ))}
-      </div>
-      <div className={styles.apiBlock}>
-        <div>
-          <span className={styles.iconTile}>
-            <Code size={16} />
-          </span>
-          <div>
-            <b>Outbound webhook</b>
-            <p>delivery.completed</p>
-          </div>
-          <Status>Live</Status>
-        </div>
-        <div className={styles.endpoint}>
-          <span>POST</span> api.northline.mx/deliveries
-        </div>
-        <div className={styles.apiFooter}>
-          <span>
-            <Check size={11} />
-            200 OK
-          </span>
-          <span>Last delivery · 148 ms</span>
-        </div>
       </div>
     </div>
   );
@@ -381,69 +365,75 @@ function IntegrationsMockup() {
 function AutomationsMockup() {
   return (
     <div className={`${styles.panel} ${styles.detailPanel}`} aria-hidden="true">
-      <MockupHeader eyebrow="Operations / Automations" title="Restock essentials">
-        <Icon file="0ee22" />
-      </MockupHeader>
-      <div className={styles.ruleBody}>
-        <div className={styles.ruleStep}>
-          <span className={`${styles.stepIcon} ${styles.amberStep}`}>
-            <Lightning size={16} />
-          </span>
+      <PreviewHeader prefix="Automations">
+        <span className={styles.automationTitle}>
+          Restock Essentials <Status>Enabled</Status>
+        </span>
+      </PreviewHeader>
+      <div className={styles.automationTree}>
+        <div className={styles.logicRow}>
+          <i>1</i>
+          <p>
+            When <em>Order</em> is <em>confirmed</em>
+          </p>
+        </div>
+        <NewIcon file="20d4b" />
+        <div className={styles.logicRow}>
+          <i>2</i>
+          <p>
+            Check <em>Available Stock</em> for all <em>Order Items</em>
+          </p>
+        </div>
+        <NewIcon file="20d4b" />
+        <div className={styles.logicRow}>
+          <i>3</i>
+          <p>
+            If <em>all items</em> are <em>available</em>
+          </p>
+        </div>
+        <div className={styles.treeBranch}>
+          <NewIcon file="082e4" />
           <div>
-            <small>WHEN</small>
-            <b>Stock level changes</b>
-            <p>Warehouse inventory</p>
+            <div className={styles.logicRow}>
+              <Status>Yes</Status>
+              <p>
+                Reserve <em>Stock</em> for this <em>Order</em>
+              </p>
+            </div>
+            <NewIcon file="87609" />
+            <div className={styles.logicRow}>
+              <Status>Then</Status>
+              <p>
+                Create <em>Dispatch</em> linked to <em>Order</em>
+              </p>
+            </div>
+            <NewIcon file="87609" />
+            <div className={styles.logicRow}>
+              <Status>Then</Status>
+              <p>
+                Assign <em>Dispatch</em> to <em>Fulfilment team</em>
+              </p>
+            </div>
           </div>
         </div>
-        <div className={styles.ruleConnector}>
-          <span />
-        </div>
-        <div className={styles.ruleStep}>
-          <span className={`${styles.stepIcon} ${styles.purpleStep}`}>
-            <GitBranch size={16} />
-          </span>
+        <div className={styles.treeBranch}>
+          <NewIcon file="59c4c" />
           <div>
-            <small>ONLY IF</small>
-            <b>Available stock &lt; minimum</b>
-            <p>And no open purchase request</p>
+            <div className={styles.logicRow}>
+              <Status tone="amber">No</Status>
+              <p>
+                Create new <em>Purchase Request</em> for <em>Missing Quantities</em>
+              </p>
+            </div>
+            <NewIcon file="2ff5c" />
+            <div className={styles.logicRow}>
+              <Status>Then</Status>
+              <p>
+                Set <em>Order Status</em> to <em>Awaiting Stock</em>
+              </p>
+            </div>
           </div>
         </div>
-        <div className={styles.ruleConnector}>
-          <span />
-        </div>
-        <div className={styles.ruleStep}>
-          <span className={`${styles.stepIcon} ${styles.greenStep}`}>
-            <Plus size={16} />
-          </span>
-          <div>
-            <small>THEN</small>
-            <b>Create purchase request</b>
-            <p>
-              Assign to <span className={styles.mention}>@Sam Olguín</span>
-            </p>
-          </div>
-        </div>
-        <div className={styles.ruleConnector}>
-          <span />
-        </div>
-        <div className={styles.ruleStep}>
-          <span className={styles.stepIcon}>
-            <Image src="/assets/figma/logos/Logo-Slack.png" width={18} height={18} alt="" />
-          </span>
-          <div>
-            <small>AND</small>
-            <b>Notify #procurement</b>
-            <p>Include item, quantity and supplier</p>
-          </div>
-        </div>
-      </div>
-      <div className={styles.runReceipt}>
-        <CheckCircle size={14} weight="fill" />
-        <div>
-          <b>Last run successful</b>
-          <p>PR-0082 created · Today, 9:41 AM</p>
-        </div>
-        <span>0.8s</span>
       </div>
     </div>
   );
@@ -451,73 +441,44 @@ function AutomationsMockup() {
 function ContextMockup() {
   return (
     <div className={`${styles.panel} ${styles.detailPanel}`} aria-hidden="true">
-      <MockupHeader eyebrow="Delivery / RL2046" title="Casa Bosques">
-        <Status>Delivered</Status>
-      </MockupHeader>
+      <PreviewHeader prefix="GMWB5000">Delivery Details</PreviewHeader>
       <div className={styles.contextBody}>
-        <div className={styles.recordSummary}>
-          <span>
-            <Truck size={13} /> Juárez, Mexico City
-          </span>
-          <span>Today, 9:32 AM</span>
+        <div className={styles.contextLocation}>
+          <NewIcon file="5008b" />
+          <span>Montecito 301, Int. 2, Nápoles, Benito Juárez, Ciudad de México.</span>
         </div>
-        <Field label="Files · 2">
-          <div className={styles.attachments}>
-            <div>
-              <span className={styles.fileIcon}>
-                <FilePdf size={25} />
-              </span>
-              <b>Delivery receipt.pdf</b>
-              <small>128 KB · Sam Olguín</small>
-            </div>
-            <div>
-              <span className={`${styles.fileIcon} ${styles.documentIcon}`}>
-                <Table size={25} />
-              </span>
-              <b>Packing list.xlsx</b>
-              <small>42 KB · Mario Rubio</small>
-            </div>
+        <div className={styles.contextTags}>
+          <Status>Delivered</Status>
+          <span className={styles.personTag}>
+            <b>RV</b> Ramiro Velazquez
+          </span>
+        </div>
+        <Field label="Attachments">
+          <div className={styles.fileRows}>
+            {[
+              ["65182", "Packing List - GMWB5000.xlsx", "1.4MB"],
+              ["61f54", "Delivery Receipt - GMWB5000.pdf", "128KB"],
+              ["0d528", "Delivery Photo Evidence - GMWB5000.jpg", "1.4MB"],
+            ].map(([image, name, size]) => (
+              <div key={name}>
+                <Image src={`/assets/figma/features-iteration/${image}.png`} width={36} height={36} alt="" />
+                <div>
+                  <p>{name}</p>
+                  <small>{size}</small>
+                </div>
+              </div>
+            ))}
           </div>
         </Field>
-        <div className={styles.commentHeading}>
-          <b>Comments</b>
-          <span>2</span>
-          <span className={styles.subscribed}>
-            <Check size={11} /> Following
-          </span>
-        </div>
-        <div className={styles.comment}>
-          <span className={styles.avatar}>MR</span>
-          <div>
-            <div>
-              <b>Mario Rubio</b>
-              <small>9:32 AM</small>
-            </div>
-            <p>Delivered all 6 boxes to reception. Signed receipt attached.</p>
-            <span className={styles.reaction}>
-              <Check size={11} /> 1
+        <Field label="Comments">
+          <div className={styles.contextTags}>
+            <span className={styles.personTag}>
+              <b>RV</b> Ramiro Velazquez
             </span>
+            <span className={styles.timeTag}>9:32 AM</span>
           </div>
-        </div>
-        <div className={styles.comment}>
-          <span className={`${styles.avatar} ${styles.samAvatar}`}>SO</span>
-          <div>
-            <div>
-              <b>Sam Olguín</b>
-              <small>9:35 AM</small>
-            </div>
-            <p>
-              Thanks <span className={styles.mention}>@Mario</span>, quantities match. Ready for invoicing.
-            </p>
-          </div>
-        </div>
-        <div className={styles.commentComposer}>
-          <span>Leave a comment…</span>
-          <Paperclip size={14} />
-          <span className={styles.sendIcon}>
-            <ArrowUpRight size={13} />
-          </span>
-        </div>
+          <p className={styles.deliveryComment}>Delivered all 6 boxes to reception. Signed receipt attached.</p>
+        </Field>
       </div>
     </div>
   );
@@ -531,13 +492,14 @@ const features = [
   },
   {
     title: "Roles & Permissions",
+    dark: true,
     description: "Control access across teams, locations and responsibilities.",
     visual: <PermissionsMockup />,
   },
   {
     title: "Activity & Audit Trail",
     description: "A secure activity history helps keep your team informed and protected.",
-    green: true,
+    dark: true,
     visual: <ActivityMockup />,
   },
   {
@@ -553,6 +515,7 @@ const features = [
   },
   {
     title: "Rules & Automations",
+    dark: true,
     description: "Turn operational rules into actions that happen automatically.",
     visual: <AutomationsMockup />,
   },
@@ -562,27 +525,79 @@ const features = [
     visual: <ContextMockup />,
   },
 ];
+const mobileOrder = [4, 3, 2, 1, 0, 5, 6];
+function subscribeMobile(onChange: () => void) {
+  const media = window.matchMedia("(max-width: 720px)");
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+function getMobile() {
+  return window.matchMedia("(max-width: 720px)").matches;
+}
+function getServerMobile() {
+  return false;
+}
+
 export function KeyFeatures() {
+  const mobile = useSyncExternalStore(subscribeMobile, getMobile, getServerMobile);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playback = usePresentationPlayback(features.length, containerRef, 6500, mobile);
+  const press = useRef<{ x: number; y: number } | null>(null);
+  const cards = mobile ? mobileOrder.map((index) => features[index]) : features;
   return (
     <SystemSection
       className={styles.section}
-      primary="Built for the details that make operations work."
-      accent="The everyday capabilities your team needs to run the business."
-      action={{ label: "View offerings", href: "/offering" }}
+      primary="Built for real world operations."
+      accent="The pieces that make your work flow."
     >
-      <div className={styles.grid}>
-        {features.map((feature) => (
-          <article
-            key={feature.title}
-            className={`${styles.card} ${feature.wide ? styles.wide : ""} ${feature.green ? styles.green : ""}`}
-          >
-            <div className={styles.copy}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
+      <div
+        ref={containerRef}
+        {...playback.focusProps}
+        role={mobile ? "region" : undefined}
+        aria-roledescription={mobile ? "carousel" : undefined}
+        aria-label={mobile ? "Key features" : undefined}
+      >
+        <div className={styles.carousel}>
+          <div className={styles.container}>
+            <div
+              className={styles.grid}
+              style={{ "--feature-active": playback.active } as CSSProperties}
+              onPointerDown={(event) => {
+                if (!mobile) return;
+                press.current = { x: event.clientX, y: event.clientY };
+                event.currentTarget.setPointerCapture(event.pointerId);
+              }}
+              onPointerUp={(event) => {
+                if (!press.current) return;
+                const dx = event.clientX - press.current.x;
+                const dy = event.clientY - press.current.y;
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy))
+                  playback.select(playback.active + (dx < 0 ? 1 : -1));
+                press.current = null;
+              }}
+              onPointerCancel={() => {
+                press.current = null;
+              }}
+            >
+              {cards.map((feature, index) => (
+                <article
+                  key={feature.title}
+                  className={`${styles.card} ${feature.wide ? styles.wide : ""} ${feature.dark ? styles.dark : ""}`}
+                  aria-hidden={mobile ? index !== playback.active : undefined}
+                >
+                  <div className={styles.copy}>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                  </div>
+                  <div className={styles.visual}>{feature.visual}</div>
+                </article>
+              ))}
             </div>
-            <div className={styles.visual}>{feature.visual}</div>
-          </article>
-        ))}
+          </div>
+        </div>
+        <div className={styles.playback}>
+          <PresentationPlayback labels={cards.map((feature) => feature.title)} playback={playback} name="Features" />
+        </div>
       </div>
     </SystemSection>
   );

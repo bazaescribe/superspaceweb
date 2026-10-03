@@ -49,7 +49,7 @@ export function ShapeSystemVisual({ hovered }: { hovered: boolean }) {
 
   return (
     <div className="shape-system-visual" aria-hidden="true">
-      {!reduceMotion ? <canvas ref={canvas} /> : null}
+      <canvas ref={canvas} />
       <Image
         src="/assets/figma/illustration/Map.svg"
         alt=""

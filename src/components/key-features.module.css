@@ -1011,3 +1011,377 @@
     padding: 8px;
   }
 }
+/* Updated Figma previews use full-size records, clipped by their feature card. */
+.grid {
+  padding: 0;
+  border: 0;
+}
+.card {
+  border-radius: 10px;
+}
+.dark {
+  background: #070709;
+}
+.dark .copy {
+  color: white;
+}
+.dark .copy p {
+  color: #fff9;
+}
+.permissions,
+.activity,
+.detailPanel {
+  width: 351px;
+  max-width: calc(100% - 64px);
+  left: 32px;
+  top: 32px;
+}
+.permissions {
+  border-color: #272727;
+}
+.portrait {
+  height: 215px;
+}
+.portrait > img {
+  width: 378px;
+  height: 212px;
+  left: -20px;
+  object-fit: cover;
+}
+.identity {
+  width: 100%;
+  padding: 16px 24px;
+}
+.permissionsBody {
+  padding: 24px;
+}
+.permission {
+  padding: 12px 0;
+  border-bottom: 1px solid #e8eaee;
+}
+.permission > div {
+  flex: 1;
+  min-width: 0;
+}
+.permission p {
+  color: #0707094d;
+}
+.permission > img {
+  flex: none;
+}
+.previewHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  min-height: 48px;
+  background: #fafafa;
+  border-bottom: 1px solid #e8eaee;
+  font: 400 12px/1.25 var(--font-body);
+  color: #070709;
+}
+.previewHeader > span:first-child {
+  color: #0707094d;
+}
+.auditBody {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.auditBody strong {
+  font-size: 16px;
+}
+.deliveryMeta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+.deliveryMeta small {
+  font-size: 10px;
+  color: #0707094d;
+}
+.courier {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 14px;
+}
+.courier > span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fe9a00;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+.courier small {
+  display: block;
+  font-size: 12px;
+  color: #07070999;
+}
+.auditEvents {
+  margin-top: 8px;
+}
+.auditEvents > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 10px;
+}
+.auditEvents > div > img {
+  flex: none;
+}
+.auditEvents > div > span {
+  font-size: 12px;
+}
+.auditConnector {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.integrationsList {
+  padding: 16px 24px;
+}
+.integrationRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 0.5px solid #e8eaee;
+}
+.integrationRow > img {
+  border-radius: 6px;
+  flex: none;
+}
+.integrationRow > div {
+  min-width: 0;
+  flex: 1;
+}
+.integrationRow b {
+  font-size: 12px;
+  font-weight: 400;
+}
+.integrationRow p {
+  font-size: 10px;
+  color: #0707094d;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.automationTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.automationTree {
+  padding: 32px;
+  width: 570px;
+  font-size: 12px;
+}
+.logicRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 20px;
+  white-space: nowrap;
+}
+.logicRow i {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0000000a;
+  font-size: 10px;
+  font-style: normal;
+  color: #0707094d;
+}
+.logicRow em {
+  color: #00a6f4;
+  font-style: normal;
+}
+.treeBranch {
+  display: flex;
+  align-items: flex-start;
+}
+.treeBranch > div {
+  flex: 1;
+}
+.treeBranch > img {
+  flex: none;
+}
+.treeBranch .status {
+  width: 40px;
+  justify-content: center;
+}
+.contextBody {
+  padding: 24px;
+  gap: 16px;
+}
+.contextLocation {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.contextLocation > img {
+  flex: none;
+}
+.contextLocation > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.contextTags {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.personTag,
+.timeTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 100px;
+  padding: 2px 6px 2px 2px;
+  background: #09090b0a;
+  font-size: 10px;
+  color: #07070999;
+}
+.personTag b {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #f69dcc;
+  font-size: 8px;
+  color: white;
+}
+.timeTag {
+  padding: 4px 8px;
+  color: #070709;
+}
+.fileRows > div {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 0.5px solid #e8eaee;
+}
+.fileRows img {
+  flex: none;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.fileRows > div > div {
+  flex: 1;
+  min-width: 0;
+}
+.fileRows p {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fileRows small {
+  display: block;
+  font-size: 10px;
+  color: #0707094d;
+}
+.deliveryComment {
+  margin-top: 4px !important;
+  font-size: 12px;
+  line-height: 1.25;
+}
+@media (max-width: 720px) {
+  .permissions,
+  .activity,
+  .detailPanel {
+    left: 24px;
+    max-width: calc(100% - 48px);
+  }
+  .copy {
+    padding-inline: 24px;
+  }
+}
+
+.permissions,
+.activity,
+.detailPanel {
+  transform: none;
+}
+.auditBody .field small {
+  font-size: 10px;
+}
+.copy {
+  padding-bottom: 0;
+}
+.auditBody .status::before,
+.contextTags .status::before,
+.automationTitle .status::before,
+.treeBranch .status::before {
+  display: none;
+}
+
+.playback {
+  display: none;
+}
+@media (max-width: 720px) {
+  .section :global(.system-section__header h2) {
+    font-size: 28px;
+    line-height: normal;
+  }
+  .carousel {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    overflow: clip;
+    padding-block: 1px 32px;
+    margin-block: -1px -32px;
+  }
+  .container {
+    width: min(calc(100% - var(--site-gutter) * 2), var(--content-max));
+    margin-inline: auto;
+  }
+  .grid {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    transform: translateX(calc(var(--feature-active) * (100% + 8px) * -1));
+    transition: transform 650ms var(--ease-standard);
+    touch-action: pan-y;
+  }
+  .card,
+  .card:first-child {
+    flex: 0 0 100%;
+    height: 520px;
+  }
+  .copy {
+    padding: 32px 32px 0;
+  }
+  .permissions,
+  .activity,
+  .detailPanel {
+    left: 32px;
+    width: 351px;
+    max-width: none;
+  }
+  .playback {
+    display: block;
+    padding-top: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid {
+    transition: none;
+  }
+}

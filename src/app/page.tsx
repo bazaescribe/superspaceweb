@@ -1,11 +1,9 @@
 import { SiteHero } from "@/components/site-hero";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { HeroMockup } from "@/components/hero-mockup";
+import { IndustryCarousel } from "@/components/industry-carousel";
 import { BookingLink } from "@/components/booking-link";
-import { StartCtaSection } from "@/components/home-story-sections";
 import { HomeSections } from "@/components/home-sections";
-import { SectionBuffer } from "@/components/section-system";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -19,7 +17,7 @@ export const metadata = createPageMetadata({
 
 export default function Home() {
   return (
-    <HeaderThemeScope className="site-v2">
+    <HeaderThemeScope className="site-v2 home-iteration">
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
@@ -27,15 +25,9 @@ export default function Home() {
       <main id="main-content">
         <SiteHero
           variant="home"
-          visual={<HeroMockup />}
+          visual={<IndustryCarousel />}
           title="Your operations. Finally, working as one."
-          intro={
-            <>
-              {" "}
-              One operating system for your workflows, people, data, and agents. Modeled around how your business
-              actually works. Without having to develop software yourself.{" "}
-            </>
-          }
+          intro="Superspace brings your data, workflows and teams together in one place to run your business."
           actions={
             <>
               {" "}
@@ -47,10 +39,6 @@ export default function Home() {
           }
         />
         <HomeSections />
-        <div className="v24-spine v24-cta-spine">
-          <StartCtaSection />
-          <SectionBuffer />
-        </div>
       </main>
       <Footer />
     </HeaderThemeScope>

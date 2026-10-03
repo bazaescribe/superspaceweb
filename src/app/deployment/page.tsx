@@ -7,7 +7,6 @@ import { SystemSection, SectionBuffer, SplitContent } from "@/components/section
 import { ShapeSystemVisual } from "@/components/shape-system-card";
 import { ConnectBlockVisual } from "@/components/connect-block-card";
 import { WorkOrbitVisual } from "@/components/work-orbit-card";
-import { StartCtaSection } from "@/components/home-story-sections";
 import { createPageMetadata } from "@/lib/seo";
 import styles from "./deployment.module.css";
 import { DeploymentCostChart } from "@/components/deployment-cost-chart";
@@ -321,10 +320,6 @@ export default function DeploymentPage() {
               </div>
             </div>
           </SystemSection>
-        </div>
-        <div className="v24-spine v24-cta-spine">
-          <StartCtaSection />
-          <SectionBuffer />
         </div>
       </main>
       <Footer />

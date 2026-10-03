@@ -51,7 +51,7 @@ export function WorkOrbitVisual({
   }, [reducedMotion]);
   return (
     <div className="shape-system-visual work-orbit-visual" aria-hidden="true">
-      {!reducedMotion ? <canvas ref={canvas} /> : null}
+      <canvas ref={canvas} />
       <Image
         src="/assets/figma/illustration/Work.svg"
         alt=""

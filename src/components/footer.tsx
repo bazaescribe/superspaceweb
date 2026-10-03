@@ -1,12 +1,23 @@
 import Link from "next/link";
 import { FooterReveal, FooterWordmark } from "@/components/footer-wordmark";
 import { footerGroups } from "@/lib/site";
+import { BookingLink } from "./booking-link";
 import { SectionBuffer } from "@/components/section-system";
 
 export function Footer() {
   return (
     <FooterReveal>
       <footer className="v2-footer shell">
+        <div className="footer-cta">
+          <h2>Run your business as one.</h2>
+          <p>See how Superspace could look for your operation.</p>
+          <div className="hero-actions">
+            <BookingLink placement="footer" label="Talk to us" designIcon inverse />
+            <span className="footer-brochure" aria-disabled="true" title="Brochure coming soon">
+              Download the brochure
+            </span>
+          </div>
+        </div>
         <div className="v2-footer__top">
           {footerGroups.map((group) => (
             <nav className="v2-footer__group" aria-label={group.title} key={group.title}>

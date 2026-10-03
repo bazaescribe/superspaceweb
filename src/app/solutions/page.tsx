@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { EditorialCta, EditorialPage, EditorialSection, ProductFrame, container } from "@/components/editorial-page";
+import { EditorialPage, EditorialSection, ProductFrame, container } from "@/components/editorial-page";
 import { Reveal } from "@/components/reveal";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -223,10 +223,6 @@ export default function SolutionsPage() {
           people and service commitments have to move together.
         </p>
       </EditorialSection>
-      <EditorialCta
-        title="Bring us one workflow."
-        text="Show us the people, records, handoffs and exceptions involved. We’ll help determine whether it is a strong first system for Superspace."
-      />
     </EditorialPage>
   );
 }

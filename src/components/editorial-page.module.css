@@ -1,0 +1,110 @@
+.page {
+  --radius-panel: 10px;
+}
+.section {
+  margin-bottom: 160px;
+  padding: 48px;
+  border-radius: 10px;
+}
+.light,
+.warm {
+  background: var(--color-background-secondary);
+}
+.dark {
+  background: var(--color-dark, #171719);
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 64px;
+}
+.heading h2 {
+  font: 700 32px/1.1 var(--font-display);
+  letter-spacing: 0.01em;
+}
+.cta {
+  margin-block: 80px 160px;
+  padding: 96px 48px;
+  border-radius: 10px;
+}
+.frame {
+  border: 0.5px solid var(--color-border);
+  border-radius: 10px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  border-radius: 10px;
+  background: var(--color-background-secondary);
+  min-width: 0;
+}
+.section .step {
+  background: var(--color-background);
+}
+.step h3 {
+  font-size: 22px;
+  line-height: 1.15;
+}
+.step p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.page :global([aria-label="Operational solutions"]) {
+  display: grid;
+  gap: 8px;
+}
+.page :global([aria-label="Operational solutions"] > div) {
+  border: 0;
+  border-radius: 10px;
+  padding: 48px;
+  background: var(--color-background-secondary);
+}
+@media (max-width: 1000px) {
+  .layout {
+    gap: 32px;
+  }
+  .step {
+    padding: 24px;
+  }
+}
+@media (max-width: 720px) {
+  .section {
+    padding: 24px;
+    margin-bottom: 120px;
+  }
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .heading h2 {
+    font-size: 28px;
+  }
+  .cta {
+    padding: 64px 24px;
+    margin-block: 80px 120px;
+  }
+  .steps {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding-bottom: 12px;
+  }
+  .step {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+  }
+  .page :global([aria-label="Operational solutions"] > div) {
+    padding: 24px;
+  }
+}

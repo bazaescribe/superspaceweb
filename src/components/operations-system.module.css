@@ -150,6 +150,33 @@
 .stage[data-before-reveal] .floatingMessageTwo {
   --before-reveal-delay: 0.78s;
 }
+.fragments > [data-fragment-visible] {
+  transition:
+    opacity 0.5s ease,
+    translate 0.65s cubic-bezier(0.22, 0.86, 0.24, 1),
+    filter 0.5s ease,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.fragments > [data-fragment-visible="false"] {
+  opacity: 0;
+  translate: 0 24px;
+  filter: blur(4px);
+  pointer-events: none;
+}
+.fragments > [data-fragment-visible="true"] {
+  opacity: 1;
+  translate: 0;
+  filter: none;
+}
+.fragments > .floatingMessageOne[data-fragment-visible] { transition-delay: 0.15s; }
+.fragments > .floatingMessageTwo[data-fragment-visible] { transition-delay: 0.3s; }
+@media (max-width: 650px) {
+  .stage[data-progressive] .sheet { top: 130px; }
+  .stage[data-progressive] .chat { top: 270px; }
+  .stage[data-progressive] .approval { display: block; top: 420px; width: 78%; right: 4%; z-index: 4; transform: rotate(2deg); }
+  .stage[data-progressive] .floatingMessageOne { top: 110px; z-index: 5; }
+  .stage[data-progressive] .floatingMessageTwo { top: 400px; display: flex; z-index: 5; }
+}
 .cardBar {
   height: 47px;
   display: flex;
@@ -1142,4 +1169,49 @@
 .workspaceName {
   font-size: 8px;
   letter-spacing: 0;
+}
+
+/* Fit the accumulated tools inside the inset desktop presentation stage. */
+@media (min-width: 721px) {
+  .embedded .stage[data-progressive] .fragments {
+    /* Center the fixed card arrangement as one unit inside the fluid stage. */
+    inset: calc((100% - 488px) / 2) 0 auto;
+    height: 488px;
+  }
+  .embedded .stage[data-progressive] .card {
+    transform: scale(.8);
+    transform-origin: top left;
+  }
+  .embedded .stage[data-progressive] .email { top: 48px; left: 4%; }
+  .embedded .stage[data-progressive] .sheet { top: 24px; right: 4%; transform-origin: top right; }
+  .embedded .stage[data-progressive] .chat { top: 238px; left: 9%; }
+  .embedded .stage[data-progressive] .approval { top: 270px; right: 7%; transform-origin: top right; }
+  .embedded .stage[data-progressive] .floatingMessageOne { top: 190px; }
+  .embedded .stage[data-progressive] .floatingMessageTwo { top: 420px; }
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  .embedded .stage[data-progressive] .card { transform: scale(.65); }
+  .embedded .stage[data-progressive] .chat { top: 220px; }
+  .embedded .stage[data-progressive] .approval { top: 290px; }
+  .embedded .stage[data-progressive] .floatingMessage { transform: scale(.75); }
+  .embedded .stage[data-progressive] .floatingMessageTwo { top: 420px; right: 0; }
+}
+
+/* Compact accumulated stack for the mobile problem presentation. */
+@media (max-width: 720px) {
+  .stage[data-progressive] .fragments { inset: 0; --tool-scale: .45; }
+  .stage[data-progressive] .card { transform: scale(var(--tool-scale)); transform-origin: top left; }
+  .stage[data-progressive] .email { left: 8%; top: 45px; width: 350px; }
+  .stage[data-progressive] .sheet { left: 48%; right: auto; top: 92px; width: 350px; z-index: 2; }
+  .stage[data-progressive] .chat { left: 15%; top: 181px; width: 350px; z-index: 3; }
+  .stage[data-progressive] .approval { display: block; left: 50%; right: auto; top: 220px; width: 350px; z-index: 4; }
+  .stage[data-progressive] .floatingMessage { transform: scale(.55); transform-origin: top left; }
+  .stage[data-progressive] .floatingMessageOne { left: 42%; right: auto; top: 153px; z-index: 5; }
+  .stage[data-progressive] .floatingMessageTwo { display: flex; left: 34%; right: auto; top: 297px; z-index: 5; }
+}
+@media (min-width: 480px) and (max-width: 720px) {
+  .stage[data-progressive] .fragments { --tool-scale: .65; }
+  .stage[data-progressive] .chat { top: 235px; }
+  .stage[data-progressive] .approval { top: 290px; }
+  .stage[data-progressive] .floatingMessageTwo { top: 390px; }
 }
