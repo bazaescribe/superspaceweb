@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useSyncExternalStore, type CSSProperties } from "react";
-import { PresentationPlayback, usePresentationPlayback } from "./presentation-playback";
+import { FeatureBento } from "./feature-bento";
 import { ArrowsClockwise, DotsThree, Funnel, Kanban, MapPin, Plus, Table } from "@phosphor-icons/react";
 import { SystemSection } from "./section-system";
 import styles from "./key-features.module.css";
@@ -16,6 +15,10 @@ function Icon({ file }: { file: string }) {
 function NewIcon({ file }: { file: string }) {
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={`/assets/figma/features-iteration/${file}.svg`} alt="" />;
+}
+function PlatformIcon({ file }: { file: string }) {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={`/assets/figma/platform/${file}.svg`} alt="" />;
 }
 function PreviewHeader({ prefix, children }: { prefix: string; children: React.ReactNode }) {
   return (
@@ -95,7 +98,7 @@ function WorkflowMockup() {
     </div>
   );
 }
-function PermissionsMockup() {
+export function PermissionsMockup({ platform = false }: { platform?: boolean } = {}) {
   return (
     <div className={`${styles.panel} ${styles.permissions}`} aria-hidden="true">
       <div className={styles.portrait}>
@@ -114,9 +117,7 @@ function PermissionsMockup() {
           <div className={styles.tags}>
             <span>Finances</span>
             <span>Support</span>
-            <span>
-              <NewIcon file="006d8" />
-            </span>
+            <span>{platform ? <PlatformIcon file="83581" /> : <NewIcon file="006d8" />}</span>
           </div>
         </Field>
         <Field label="Effective permissions">
@@ -130,7 +131,7 @@ function PermissionsMockup() {
                 {title}
                 <p>{detail}</p>
               </div>
-              <NewIcon file="0ee22" />
+              {platform ? <PlatformIcon file="de0af" /> : <NewIcon file="0ee22" />}
             </div>
           ))}
         </Field>
@@ -155,7 +156,7 @@ const events = [
   ["b61c5", "Recipient unavailable."],
   ["29ed6", "Package left with concierge. 8:44 AM."],
 ];
-function ActivityMockup() {
+export function ActivityMockup({ delivered = false }: { delivered?: boolean } = {}) {
   return (
     <div className={`${styles.panel} ${styles.activity}`} aria-hidden="true">
       <PreviewHeader prefix="F91W">Order Details</PreviewHeader>
@@ -177,7 +178,15 @@ function ActivityMockup() {
         </Field>
         <Field label="Recorded Events">
           <div className={styles.auditEvents}>
-            {events.map(([, text], index) => (
+            {(delivered
+              ? [
+                  ...events.slice(0, 8),
+                  ["29ed6", "Clearance approved 8:41 AM."],
+                  ["29ed6", "Courier arrived at delivery destination 8:42 AM."],
+                  ["29ed6", "Delivered 8:43 AM."],
+                ]
+              : events
+            ).map(([, text], index) => (
               <div key={text}>
                 <NewIcon file={index < 3 ? "70c25" : index < 5 ? "256f6" : "3cd3c"} />
                 <span>{text.replace("Order placed", "Request placed")}</span>
@@ -525,80 +534,14 @@ const features = [
     visual: <ContextMockup />,
   },
 ];
-const mobileOrder = [4, 3, 2, 1, 0, 5, 6];
-function subscribeMobile(onChange: () => void) {
-  const media = window.matchMedia("(max-width: 720px)");
-  media.addEventListener("change", onChange);
-  return () => media.removeEventListener("change", onChange);
-}
-function getMobile() {
-  return window.matchMedia("(max-width: 720px)").matches;
-}
-function getServerMobile() {
-  return false;
-}
-
 export function KeyFeatures() {
-  const mobile = useSyncExternalStore(subscribeMobile, getMobile, getServerMobile);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const playback = usePresentationPlayback(features.length, containerRef, 6500, mobile);
-  const press = useRef<{ x: number; y: number } | null>(null);
-  const cards = mobile ? mobileOrder.map((index) => features[index]) : features;
   return (
     <SystemSection
       className={styles.section}
       primary="Built for real world operations."
       accent="The pieces that make your work flow."
     >
-      <div
-        ref={containerRef}
-        {...playback.focusProps}
-        role={mobile ? "region" : undefined}
-        aria-roledescription={mobile ? "carousel" : undefined}
-        aria-label={mobile ? "Key features" : undefined}
-      >
-        <div className={styles.carousel}>
-          <div className={styles.container}>
-            <div
-              className={styles.grid}
-              style={{ "--feature-active": playback.active } as CSSProperties}
-              onPointerDown={(event) => {
-                if (!mobile) return;
-                press.current = { x: event.clientX, y: event.clientY };
-                event.currentTarget.setPointerCapture(event.pointerId);
-              }}
-              onPointerUp={(event) => {
-                if (!press.current) return;
-                const dx = event.clientX - press.current.x;
-                const dy = event.clientY - press.current.y;
-                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy))
-                  playback.select(playback.active + (dx < 0 ? 1 : -1));
-                press.current = null;
-              }}
-              onPointerCancel={() => {
-                press.current = null;
-              }}
-            >
-              {cards.map((feature, index) => (
-                <article
-                  key={feature.title}
-                  className={`${styles.card} ${feature.wide ? styles.wide : ""} ${feature.dark ? styles.dark : ""}`}
-                  aria-hidden={mobile ? index !== playback.active : undefined}
-                >
-                  <div className={styles.copy}>
-                    <h3>{feature.title}</h3>
-                    <p>{feature.description}</p>
-                  </div>
-                  <div className={styles.visual}>{feature.visual}</div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className={styles.playback}>
-          <PresentationPlayback labels={cards.map((feature) => feature.title)} playback={playback} name="Features" />
-        </div>
-      </div>
+      <FeatureBento items={features} mobileOrder={[4, 3, 2, 1, 0, 5, 6]} name="Features" />
     </SystemSection>
   );
 }

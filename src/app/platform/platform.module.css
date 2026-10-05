@@ -1,159 +1,106 @@
-.eyebrow {
-  margin-bottom: 24px;
-  color: var(--color-content-secondary);
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.page :global(.system-section__header) {
+  padding: 160px 0 32px;
 }
-.overview {
-  padding: 32px;
-  border-bottom: 1px solid var(--color-border);
+.page :global(.system-section__header h2) {
+  line-height: normal;
 }
+.sections {
+  padding-bottom: 160px;
+}
+/* The two bento sections include the design's lower breathing room. */
 .anchor {
   scroll-margin-top: 80px;
+  padding-bottom: 160px;
 }
-.split {
+.infrastructure {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  border-bottom: 1px solid var(--color-border);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
 }
-.copy {
-  padding: 40px 32px;
-}
-.copy h3 {
-  margin: 0 0 24px;
-  font: 700 24px/1.2 var(--font-display);
-}
-.copy p {
-  margin: 0 0 20px;
-  color: var(--color-content-secondary);
-  line-height: 1.65;
-}
-.copy p:last-child {
-  margin-bottom: 0;
-}
-.visual {
+.capability {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  aspect-ratio: 1;
   min-width: 0;
-  padding: 48px 32px;
-  border-left: 1px solid var(--color-border);
-  background: var(--color-background-secondary);
-}
-.ownership {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid var(--color-border);
-}
-.ownership .copy {
-  max-width: 640px;
-}
-.principles {
-  margin: 0;
-  padding: 16px 32px;
-  border-left: 1px solid var(--color-border);
-}
-.principles > div {
-  padding: 24px 0;
-  border-bottom: 1px solid var(--color-border);
-}
-.principles > div:last-child {
-  border-bottom: 0;
-}
-.principles dt {
-  font: 700 20px/1.2 var(--font-display);
-}
-.principles dd {
-  margin: 12px 0 0;
-  color: var(--color-content-secondary);
-  line-height: 1.6;
-}
-.process {
-  padding: 40px 32px;
-  border-bottom: 1px solid var(--color-border);
-}
-@media (max-width: 720px) {
-  .overview {
-    padding: 24px 20px;
-  }
-  .split,
-  .ownership {
-    grid-template-columns: 1fr;
-  }
-  .copy {
-    padding: 32px 24px;
-  }
-  .visual {
-    padding: 32px 20px;
-    border-left: 0;
-    border-top: 1px solid var(--color-border);
-  }
-  .principles {
-    padding: 0 24px;
-    border-left: 0;
-    border-top: 1px solid var(--color-border);
-  }
-  .process {
-    padding: 32px 24px;
-  }
-}
-
-/* Shared homepage surfaces, with the existing product diagrams retained. */
-.overview {
-  border: 0;
+  padding: 24px;
   border-radius: 10px;
   background: var(--color-background-secondary);
-  padding: 48px;
 }
-.split {
-  border: 0;
-  gap: 8px;
-}
-.copy {
-  padding: 48px 32px;
+.cardHeader {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.split .copy,
-.visual {
-  border: 0;
-  border-radius: 10px;
-  background: var(--color-background-secondary);
-}
-.visual {
-  min-height: 600px;
-  padding: 48px 32px;
-  overflow: hidden;
-}
-.ownership {
-  border: 0;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
 }
-.ownership .copy,
-.principles {
-  border: 0;
-  border-radius: 10px;
-  background: var(--color-background-secondary);
+.cardHeader img {
+  flex: none;
 }
-.principles {
-  padding: 24px 32px;
+.capability h3 {
+  margin: 0 0 4px;
+  font: 700 16px/normal var(--font-body);
+  letter-spacing: 0.01em;
 }
-.process {
-  padding: 0;
-  border: 0;
+.capability p {
+  margin: 0;
+  color: var(--color-content-secondary);
+  font: 400 14px/normal var(--font-body);
+  letter-spacing: 0.01em;
+}
+.blue {
+  background: #2b7fff;
+  color: white;
+}
+.indigo {
+  background: #615fff;
+  color: white;
+}
+.blue p,
+.indigo p {
+  color: #ffffffb3;
+}
+.yellow {
+  background: #fdc700;
+}
+.comingSoon {
+  border-radius: 100px;
+  padding: 4px 8px;
+  background: #00a6f414;
+  color: #00a6f4;
+  font: 400 10px/normal var(--font-body);
+  white-space: nowrap;
+}
+@media (min-width: 721px) and (max-width: 1050px) {
+  .infrastructure {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 @media (max-width: 720px) {
-  .overview,
-  .copy {
-    padding: 32px 24px;
+  .page :global(.system-section__header) {
+    padding-top: 100px;
   }
-  .visual {
-    min-height: 400px;
-    padding: 32px 20px;
+  .sections,
+  .anchor {
+    padding-bottom: 60px;
   }
-  .principles {
-    padding: 8px 24px;
+  .infrastructure {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .capability {
+    padding: 20px;
+    min-height: 240px;
+    aspect-ratio: auto;
+    gap: 48px;
+  }
+  .cardHeader {
+    flex-wrap: wrap;
+  }
+  .capability h3 {
+    font-size: 14px;
+  }
+  .capability p {
+    font-size: 12px;
+    line-height: 1.4;
   }
 }
