@@ -35,7 +35,7 @@
   opacity: 0;
   transition: opacity 300ms ease;
 }
-.slide[data-loaded="true"] > img {
+.slide[data-loaded="true"] > picture > img {
   opacity: 1;
 }
 .slide[data-loaded="true"] > .preview {
@@ -51,7 +51,7 @@
   width: 211px;
   padding: 24px;
   color: white;
-  background: linear-gradient(transparent, #0003);
+  background: radial-gradient(ellipse 100% 100% at bottom left, #0006 0%, #0003 40%, transparent 72%);
   font: 400 14px/1.2 var(--font-body);
 }
 .caption img {
