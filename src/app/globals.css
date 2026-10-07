@@ -1444,6 +1444,26 @@ html {
   .header__cta {
     margin-left: auto;
   }
+  .mobile-floating-cta {
+    display: none;
+  }
+  @media (max-width: 45rem) {
+    .mobile-floating-cta {
+      position: fixed;
+      inset: auto var(--site-gutter) calc(16px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .mobile-floating-cta .button {
+      min-height: 48px;
+      padding-inline: 24px;
+      pointer-events: auto;
+      box-shadow: 0 4px 24px #0003;
+    }
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .button:hover {
       background: var(--button-hover);

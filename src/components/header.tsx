@@ -320,6 +320,23 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
       </nav>
       {portalReady &&
         createPortal(
+          <AnimatePresence>
+            {(heroActionsPassed || pathname !== "/") && !menuOpenChrome && (
+              <motion.div
+                className="mobile-floating-cta"
+                initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: 24 }}
+                transition={reduceMotion ? { duration: 0 } : motionTokens.standard}
+              >
+                <BookingLink placement="mobile_floating" designIcon />
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
+      {portalReady &&
+        createPortal(
           <AnimatePresence onExitComplete={() => setMenuVisible(false)}>
             {open && (
               <motion.div
