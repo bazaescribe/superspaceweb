@@ -70,7 +70,7 @@ export function OperationsSystem({
           >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
-                <Image src='/assets/figma/logos/Logo-gmail.png' width={20} height={20} alt="Gmail Logo"></Image>
+                <Image src='/assets/figma/logos/Logo-Gmail.png' width={20} height={20} alt="Gmail Logo"></Image>
               </span>
               <span>
                 Inbox <small>selena.gomez@acme.com</small>
