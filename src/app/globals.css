@@ -1229,6 +1229,12 @@ html {
     line-height: 1.45;
     text-rendering: optimizeLegibility;
   }
+  /* Native mobile rubber banding exposes the document canvas beyond the footer.
+     Match its dark surface while it is visible, including with reduced motion. */
+  html[data-footer-visible],
+  html[data-footer-visible] body {
+    background: var(--color-background-dark);
+  }
   h1,
   h2,
   h3,

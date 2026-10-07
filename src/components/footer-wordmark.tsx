@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "motion/react";
+import { useHeaderTheme } from "@/components/header-theme";
 
 const GLYPH_COUNT = 10;
 const MAX_PULL = 130;
@@ -101,6 +102,27 @@ export function FooterWordmark() {
 export function FooterReveal({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
+  const registerRegion = useHeaderTheme()?.registerRegion;
+
+  useEffect(() => {
+    if (!root.current || !registerRegion) return;
+    return registerRegion(root.current, "dark");
+  }, [registerRegion]);
+
+  useEffect(() => {
+    const element = root.current;
+    if (!element) return;
+    const canvas = document.documentElement;
+    const updateCanvas = (visible: boolean) => canvas.toggleAttribute("data-footer-visible", visible);
+    const bounds = element.getBoundingClientRect();
+    updateCanvas(bounds.top < window.innerHeight && bounds.bottom > 0);
+    const observer = new IntersectionObserver(([entry]) => updateCanvas(entry.isIntersecting));
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      canvas.removeAttribute("data-footer-visible");
+    };
+  }, []);
 
   useEffect(() => {
     const element = root.current;
