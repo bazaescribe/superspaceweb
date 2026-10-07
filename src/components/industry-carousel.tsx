@@ -1,30 +1,60 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import maritime from "../../public/assets/figma/industries/maritime.png";
-import agriculture from "../../public/assets/figma/industries/agriculture.png";
-import mining from "../../public/assets/figma/industries/mining.png";
-import people from "../../public/assets/figma/industries/people.png";
+import maritime from "../../public/assets/figma/industries/hero-desktop-transportation.png";
+import agriculture from "../../public/assets/figma/industries/hero-desktop-agro.png";
+import mining from "../../public/assets/figma/industries/hero-desktop-mining.png";
+import people from "../../public/assets/figma/industries/hero-desktop-people.png";
+import building from "../../public/assets/figma/industries/hero-desktop-building.png";
+import hard from "../../public/assets/figma/industries/hero-desktop-hard.png";
 import { PresentationPlayback, usePresentationPlayback } from "./presentation-playback";
 import styles from "./industry-carousel.module.css";
 
 const industries = [
   {
-    image: "maritime",
+    image: "transportation",
     source: maritime,
-    label: "Superspace for maritime transportation",
+    mobile: "/assets/figma/industries/hero-mobile-transportation.png",
+    label: "For companies moving things",
     alt: "A container ship moving through turquoise water",
   },
   {
-    image: "agriculture",
+    image: "people",
+    source: people,
+    mobile: "/assets/figma/industries/hero-mobile-people.png",
+    label: "For companies deploying people",
+    alt: "A city viewed from above",
+  },
+  {
+    image: "agro",
     source: agriculture,
-    label: "Superspace for agro industries",
+    mobile: "/assets/figma/industries/hero-mobile-agro.png",
+    label: "For companies growing things",
     alt: "Agricultural fields viewed from above",
   },
-  { image: "mining", source: mining, label: "Superspace for mining", alt: "An open-pit mining operation" },
-  { image: "people", source: people, label: "Urban People Operations", alt: "A city viewed from above" },
+  {
+    image: "building",
+    source: building,
+    mobile: "/assets/figma/industries/hero-mobile-building.png",
+    label: "For companies building things",
+    alt: "Building operations",
+  },
+  {
+    image: "mining",
+    source: mining,
+    mobile: "/assets/figma/industries/hero-mobile-mining.png",
+    label: "For companies digging through earth",
+    alt: "An open-pit mining operation",
+  },
+  {
+    image: "hard",
+    source: hard,
+    mobile: "/assets/figma/industries/hero-mobile-hard.png",
+    label: "For companies doing hard things",
+    alt: "Industrial operations",
+  },
 ];
 
 export function IndustryCarousel() {
@@ -75,24 +105,33 @@ export function IndustryCarousel() {
                 aria-hidden="true"
                 style={{ backgroundImage: `url("${industry.source.blurDataURL}")` }}
               />
-              <Image
-                src={industry.source}
-                alt={industry.alt}
-                fill
-                sizes="(max-width: 720px) 230vw, (max-width: 1352px) 95vw, 1280px"
-                preload={index === 0}
-                loading={
-                  index === 0
-                    ? undefined
-                    : index === playback.active || index === (playback.active + 1) % industries.length
+              <picture>
+                <source
+                  media="(max-width: 720px)"
+                  srcSet={
+                    getImageProps({ src: industry.mobile, alt: industry.alt, width: 840, height: 1370, sizes: "95vw" })
+                      .props.srcSet
+                  }
+                  sizes="95vw"
+                />
+                <Image
+                  src={industry.source}
+                  alt={industry.alt}
+                  fill
+                  sizes="(max-width: 1352px) 95vw, 1280px"
+                  loading={
+                    index === 0
                       ? "eager"
-                      : "lazy"
-                }
-                onLoad={() =>
-                  setLoaded((current) => (current.includes(industry.image) ? current : [...current, industry.image]))
-                }
-                draggable={false}
-              />
+                      : index === playback.active || index === (playback.active + 1) % industries.length
+                        ? "eager"
+                        : "lazy"
+                  }
+                  onLoad={() =>
+                    setLoaded((current) => (current.includes(industry.image) ? current : [...current, industry.image]))
+                  }
+                  draggable={false}
+                />
+              </picture>
               <div className={styles.caption}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/assets/figma/industries/brand.svg" alt="" />

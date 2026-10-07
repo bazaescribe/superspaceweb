@@ -30,7 +30,7 @@
   transform: scale(1.08);
   transition: opacity 300ms ease;
 }
-.slide > img {
+.slide > picture > img {
   object-fit: cover;
   opacity: 0;
   transition: opacity 300ms ease;
@@ -94,7 +94,7 @@
 @media (prefers-reduced-motion: reduce) {
   .track,
   .preview,
-  .slide > img {
+  .slide > picture > img {
     transition: none;
   }
 }
@@ -106,7 +106,7 @@
   .slide {
     aspect-ratio: 358 / 584;
   }
-  .slide > img {
+  .slide > picture > img {
     object-position: left center;
   }
   .preview {
