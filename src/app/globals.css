@@ -1382,7 +1382,7 @@ html {
   }
   .brand__full {
     display: block;
-    height: 26px;
+    height: 24px;
     width: auto;
   }
   .brand__symbol {
@@ -2018,7 +2018,7 @@ html {
     }
     .brand--compact-mobile .brand__symbol {
       display: block;
-      height: 18px;
+      height: 22px;
       width: auto;
     }
     .mobile-nav {
