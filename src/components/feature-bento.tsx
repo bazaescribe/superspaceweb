@@ -12,7 +12,7 @@ export type BentoCard = {
   wide?: boolean;
   tall?: boolean;
   dark?: boolean;
-  column?: number;
+  column?: number | string;
   row?: number;
   duration?: number;
 };
@@ -37,7 +37,7 @@ export function FeatureBento({
   tabletOrder,
 }: {
   items: readonly BentoCard[];
-  layout?: "standard" | "split";
+  layout?: "standard" | "split" | "sixColumn";
   mobileOrder?: readonly number[];
   name: string;
   tabletOrder?: readonly number[];

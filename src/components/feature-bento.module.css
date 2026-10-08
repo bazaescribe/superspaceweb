@@ -1,4 +1,5 @@
-.standard {
+.standard,
+.sixColumn {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 @media (min-width: 720px) {
@@ -19,7 +20,19 @@
   }
 }
 @media (min-width: 720px) and (max-width: 1024px) {
-  .standard {
+  .standard,
+  .sixColumn {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1025px) {
+  .sixColumn {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .sixColumn > article {
+    height: 571.2px;
+    grid-column: var(--bento-column, auto);
+    grid-row: var(--bento-row, auto);
   }
 }
