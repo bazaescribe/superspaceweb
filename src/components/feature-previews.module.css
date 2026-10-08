@@ -209,3 +209,27 @@
     top: 32px;
   }
 }
+
+.eventTime {
+  display: inline-block;
+  width: 56px;
+  font-size: 10px;
+  text-align: right;
+  color: var(--preview-muted);
+  white-space: nowrap;
+}
+.indicatorPlaceholder {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.stockItem {
+  display: block;
+  padding-top: 3px;
+}
+.stockItem small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--preview-muted);
+}

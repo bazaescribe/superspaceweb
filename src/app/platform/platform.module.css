@@ -7,11 +7,6 @@
 .sections {
   padding-bottom: 160px;
 }
-/* The two bento sections include the design's lower breathing room. */
-.anchor {
-  scroll-margin-top: 80px;
-  padding-bottom: 160px;
-}
 .infrastructure {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -79,8 +74,7 @@
   .page :global(.system-section__header) {
     padding-top: 100px;
   }
-  .sections,
-  .anchor {
+  .sections {
     padding-bottom: 60px;
   }
   .infrastructure {

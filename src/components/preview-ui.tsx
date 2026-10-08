@@ -123,6 +123,6 @@ export function PreviewFile({ image, name, size }: { image: string; name: string
     </div>
   );
 }
-export function PreviewSpinner() {
-  return <PreviewIcon file="19b11" className={styles.spinner} />;
+export function PreviewSpinner({ file = "19b11" }: { file?: string } = {}) {
+  return <PreviewIcon file={file} className={styles.spinner} />;
 }

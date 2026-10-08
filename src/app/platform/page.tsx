@@ -1,6 +1,5 @@
 import { SiteHero } from "@/components/site-hero";
-import { FeatureBento, type BentoCard } from "@/components/feature-bento";
-import { PermissionsMockup, ActivityMockup } from "@/components/key-features";
+import { PlatformArchitecture } from "@/components/platform-architecture";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
@@ -16,54 +15,6 @@ export const metadata = createPageMetadata({
   path: "/platform",
 });
 
-const model: readonly BentoCard[] = [
-  {
-    title: "Model your business as it actually works.",
-    description: "Customers, orders, assets, locations and teams connected by real relationships.",
-    tall: true,
-    column: 1,
-  },
-  {
-    title: "Encode the rules behind the operation.",
-    description: "Define who can see, change and act on what.",
-    dark: true,
-    column: 2,
-    row: 1,
-    visual: <PermissionsMockup platform />,
-  },
-  {
-    title: "Turn operational logic into actions.",
-    description: "Every object can expose the actions that make sense for its state.",
-    dark: true,
-    column: 2,
-    row: 2,
-    visual: <ActivityMockup delivered />,
-  },
-];
-const workspace: readonly BentoCard[] = [
-  {
-    title: "See what matters. Act without leaving the work.",
-    description: "Data, relationships and actions stay together.",
-    dark: true,
-    column: 1,
-    row: 1,
-    visual: <PermissionsMockup platform />,
-  },
-  {
-    title: "Give every team the view they need.",
-    description: "The same operation, shaped around each role and responsibility.",
-    tall: true,
-    column: 2,
-  },
-  {
-    title: "Change the workspace as the operation changes.",
-    description: "New views, workflows and tools without rebuilding the system underneath.",
-    dark: true,
-    column: 1,
-    row: 2,
-    visual: <ActivityMockup delivered />,
-  },
-];
 const infrastructure = [
   { icon: "9bb4a", title: "Tenant isolation", copy: "Each organization runs in its own secure workspace." },
   { icon: "05dd5", title: "Role based access", copy: "Control visibility and actions by role and responsibility." },
@@ -128,18 +79,9 @@ export default function PlatformPage() {
             </>
           }
         />
+        <PlatformArchitecture />
         <div className={`v24-spine ${styles.sections}`}>
-          <div id="model" className={styles.anchor}>
-            <SystemSection primary="Model." accent="The digital twin of your real world operation.">
-              <FeatureBento items={model} layout="split" name="Model" />
-            </SystemSection>
-          </div>
-          <div id="workspace" className={styles.anchor}>
-            <SystemSection primary="Workspace." accent="Your operational surface that simply works.">
-              <FeatureBento items={workspace} layout="split" mobileOrder={[0, 2, 1]} name="Workspace" />
-            </SystemSection>
-          </div>
-          <SystemSection primary="The infrastructure you expect." accent="Already handled.">
+          <SystemSection primary="Everything modern businesses need." accent="Ready by design.">
             <div className={styles.infrastructure}>
               {infrastructure.map(({ icon, title, copy, tone, comingSoon }) => (
                 <article className={`${styles.capability} ${tone ? styles[tone] : ""}`} key={title}>

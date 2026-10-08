@@ -1,0 +1,120 @@
+.section {
+  background: #070709;
+  color: white;
+  scroll-margin-top: var(--header-height);
+  --stage-height: calc(100svh - var(--header-height));
+  padding-block: 96px 160px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+  gap: 24px;
+}
+.copy {
+  min-width: 0;
+}
+.chunk {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  min-height: var(--stage-height);
+  padding-block: 64px;
+}
+.chunk + .chunk {
+  margin-top: 4px;
+}
+.chunk h2 {
+  margin: 0;
+  font: 700 32px/normal var(--font-display);
+  letter-spacing: 0.01em;
+}
+.chunk dl {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+}
+.chunk dt {
+  font: 700 20px/normal var(--font-display);
+  letter-spacing: 0.01em;
+}
+.chunk dd {
+  margin: 4px 0 0;
+  color: #ffffff66;
+  font: 400 14px/normal var(--font-body);
+  letter-spacing: 0.01em;
+}
+.foundation {
+  gap: 32px;
+}
+.foundation dl {
+  max-width: 320px;
+  gap: 16px;
+}
+.foundation dt {
+  font: 700 16px/normal var(--font-body);
+}
+.stage {
+  align-self: start;
+  position: sticky;
+  top: var(--header-height);
+  height: var(--stage-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+.diagram {
+  display: block;
+  width: 529px;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.mobileDiagram {
+  display: none;
+}
+@media (max-width: 1100px) and (min-width: 901px) {
+  .layout {
+    grid-template-columns: minmax(0, 36%) minmax(0, 1fr);
+  }
+  .stage {
+    padding-inline: 16px;
+  }
+}
+@media (max-width: 900px) {
+  .section {
+    padding-block: 0;
+  }
+  .layout {
+    display: block;
+    padding-bottom: 80px;
+  }
+  .copy {
+    padding-top: 16px;
+  }
+  .chunk {
+    min-height: auto;
+    padding-block: 64px;
+    gap: 32px;
+  }
+  .chunk h2 {
+    max-width: 420px;
+    font-size: 28px;
+  }
+  .chunk dl {
+    max-width: 420px;
+  }
+  .stage {
+    display: none;
+  }
+  .mobileDiagram {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+  }
+  .mobileDiagram .diagram {
+    width: min(100%, 420px);
+  }
+}

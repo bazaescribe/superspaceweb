@@ -66,21 +66,22 @@ export function PermissionsMockup({ platform = false }: { platform?: boolean } =
   );
 }
 const events = [
-  ["cfc20", "Request placed at 8:23 AM."],
-  ["cfc20", "Courier assigned. 8:24 AM."],
-  ["cfc20", "Courier arrived at pickup. 8:32 AM."],
-  ["99554", "Package in transit."],
-  ["99554", "Estimated delivery by 8:44 AM."],
-  ["6780e", "Traffic rerouted through Market St."],
-  ["6780e", "Courier stopped for fuel. 8:36 AM."],
-  ["6780e", "Package held at security checkpoint."],
-  ["6780e", "Clearance approved 8:41 AM."],
-  ["6780e", "Courier arrived at delivery destination 8:42 AM."],
-  ["cfc20", "Delivered 8:43 AM."],
+  ["cfc20", "Request placed.", "8:23 AM"],
+  ["cfc20", "Courier assigned.", "8:24 AM"],
+  ["cfc20", "Courier arrived at pickup.", "8:33 AM"],
+  ["99554", "Courier is heading to delivery destination", "8:35 AM"],
+  ["6780e", "Delivery rerouted due to heavy transit", "8:57 AM"],
+  ["cfc20", "Courier arrived at delivery destination.", "9:29 AM"],
+  ["99554", "Recipient contacted through phone", "9:30 AM"],
+  ["cfc20", "Delivered to recipient.", "9:33 AM"],
+  ["99554", "Service Closed Successfully", "9:33 AM"],
 ];
 export function ActivityMockup({ delivered = false }: { delivered?: boolean } = {}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const visible = useInView(ref, { amount: 0.3 });
+  const reduced = useReducedMotion();
   return (
-    <div className={styles.viewport} aria-hidden="true">
+    <div ref={ref} className={styles.viewport} aria-hidden="true">
       <PreviewPanel theme={delivered ? "light" : "dark"} className={styles.record}>
         <div className={styles.body}>
           <PreviewTitle label="F91W">Service History</PreviewTitle>
@@ -97,9 +98,20 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
           </div>
           <PreviewField label="Recorded Events">
             <div className={styles.timeline}>
-              {events.map(([icon, text], i) => (
-                <div className={styles.event} key={text}>
-                  <PreviewRow leading={<PreviewIcon file={icon} />}>{text}</PreviewRow>
+              {events.map(([icon, text, time], i) => (
+                <motion.div
+                  className={styles.event}
+                  key={text}
+                  initial={false}
+                  animate={{ opacity: reduced || visible ? 1 : 0, y: reduced || visible ? 0 : 8 }}
+                  transition={{ duration: reduced ? 0 : 0.3, delay: reduced || !visible ? 0 : i * 0.08 }}
+                >
+                  <PreviewRow
+                    leading={<PreviewIcon file={icon} />}
+                    trailing={<time className={styles.eventTime}>{time}</time>}
+                  >
+                    {text}
+                  </PreviewRow>
                   {i < events.length - 1 && (
                     <Image
                       className={styles.connector}
@@ -109,7 +121,7 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
                       alt=""
                     />
                   )}
-                </div>
+                </motion.div>
               ))}
             </div>
           </PreviewField>
@@ -169,10 +181,10 @@ export function ContextMockup() {
 }
 const products = ["Philodendron Gloriosum.", "Monstera Deliciosa Thai Constellation.", "Ceramic 15 cm. Plant Pot x 2."];
 const steps = [
-  ["4b158", "Reviewing current stock"],
-  ["79ccf", "Analyzing product history."],
-  ["783bb", "Modeling sales projection."],
-  ["cfc20", "Order placed"],
+  "Reviewing current stock",
+  "Analyzing product history.",
+  "Modeling sales projection.",
+  "Purchase order sent",
 ];
 const cycleDuration = 13700;
 export function AutomationsMockup() {
@@ -222,14 +234,11 @@ export function AutomationsMockup() {
                         return (
                           <PreviewRow
                             key={product}
-                            leading={<PreviewIcon file={complete && i === 2 ? "0c994" : "cfc20"} />}
-                            trailing={
+                            leading={
                               complete ? (
-                                <span className={i === 2 ? styles.missing : styles.found}>
-                                  {i === 2 ? "Not found" : "Found"}
-                                </span>
+                                <PreviewIcon file={i === 2 ? "0c994" : "cfc20"} />
                               ) : (
-                                <PreviewSpinner />
+                                <PreviewSpinner file="94283" />
                               )
                             }
                           >
@@ -245,27 +254,20 @@ export function AutomationsMockup() {
                   <PreviewTitle subtitle="Automatic Restock">Ceramic 15 cm. Plant Pot</PreviewTitle>
                   <PreviewField label="Processing Product Restock">
                     <div className={styles.rows}>
-                      {steps.map(([icon, title], i) => {
+                      {steps.map((title, i) => {
                         const complete = elapsed >= 4600 + i * 1000;
                         const active = elapsed >= 3600 + i * 1000;
                         return (
                           <div className={active ? "" : styles.pending} key={title}>
                             <PreviewRow
                               leading={
-                                i === 3 ? (
-                                  <PreviewIcon file={icon} />
-                                ) : (
-                                  <span className={styles.iconTile}>
-                                    <PreviewIcon file={icon} size={12} />
-                                  </span>
-                                )
-                              }
-                              trailing={
                                 complete ? (
-                                  <span className={styles.found}>✓</span>
+                                  <PreviewIcon file="cfc20" />
                                 ) : active ? (
-                                  <PreviewSpinner />
-                                ) : undefined
+                                  <PreviewSpinner file="94283" />
+                                ) : (
+                                  <span className={styles.indicatorPlaceholder} />
+                                )
                               }
                             >
                               {title}
@@ -297,10 +299,12 @@ export function AutomationsMockup() {
                     </div>
                   </PreviewField>
                   <PreviewField label="Waiting for stock">
-                    <PreviewRow leading={<PreviewIcon file="d356a" />}>{products[2]}</PreviewRow>
-                    <div className={styles.arrival}>
-                      <PreviewTag>Expected arrival Nov. 14.</PreviewTag>
-                    </div>
+                    <PreviewRow leading={<PreviewIcon file="d356a" />}>
+                      <span className={styles.stockItem}>
+                        {products[2]}
+                        <small>Expected arrival Nov. 14.</small>
+                      </span>
+                    </PreviewRow>
                   </PreviewField>
                 </>
               )}
