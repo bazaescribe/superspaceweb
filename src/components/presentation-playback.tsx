@@ -20,8 +20,10 @@ export function usePresentationPlayback(
   containerRef: RefObject<HTMLDivElement | null>,
   interval = 6500,
   enabled = true,
+  slideIntervals?: readonly (number | undefined)[],
 ) {
   const [active, setActive] = useState(0);
+  const duration = slideIntervals?.[active] ?? interval;
   const [cycle, setCycle] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [inView, setInView] = useState(false);
@@ -60,7 +62,7 @@ export function usePresentationPlayback(
     const tick = (now: number) => {
       elapsed.current += now - previous;
       previous = now;
-      if (elapsed.current >= interval) {
+      if (elapsed.current >= duration) {
         elapsed.current = 0;
         setActive((index) => (index + 1) % count);
         setCycle((value) => value + 1);
@@ -69,7 +71,7 @@ export function usePresentationPlayback(
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [count, interval, running]);
+  }, [count, duration, running]);
 
   return {
     active,
@@ -77,7 +79,7 @@ export function usePresentationPlayback(
     playing: playing && !reducedMotion,
     running,
     cycle,
-    interval,
+    interval: duration,
     toggle: () => setPlaying((value) => !value),
     reducedMotion: !!reducedMotion,
     focusProps: {

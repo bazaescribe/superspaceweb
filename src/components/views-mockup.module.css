@@ -1,0 +1,243 @@
+.viewport {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.workspace {
+  width: 336px;
+  max-width: 100%;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px;
+}
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 20px 16px;
+  border-bottom: 0.5px solid var(--preview-border);
+}
+.tabs > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  color: var(--preview-muted);
+}
+.tabs .selected {
+  background: var(--preview-hover);
+  color: var(--preview-main);
+}
+.content {
+  height: 224px;
+  padding: 16px;
+  overflow: hidden;
+}
+.tableHeading,
+.tableRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 24px;
+  gap: 8px;
+  align-items: center;
+}
+.tableHeading {
+  padding: 0 0 10px;
+  font-size: 9px;
+  color: var(--preview-muted);
+}
+.tableHeading > :last-child {
+  text-align: right;
+}
+.tableRow {
+  padding: 14px 0;
+  border-top: 0.5px solid var(--preview-border);
+}
+.tableRow > div {
+  min-width: 0;
+}
+.workspace .tableRow strong,
+.workspace .deliveryCard strong,
+.workspace .appointment strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.tableRow strong {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tableRow small {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  color: var(--preview-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tableRow > b {
+  justify-self: end;
+}
+.tableRow > span {
+  justify-self: start;
+}
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.column {
+  min-width: 0;
+}
+.columnTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--preview-secondary);
+  padding-bottom: 10px;
+}
+.columnTitle small {
+  color: var(--preview-muted);
+  font-size: 9px;
+}
+.deliveryCard {
+  padding: 10px;
+  border: 0.5px solid var(--preview-border);
+  border-radius: 8px;
+  background: white;
+  margin-bottom: 8px;
+}
+.deliveryCard > small {
+  font-size: 9px;
+  color: var(--preview-muted);
+}
+.deliveryCard strong {
+  margin: 4px 0 10px;
+}
+.deliveryCard > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.deliveryCard > div > span {
+  padding: 3px 5px;
+  font-size: 8px;
+}
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-height: 192px;
+}
+.day {
+  min-width: 0;
+  border-left: 0.5px solid var(--preview-border);
+  padding: 0 6px;
+}
+.day:first-child {
+  border-left: 0;
+}
+.dayHeading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  padding-bottom: 14px;
+}
+.dayHeading small {
+  font-size: 9px;
+  color: var(--preview-muted);
+}
+.dayHeading b {
+  font-size: 12px;
+  font-weight: 500;
+}
+.appointment {
+  padding: 8px;
+  border-radius: 6px;
+  background: #00a6f40a;
+  border-left: 2px solid #00a6f4;
+}
+.amber {
+  background: #f088000a;
+  border-color: #f08800;
+}
+.green {
+  background: #00bc7d0a;
+  border-color: #00bc7d;
+}
+.appointment small,
+.appointment > span {
+  display: block;
+  color: var(--preview-muted);
+  font-size: 9px;
+}
+.workspace .appointment strong {
+  font-size: 10px;
+  margin: 6px 0;
+}
+.appointment > b {
+  margin-top: 10px;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  border-top: 0.5px solid var(--preview-border);
+  font-size: 9px;
+  color: var(--preview-muted);
+}
+.savedDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #00bc7d;
+}
+@container (min-width: 600px) {
+  .workspace {
+    width: 480px;
+  }
+  .tableHeading,
+  .tableRow {
+    grid-template-columns: minmax(0, 1fr) 100px 32px;
+  }
+}
+@container (max-width: 310px) {
+  .content {
+    padding: 12px;
+  }
+  .header {
+    padding: 16px;
+  }
+  .tabs {
+    padding-inline: 16px;
+  }
+  .board {
+    gap: 8px;
+  }
+  .deliveryCard {
+    padding: 8px;
+  }
+  .deliveryCard > div > b {
+    display: none;
+  }
+  .day {
+    padding-inline: 3px;
+  }
+  .appointment {
+    padding: 6px;
+  }
+}

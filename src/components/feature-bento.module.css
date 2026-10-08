@@ -1,7 +1,7 @@
 .standard {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-@media (min-width: 721px) {
+@media (min-width: 720px) {
   .split {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(2, 456px);
@@ -16,5 +16,10 @@
   }
   .split > .tall {
     grid-row: 1 / span 2;
+  }
+}
+@media (min-width: 720px) and (max-width: 1024px) {
+  .standard {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

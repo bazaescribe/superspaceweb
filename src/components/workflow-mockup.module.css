@@ -1,0 +1,293 @@
+.viewport {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+}
+.scene {
+  position: absolute;
+  width: 850px;
+  height: 430px;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%) scale(min(1, calc(100cqw / 850px)));
+  transform-origin: center top;
+  font: 400 10px/normal var(--font-body);
+  color: #070709;
+}
+.card {
+  position: absolute;
+  overflow: hidden;
+  background: #fafafa;
+  border: 0.5px solid white;
+  border-radius: 12px;
+  box-shadow:
+    0 0 1px #00000014,
+    0 12px 32px -8px #00000014;
+}
+.request {
+  left: 38.5px;
+  top: 58.5px;
+  width: 320px;
+}
+.garage {
+  left: 457.5px;
+  top: 24.5px;
+  width: 265px;
+}
+.team {
+  left: 489.5px;
+  top: 215.5px;
+  width: 320px;
+}
+.body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.scene .heading strong {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14px;
+  color: black;
+}
+.heading em {
+  color: #00a6f4;
+  font-style: normal;
+}
+.team .heading em {
+  color: #f08800;
+}
+.scene small {
+  font-size: 10px;
+  color: #07070966;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.fields > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+}
+.fields small {
+  width: 64px;
+  flex: none;
+}
+.tag,
+.info,
+.success,
+.warning {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+  background: #09090b0a;
+}
+.tag b {
+  font-size: 10px;
+  color: #070709b3;
+}
+.info {
+  color: #00a6f4;
+  background: #00a6f414;
+}
+.success {
+  color: #00bc7d;
+  background: #00bc7d14;
+}
+.warning {
+  color: #f08800;
+  background: #f0880014;
+}
+.person {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px 2px 2px;
+  height: 20px;
+  border-radius: 100px;
+  white-space: nowrap;
+  background: #0000000a;
+  color: #070709b3;
+}
+.person b {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  font-size: 8px;
+  color: white;
+}
+.map {
+  position: relative;
+  height: 216px;
+}
+.map img {
+  object-fit: cover;
+}
+.equipment,
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.machines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.photo {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.photo img {
+  object-fit: cover;
+}
+.excavator img {
+  width: 124px !important;
+  height: 110px !important;
+  max-width: none;
+  left: -5.5px !important;
+}
+.machines p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.12px;
+}
+.members > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.count {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 20px;
+  flex: none;
+  border-radius: 100px;
+  background: #09090b0a;
+  color: #070709b3;
+}
+.role {
+  width: 96px;
+  flex: none;
+  color: #070709b3;
+}
+.connectors svg {
+  position: absolute;
+  overflow: visible;
+}
+.machineryConnector {
+  left: 359.5px;
+  top: 114.75px;
+}
+.operatorsConnector {
+  left: 359.5px;
+  top: 210.2px;
+  transform: scaleY(-1);
+}
+.fade {
+  position: absolute;
+  pointer-events: none;
+  inset: auto 0 0;
+  height: 96px;
+  background: linear-gradient(0deg, #f5f5f5 10.87%, #f5f5f500 91.304%);
+}
+@media (max-width: 719px) {
+  .scene {
+    width: 320px;
+    top: 20px;
+    transform: translateX(-50%) scale(min(0.62, calc((100cqw - 32px) / 320px)));
+  }
+  .connectors {
+    display: none;
+  }
+  .request {
+    top: 0;
+    left: 0;
+  }
+  .map {
+    height: 64px;
+  }
+  .garage {
+    top: 264px;
+    left: 0;
+    width: 320px;
+  }
+  .garage .photo {
+    aspect-ratio: auto;
+    height: 60px;
+  }
+  .garage .excavator img {
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+  }
+  .garage .body {
+    gap: 12px;
+  }
+  .team {
+    top: 442px;
+    left: 0;
+  }
+  .fade {
+    height: 24px;
+  }
+}
+
+@media (min-width: 720px) and (max-width: 1024px) {
+  .scene {
+    width: 960px;
+    height: 489px;
+    top: 0;
+    transform: translateX(-50%) scale(min(1, calc(100cqw / 960px)));
+  }
+  .request {
+    left: 76.5px;
+    top: 48.94px;
+    width: 336px;
+  }
+  .garage {
+    left: 512.5px;
+    top: 17.94px;
+  }
+  .team {
+    left: 545.5px;
+    top: 221.94px;
+  }
+  .machineryConnector {
+    left: 414.5px;
+    top: 108.44px;
+  }
+  .operatorsConnector {
+    left: 414.5px;
+    top: 203.89px;
+  }
+  .fade {
+    height: 128px;
+  }
+}
+.scene em {
+  color: #00a6f4;
+  font-style: normal;
+}
+.team em {
+  color: #f08800;
+}

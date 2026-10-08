@@ -1,0 +1,211 @@
+.viewport {
+  position: absolute;
+  inset: 0;
+}
+.record {
+  position: absolute;
+  left: 50%;
+  top: 56px;
+  width: 336px;
+  max-width: calc(100% - 32px);
+  transform: translateX(-50%);
+}
+.body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.portrait {
+  position: relative;
+  height: 206px;
+  overflow: hidden;
+}
+.portrait > img {
+  position: absolute;
+  left: -20px;
+  top: 0;
+  max-width: none;
+  object-fit: cover;
+}
+.identity {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  padding: 16px 24px;
+  color: white;
+  background: linear-gradient(transparent, #070709a6);
+}
+.identity > div {
+  flex: 1;
+}
+.identity strong {
+  font-size: 14px;
+}
+.identity p {
+  font-size: 12px;
+}
+.identity > span:first-of-type {
+  color: white;
+  background: #ffffff0a;
+}
+.tags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.permission {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--preview-border);
+}
+.permission > div {
+  flex: 1;
+  font-size: 12px;
+}
+.permission p {
+  font-size: 12px;
+  color: var(--preview-muted);
+  margin-top: 2px;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+.event {
+  position: relative;
+  padding-bottom: 10px;
+}
+.connector {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.lightFade,
+.darkFade {
+  position: absolute;
+  pointer-events: none;
+  inset: auto 0 0;
+  height: 128px;
+  background: linear-gradient(0deg, #f5f5f5 10.87%, #f5f5f500 91.304%);
+}
+.darkFade {
+  background: linear-gradient(0deg, #070709 10.87%, #07070900 91.304%);
+}
+.context {
+  padding: 20px;
+  gap: 20px;
+}
+.address {
+  font-size: 12px;
+  line-height: 15px;
+}
+.comment {
+  font-size: 12px;
+  line-height: 1.25;
+  margin-top: 8px !important;
+}
+.automation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+}
+.automationCard {
+  width: 336px;
+  max-width: 100%;
+}
+.automationCard > div {
+  border-radius: 10px;
+}
+.automationBody {
+  padding: 20px 25px;
+  gap: 20px;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.found {
+  color: #00bc7d;
+}
+.missing {
+  color: #fb2c36;
+}
+.pending {
+  opacity: 0.3;
+}
+.iconTile {
+  display: grid;
+  place-items: center;
+  flex: none !important;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #ffffff0a;
+}
+.arrival {
+  margin-top: 8px;
+}
+.logoViewport {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.logoTrack {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.logoGroup {
+  display: flex;
+  gap: 32px;
+  padding-right: 32px;
+}
+.logoTile {
+  width: 96px;
+  height: 96px;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid white;
+  border-radius: 6px;
+  box-shadow:
+    0 0 1px #00000014,
+    0 12px 32px -8px #00000014;
+}
+.logoTile img {
+  display: block;
+  object-fit: cover;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logoTrack {
+    animation: none;
+  }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .logoViewport:hover .logoTrack {
+    animation-play-state: paused;
+  }
+}
+@media (max-width: 719px) {
+  .record {
+    top: 32px;
+  }
+}
