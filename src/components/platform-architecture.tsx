@@ -1,4 +1,7 @@
-import Image from "next/image";
+"use client";
+
+import { useScrollStep } from "@/hooks/use-scroll-step";
+import { PlatformArchitectureDiagram } from "./platform-architecture-diagram";
 import { HeaderThemeRegion } from "@/components/header-theme";
 import styles from "./platform-architecture.module.css";
 
@@ -41,44 +44,38 @@ const sections = [
   },
 ] as const;
 
-/** Static visual slot shared by the desktop stage and mobile sections. */
-function ArchitectureDiagram() {
-  return (
-    <Image
-      className={styles.diagram}
-      src="/assets/figma/platform/architecture.png"
-      width={529}
-      height={641}
-      sizes="(max-width: 900px) 80vw, 529px"
-      alt="Superspace architecture: four stacked operational layers connected to business tools."
-    />
-  );
-}
-
 export function PlatformArchitecture() {
+  const { ref, active } = useScrollStep();
   return (
     <HeaderThemeRegion tone="dark" id="model" className={styles.section} aria-label="Platform architecture">
-      <div className={`v24-spine ${styles.layout}`}>
+      <div ref={ref} className={`v24-spine ${styles.layout}`}>
         <div className={styles.copy}>
           {sections.map(({ title, items }, index) => (
-            <article className={`${styles.chunk} ${index === 0 ? styles.foundation : ""}`} key={title}>
-              <h2>{title}</h2>
-              <dl>
-                {items.map(([label, description]) => (
-                  <div key={label}>
-                    <dt>{label}</dt>
-                    <dd>{description}</dd>
-                  </div>
-                ))}
-              </dl>
-              <div className={styles.mobileDiagram}>
-                <ArchitectureDiagram />
+            <article
+              data-scroll-step
+              data-active={active === index}
+              className={`${styles.chunk} ${index === 0 ? styles.foundation : ""}`}
+              key={title}
+            >
+              <div className={styles.chunkContent}>
+                <h2>{title}</h2>
+                <dl>
+                  {items.map(([label, description]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{description}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <div className={styles.mobileDiagram}>
+                  <PlatformArchitectureDiagram active={index} />
+                </div>
               </div>
             </article>
           ))}
         </div>
         <div className={styles.stage}>
-          <ArchitectureDiagram />
+          <PlatformArchitectureDiagram active={active} />
         </div>
       </div>
     </HeaderThemeRegion>

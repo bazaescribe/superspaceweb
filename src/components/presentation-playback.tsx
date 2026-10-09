@@ -1,19 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import styles from "./presentation-playback.module.css";
-
-function subscribeReducedMotion(onChange: () => void) {
-  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-  media.addEventListener("change", onChange);
-  return () => media.removeEventListener("change", onChange);
-}
-function getReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-function getServerReducedMotion() {
-  return false;
-}
 
 export function usePresentationPlayback(
   count: number,
@@ -29,7 +18,7 @@ export function usePresentationPlayback(
   const [inView, setInView] = useState(false);
   const [visible, setVisible] = useState(true);
   const [focused, setFocused] = useState(false);
-  const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getServerReducedMotion);
+  const reducedMotion = useReducedMotion();
   const elapsed = useRef(0);
   const running = enabled && playing && inView && visible && !focused && !reducedMotion;
   const select = useCallback(

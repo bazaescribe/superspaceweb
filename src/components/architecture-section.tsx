@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef } from "react";
 import * as THREE from "three";
+import { architectureBlend } from "@/lib/architecture-motion";
 import { PresentationChoices } from "./presentation-choices";
 import { PresentationPlayback, usePresentationPlayback } from "./presentation-playback";
 import styles from "./architecture-section.module.css";
@@ -318,7 +319,7 @@ function ArchitectureDiagram({ id, active, onHover, onSelect }: DiagramProps) {
         });
         const meshMaterial = block.mesh.material as THREE.MeshBasicMaterial;
         const detailOpacity = emphasis ? 1 : 0.04;
-        const speed = reduceMotion.matches ? 1 : 1 - Math.exp(-dt * 9);
+        const speed = architectureBlend(dt, reduceMotion.matches);
         block.mesh.position.lerp(block.target, speed);
         for (const detail of block.materials) {
           detail.color.lerp(selected && emphasis ? accent : neutral, speed);
