@@ -9,12 +9,12 @@ export function Footer() {
     <FooterReveal>
       <footer className="v2-footer shell">
         <div className="footer-cta">
-          <h2>Your operation deserves software that fits.</h2>
-          <p>Start a conversation with SuperSpace.</p>
+          <h2>Your business deserves its own Superspace.</h2>
+          <p>Tell us how your business runs. Let’s explore how Superspace can become its operating system.</p>
           <div className="hero-actions">
             <BookingLink placement="footer" label="Let’s talk" designIcon inverse />
             <Link className="button button--secondary" href="/deployment">
-              Explore the Deployment
+              Explore deployment
             </Link>
           </div>
         </div>
