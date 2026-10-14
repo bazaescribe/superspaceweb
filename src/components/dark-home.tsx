@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BookingLink } from "./booking-link";
+import { PillarCard } from "./pillar-card";
 import { ProductPreview } from "./product-preview";
 import styles from "./dark-home.module.css";
 
@@ -7,20 +8,14 @@ const pillars = [
   {
     title: "Built around your business.",
     text: "Your people, processes, and business rules, modeled into one operational system that works the way your company does.",
-    image: "pillar-1.png",
-    height: 305,
   },
   {
     title: "Designed to evolve.",
     text: "Add new workflows, connect new systems, and expand what your business can do without starting from scratch.",
-    image: "pillar-2.png",
-    height: 293,
   },
   {
     title: "Built to run. Managed for you.",
     text: "A fully managed operational system, designed for reliable daily work. We take care of the software so you can focus on running your business.",
-    image: "pillar-3.png",
-    height: 293,
   },
 ];
 const features = [
@@ -66,16 +61,8 @@ export function DarkHome() {
           A different kind of business software. <span>Tailored for your company, designed to evolve as you grow.</span>
         </h2>
         <div className={styles.pillars}>
-          {pillars.map((pillar) => (
-            <article key={pillar.title} className={styles.pillar}>
-              <div className={styles.pillarVisual}>
-                <Image src={`/assets/figma/dark-site/${pillar.image}`} alt="" width={321} height={pillar.height} />
-              </div>
-              <div className={styles.pillarCopy}>
-                <h3>{pillar.title}</h3>
-                <p>{pillar.text}</p>
-              </div>
-            </article>
+          {pillars.map((pillar, index) => (
+            <PillarCard key={pillar.title} {...pillar} index={index} />
           ))}
         </div>
       </section>

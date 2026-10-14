@@ -1,0 +1,13 @@
+.illustration {
+  display: block;
+  width: 348px;
+  max-width: calc(100% - 12px);
+  height: auto;
+  overflow: visible;
+}
+
+@media (max-width: 720px) {
+  .illustration {
+    max-width: 100%;
+  }
+}
