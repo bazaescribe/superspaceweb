@@ -1,0 +1,177 @@
+{
+  "title": "Different models, different tradeoffs.",
+  "description": "How you get software shapes what happens next. Explore how different approaches compare in flexibility, time, effort, and ongoing responsibility.",
+  "disclaimer": "Illustrative comparison of typical delivery models. Values are qualitative, not measured benchmarks, pricing estimates, or performance guarantees. Actual outcomes depend on scope and implementation.",
+  "scale": {
+    "min": 0,
+    "max": 100,
+    "type": "illustrative",
+    "showNumericValues": false
+  },
+  "models": [
+    {
+      "id": "superspace",
+      "label": "SuperSpace",
+      "highlight": true
+    },
+    {
+      "id": "saas",
+      "label": "Traditional SaaS"
+    },
+    {
+      "id": "consulting",
+      "label": "Consulting"
+    },
+    {
+      "id": "internal",
+      "label": "Internal Team"
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "operational-fit",
+      "title": "Operational fit",
+      "question": "How closely does the software fit the way your business actually works?",
+      "description": "The ability to accommodate your company's specific processes, relationships, rules, and requirements.",
+      "preferredDirection": "higher",
+      "values": {
+        "superspace": {
+          "value": 90,
+          "explanation": "Configured around your operational model on a managed platform."
+        },
+        "saas": {
+          "value": 39,
+          "explanation": "Designed for standardized use cases, with customization options that vary by product."
+        },
+        "consulting": {
+          "value": 95,
+          "explanation": "Custom software can be designed around highly specific business requirements."
+        },
+        "internal": {
+          "value": 96,
+          "explanation": "Internal teams can build software directly around organizational requirements."
+        }
+      },
+      "valueSentiment": {
+        "high": "positive",
+        "low": "negative"
+      }
+    },
+    {
+      "id": "time-to-value",
+      "title": "Time to first working version",
+      "question": "How long does it take to get a working system into your team's hands?",
+      "description": "The typical time required to go from initial engagement to an operational first version.",
+      "preferredDirection": "lower",
+      "values": {
+        "superspace": {
+          "value": 34,
+          "explanation": "Focused discovery and configuration accelerate delivery without requiring a new codebase."
+        },
+        "saas": {
+          "value": 15,
+          "explanation": "Standard functionality can often be deployed quickly when it already fits the business."
+        },
+        "consulting": {
+          "value": 82,
+          "explanation": "Custom design, development, testing, and delivery typically require a longer implementation cycle."
+        },
+        "internal": {
+          "value": 91,
+          "explanation": "Staffing, planning, engineering, and deployment can extend the time before the first working version."
+        }
+      },
+      "valueSentiment": {
+        "high": "negative",
+        "low": "positive"
+      }
+    },
+    {
+      "id": "deployment-effort",
+      "title": "Upfront deployment effort",
+      "question": "How much work is required to get the initial system running?",
+      "description": "The organizational and technical effort needed to implement a solution before it becomes operational.",
+      "preferredDirection": "lower",
+      "values": {
+        "superspace": {
+          "value": 38,
+          "explanation": "Your team participates in discovery and validation while SuperSpace handles configuration and deployment."
+        },
+        "saas": {
+          "value": 20,
+          "explanation": "Standard use cases often require relatively little setup, although complex implementations can demand more."
+        },
+        "consulting": {
+          "value": 84,
+          "explanation": "Custom projects require substantial scoping, coordination, design, development, and validation."
+        },
+        "internal": {
+          "value": 92,
+          "explanation": "Your organization must resource and coordinate the entire implementation process."
+        }
+      },
+      "valueSentiment": {
+        "high": "negative",
+        "low": "positive"
+      }
+    },
+    {
+      "id": "maintenance-burden",
+      "title": "Ongoing technical burden",
+      "question": "How much technical responsibility does your team carry after launch?",
+      "description": "The ongoing internal effort required to operate, maintain, update, and support the software.",
+      "preferredDirection": "lower",
+      "values": {
+        "superspace": {
+          "value": 14,
+          "explanation": "SuperSpace hosts, operates, maintains, and updates the underlying platform."
+        },
+        "saas": {
+          "value": 14,
+          "explanation": "The software provider generally handles maintenance and updates for its standard application."
+        },
+        "consulting": {
+          "value": 71,
+          "explanation": "Ongoing maintenance depends on the delivery agreement and may require additional support contracts."
+        },
+        "internal": {
+          "value": 95,
+          "explanation": "Your team typically remains responsible for infrastructure, engineering, maintenance, and technical continuity."
+        }
+      },
+      "valueSentiment": {
+        "high": "negative",
+        "low": "positive"
+      }
+    },
+    {
+      "id": "change-effort",
+      "title": "Effort to accommodate change",
+      "question": "How much effort does it take to adapt the system as your business changes?",
+      "description": "The effort required to adapt workflows, introduce new capabilities, or accommodate evolving operational requirements.",
+      "preferredDirection": "lower",
+      "values": {
+        "superspace": {
+          "value": 33,
+          "explanation": "Many changes can be addressed through configuration. Larger extensions are evaluated and scoped separately."
+        },
+        "saas": {
+          "value": 76,
+          "explanation": "Requirements outside the product's existing capabilities may require workarounds, integrations, or additional tools."
+        },
+        "consulting": {
+          "value": 81,
+          "explanation": "New requirements frequently become additional development projects with separate scope and costs."
+        },
+        "internal": {
+          "value": 66,
+          "explanation": "Changes can be implemented internally but compete for engineering capacity and ongoing maintenance resources."
+        }
+      },
+      "valueSentiment": {
+        "high": "negative",
+        "low": "positive"
+      }
+    }
+  ]
+}

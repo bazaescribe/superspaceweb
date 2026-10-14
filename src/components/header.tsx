@@ -101,36 +101,10 @@ const linksVariants = {
   },
 } as const;
 
-export function NavigationLink({
-  href,
-  label,
-  onClick,
-  tone = "light",
-}: {
-  href: string;
-  label: string;
-  onClick?: () => void;
-  tone?: HeaderTone;
-}) {
+function NavigationLink({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
-  const state = navigationState(pathname, href);
-  const active = Boolean(state);
-  const dark = tone === "dark";
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      aria-current={state}
-      className={`inline-flex min-h-10 items-center px-3 py-2 text-sm no-underline transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-content ${
-        dark
-          ? active
-            ? "text-content"
-            : "text-content/40 hover:text-content focus-visible:text-content"
-          : active
-            ? "text-foreground"
-            : "text-foreground/40 hover:text-foreground focus-visible:text-foreground"
-      }`}
-    >
+    <Link href={href} aria-current={navigationState(pathname, href)} className="header__nav-link">
       {label}
     </Link>
   );
@@ -167,6 +141,7 @@ function MobileNavLink({
 
 export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const pathname = usePathname();
+  const usesHeroCtaTrigger = pathname === "/" || navigation.some(({ href }) => pathname === href);
   const headerTheme = useHeaderTheme();
   const tone = toneOverride ?? headerTheme?.tone ?? "dark";
   const dark = tone === "dark";
@@ -175,6 +150,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const [portalReady, setPortalReady] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [heroActionsPassed, setHeroActionsPassed] = useState(false);
+  const showCta = !usesHeroCtaTrigger || heroActionsPassed;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const chromeRef = useRef<HTMLElement>(null);
   const shadeRef = useRef<HTMLDivElement>(null);
@@ -281,20 +257,20 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
             <Brand compactOnMobile inverse />
           </span>
         </Link>
-        <div className="desktop-nav gap-1">
+        <div className="desktop-nav">
           {navigation.map((link) => (
-            <NavigationLink key={link.href} {...link} tone={tone} />
+            <NavigationLink key={link.href} {...link} />
           ))}
         </div>
         <motion.div
           className="header__cta"
           initial={false}
           animate={{
-            width: heroActionsPassed || pathname !== "/" ? "auto" : 0,
+            width: showCta ? "auto" : 0,
           }}
           transition={{ duration: reduceMotion ? 0 : 0.48, ease: motionEase }}
-          inert={!heroActionsPassed && pathname === "/"}
-          aria-hidden={!heroActionsPassed && pathname === "/"}
+          inert={!showCta}
+          aria-hidden={!showCta}
         >
           <div className="header__cta-content">
             <BookingLink inverse={dark} placement="header_desktop" />
@@ -322,7 +298,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
       {portalReady &&
         createPortal(
           <AnimatePresence>
-            {(heroActionsPassed || pathname !== "/") && !menuOpenChrome && (
+            {showCta && !menuOpenChrome && (
               <motion.div
                 className="mobile-floating-cta"
                 initial={reduceMotion ? false : { opacity: 0, y: 24 }}
