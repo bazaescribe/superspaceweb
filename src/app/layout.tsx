@@ -3,6 +3,7 @@ import { Analytics } from "@/components/analytics";
 import { JsonLd } from "@/components/json-ld";
 import { siteDescription, siteName, siteUrl, socialImage } from "@/lib/seo";
 import "./globals.css";
+import "./dark-site.css";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,

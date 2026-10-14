@@ -21,7 +21,6 @@
     --color-border-dark: #202225;
   }
 
-  :root,
   [data-theme="light"] {
     color-scheme: light;
     --color-background: var(--color-background-light);
@@ -34,6 +33,7 @@
     --color-border: var(--color-border-light);
   }
 
+  :root,
   [data-theme="dark"] {
     color-scheme: dark;
     --color-background: var(--color-background-dark);

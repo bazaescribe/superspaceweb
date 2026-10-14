@@ -1,26 +1,26 @@
 import Link from "next/link";
-import type { Metadata } from "next";
-import { EditorialPage } from "@/components/editorial-page";
-
-export const metadata: Metadata = {
-  title: "Page not found",
-  robots: { index: false, follow: false },
-};
+import Image from "next/image";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import { HeaderThemeScope } from "@/components/header-theme";
 export default function NotFound() {
   return (
-    <EditorialPage
-      eyebrow="404"
-      title="That page is not part of the current site."
-      intro="The site is being kept intentionally focused while the product and its first customer work develop."
-    >
-      <div className="shell mb-20 flex flex-wrap gap-3">
-        <Link className="button" href="/">
-          Return home
-        </Link>
-        <Link className="button button--secondary" href="/platform">
-          Explore the platform
-        </Link>
-      </div>
-    </EditorialPage>
+    <HeaderThemeScope defaultTone="dark" data-theme="dark" className="site-v2 dark-redesign">
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+      <Header />
+      <main id="main-content" className="not-found-content">
+        <Image src="/assets/figma/dark-site/not-found.svg" alt="" width={233} height={322} unoptimized />
+        <div>
+          <h1>Nothing to see here!</h1>
+          <p>We couldn’t find the page you were looking for. Try a different URL or go back to the homepage.</p>
+          <Link className="button" href="/">
+            Take me home
+          </Link>
+        </div>
+      </main>
+      <Footer />
+    </HeaderThemeScope>
   );
 }

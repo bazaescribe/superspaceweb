@@ -23,7 +23,7 @@ const HeaderThemeContext = createContext<HeaderThemeContextValue | null>(null);
 
 export function HeaderThemeProvider({
   children,
-  defaultTone = "light",
+  defaultTone = "dark",
 }: {
   children: ReactNode;
   defaultTone?: HeaderTone;
@@ -101,7 +101,7 @@ export function HeaderThemeProvider({
 
 export function HeaderThemeScope({
   children,
-  defaultTone = "light",
+  defaultTone = "dark",
   ...props
 }: ComponentPropsWithoutRef<"div"> & { defaultTone?: HeaderTone }) {
   return (

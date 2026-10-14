@@ -1,0 +1,186 @@
+/* Semantic dark palette shared by the refreshed site and existing routes. */
+@layer page {
+  body {
+    background: var(--color-background);
+    color: var(--color-content);
+  }
+  .site-v2 main {
+    background: var(--color-background);
+  }
+  .dark-redesign {
+    background: var(--color-background);
+    color: var(--color-content);
+  }
+  .dark-redesign main {
+    padding-top: var(--header-height);
+  }
+  .dark-redesign .header__cta {
+    margin-left: 0;
+  }
+  .dark-redesign .header__inner {
+    display: flex;
+    justify-content: space-between;
+  }
+  .dark-redesign .desktop-nav {
+    margin-left: auto;
+    gap: 24px;
+  }
+  .dark-redesign .desktop-nav a {
+    padding-inline: 0;
+    color: var(--color-content);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .dark-redesign .header .brand {
+    width: 126.1px;
+    height: 22px;
+  }
+  .dark-redesign .header {
+    border-bottom: 0.5px solid transparent;
+  }
+  .dark-redesign .header--scrolled {
+    border-bottom-color: var(--color-border);
+  }
+  .dark-redesign .site-footer > .system-section__buffer {
+    display: block;
+  }
+  .site-footer {
+    background: var(--color-background-dark);
+    border-top: 1px solid var(--color-border);
+  }
+  .site-footer .footer-cta h2 {
+    max-width: 640px;
+    font-family: var(--font-body);
+    font-weight: 500;
+  }
+  .site-footer .footer-cta .hero-actions {
+    margin-top: 20px;
+  }
+  .site-footer .footer-cta {
+    padding: 80px 0 160px;
+  }
+  .site-footer .footer-cta .button--secondary {
+    color: white;
+    background: rgb(255 255 255 / 0.04);
+  }
+  .site-footer .v2-footer__label {
+    font-weight: 400;
+  }
+  .dark-redesign .button {
+    min-height: 33px;
+    padding: 6px 18px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-radius: 6px;
+  }
+  .dark-redesign .button--secondary {
+    color: var(--color-content);
+    background: rgb(255 255 255 / 0.04);
+    border: 0;
+  }
+  .dark-redesign .hero-actions {
+    gap: 8px;
+  }
+  .careers-content {
+    padding-block: calc(var(--header-height) + 80px) 80px !important;
+  }
+  .careers-content h1 {
+    font: 700 32px/1.2 var(--font-body);
+    margin: 0 0 32px;
+  }
+  .careers-content > div {
+    max-width: 640px;
+    font: 400 16px/1.25 var(--font-body);
+  }
+  .careers-content p {
+    margin: 0 0 20px;
+  }
+  .not-found-content {
+    min-height: 1002px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    text-align: center;
+    padding-bottom: 66px;
+  }
+  .not-found-content > img {
+    width: 233px;
+    height: auto;
+  }
+  .not-found-content h1 {
+    font: 700 20px/1.2 var(--font-body);
+    margin: 0 0 8px;
+  }
+  .not-found-content p {
+    max-width: 430px;
+    font: 400 14px/1.25 var(--font-body);
+    margin: 0 0 24px;
+  }
+  .not-found-content .button {
+    background: white;
+    color: var(--color-background-dark);
+  }
+  @media (max-width: 720px) {
+    .site-footer .footer-cta {
+      padding: 24px 0 80px;
+    }
+    .careers-content {
+      padding-block: calc(var(--header-height) + 48px) 64px !important;
+    }
+    .careers-content h1 {
+      font-size: 28px;
+    }
+    .careers-content > div {
+      line-height: 1.5;
+    }
+    .not-found-content {
+      min-height: 720px;
+      padding-inline: var(--site-gutter);
+      padding-bottom: 64px;
+    }
+  }
+}
+/* The shared header's utility classes are in the final cascade layer. */
+.dark-redesign .desktop-nav a {
+  padding-inline: 0;
+  color: var(--color-content);
+  font-size: 12px;
+  font-weight: 400;
+}
+.dark-redesign .header .brand__full {
+  height: 22px;
+  width: auto;
+}
+.dark-redesign .desktop-nav {
+  gap: 24px;
+}
+.button--inverse img[src="/brand/cta-chevron.svg"] {
+  filter: invert(1);
+}
+/* One animated slot; its first 32px are always excluded from the rounded reveal. */
+@media (min-width: 721px) {
+  .header__inner {
+    column-gap: 0;
+  }
+  .header__cta {
+    display: flex;
+    justify-content: flex-end;
+    flex: 0 0 auto;
+    margin-left: 0;
+    overflow: hidden;
+    clip-path: inset(0 0 0 32px round var(--radius-inner));
+  }
+  .header__cta-content {
+    flex: 0 0 auto;
+    width: max-content;
+    padding-left: 32px;
+    white-space: nowrap;
+  }
+  .header__cta .button:focus-visible {
+    outline-offset: -3px;
+  }
+}

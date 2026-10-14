@@ -168,7 +168,7 @@ function MobileNavLink({
 export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const pathname = usePathname();
   const headerTheme = useHeaderTheme();
-  const tone = toneOverride ?? headerTheme?.tone ?? "light";
+  const tone = toneOverride ?? headerTheme?.tone ?? "dark";
   const dark = tone === "dark";
   const [open, setOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -286,19 +286,20 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
             <NavigationLink key={link.href} {...link} tone={tone} />
           ))}
         </div>
-        <AnimatePresence initial={false}>
-          {(heroActionsPassed || pathname !== "/") && (
-            <motion.div
-              className="header__cta"
-              initial={reduceMotion ? false : { opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-              transition={motionTokens.fast}
-            >
-              <BookingLink inverse={dark} placement="header_desktop" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <motion.div
+          className="header__cta"
+          initial={false}
+          animate={{
+            width: heroActionsPassed || pathname !== "/" ? "auto" : 0,
+          }}
+          transition={{ duration: reduceMotion ? 0 : 0.48, ease: motionEase }}
+          inert={!heroActionsPassed && pathname === "/"}
+          aria-hidden={!heroActionsPassed && pathname === "/"}
+        >
+          <div className="header__cta-content">
+            <BookingLink inverse={dark} placement="header_desktop" />
+          </div>
+        </motion.div>
         <button
           className={`menu-button ${open ? "menu-button--open" : ""}`}
           type="button"

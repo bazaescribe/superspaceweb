@@ -1,0 +1,135 @@
+.layout {
+  width: calc(100% - var(--site-gutter) * 2);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+}
+.aside {
+  position: sticky;
+  top: var(--header-height);
+  padding: 80px 0;
+}
+.map {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font: 400 14px/1.25 var(--font-body);
+}
+.map a {
+  color: var(--color-content-tertiary);
+  text-decoration: none;
+  transition: color 180ms;
+}
+.map a[aria-current],
+.map a:hover {
+  color: var(--color-content);
+}
+.related {
+  width: 70%;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.related a {
+  display: flex;
+  gap: 12px;
+  width: fit-content;
+  text-decoration: none;
+  font-size: 12px;
+}
+.article {
+  grid-column: 2 / 4;
+  padding: 80px 24px;
+  font: 400 16px/1.25 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.chapter {
+  scroll-margin-top: 16px;
+  margin-bottom: 32px;
+}
+.chapter h1 {
+  margin: 0 0 32px;
+  font: 700 32px/1.2 var(--font-body);
+}
+.chapter h2 {
+  margin: 0 0 24px;
+  font: 700 24px/1.2 var(--font-body);
+}
+.chapter p {
+  margin: 0 0 20px;
+}
+.chapter p:last-child {
+  margin-bottom: 0;
+}
+.quote {
+  margin: 32px 0 0;
+  padding: 32px 0;
+  border-top: 1px solid var(--color-border);
+}
+.quote blockquote {
+  margin: 0 0 12px;
+  font:
+    400 32px/1.04 Georgia,
+    serif;
+}
+.quote figcaption {
+  font-size: 14px;
+  color: var(--color-content-secondary);
+}
+@media (max-width: 1000px) and (min-width: 721px) {
+  .layout {
+    grid-template-columns: 1fr 3fr;
+  }
+  .article {
+    grid-column: 2;
+  }
+}
+@media (max-width: 720px) {
+  .layout {
+    width: 100%;
+    display: block;
+  }
+  .aside {
+    padding: 0;
+    top: var(--header-height);
+    z-index: 10;
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .map {
+    position: relative;
+    flex-direction: row;
+    gap: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 18px var(--site-gutter);
+  }
+  .map a {
+    flex: 0 0 auto;
+    padding: 4px 0;
+  }
+  .map::-webkit-scrollbar {
+    display: none;
+  }
+  .related {
+    display: none;
+  }
+  .article {
+    padding: 48px var(--site-gutter) 64px;
+    line-height: 1.5;
+  }
+  .chapter {
+    scroll-margin-top: 68px;
+  }
+  .chapter h1 {
+    font-size: 28px;
+  }
+  .chapter h2 {
+    font-size: 22px;
+  }
+}

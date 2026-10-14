@@ -57,7 +57,7 @@ test("footer preserves Figma ordering, canonical routes and working destinations
     footerGroups.map((g) => g.links.map((l) => l.label)),
     [
       ["Home", "Platform", "Offerings", "Deployment", "FAQ", "Changelog"],
-      ["Manifesto", "Careers", "Engineering Blog"],
+      ["About us", "Manifesto", "Careers", "Engineering Blog"],
       ["LinkedIn", "X (Twitter)", "Mail"],
     ],
   );

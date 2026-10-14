@@ -95,7 +95,8 @@ export const footerGroups = [
   {
     title: "Company",
     links: [
-      { label: "Manifesto", href: "/company" },
+      { label: "About us", href: "/company" },
+      { label: "Manifesto", href: "/manifesto" },
       { label: "Careers", href: "/careers" },
       { label: "Engineering Blog", href: "/engineering-blog" },
     ],

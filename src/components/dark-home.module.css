@@ -1,0 +1,224 @@
+.home {
+  width: calc(100% - var(--site-gutter) * 2);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  font-family: var(--font-body);
+}
+.hero {
+  padding-top: 80px;
+}
+.heroCopy {
+  max-width: 720px;
+  margin-bottom: 72px;
+}
+.heroCopy h1 {
+  margin: 0 0 16px;
+  font: 600 48px/1.04 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.heroCopy p {
+  margin: 0 0 16px;
+  font: 400 16px/1.2 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.heroCopy :global(.hero-actions) {
+  margin-top: 0;
+}
+.pillarsSection {
+  padding-top: 160px;
+  scroll-margin-top: 16px;
+}
+.pillarsSection > h2 {
+  max-width: 720px;
+  margin: 0 0 32px;
+  font: 500 40px/1.04 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.pillarsSection > h2 span {
+  color: rgb(255 255 255 / 0.4);
+}
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+.pillar {
+  border-right: 0.5px solid var(--color-border);
+}
+.pillar:last-child {
+  border-right: 0;
+}
+.pillarVisual {
+  height: 418px;
+  display: flex;
+  align-items: center;
+}
+.pillarVisual img {
+  width: 320px;
+  max-width: calc(100% - 24px);
+  height: auto;
+}
+.pillarCopy {
+  padding: 24px 24px 24px 0;
+}
+.pillarCopy h3 {
+  font: 500 16px/1.2 var(--font-body);
+  margin: 0 0 4px;
+}
+.pillarCopy p {
+  font: 400 14px/1.25 var(--font-body);
+  color: var(--color-content-secondary);
+  margin: 0;
+}
+.features {
+  padding: 160px 0 192px;
+  display: flex;
+  flex-direction: column;
+  gap: 160px;
+}
+.featureCopy {
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+.featureCopy h2 {
+  font: 500 40px/1.04 var(--font-body);
+  margin: 0 0 8px;
+  letter-spacing: 0.01em;
+}
+.featureCopy p {
+  font: 400 14px/1.25 var(--font-body);
+  margin: 0;
+  color: var(--color-content-secondary);
+}
+.featureVisual {
+  height: 640px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+}
+.featureVisual img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.featureVisual::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--color-background) 100%);
+}
+@media (min-width: 721px) and (max-width: 1100px) {
+  .pillarVisual {
+    height: 320px;
+  }
+  .featureVisual {
+    height: 50vw;
+  }
+}
+@media (max-width: 720px) {
+  .hero {
+    padding-top: 48px;
+  }
+  .heroCopy {
+    margin-bottom: 40px;
+  }
+  .heroCopy h1 {
+    font-size: 36px;
+  }
+  .heroCopy p {
+    line-height: 1.5;
+  }
+  .pillarsSection {
+    padding-top: 96px;
+  }
+  .pillarsSection > h2,
+  .featureCopy h2 {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+  .pillars {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .pillar {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 32px;
+  }
+  .pillar:last-child {
+    border-bottom: 0;
+  }
+  .pillarVisual {
+    height: auto;
+    min-height: 160px;
+  }
+  .pillarVisual img {
+    max-width: 100%;
+  }
+  .pillarCopy {
+    padding: 24px 0;
+  }
+  .pillarCopy p {
+    line-height: 1.5;
+  }
+  .features {
+    padding: 96px 0;
+    gap: 96px;
+  }
+  .featureCopy p {
+    line-height: 1.5;
+  }
+  .featureVisual {
+    height: 420px;
+    margin-right: calc(-1 * var(--site-gutter));
+  }
+  .featureVisual img {
+    width: 900px;
+    max-width: none;
+  }
+  .featureVisual::after {
+    inset-block-start: 40%;
+  }
+}
+@media (max-width: 380px) {
+  .heroCopy h1 {
+    font-size: 32px;
+  }
+  .pillar {
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+  }
+}
+
+.heroCopy > * {
+  animation: hero-entrance 700ms var(--ease-standard) both;
+}
+.heroCopy > p {
+  animation-delay: 90ms;
+}
+.heroCopy > :global(.hero-actions) {
+  animation-delay: 180ms;
+}
+.hero > :last-child {
+  animation: hero-entrance 800ms var(--ease-standard) 240ms both;
+}
+@keyframes hero-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heroCopy > *,
+  .hero > :last-child {
+    animation: none;
+  }
+}
