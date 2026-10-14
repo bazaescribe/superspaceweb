@@ -94,10 +94,20 @@
   justify-content: center;
 }
 .cubeArt svg {
-  width: 274px;
-  height: 315.51px;
+  width: 340px;
+  height: 380px;
   max-width: 90%;
-  overflow: visible;
+  overflow: hidden;
+}
+.cubeArt .platformArt {
+  width: 394px;
+  height: 340px;
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+}
+.launchCard:focus-visible {
+  outline: 1px solid var(--color-content-secondary);
+  outline-offset: 6px;
 }
 .launchCopy {
   padding: 24px;

@@ -5,6 +5,7 @@ import { HeaderThemeScope } from "@/components/header-theme";
 import { BookingLink } from "@/components/booking-link";
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
 import { DeploymentLaunchCard } from "@/components/deployment-launch-card";
+import { DeploymentAssembly } from "@/components/deployment-assembly";
 import { DeploymentTradeoffChart } from "@/components/deployment-tradeoff-chart";
 import { createPageMetadata } from "@/lib/seo";
 import styles from "./deployment.module.css";
@@ -84,15 +85,7 @@ export default function DeploymentPage() {
                 your people, processes, and rules.
               </p>
             </div>
-            <div className={styles.mockup}>
-              <Image
-                src="/assets/figma/dark-site/382ff.png"
-                alt="Superspace workspace showing company information, related requests, and operational activity."
-                width={4096}
-                height={2660}
-                sizes="(max-width: 1352px) 95vw, 1280px"
-              />
-            </div>
+            <DeploymentAssembly />
             <div className={styles.stages}>
               <div>
                 <h3>Understand</h3>
@@ -123,10 +116,10 @@ export default function DeploymentPage() {
               </p>
             </div>
             <div className={styles.launchCards}>
-              <DeploymentLaunchCard title="We manage the platform.">
+              <DeploymentLaunchCard variant="evolving" title="We manage the platform.">
                 Hosting, maintenance, updates, and the technical infrastructure behind your system.
               </DeploymentLaunchCard>
-              <DeploymentLaunchCard title="Your system keeps evolving.">
+              <DeploymentLaunchCard variant="platform" title="Your system keeps evolving.">
                 New workflows and capabilities can be introduced as your operation changes, with additional work scoped
                 and agreed separately.
               </DeploymentLaunchCard>
