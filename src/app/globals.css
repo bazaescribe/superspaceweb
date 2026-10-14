@@ -1261,11 +1261,11 @@ html {
   }
   ::selection {
     background: var(--color-content);
-    color: var(--color-inverse);
+    color: var(--color-background);
   }
   ::-moz-selection {
     background: var(--color-content);
-    color: var(--color-inverse);
+    color: var(--color-background);
   }
   button,
   input,

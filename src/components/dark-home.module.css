@@ -9,7 +9,7 @@
 }
 .heroCopy {
   max-width: 720px;
-  margin-bottom: 72px;
+  margin-bottom: 96px;
 }
 .heroCopy h1 {
   margin: 0 0 16px;
@@ -25,8 +25,8 @@
   margin-top: 0;
 }
 .pillarsSection {
-  padding-top: 160px;
-  scroll-margin-top: 16px;
+  padding-top: 200px;
+  scroll-margin-top: 200px;
 }
 .pillarsSection > h2 {
   max-width: 720px;
@@ -71,10 +71,10 @@
   margin: 0;
 }
 .features {
-  padding: 160px 0 192px;
+  padding: 200px 0 200px;
   display: flex;
   flex-direction: column;
-  gap: 160px;
+  gap: 200px;
 }
 .featureCopy {
   max-width: 720px;
