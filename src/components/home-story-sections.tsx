@@ -115,7 +115,7 @@ const implementationLinks = [
 export function PillarsSection() {
   return (
     <section className="shell mt-section" aria-labelledby="pillars-title">
-      <Reveal>
+      <Reveal duration={0.3}>
         <h2 id="pillars-title" className="section-heading">
           Your business is already a system.{" "}
           <span>
@@ -139,7 +139,7 @@ export function ImplementationSection() {
   return (
     <HeaderThemeRegion tone="dark" className="implementation-section mt-section" aria-labelledby="implementation-title">
       <div className="shell">
-        <Reveal>
+        <Reveal duration={0.3}>
           <h2 id="implementation-title" className="section-heading">
             From operational challenge to working software.{" "}
             <span>
@@ -185,10 +185,9 @@ export function ImplementationSection() {
 export function StartCtaSection() {
   return (
     <section className="start-cta" aria-labelledby="start-cta-title">
-      <Reveal className="max-w-[720px]">
+      <Reveal className="max-w-[720px]" duration={0.3}>
         <h2 id="start-cta-title">
-          Your operation already knows what it needs.{" "}
-          <ShimmerAccent>Let’s build the software around it.</ShimmerAccent>
+          Your operation already knows what it needs. <ShimmerAccent>Let’s build the software around it.</ShimmerAccent>
         </h2>
         <p>
           Bring us a workflow that depends on spreadsheets, disconnected tools, or too much manual coordination.

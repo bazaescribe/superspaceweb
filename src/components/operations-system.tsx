@@ -1,5 +1,7 @@
 "use client";
 
+import { EntranceHeading } from "@/components/entrance-heading";
+
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { useInView } from "motion/react";
@@ -13,7 +15,6 @@ import {
 } from "@phosphor-icons/react";
 import { OrderWorkspace } from "./order-workspace";
 import styles from "./operations-system.module.css";
-
 
 export function OperationsSystem({
   embedded = false,
@@ -40,9 +41,9 @@ export function OperationsSystem({
     >
       {!embedded && (
         <header className="v24-heading-row">
-          <h2 id={`${id}-title`}>
+          <EntranceHeading id={`${id}-title`}>
             Your operation already has a system. <span>It just isn’t software yet.</span>
-          </h2>
+          </EntranceHeading>
           <div className={styles.switcher} aria-label="Compare operational systems">
             <button aria-pressed={!connected} aria-controls={`${id}-demo`} onClick={() => setConnected(false)}>
               The old way
@@ -70,7 +71,7 @@ export function OperationsSystem({
           >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
-                <Image src='/assets/figma/logos/Logo-Gmail.png' width={20} height={20} alt="Gmail Logo"></Image>
+                <Image src="/assets/figma/logos/Logo-Gmail.png" width={20} height={20} alt="Gmail Logo"></Image>
               </span>
               <span>
                 Inbox <small>selena.gomez@acme.com</small>
@@ -80,7 +81,7 @@ export function OperationsSystem({
             <div className={styles.cardBody}>
               <div className={styles.person}>
                 <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
-                  <Image src='/assets/figma/photos/User-Emma.png' width={28} height={28} alt="Gmail Logo"></Image>
+                  <Image src="/assets/figma/photos/User-Emma.png" width={28} height={28} alt="Gmail Logo"></Image>
                 </div>
                 <span>
                   Emma Lewis <small>emma@northstar.co &nbsp;·&nbsp; to Operations</small>
@@ -108,11 +109,11 @@ export function OperationsSystem({
             data-fragment-visible={revealedStep === undefined ? undefined : revealedStep >= 1}
             aria-hidden={revealedStep === undefined ? undefined : revealedStep < 1}
           >
-            <div className={styles.cardBar} style={{ color: 'white'}}>
+            <div className={styles.cardBar} style={{ color: "white" }}>
               <span className={styles.mailMark}>
-                <Image src='/assets/figma/logos/Logo-Excel.png' width={20} height={20} alt="Gmail Logo"></Image>
+                <Image src="/assets/figma/logos/Logo-Excel.png" width={20} height={20} alt="Gmail Logo"></Image>
               </span>
-              <span style={{color: 'white'}}>
+              <span style={{ color: "white" }}>
                 Orders_final_v3.xlsx <small>Saved to Drive</small>
               </span>
               <span className={styles.sheetShare}>Share</span>
@@ -167,9 +168,9 @@ export function OperationsSystem({
           >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
-                <Image src='/assets/figma/logos/Logo-Slack.png' width={28} height={28} alt="Gmail Logo"></Image>
+                <Image src="/assets/figma/logos/Logo-Slack.png" width={28} height={28} alt="Gmail Logo"></Image>
               </span>
-              <span style={{ color: 'white'}}>
+              <span style={{ color: "white" }}>
                 dispatch <small>9 members</small>
               </span>
               <span className={styles.unread}>2 new</span>
@@ -177,7 +178,7 @@ export function OperationsSystem({
             <div className={styles.chatThread}>
               <div className={styles.chatMessage}>
                 <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
-                  <Image src='/assets/figma/photos/User-Marcel.png' width={28} height={28} alt="Gmail Logo"></Image>
+                  <Image src="/assets/figma/photos/User-Marcel.png" width={28} height={28} alt="Gmail Logo"></Image>
                 </div>
                 <div>
                   <span className={styles.messageMeta}>
@@ -198,7 +199,7 @@ export function OperationsSystem({
               </div>
               <div className={styles.chatMessage}>
                 <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
-                  <Image src='/assets/figma/photos/User-Sofia.png' width={28} height={28} alt="Gmail Logo"></Image>
+                  <Image src="/assets/figma/photos/User-Sofia.png" width={28} height={28} alt="Gmail Logo"></Image>
                 </div>
                 <div>
                   <span className={styles.messageMeta}>
@@ -216,7 +217,7 @@ export function OperationsSystem({
           >
             <div className={styles.cardBar}>
               <span className={styles.mailMark}>
-                <Image src='/assets/figma/logos/Logo-Notion.png' width={28} height={28} alt="Gmail Logo"></Image>
+                <Image src="/assets/figma/logos/Logo-Notion.png" width={28} height={28} alt="Gmail Logo"></Image>
               </span>
               <span>
                 Purchase approval <small>Procurement</small>
@@ -243,7 +244,7 @@ export function OperationsSystem({
             aria-hidden={revealedStep === undefined ? undefined : revealedStep < 3}
           >
             <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
-              <Image src='/assets/figma/photos/User-Emma.png' width={28} height={28} alt="Gmail Logo"></Image>
+              <Image src="/assets/figma/photos/User-Emma.png" width={28} height={28} alt="Gmail Logo"></Image>
             </div>
             <span>
               <strong>Emma Lewis</strong>
@@ -256,7 +257,7 @@ export function OperationsSystem({
             aria-hidden={revealedStep === undefined ? undefined : revealedStep < 3}
           >
             <div className="rounded-full border border-black/20 w-7 h-7 overflow-hidden flex align-center justify-center">
-              <Image src='/assets/figma/photos/User-Alex.png' width={28} height={28} alt="Gmail Logo"></Image>
+              <Image src="/assets/figma/photos/User-Alex.png" width={28} height={28} alt="Gmail Logo"></Image>
             </div>
             <span>
               <strong>Alex Lee</strong>

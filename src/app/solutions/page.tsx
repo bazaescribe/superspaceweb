@@ -1,3 +1,4 @@
+import { EntranceHeading } from "@/components/entrance-heading";
 import Image from "next/image";
 import { EditorialPage, EditorialSection, ProductFrame, container } from "@/components/editorial-page";
 import { Reveal } from "@/components/reveal";
@@ -157,7 +158,7 @@ export default function SolutionsPage() {
           >
             <div className={index % 2 ? "md:order-2" : ""}>
               <span className="text-label text-muted">0{index + 1} /</span>
-              <h2 className="mt-5 text-section">{title}</h2>
+              <EntranceHeading className="mt-5 text-section">{title}</EntranceHeading>
               <p className="mt-4 max-w-lg text-body text-muted">{copy}</p>
             </div>
             <Reveal>

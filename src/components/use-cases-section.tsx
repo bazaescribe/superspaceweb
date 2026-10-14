@@ -1,5 +1,7 @@
 "use client";
 
+import { EntranceHeading } from "@/components/entrance-heading";
+
 import Image from "next/image";
 import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
 import { useId, useRef, useState } from "react";
@@ -97,7 +99,9 @@ export function UseCasesSection() {
     <section className={styles.section} aria-labelledby={`${id}-title`}>
       <div>
         <header className={styles.header}>
-          <h2 id={`${id}-title`}>The Operating System built around how your business works.</h2>
+          <EntranceHeading id={`${id}-title`}>
+            The Operating System built around how your business works.
+          </EntranceHeading>
           <p>
             From coordinating deliveries to managing inventory and field teams, SuperSpace adapts to the people,
             processes and tools behind your operation.

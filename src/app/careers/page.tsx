@@ -1,3 +1,4 @@
+import { HeroHeading } from "@/components/entrance-heading";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
@@ -15,7 +16,7 @@ export default function CareersPage() {
       </a>
       <Header />
       <main id="main-content" className="careers-content shell">
-        <h1>The next chapter needs more builders.</h1>
+        <HeroHeading>The next chapter needs more builders.</HeroHeading>
         <div>
           <p>We&apos;re a small team building ambitious technology to change how businesses operate.</p>
           <p>

@@ -1,5 +1,7 @@
 "use client";
 
+import { EntranceHeading } from "./entrance-heading";
+
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
@@ -39,8 +41,7 @@ const platformStories = [
     id: "ai-native",
     label: "Ready for AI",
     title: "AI-native by design.",
-    description:
-      "Put AI agents to work with the context to handle tasks, make decisions, and drive results.",
+    description: "Put AI agents to work with the context to handle tasks, make decisions, and drive results.",
     mockup: "/assets/figma/feature-ai-native.png",
   },
 ] as const;
@@ -161,10 +162,10 @@ export function PlatformShowcase() {
 
   return (
     <section className="platform-showcase shell" id="platform" aria-labelledby="platform-title">
-      <h2 id="platform-title" className="section-heading">
+      <EntranceHeading id="platform-title" className="section-heading">
         Custom where it matters. Standard where it shouldn&apos;t.{" "}
         <span>Superspace is a managed operational platform built around the way your business actually works.</span>
-      </h2>
+      </EntranceHeading>
       <div className="platform-showcase__content">
         <nav className="platform-showcase__nav" aria-label="Superspace benefits">
           {platformStories.map((story) => {
@@ -224,17 +225,10 @@ export function OperationsGrid() {
   const reduceMotion = useReducedMotion();
   return (
     <section className="operations-grid shell" aria-labelledby="operations-title">
-      <motion.h2
-        id="operations-title"
-        className="section-heading"
-        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.7, once: true }}
-        transition={{ duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
-      >
+      <EntranceHeading id="operations-title" className="section-heading">
         Built for the operations your business depends on.{" "}
         <span>Bring the work, data, and decisions your operation depends on into one system.</span>
-      </motion.h2>
+      </EntranceHeading>
       <motion.div
         className="operations-grid__cards"
         initial={reduceMotion ? false : { opacity: 0, y: 20 }}
@@ -267,17 +261,10 @@ export function IndustriesAccordion() {
   const reduceMotion = useReducedMotion();
   return (
     <section className="industries shell" aria-labelledby="industries-title">
-      <motion.h2
-        id="industries-title"
-        className="section-heading"
-        initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.7, once: true }}
-        transition={{ duration: 0.62, ease: [0.22, 0.86, 0.24, 1] }}
-      >
+      <EntranceHeading id="industries-title" className="section-heading">
         Different industries. One operational foundation.{" "}
         <span>Superspace brings together the data and capabilities your operations need.</span>
-      </motion.h2>
+      </EntranceHeading>
       <motion.div
         className="industries__cards"
         aria-label="Industries Superspace supports"

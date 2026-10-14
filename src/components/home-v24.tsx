@@ -1,5 +1,7 @@
 "use client";
 
+import { EntranceHeading } from "@/components/entrance-heading";
+
 import Image from "next/image";
 import { useId, useState } from "react";
 import { SolutionWorkspace } from "./solution-workspace";
@@ -83,9 +85,9 @@ export function FlexibleSolutions() {
   return (
     <section className="v24-section flexible" aria-labelledby={`${id}-title`}>
       <div className="v24-heading-row">
-        <h2 id={`${id}-title`}>
+        <EntranceHeading id={`${id}-title`}>
           Built around the work you do. <span>One flexible foundation. Many ways to operate.</span>
-        </h2>
+        </EntranceHeading>
         <div className="v24-pills" role="group" aria-label="Solution use cases">
           {solutions.map((solution, index) => (
             <button
@@ -119,9 +121,9 @@ export function ImplementationExperience() {
   return (
     <section className="experience-scroll" aria-labelledby="experience-title">
       <div className="v24-heading-row experience-heading">
-        <h2 id="experience-title">
+        <EntranceHeading id="experience-title">
           Platform experience. <span>Implemented around the way your business works.</span>
-        </h2>
+        </EntranceHeading>
       </div>
       <div className="experience-sticky">
         <div
@@ -171,9 +173,9 @@ export function CustomBuiltMatters() {
   return (
     <section className="custom-built" aria-labelledby="custom-built-title">
       <div className="v24-heading-row">
-        <h2 id="custom-built-title">
+        <EntranceHeading id="custom-built-title">
           Custom where it matters. <span>Standard where it should be.</span>
-        </h2>
+        </EntranceHeading>
       </div>
       <div className="split-showcase split-showcase--custom">
         <div className="custom-list">

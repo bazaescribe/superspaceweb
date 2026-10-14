@@ -1,3 +1,4 @@
+import { EntranceHeading } from "@/components/entrance-heading";
 import styles from "./editorial-page.module.css";
 import { SiteHero } from "@/components/site-hero";
 import type { ReactNode } from "react";
@@ -63,11 +64,11 @@ export function EditorialSection({
               {number} /
             </span>
           )}
-          <h2
+          <EntranceHeading
             className={`max-w-reading text-section ${tone === "dark" ? "[&_span]:text-inverse-muted" : "[&_span]:text-muted"}`}
           >
             {title}
-          </h2>
+          </EntranceHeading>
         </div>
         <div
           className={`min-w-0 space-y-5 text-body ${tone === "dark" ? "text-inverse-muted [&_.text-foreground]:text-inverse" : "text-muted"}`}
@@ -99,7 +100,7 @@ export function EditorialCta({
       <div className="absolute inset-0 -z-10 bg-black/40" />
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div className="max-w-reading">
-          <h2 className="text-display">{title}</h2>
+          <EntranceHeading className="text-display">{title}</EntranceHeading>
           <p className="mt-4 max-w-xl text-body text-inverse-muted">{text}</p>
         </div>
         <BookingLink inverse placement="editorial_cta" />

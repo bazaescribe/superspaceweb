@@ -1,3 +1,4 @@
+import { EntranceHeading } from "./entrance-heading";
 import Link from "next/link";
 import { FooterReveal, FooterWordmark } from "@/components/footer-wordmark";
 import { footerGroups } from "@/lib/site";
@@ -9,7 +10,7 @@ export function Footer() {
     <FooterReveal>
       <footer className="v2-footer shell">
         <div className="footer-cta">
-          <h2>Your business deserves its own Superspace.</h2>
+          <EntranceHeading>Your business deserves its own Superspace.</EntranceHeading>
           <p>Tell us how your business runs. Let’s explore how Superspace can become its operating system.</p>
           <div className="hero-actions">
             <BookingLink placement="footer" label="Let’s talk" designIcon inverse />

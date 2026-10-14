@@ -1,3 +1,4 @@
+import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
 import Image from "next/image";
 import { BookingLink } from "./booking-link";
 import { PillarCard } from "./pillar-card";
@@ -42,7 +43,7 @@ export function DarkHome() {
     <div className={styles.home}>
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <h1 id="home-title">Operational software, built around your business.</h1>
+          <HeroHeading id="home-title">Operational software, built around your business.</HeroHeading>
           <p>
             One managed system for your people, processes, and business rules. Configured to fit how you work, and ready
             to grow with you.
@@ -57,9 +58,9 @@ export function DarkHome() {
         <ProductPreview />
       </section>
       <section id="system" className={styles.pillarsSection} aria-labelledby="pillars-title">
-        <h2 id="pillars-title">
+        <EntranceHeading id="pillars-title">
           A different kind of business software. <span>Tailored for your company, designed to evolve as you grow.</span>
-        </h2>
+        </EntranceHeading>
         <div className={styles.pillars}>
           {pillars.map((pillar, index) => (
             <PillarCard key={pillar.title} {...pillar} index={index} />
@@ -70,7 +71,7 @@ export function DarkHome() {
         {features.map((feature) => (
           <section className={styles.feature} key={feature.title}>
             <div className={styles.featureCopy}>
-              <h2>{feature.title}</h2>
+              <EntranceHeading>{feature.title}</EntranceHeading>
               <p>{feature.text}</p>
             </div>
             <div className={styles.featureVisual}>

@@ -1,3 +1,4 @@
+import { EntranceHeading } from "@/components/entrance-heading";
 import Link from "next/link";
 import { EditorialPage, EditorialSection, ProcessSteps, container } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
@@ -22,7 +23,7 @@ export default function ContactPage() {
     >
       <section className={`${container} mb-section grid gap-10 md:grid-cols-2 md:gap-16`}>
         <div>
-          <h2 className="mb-6 text-feature">A useful first note includes</h2>
+          <EntranceHeading className="mb-6 text-feature">A useful first note includes</EntranceHeading>
           <ul className="m-0 list-none p-0">
             {[
               "The operation you want to improve",
@@ -45,7 +46,7 @@ export default function ContactPage() {
         </div>
         <div className="flex flex-col items-start rounded-panel bg-surface p-6 md:p-10">
           <span className="text-label text-muted">Contact</span>
-          <h2 className="mt-10 max-w-sm text-section">Start a conversation with our team.</h2>
+          <EntranceHeading className="mt-10 max-w-sm text-section">Start a conversation with our team.</EntranceHeading>
           <p className="mb-8 mt-4 text-body text-muted">
             Tell us what your team is working through and where your current tools fall short. Connect with Superspace
             on LinkedIn to begin.

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
+import { HeroHeading } from "./entrance-heading";
 import { motion as motionTokens } from "@/lib/motion";
 
 export function RevealTitle({
@@ -14,7 +15,7 @@ export function RevealTitle({
   subtitle?: React.ReactNode;
 }) {
   const { ref: titleRef, entered, reducedMotion: reduceMotion } = useScrollEntrance<HTMLHeadingElement>();
-  const entranceTransition = { ...motionTokens.standard, duration: reduceMotion ? 0 : 0.5 };
+  const entranceTransition = { ...motionTokens.standard, duration: reduceMotion ? 0 : 0.3 };
 
   return (
     <>
@@ -47,18 +48,12 @@ export function RevealHeroTitle({ children, subtitle }: { children: React.ReactN
 
   return (
     <>
-      <motion.h1
-        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={motionTokens.featured}
-      >
-        {children}
-      </motion.h1>
+      <HeroHeading>{children}</HeroHeading>
       <motion.p
         className="reveal-subtitle"
         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ ...motionTokens.featured, delay: reduceMotion ? 0 : 0.06 }}
+        transition={{ ...motionTokens.featured, duration: reduceMotion ? 0 : 0.6, delay: reduceMotion ? 0 : 0.06 }}
       >
         {subtitle}
       </motion.p>

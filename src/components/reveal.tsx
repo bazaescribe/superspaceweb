@@ -9,11 +9,12 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  duration?: number;
   role?: string;
   "aria-label"?: string;
 };
 
-export function Reveal({ children, className, delay = 0, ...props }: RevealProps) {
+export function Reveal({ children, className, delay = 0, duration = 0.62, ...props }: RevealProps) {
   const { ref, entered, reducedMotion } = useScrollEntrance();
 
   return (
@@ -23,7 +24,7 @@ export function Reveal({ children, className, delay = 0, ...props }: RevealProps
       {...props}
       initial={{ opacity: 0, y: 20 }}
       animate={entered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ delay: reducedMotion ? 0 : delay, duration: reducedMotion ? 0 : 0.62, ease: motionEase }}
+      transition={{ delay: reducedMotion ? 0 : delay, duration: reducedMotion ? 0 : duration, ease: motionEase }}
     >
       {children}
     </motion.div>

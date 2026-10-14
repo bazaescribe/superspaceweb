@@ -194,8 +194,8 @@
   }
 }
 
-.heroCopy > * {
-  animation: hero-entrance 700ms var(--ease-standard) both;
+.heroCopy > :not(h1) {
+  animation: hero-entrance 600ms var(--ease-standard) both;
 }
 .heroCopy > p {
   animation-delay: 90ms;
@@ -209,7 +209,7 @@
 @keyframes hero-entrance {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;

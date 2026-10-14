@@ -1,3 +1,4 @@
+import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
 import Link from "next/link";
 import Image from "next/image";
 import { Header } from "./header";
@@ -36,9 +37,9 @@ export function CompanyStory({ chapters, about = false }: { chapters: EditorialC
               aria-labelledby={chapter.id + "-title"}
             >
               {index === 0 ? (
-                <h1 id={chapter.id + "-title"}>{chapter.title}</h1>
+                <HeroHeading id={chapter.id + "-title"}>{chapter.title}</HeroHeading>
               ) : (
-                <h2 id={chapter.id + "-title"}>{chapter.title}</h2>
+                <EntranceHeading id={chapter.id + "-title"}>{chapter.title}</EntranceHeading>
               )}
               {chapter.blocks.map((block, i) => (
                 <p key={i}>{block.strong ? <strong>{block.text}</strong> : block.text}</p>

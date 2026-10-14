@@ -1,5 +1,7 @@
 "use client";
 
+import { EntranceHeading } from "@/components/entrance-heading";
+
 import { useScrollStep } from "@/hooks/use-scroll-step";
 import { PlatformArchitectureDiagram } from "./platform-architecture-diagram";
 import { HeaderThemeRegion } from "@/components/header-theme";
@@ -58,7 +60,7 @@ export function PlatformArchitecture() {
               key={title}
             >
               <div className={styles.chunkContent}>
-                <h2>{title}</h2>
+                <EntranceHeading>{title}</EntranceHeading>
                 <dl>
                   {items.map(([label, description]) => (
                     <div key={label}>

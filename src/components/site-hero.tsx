@@ -1,3 +1,4 @@
+import { HeroHeading } from "@/components/entrance-heading";
 import type { ReactNode } from "react";
 import styles from "./site-hero.module.css";
 
@@ -41,7 +42,7 @@ export function SiteHero({
         id="top"
       >
         <div className={styles.copy}>
-          <h1 className={styles.title}>{title}</h1>
+          <HeroHeading className={styles.title}>{title}</HeroHeading>
           {intro && <p className={styles.intro}>{intro}</p>}
           {actions && <div className="hero-actions">{actions}</div>}
         </div>
