@@ -258,14 +258,7 @@
   background: #ffffff10;
   outline: 1px solid #8f72ff;
 }
-.cursor {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  font-size: 30px;
-  color: white;
-  text-shadow: 0 1px 3px black;
-}
+
 .driver {
   background: #ffffff04;
   border: 1px solid #ffffff09;

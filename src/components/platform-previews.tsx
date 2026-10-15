@@ -464,22 +464,17 @@ export function PlatformAgentPreview() {
                         aria-label="Assign María López to this delivery"
                         onClick={() => setManualAssigned(true)}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1, scale: elapsed >= 7500 ? 0.97 : 1 }}
+                        animate={{
+                          opacity: 1,
+                          scale: elapsed >= 7500 ? 0.97 : 1,
+                          backgroundColor: elapsed >= 6800 ? "#ffffff10" : "#ffffff04",
+                        }}
+                        whileHover={{ backgroundColor: "#ffffff10" }}
+                        whileTap={{ scale: reducedMotion ? 1 : 0.97 }}
                         exit={{ opacity: 0, scale: 0.97 }}
                         transition={{ duration: 0.2 }}
                       >
                         <Asset file="f76a5.svg" width={16} />
-                        {elapsed >= 6800 && (
-                          <motion.span
-                            aria-hidden="true"
-                            className={styles.cursor}
-                            initial={{ x: 90, y: 65, opacity: 0 }}
-                            animate={{ x: 0, y: 0, opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                          >
-                            ↖
-                          </motion.span>
-                        )}
                       </motion.button>
                     )}
                   </AnimatePresence>
