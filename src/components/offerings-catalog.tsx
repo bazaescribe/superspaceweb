@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { useEffect, useRef, useState } from "react";
 import { offerings, type Offering } from "@/lib/offerings";
 import { Reveal } from "@/components/reveal";
+import { OfferingWorkflow } from "./offering-workflow";
 import { BookingLink } from "@/components/booking-link";
 import styles from "./offerings-catalog.module.css";
 
@@ -80,7 +83,7 @@ export function OfferingsCatalog() {
               >
                 <div className={styles.image}>
                   <Image
-                    src="/assets/offering-placeholder.svg"
+                    src={item.image}
                     alt=""
                     width={800}
                     height={500}
@@ -127,55 +130,116 @@ export function OfferingsCatalog() {
             close();
         }}
       >
-        {selected && (
-          <>
-            <div className={styles.modalHeader}>
-              <span>Superspace offerings</span>
-              <button type="button" autoFocus aria-label="Close offering details" onClick={close}>
-                ×
-              </button>
-            </div>
-            <div className={styles.modalIntro}>
-              <div>
-                <p className={styles.eyebrow}>An operation we can model around</p>
-                <h2 id="offering-dialog-title">{selected.title}</h2>
-                <p id="offering-dialog-intro">{selected.description}</p>
-              </div>
-              <Image src="/assets/offering-placeholder.svg" alt="" width={800} height={500} />
-            </div>
-            <div className={styles.details}>
-              <div>
-                <span>01 / The problem</span>
-                <h3>When the work is connected, but the tools aren’t.</h3>
-                <p>{selected.problem}</p>
-              </div>
-              <div>
-                <span>02 / The fit</span>
-                <h3>One shared view of the operation.</h3>
-                <p>{selected.fit}</p>
-              </div>
-            </div>
-            <div className={styles.workflow}>
-              <h3>An example workflow</h3>
-              <ol>
-                {selected.workflow.map((step, index) => (
-                  <li key={step}>
-                    <span>0{index + 1}</span>
-                    <strong>{step}</strong>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div className={styles.modalFooter}>
-              <p>
-                Your workflows, configured on the shared Superspace platform. We define the scope together through
-                discovery.
-              </p>
-              <BookingLink placement={`offering_${selected.id}`} label="Talk about this operation" designIcon />
-            </div>
-          </>
-        )}
+        {selected && <OfferingDetails key={selected.id} offering={selected} onClose={close} />}
       </dialog>
+    </>
+  );
+}
+
+const tabs = ["Our approach", "Illustrative workflow", "Built-in features"] as const;
+
+function OfferingDetails({ offering, onClose }: { offering: Offering; onClose: () => void }) {
+  const [activeTab, setActiveTab] = useState(0);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  return (
+    <>
+      <div className={styles.modalHero}>
+        <Image src={offering.image} alt="" loading="eager" fill sizes="(max-width: 760px) 100vw, 720px" />
+        <button
+          className={styles.closeButton}
+          type="button"
+          autoFocus
+          aria-label="Close offering details"
+          onClick={onClose}
+        >
+          <HugeiconsIcon icon={Cancel01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
+        </button>
+        <div className={styles.heroOverlay}>
+          <div>
+            <h2 id="offering-dialog-title">{offering.title}</h2>
+            <p id="offering-dialog-intro">{offering.description}</p>
+          </div>
+          <BookingLink placement={`offering_${offering.id}`} label="Talk about this solution" inverse />
+        </div>
+      </div>
+      <div className={styles.modalBody}>
+        <div className={styles.tabs} role="tablist" aria-label="Offering details">
+          {tabs.map((label, index) => (
+            <button
+              key={label}
+              ref={(element) => {
+                tabRefs.current[index] = element;
+              }}
+              id={`offering-tab-${index}`}
+              role="tab"
+              aria-selected={activeTab === index}
+              aria-controls={`offering-panel-${index}`}
+              tabIndex={activeTab === index ? 0 : -1}
+              onClick={() => setActiveTab(index)}
+              onKeyDown={(event) => {
+                let next = index;
+                if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+                else if (event.key === "ArrowLeft") next = (index + tabs.length - 1) % tabs.length;
+                else if (event.key === "Home") next = 0;
+                else if (event.key === "End") next = tabs.length - 1;
+                else return;
+                event.preventDefault();
+                setActiveTab(next);
+                tabRefs.current[next]?.focus();
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {tabs.map((_, index) => (
+          <div
+            key={index}
+            role="tabpanel"
+            id={`offering-panel-${index}`}
+            aria-labelledby={`offering-tab-${index}`}
+            hidden={activeTab !== index}
+            tabIndex={0}
+            className={styles.tabPanel}
+          >
+            {activeTab === index &&
+              (index === 0 ? (
+                <div className={styles.approach}>
+                  <section>
+                    <h3>When the work is connected, but the tools aren’t.</h3>
+                    <p>{offering.problem}</p>
+                  </section>
+                  <section>
+                    <h3>What we could configure</h3>
+                    <ul>
+                      {offering.capabilities.map((capability) => (
+                        <li key={capability}>{capability}</li>
+                      ))}
+                    </ul>
+                  </section>
+                  <p className={styles.scopeNote}>
+                    Discovery establishes your requirements, confirms platform fit, and defines the scope of your
+                    deployment.
+                  </p>
+                </div>
+              ) : index === 1 ? (
+                <OfferingWorkflow steps={offering.workflow} />
+              ) : (
+                <div className={styles.features}>
+                  <p>Shared platform features, configured around the needs of {offering.title.toLowerCase()}.</p>
+                  <dl>
+                    {offering.features.map((feature) => (
+                      <div key={feature.title}>
+                        <dt>{feature.title}</dt>
+                        <dd>{feature.description}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ))}
+          </div>
+        ))}
+      </div>
     </>
   );
 }

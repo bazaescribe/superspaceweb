@@ -56,8 +56,8 @@ export function Brand({
 
 const navigation = [
   { href: "/platform", label: "Platform" },
-  { href: "/offering", label: "Offerings" },
   { href: "/deployment", label: "Deployment" },
+  { href: "/offering", label: "Offerings" },
 ] as const;
 
 const mobileNavigation = [{ href: "/", label: "Home" }, ...navigation] as const;
