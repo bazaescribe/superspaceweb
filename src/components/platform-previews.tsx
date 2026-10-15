@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import { PreviewPanel, PreviewPerson, PreviewTag, PreviewSpinner, PreviewIcon, PreviewAvatar } from "./preview-ui";
 import styles from "./platform-previews.module.css";
+import { PreviewStage } from "./preview-stage";
 
 const assets = "/assets/figma/platform-v2/";
 function Asset({ file, width = 20, height = width }: { file: string; width?: number; height?: number }) {
@@ -33,16 +34,9 @@ function Stage({
   label: string;
 }) {
   return (
-    <div ref={stageRef} className={styles.stage} data-entered={entered} role="group" aria-label={label}>
-      <Image
-        className={styles.background}
-        src={`/assets/figma/backgrounds/${background}`}
-        fill
-        sizes="(max-width: 760px) 100vw, 1280px"
-        alt=""
-      />
+    <PreviewStage background={background} stageRef={stageRef} entered={entered} label={label} className={styles.stage}>
       {children}
-    </div>
+    </PreviewStage>
   );
 }
 function Swipe({

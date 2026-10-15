@@ -1,0 +1,53 @@
+.stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 2;
+  container-type: inline-size;
+  color: white;
+  border-radius: 10px;
+  font: 400 clamp(10px, 0.94cqw, 12px)/1.3 var(--font-body);
+}
+.background {
+  object-fit: cover;
+  z-index: -1;
+}
+.stage::after {
+  content: "";
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  inset: 50% 0 0;
+  background: linear-gradient(transparent, #070709 90%);
+}
+@media (max-width: 720px) {
+  .scrollable {
+    aspect-ratio: auto;
+    height: 420px;
+  }
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  container-type: inline-size;
+}
+@media (max-width: 720px) {
+  .scrollable {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .canvas {
+    width: 960px;
+    height: 480px;
+  }
+}
+
+/* Fade the whole homepage composition, including its nested stacking contexts. */
+.scrollable {
+  mask-image: linear-gradient(#000 50%, transparent 95%);
+}
+.scrollable::after {
+  display: none;
+}

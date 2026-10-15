@@ -301,9 +301,9 @@
 }
 .integrations {
   position: absolute;
-  left: 9.1%;
+  left: 5.46875%;
   top: 10%;
-  width: 81.8%;
+  width: 89.0625%;
 }
 .integrationBody {
   padding: 2.5cqw;
@@ -317,23 +317,28 @@
 }
 .integrationGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.94cqw;
 }
 .integrationCard {
   padding: 1.25cqw;
-  background: #ffffff06;
+  background: #ffffff0a;
   border-radius: 4px;
   min-width: 0;
 }
 .integrationTitle {
   display: flex;
-  gap: 0.75cqw;
-  align-items: center;
-  margin-bottom: 2cqw;
+  gap: 0.9375cqw;
+  align-items: flex-start;
+  padding-bottom: 1.25cqw;
+  margin-bottom: 1.25cqw;
+  border-bottom: 0.5px solid #131416;
 }
 .integrationTitle > img {
   flex: none;
+}
+.integrationTitle > img:last-child {
+  margin-left: 0.9375cqw;
 }
 .integrationTitle > div {
   flex: 1;
@@ -356,18 +361,21 @@
   font-size: 0.78cqw;
 }
 .integrationCard dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625cqw;
   margin: 0;
 }
 .integrationCard dl > div {
   display: flex;
   align-items: center;
-  gap: 1cqw;
-  margin-top: 0.5cqw;
+  gap: 0.625cqw;
+  min-height: 1.5625cqw;
 }
 .integrationCard dt {
   font-size: 0.78cqw;
   color: #ffffff66;
-  width: 4.5cqw;
+  width: 5cqw;
   flex: none;
 }
 .integrationCard dd {
@@ -600,8 +608,15 @@
     display: none;
   }
   .integrationTitle {
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .integrationTitle > img:last-child {
+    margin-left: 12px;
+  }
+  .integrationCard dl {
+    gap: 8px;
   }
   .integrationTitle strong {
     font-size: 12px;
@@ -612,8 +627,8 @@
     font-size: 10px;
   }
   .integrationCard dl > div {
-    gap: 12px;
-    margin-top: 6px;
+    gap: 8px;
+    min-height: 20px;
   }
   .integrationCard dt {
     width: 65px;

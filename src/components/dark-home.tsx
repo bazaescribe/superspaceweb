@@ -1,5 +1,5 @@
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
-import Image from "next/image";
+import { HomeRulesPreview, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview } from "./home-previews";
 import { BookingLink } from "./booking-link";
 import { PillarCard } from "./pillar-card";
 import { ProductPreview } from "./product-preview";
@@ -19,6 +19,7 @@ const pillars = [
     text: "A fully managed operational system, designed for reliable daily work. We take care of the software so you can focus on running your business.",
   },
 ];
+const previews = [HomeRulesPreview, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview];
 const features = [
   {
     title: "Your business, your rules.",
@@ -68,23 +69,18 @@ export function DarkHome() {
         </div>
       </section>
       <div className={styles.features}>
-        {features.map((feature) => (
-          <section className={styles.feature} key={feature.title}>
-            <div className={styles.featureCopy}>
-              <EntranceHeading>{feature.title}</EntranceHeading>
-              <p>{feature.text}</p>
-            </div>
-            <div className={styles.featureVisual}>
-              <Image
-                src="/assets/figma/dark-site/382ff.png"
-                alt="Superspace customer workspace showing connected requests, company details, and activity."
-                width={4096}
-                height={2660}
-                sizes="(max-width: 720px) 900px, (max-width: 1352px) 95vw, 1280px"
-              />
-            </div>
-          </section>
-        ))}
+        {features.map((feature, index) => {
+          const Preview = previews[index];
+          return (
+            <section className={styles.feature} key={feature.title}>
+              <div className={styles.featureCopy}>
+                <EntranceHeading>{feature.title}</EntranceHeading>
+                <p>{feature.text}</p>
+              </div>
+              <Preview />
+            </section>
+          );
+        })}
       </div>
     </div>
   );
