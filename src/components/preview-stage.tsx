@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import type { ReactNode, RefObject } from "react";
+import { useState, type ReactNode, type RefObject } from "react";
+import { useInView } from "motion/react";
+import backgrounds from "./preview-backgrounds.json";
 import styles from "./preview-stage.module.css";
 
 export function PreviewStage({
@@ -21,6 +22,11 @@ export function PreviewStage({
   className?: string;
   mobileCanvas?: boolean;
 }) {
+  const nearViewport = useInView(stageRef, { once: true, margin: "500px 0px" });
+  const [loadedSource, setLoadedSource] = useState("");
+  const asset = backgrounds[background as keyof typeof backgrounds];
+  const largest = asset.variants[asset.variants.length - 1];
+  const loaded = loadedSource === largest.src;
   return (
     <div
       ref={stageRef}
@@ -29,15 +35,24 @@ export function PreviewStage({
       role="group"
       aria-label={label}
     >
-      <Image
-        className={styles.background}
-        src={`/assets/figma/backgrounds/${background}`}
-        fill
-        loading="eager"
-        unoptimized={background.endsWith(".webp")}
-        sizes="(max-width: 760px) 100vw, 1280px"
-        alt=""
-      />
+      <div className={styles.backgroundLayer} aria-hidden="true" data-loaded={loaded}>
+        <span className={styles.placeholder} style={{ backgroundImage: `url("${asset.blurDataURL}")` }} />
+        {nearViewport && (
+          // Delivery variants are pre-generated; the browser selects the appropriate resolution.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            className={styles.background}
+            src={largest.src}
+            srcSet={asset.variants.map((variant) => `${variant.src} ${variant.width}w`).join(", ")}
+            sizes="(max-width: 760px) 100vw, (max-width: 1352px) 95vw, 1280px"
+            width={asset.width}
+            height={asset.height}
+            decoding="async"
+            onLoad={() => setLoadedSource(largest.src)}
+            alt=""
+          />
+        )}
+      </div>
       {mobileCanvas ? <div className={styles.canvas}>{children}</div> : children}
     </div>
   );

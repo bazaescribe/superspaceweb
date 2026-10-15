@@ -10,7 +10,7 @@ import styles from "./home-previews.module.css";
 
 const assets = "/assets/figma/home-previews/";
 function Asset({ file, width = 20, height = width }: { file: string; width?: number; height?: number }) {
-  return <Image src={`${assets}${file}`} width={width} height={height} alt="" />;
+  return <Image src={file.startsWith("/") ? file : `${assets}${file}`} width={width} height={height} alt="" />;
 }
 function Rise({
   entered,
@@ -491,7 +491,7 @@ export function HomeRolesPreview() {
   return (
     <PreviewStage
       mobileCanvas
-      background="Cover Ghost.webp"
+      background="Cover Ghost.png"
       stageRef={ref}
       entered={entered}
       label="Team roles and their application views"
@@ -591,7 +591,7 @@ const leadCards = [
   },
   {
     brand: "Salesforce",
-    logo: "91f66.png",
+    logo: "/assets/figma/logos/Logo-Salesforce.png",
     title: "Ready for admissions",
     subtitle: "A qualified contact, with a clear next step.",
     fields: [

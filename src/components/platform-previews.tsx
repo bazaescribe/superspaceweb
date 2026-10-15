@@ -219,7 +219,7 @@ export function PlatformLogicPreview() {
     <Stage
       stageRef={ref}
       entered={entered}
-      background="CoverPurple.png"
+      background="Cover Purple.png"
       label="Business requirements translated into a declarative model"
     >
       <Swipe entered={entered} reduced={reducedMotion} className={styles.logicCode} delay={0.08}>

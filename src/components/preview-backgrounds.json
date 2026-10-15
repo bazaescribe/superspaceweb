@@ -1,0 +1,211 @@
+{
+  "Cover Banana Terracota.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-banana-terracota-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-banana-terracota-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-banana-terracota-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACwAQCdASoMAAcAAwBSJbACdADZoZSwAP7NtugrH1Pnby70RfnlZSlMpp8lqF3/xKxf+muvyjt2gAAA"
+  },
+  "Cover Cotton Candy.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-cotton-candy-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-cotton-candy-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-cotton-candy-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoMAAcAAwBSJZACdAELG4b5LgD+8lpMVO2muc+bgMbBBkfWfB7yAl9fGOcAAA=="
+  },
+  "Cover Fire.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-fire-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-fire-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-fire-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAAAQAgCdASoMAAcAAwBSJbACdLoAAnZC19iAAPzgElQehs6YNDEECWrpweFGBf2RXjR/wqXC7s9TgD+2RY2S2cIfAAAAAA=="
+  },
+  "Cover Ghost.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-ghost-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-ghost-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-ghost-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoMAAcAAwBSJbACdADcfmbwoAD+s71pOQfHEKKNEpowGb7nY61he+6Ov3N9NRQAAAA="
+  },
+  "Cover Jungle.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-jungle-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-jungle-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-jungle-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAAAQAgCdASoMAAcAAwBSJbACdLoAAnEL+yMgAP5mMy942VYao1dJBxD/+jDxGm1O7zWuUoTL96o8kfrhBMHf8xMUAAA="
+  },
+  "Cover Magma.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-magma-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-magma-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-magma-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAADQAQCdASoMAAcAAwBSJbACdADzn0VpwAD+6afuo+JgyxGWZGhi/Dmz2Gp7xUGPDb7/gI/Ov74GLgAA"
+  },
+  "Cover Mist.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-mist-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-mist-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-mist-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAQCdASoMAAcAAwBSJagCdAEO9rgsAAD+7pO1Q8i543UD6lb9dFWf1xc3IXYAAAA="
+  },
+  "Cover Perma Frost.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-perma-frost-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-perma-frost-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-perma-frost-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoMAAcAAwBSJZACdAEf3R6OgAD+3dhyjxFLw7ES/LEPvNz949JNSrUnM/HgAA=="
+  },
+  "Cover Pink.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-pink-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-pink-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-pink-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoMAAcAAwBSJbACdADg2t5wAP49HoHOuT9VNjBhagI/gIqljRn/8Q5/W3/df8gAAAA="
+  },
+  "Cover Purple.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-purple-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-purple-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-purple-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADwAQCdASoMAAcAAwBSJbACdLoAAkmPAgAA38nwhugJK/roNsOhy/97GJyiEOBgAAA="
+  },
+  "Cover Sage.png": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/cover-sage-640.webp"
+      },
+      {
+        "width": 1280,
+        "src": "/assets/figma/backgrounds/optimized/cover-sage-1280.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/cover-sage-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoMAAcAAwBSJZwAAl1NdAAA+wUtxBfeHrxQ3ICAAAA="
+  }
+}
