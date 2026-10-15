@@ -1,0 +1,681 @@
+.stage {
+  position: relative;
+  height: auto;
+  aspect-ratio: 2;
+  container-type: inline-size;
+  font: 400 clamp(10px, 0.94cqw, 12px)/1.3 var(--font-body);
+  color: white;
+  --preview-hover: #ffffff0a;
+  --preview-secondary: #ffffffb3;
+}
+.background {
+  object-fit: cover;
+  z-index: -1;
+}
+.stage::after {
+  content: "";
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  inset: 50% 0 0;
+  background: linear-gradient(transparent, #070709 90%);
+}
+.panel.panel {
+  background: radial-gradient(ellipse at top left, #0d0d11, #070709);
+  border-color: #202024;
+  box-shadow: 0 4px 48px #0005;
+  min-height: 100%;
+  font-size: inherit;
+}
+.bar {
+  min-height: 3.75cqw;
+  padding: 0.78cqw 1.25cqw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid #ffffff06;
+  font-size: clamp(10px, 1.09cqw, 14px);
+}
+.bar > span:first-child {
+  min-width: 0;
+}
+.bar img {
+  flex: none;
+}
+.muted,
+.metadata small,
+.orderBody small,
+.route p,
+.integrationBody > p,
+.exportBody > p {
+  color: #ffffff70;
+}
+.stage h3 {
+  font-size: 2.5cqw;
+  line-height: 1.15;
+  margin: 0 0 2.5cqw;
+  font-weight: 650;
+}
+.stage h4 {
+  margin: 2cqw 0 1.25cqw;
+  font-size: 1.4cqw;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.stage p {
+  margin: 0;
+}
+.logicDoc {
+  position: absolute;
+  left: 5.4%;
+  top: 10%;
+  width: 52%;
+  min-height: 100%;
+  z-index: 2;
+}
+.logicCode {
+  position: absolute;
+  left: 51.4%;
+  top: 15%;
+  width: 43.2%;
+  min-height: 100%;
+}
+.document {
+  padding: 2.5cqw 3.75cqw;
+  font-size: 1.09cqw;
+}
+.document ul {
+  padding-left: 1.6cqw;
+  margin: 0;
+  color: #ffffffb3;
+}
+.document p {
+  color: #ffffffc4;
+}
+.metadata {
+  display: flex;
+  gap: 1.25cqw;
+  align-items: flex-start;
+  margin-bottom: 2.5cqw;
+}
+.metadata > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+.metadata small {
+  font-size: 0.78cqw;
+}
+.code {
+  padding: 2.5cqw 3.75cqw;
+  margin: 0;
+  white-space: pre;
+  font:
+    400 1.09cqw/1.35 "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  letter-spacing: 0.01em;
+  color: #ffffffae;
+  min-height: 600px;
+}
+.key {
+  color: #a080ff;
+}
+.string {
+  color: #25fbff;
+}
+.exportCode .key {
+  color: #6ec5fb;
+}
+.exportCode .string {
+  color: #ff692b;
+}
+.agent {
+  position: absolute;
+  left: 8.4%;
+  bottom: 0;
+  width: 49.8%;
+}
+.agentBody {
+  padding: 2.5cqw;
+  min-height: 40cqw;
+}
+.prompt {
+  background: #ffffff14;
+  border-radius: 16px;
+  padding: 0.94cqw 1.56cqw;
+  width: 60%;
+  margin-left: auto;
+  min-height: 6.5cqw;
+}
+.response {
+  margin-top: 3.75cqw;
+  transition: opacity 0.2s;
+}
+.response > small {
+  display: block;
+  margin-bottom: 0.5cqw;
+  color: #ffffff66;
+  font-size: 0.78cqw;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.94cqw;
+  min-height: 2.2cqw;
+  color: #ffffffb3;
+}
+.step img {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+.pending {
+  opacity: 0.4;
+}
+.response > p {
+  margin-top: 1.5cqw;
+  min-height: 4.5cqw;
+  max-width: 42cqw;
+  color: #ffffffb3;
+}
+.composer {
+  margin-top: 2.5cqw;
+  border-top: 1px solid #ffffff09;
+  padding-top: 1.25cqw;
+  color: #ffffff66;
+}
+.composer > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5cqw;
+}
+.composerActions {
+  display: flex;
+  align-items: center;
+  gap: 1.25cqw;
+}
+.order {
+  position: absolute;
+  z-index: 2;
+  left: 54%;
+  bottom: 0;
+  width: 37.5%;
+}
+.orderBody {
+  padding: 2.5cqw;
+}
+.orderBody > small,
+.assignment > small {
+  display: block;
+  margin-bottom: 0.5cqw;
+  font-size: 0.94cqw;
+}
+.orderBody h3 {
+  margin-bottom: 1.75cqw;
+}
+.route {
+  margin-block: 1.75cqw;
+}
+.route > small {
+  display: block;
+  margin-bottom: 0.5cqw;
+}
+.route p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5cqw;
+  font-size: 0.94cqw;
+}
+.route p img {
+  flex: none;
+}
+.route > img {
+  display: block;
+  margin-block: 0.25cqw;
+}
+.orderBody .metadata {
+  margin-bottom: 1.75cqw;
+}
+.assignButton {
+  position: relative;
+  border: 1px solid #ffffff09;
+  background: #ffffff04;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 7.5cqw;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: white;
+}
+.assignButton:hover,
+.assignButton:focus-visible {
+  background: #ffffff10;
+  outline: 1px solid #8f72ff;
+}
+.cursor {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 30px;
+  color: white;
+  text-shadow: 0 1px 3px black;
+}
+.driver {
+  background: #ffffff04;
+  border: 1px solid #ffffff09;
+  border-radius: 8px;
+  padding: 1.25cqw;
+}
+.driver > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.75cqw;
+}
+.driver strong {
+  display: block;
+  font-weight: 500;
+}
+.driver small {
+  display: block;
+  font-size: 0.78cqw;
+}
+.tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 1cqw;
+}
+.replay {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  z-index: 5;
+  border: 0;
+  background: #ffffff0a;
+  color: #ffffffb3;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.replay:hover {
+  background: #ffffff16;
+}
+.integrations {
+  position: absolute;
+  left: 9.1%;
+  top: 10%;
+  width: 81.8%;
+}
+.integrationBody {
+  padding: 2.5cqw;
+}
+.integrationBody h3 {
+  font-size: 1.875cqw;
+  margin-bottom: 0.25cqw;
+}
+.integrationBody > p {
+  margin-bottom: 2.5cqw;
+}
+.integrationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.94cqw;
+}
+.integrationCard {
+  padding: 1.25cqw;
+  background: #ffffff06;
+  border-radius: 4px;
+  min-width: 0;
+}
+.integrationTitle {
+  display: flex;
+  gap: 0.75cqw;
+  align-items: center;
+  margin-bottom: 2cqw;
+}
+.integrationTitle > img {
+  flex: none;
+}
+.integrationTitle > div {
+  flex: 1;
+  min-width: 0;
+}
+.integrationTitle strong {
+  font-weight: 400;
+  display: block;
+  font-size: 0.94cqw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.integrationTitle small {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #ffffff66;
+  font-size: 0.78cqw;
+}
+.integrationCard dl {
+  margin: 0;
+}
+.integrationCard dl > div {
+  display: flex;
+  align-items: center;
+  gap: 1cqw;
+  margin-top: 0.5cqw;
+}
+.integrationCard dt {
+  font-size: 0.78cqw;
+  color: #ffffff66;
+  width: 4.5cqw;
+  flex: none;
+}
+.integrationCard dd {
+  margin: 0;
+  min-width: 0;
+}
+.exportPanel {
+  position: absolute;
+  left: 9.1%;
+  top: 16.25%;
+  width: 39.3%;
+  min-height: 85%;
+}
+.exportBody {
+  padding: 2.5cqw 3.75cqw;
+}
+.exportBody h3 {
+  font-size: 1.875cqw;
+  margin-bottom: 0.25cqw;
+}
+.exportCodePanel {
+  position: absolute;
+  left: 45.3%;
+  top: 10%;
+  width: 49.3%;
+  min-height: 100%;
+}
+.exportList {
+  margin-top: 2.5cqw;
+}
+.exportList > strong {
+  font-size: 0.94cqw;
+}
+.exportFile {
+  display: flex;
+  align-items: center;
+  gap: 0.94cqw;
+  margin-top: 1.25cqw;
+}
+.exportFile > div {
+  flex: 1;
+  min-width: 0;
+}
+.exportFile strong {
+  display: block;
+  font-size: 0.94cqw;
+  font-weight: 400;
+}
+.exportFile small {
+  display: block;
+  color: #ffffff66;
+  font-size: 0.78cqw;
+}
+.exportCodePanel .code {
+  padding-left: 4cqw;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+@media (max-width: 1000px) {
+  .stage {
+    aspect-ratio: auto;
+    min-height: 600px;
+    padding: 28px 16px 72px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .stage::after {
+    inset: 85% 0 0;
+    background: linear-gradient(transparent, #070709);
+  }
+  .background {
+    object-position: center;
+  }
+  .logicDoc,
+  .logicCode,
+  .agent,
+  .order,
+  .integrations,
+  .exportPanel,
+  .exportCodePanel {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-height: 0;
+  }
+  .logicDoc {
+    order: -1;
+  }
+  .panel.panel {
+    min-height: 0;
+  }
+  .bar {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+  .stage h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .stage h4 {
+    font-size: 15px;
+    margin: 20px 0 12px;
+  }
+  .document,
+  .agentBody,
+  .orderBody,
+  .integrationBody,
+  .exportBody {
+    padding: 24px;
+    font-size: 12px;
+  }
+  .document {
+    max-height: 420px;
+    overflow: hidden;
+  }
+  .document ul {
+    padding-left: 16px;
+  }
+  .metadata {
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .metadata small,
+  .driver small,
+  .response > small {
+    font-size: 10px;
+  }
+  .code,
+  .exportCodePanel .code {
+    padding: 24px;
+    font-size: 11px;
+    min-height: 300px;
+    max-height: 330px;
+    overflow: hidden;
+  }
+  .prompt {
+    width: 92%;
+    padding: 12px 16px;
+    min-height: 0;
+  }
+  .response {
+    margin-top: 32px;
+    min-height: 244px;
+  }
+  .response > small {
+    margin-bottom: 8px;
+  }
+  .step {
+    gap: 8px;
+    min-height: 30px;
+  }
+  .response > p {
+    margin-top: 16px;
+    min-height: 80px;
+    max-width: none;
+  }
+  .composer {
+    margin-top: 24px;
+    padding-top: 16px;
+  }
+  .composer > div {
+    margin-top: 16px;
+  }
+  .composerActions {
+    gap: 14px;
+  }
+  .orderBody h3 {
+    margin-bottom: 20px;
+  }
+  .orderBody > small,
+  .assignment > small {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .route {
+    margin-block: 20px;
+  }
+  .route p {
+    font-size: 12px;
+    gap: 6px;
+  }
+  .route > img {
+    margin-block: 4px;
+  }
+  .orderBody .metadata {
+    margin-bottom: 20px;
+  }
+  .assignment {
+    min-height: 118px;
+  }
+  .assignButton {
+    min-height: 90px;
+  }
+  .driver {
+    padding: 16px;
+  }
+  .driver > div:first-child {
+    gap: 8px;
+  }
+  .tags {
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .integrationBody h3,
+  .exportBody h3 {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+  .integrationBody > p {
+    margin-bottom: 24px;
+  }
+  .integrationGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .integrationCard {
+    padding: 16px;
+  }
+  .integrationCard:nth-child(n + 4) {
+    display: none;
+  }
+  .integrationTitle {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .integrationTitle strong {
+    font-size: 12px;
+    white-space: normal;
+  }
+  .integrationTitle small,
+  .integrationCard dt {
+    font-size: 10px;
+  }
+  .integrationCard dl > div {
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .integrationCard dt {
+    width: 65px;
+  }
+  .exportList {
+    margin-top: 24px;
+  }
+  .exportList > strong,
+  .exportFile strong {
+    font-size: 12px;
+  }
+  .exportFile {
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .exportFile small {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .response {
+    transition: none;
+  }
+}
+/* Keep the outcome readable while retaining the shared stage fade. */
+.stage:has(.agent)::after {
+  inset: 80% 0 0;
+  background: linear-gradient(transparent, #070709);
+}
+@media (max-width: 1000px) {
+  .stage:has(.agent)::after {
+    inset: 94% 0 0;
+  }
+  .integrationGrid {
+    max-height: 660px;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  .integrationCard:nth-child(n + 4) {
+    display: block;
+  }
+}
+.checkbox {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  background: #fff;
+  border-radius: 3px;
+}
+.exportFile > img:first-child,
+.integrationTitle > img:first-child {
+  border-radius: 6px;
+}
+@media (min-width: 600px) and (max-width: 1000px) {
+  .integrationGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

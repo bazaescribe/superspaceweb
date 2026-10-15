@@ -1,0 +1,42 @@
+.section {
+  padding-top: 240px;
+  scroll-margin-top: 100px;
+}
+.section:last-child {
+  padding-bottom: 200px;
+}
+.copy {
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+.copy h2 {
+  margin: 0 0 8px;
+  font: 500 40px/1.04 var(--font-body);
+  letter-spacing: 0.01em;
+}
+.copy p {
+  margin: 0;
+  font: 400 14px/1.3 var(--font-body);
+  color: var(--color-content-secondary);
+  letter-spacing: 0.01em;
+}
+.stage {
+  position: relative;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+.footer {
+  margin-top: 32px;
+}
+@media (max-width: 760px) {
+  .section {
+    padding-top: 112px;
+  }
+  .section:last-child {
+    padding-bottom: 112px;
+  }
+  .copy h2 {
+    font-size: 32px;
+  }
+}

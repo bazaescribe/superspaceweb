@@ -1,104 +1,106 @@
-import { SiteHero } from "@/components/site-hero";
-import { PlatformArchitecture } from "@/components/platform-architecture";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { BookingLink } from "@/components/booking-link";
-import { SystemSection } from "@/components/section-system";
-import styles from "./platform.module.css";
+import { HeroHeading } from "@/components/entrance-heading";
+import { ShowcaseSection } from "@/components/showcase-section";
+import {
+  PlatformLogicPreview,
+  PlatformAgentPreview,
+  PlatformIntegrationsPreview,
+  PlatformExportPreview,
+} from "@/components/platform-previews";
 import { createPageMetadata } from "@/lib/seo";
+import styles from "./platform.module.css";
 
 export const metadata = createPageMetadata({
   title: "Operational software platform",
   description:
-    "Model your operation, give every team a shared workspace, and let Superspace handle the infrastructure behind your business.",
+    "The underlying structure for your business data, relationships, permissions, and workflows. Built for the complexity of real-world operations.",
   path: "/platform",
 });
 
-const infrastructure = [
-  { icon: "9bb4a", title: "Tenant isolation", copy: "Each organization runs in its own secure workspace." },
-  { icon: "05dd5", title: "Role based access", copy: "Control visibility and actions by role and responsibility." },
-  {
-    icon: "3b069",
-    title: "Managed infrastructure",
-    copy: "Hosting, runtime and infrastructure are handled by Superspace.",
-    tone: "blue",
-  },
-  { icon: "13f59", title: "Managed database", copy: "Your data lives in a structured, maintained system of record." },
-  {
-    icon: "aaad9",
-    title: "Your data is yours",
-    copy: "Export your business data whenever you need it.",
-    tone: "indigo",
-  },
-  { icon: "02c65", title: "Audit trail", copy: "Keep a clear record of meaningful changes and operational actions." },
-  {
-    icon: "cdd77",
-    title: "API & Integrations",
-    copy: "Connect existing tools and extend Superspace into your stack.",
-    comingSoon: true,
-  },
-  { icon: "7d1da", title: "Backups & recovery", copy: "Built in protection for critical operational data." },
-  { icon: "0b045", title: "Automations", copy: "Run workflows automatically as operational state changes." },
-  {
-    icon: "2e4ee",
-    title: "Scalable by design",
-    copy: "Grow your data, users and processes without changing platforms.",
-  },
-  {
-    icon: "a2c43",
-    title: "Fine grained permissions",
-    copy: "Define access down to the right people, objects and actions.",
-  },
-  {
-    icon: "7a5f0",
-    title: "Continuously improving",
-    copy: "Superspace maintains the underlying system as the platform evolves.",
-    tone: "yellow",
-  },
-];
-
 export default function PlatformPage() {
   return (
-    <HeaderThemeScope className={`site-v2 ${styles.page}`}>
+    <HeaderThemeScope defaultTone="dark" data-theme="dark" className="site-v2 dark-redesign">
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
       <Header />
-      <main id="main-content">
-        <SiteHero
-          variant="platform"
-          title="A working space for your business to operate on."
-          intro="Superspace is a cloud based solution that manages objects, rules, permissions and automations so you can focus on the things that really matter to your organization."
-          actions={
-            <>
-              <BookingLink placement="platform_hero" label="See it in action" designIcon />
-              <a className="button button--secondary" href="#model">
-                How it works?
-              </a>
-            </>
-          }
-        />
-        <PlatformArchitecture />
-        <div className={`v24-spine ${styles.sections}`}>
-          <SystemSection primary="Everything modern businesses need." accent="Ready by design.">
-            <div className={styles.infrastructure}>
-              {infrastructure.map(({ icon, title, copy, tone, comingSoon }) => (
-                <article className={`${styles.capability} ${tone ? styles[tone] : ""}`} key={title}>
-                  <div className={styles.cardHeader}>
-                    {/* Keep the exported SVG's intrinsic dimensions. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`/assets/figma/platform/${icon}.svg`} alt="" />
-                    {comingSoon && <span className={styles.comingSoon}>Coming Soon</span>}
-                  </div>
-                  <div>
-                    <h3>{title}</h3>
-                    <p>{copy}</p>
-                  </div>
-                </article>
-              ))}
+      <main id="main-content" className={styles.page}>
+        <section className={styles.hero} aria-labelledby="platform-title">
+          <div className={styles.container}>
+            <div className={styles.heroCopy}>
+              <HeroHeading id="platform-title">Built for the complexity of real-world operations.</HeroHeading>
+              <p>
+                Superspace provides the underlying structure for business data, relationships, permissions, and
+                workflows, so companies can run their operations without building the software infrastructure from
+                scratch.
+              </p>
+              <div className="hero-actions">
+                <BookingLink placement="platform_hero" label="Let’s talk" designIcon inverse />
+                <a className="button button--secondary" href="#business-logic">
+                  How it works
+                </a>
+              </div>
             </div>
-          </SystemSection>
+          </div>
+        </section>
+        <div className={styles.container}>
+          <ShowcaseSection
+            id="business-logic"
+            title="From business logic to executable rules."
+            description="Every operation has its own structure. Superspace translates business requirements into declarative models that define how information connects, what actions are possible, and the conditions under which they can happen."
+            footer={
+              <div className={styles.captions}>
+                <div>
+                  <h3>Graph-based models</h3>
+                  <p>
+                    Business objects and their relationships form a connected operational model, preserving the context
+                    behind every record.
+                  </p>
+                </div>
+                <div>
+                  <h3>State machines</h3>
+                  <p>
+                    Operational processes move through defined states and transitions, governed by business rules and
+                    permissions.
+                  </p>
+                </div>
+                <div>
+                  <h3>Declarative actions</h3>
+                  <p>
+                    Actions describe what can happen, under which conditions, and how the system should change when
+                    those conditions are met.
+                  </p>
+                </div>
+              </div>
+            }
+          >
+            <PlatformLogicPreview />
+          </ShowcaseSection>
+          <ShowcaseSection
+            id="capabilities"
+            title="New capabilities, built on the same model."
+            description="As requirements evolve, new actions, workflows, and interfaces can be introduced using the operational model already in place. Superspace can extend its capabilities through structured changes, validated against existing relationships, permissions, and business rules."
+            footer={<p className={styles.note}>* Feature preview.</p>}
+          >
+            <PlatformAgentPreview />
+          </ShowcaseSection>
+          <ShowcaseSection
+            id="integrations"
+            title="One operation. Multiple systems."
+            description="Data from different systems can participate in the same workflows, while Superspace governs the actions, permissions, and rules that coordinate the operation."
+          >
+            <PlatformIntegrationsPreview />
+          </ShowcaseSection>
+          <ShowcaseSection
+            id="data-ownership"
+            title="Your data stays yours."
+            description="Your company retains ownership of its business data. Superspace operates the underlying platform, but your information remains yours. We’re designing data portability around more than individual records, including the relationships and structure that give operational data its meaning."
+          >
+            <PlatformExportPreview />
+          </ShowcaseSection>
         </div>
       </main>
       <Footer />
