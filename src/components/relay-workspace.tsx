@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState, type CSSProperties } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { ChartBar, HouseLine, Tray, Truck } from "@phosphor-icons/react";
 import { WorkspaceSidebar, WorkspaceTopbar } from "./workspace-shell";
 import styles from "./relay-workspace.module.css";

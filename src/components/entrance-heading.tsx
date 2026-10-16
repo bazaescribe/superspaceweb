@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
+import { motion, type HTMLMotionProps } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import { motionEase } from "@/lib/motion";
 

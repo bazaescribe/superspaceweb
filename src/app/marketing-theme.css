@@ -11,7 +11,7 @@
   --color-inverse-muted: var(--color-content-secondary-dark);
   --color-dark: var(--color-background-dark);
   --color-navigation: var(--color-background-tertiary);
-  --font-display: "Rethink Sans Variable", Arial, Helvetica, sans-serif;
+  --font-display: var(--font-heading);
   --font-body: "Inter Variable", Arial, Helvetica, sans-serif;
   --text-display: var(--marketing-display);
   --text-display--line-height: var(--type-hero-leading);

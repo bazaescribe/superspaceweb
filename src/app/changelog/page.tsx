@@ -1,11 +1,14 @@
 import { EditorialPage, EditorialSection } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Changelog",
-  description: "Product updates from Superspace.",
-  path: "/changelog",
-});
+export const metadata = {
+  ...createPageMetadata({
+    title: "Changelog",
+    description: "Product updates from Superspace.",
+    path: "/changelog",
+  }),
+  robots: { index: false, follow: true },
+};
 
 export default function ChangelogPage() {
   return (

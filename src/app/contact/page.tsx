@@ -2,6 +2,7 @@ import { EntranceHeading } from "@/components/entrance-heading";
 import Link from "next/link";
 import { EditorialPage, EditorialSection, ProcessSteps, container } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
+import { contactEmail, contactUrl } from "@/lib/site";
 
 export const metadata = createPageMetadata({
   title: "Contact",
@@ -48,11 +49,14 @@ export default function ContactPage() {
           <span className="text-label text-muted">Contact</span>
           <EntranceHeading className="mt-10 max-w-sm text-section">Start a conversation with our team.</EntranceHeading>
           <p className="mb-8 mt-4 text-body text-muted">
-            Tell us what your team is working through and where your current tools fall short. Connect with Superspace
-            on LinkedIn to begin.
+            Email us about your operation, the tools you use, and what you want to improve. Please leave out passwords,
+            sensitive personal information, and confidential customer data.
           </p>
-          <Link className="button button--secondary mt-auto" href="https://www.linkedin.com/company/superspaceai/">
-            Connect on LinkedIn
+          <a className="button button--secondary mt-auto" href={contactUrl}>
+            Email {contactEmail}
+          </a>
+          <Link className="mt-4 text-label text-muted" href="/privacy">
+            How we handle your information
           </Link>
         </div>
       </section>

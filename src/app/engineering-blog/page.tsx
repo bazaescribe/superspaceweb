@@ -4,11 +4,14 @@ import { Footer } from "@/components/footer";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 
-export const metadata = createPageMetadata({
-  title: "Engineering Blog",
-  description: "Engineering at Superspace.",
-  path: "/engineering-blog",
-});
+export const metadata = {
+  ...createPageMetadata({
+    title: "Engineering Blog",
+    description: "Engineering at Superspace.",
+    path: "/engineering-blog",
+  }),
+  robots: { index: false, follow: true },
+};
 export default function EngineeringBlogPage() {
   return (
     <HeaderThemeScope className="site-v2">

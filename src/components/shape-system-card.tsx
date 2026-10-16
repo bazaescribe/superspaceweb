@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useEffect, useRef, useState } from "react";
 import type { ShapeSystemController } from "@/lib/shape-system/renderer";
 

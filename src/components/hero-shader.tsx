@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { ChromaticAberration, LinearGradient, Shader, Stretch, WaveDistortion } from "shaders/react";
 
 const chromaticMetalStops = [

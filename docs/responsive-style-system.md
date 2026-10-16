@@ -32,3 +32,8 @@ For changes to this system, check Home, Platform, Deployment, Offering, FAQ, and
 Company at 320px, 393px, 430px, plus desktop. Check menu open/close, header after
 scroll, CTA targets, wrapping, and page overflow. Check reduced motion separately
 when changing animations.
+
+H1–H6 use the self-hosted Instrument Sans variable family through `--font-heading`.
+`--font-display` and Tailwind display utilities alias that role. The base heading
+font-family rule intentionally overrides module font shorthands; sizes, weights,
+and line heights remain component/token controlled. Body copy stays in Inter.

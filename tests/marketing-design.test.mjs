@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
-import { footerGroups } from "../src/lib/site.ts";
+import { contactEmail, footerGroups } from "../src/lib/site.ts";
 import { socialImage } from "../src/lib/seo.ts";
 
 const root = new URL("../", import.meta.url);
@@ -56,15 +56,17 @@ test("footer preserves Figma ordering, canonical routes and working destinations
   assert.deepEqual(
     footerGroups.map((g) => g.links.map((l) => l.label)),
     [
-      ["Home", "Platform", "Offerings", "Deployment", "FAQ", "Changelog"],
-      ["About us", "Manifesto", "Careers", "Engineering Blog"],
+      ["Home", "Platform", "Offerings", "Deployment", "FAQ"],
+      ["About us", "Manifesto", "Careers"],
       ["LinkedIn", "X (Twitter)", "Mail"],
     ],
   );
   for (const { links } of footerGroups)
     for (const { label, href } of links) {
       assert.ok(href, `${label} must have a destination`);
-      if (href.startsWith("/")) {
+      if (label === "Mail") {
+        assert.equal(href, `mailto:${contactEmail}`);
+      } else if (href.startsWith("/")) {
         assert.ok(href === "/" || existsSync(new URL(`src/app${href}/page.tsx`, root)), href);
       } else assert.ok(new URL(href).protocol === "https:");
     }

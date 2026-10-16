@@ -3,7 +3,8 @@
 import { EntranceHeading } from "@/components/entrance-heading";
 
 import Image from "next/image";
-import { AnimatePresence, motion, useIsPresent, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useIsPresent } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useId, useRef, useState } from "react";
 import styles from "./use-cases-section.module.css";
 

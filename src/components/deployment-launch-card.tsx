@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cubeFaces, cubePositions, turnSlice, type Axis } from "./deployment-cube-geometry";
 import styles from "@/app/deployment/deployment.module.css";
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "motion/react";
+import { useInView } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import styles from "./deployment-assembly.module.css";
 
 type Position = [number, number, number];

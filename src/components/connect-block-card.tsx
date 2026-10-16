@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useEffect, useRef, useState } from "react";
 import { maskedConnectFallback } from "@/lib/connect-blocks/fallback";
 import type { ConnectController } from "@/lib/connect-blocks/renderer";

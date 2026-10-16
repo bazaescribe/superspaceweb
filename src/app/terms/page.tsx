@@ -1,27 +1,35 @@
 import { EditorialPage, EditorialSection } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
+import { contactEmail, contactUrl } from "@/lib/site";
+import { legalUpdated, websiteTerms } from "@/lib/website-legal";
 
 export const metadata = createPageMetadata({
-  title: "Terms",
-  description: "Website terms for Superspace.",
+  title: "Website terms",
+  description:
+    "Basic terms for using the Superspace website. Paid platform services are covered by a separate agreement.",
   path: "/terms",
 });
+
 export default function TermsPage() {
   return (
     <EditorialPage
       eyebrow="Legal"
       title="Website terms"
-      intro="Final website terms require confirmation of the operating legal entity, governing jurisdiction and legal contact."
+      intro="Basic terms for using the Superspace website. Paid platform services are covered by a separate agreement."
     >
-      <EditorialSection title="Pending legal review">
-        <p className="font-display text-feature text-foreground">
-          This page is intentionally not presenting placeholder legal language as approved terms.
-        </p>
+      <EditorialSection title="Last updated">
+        <p>{legalUpdated}</p>
         <p>
-          Before public launch, counsel should cover permitted site use, intellectual property, third-party links,
-          disclaimers, limitations, governing law, changes and contact details.
+          Contact: <a href={contactUrl}>{contactEmail}</a>
         </p>
       </EditorialSection>
+      {websiteTerms.map((section) => (
+        <EditorialSection key={section.title} title={section.title}>
+          {section.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </EditorialSection>
+      ))}
     </EditorialPage>
   );
 }

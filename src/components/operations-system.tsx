@@ -5,14 +5,7 @@ import { EntranceHeading } from "@/components/entrance-heading";
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import { useInView } from "motion/react";
-import {
-  Circle,
-  DotsThree as MoreHorizontal,
-  Envelope as Mail,
-  Hash,
-  MicrosoftExcelLogo as FileSpreadsheet,
-  ShieldCheck,
-} from "@phosphor-icons/react";
+import { Circle, DotsThree as MoreHorizontal } from "@phosphor-icons/react";
 import { OrderWorkspace } from "./order-workspace";
 import styles from "./operations-system.module.css";
 

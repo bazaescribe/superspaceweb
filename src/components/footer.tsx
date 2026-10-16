@@ -41,7 +41,7 @@ export function Footer() {
               Est. 2024. 2026 All Rights Reserved.
             </p>
             <div className="v2-footer__legal">
-              <Link href="/terms">Services Agreement</Link>
+              <Link href="/terms">Website Terms</Link>
               <Link href="/privacy">Privacy Policy</Link>
               <Link href="/llms.txt">LLMs</Link>
             </div>

@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useId, useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { PreviewPerson, PreviewTitle, PreviewTag } from "./preview-ui";
 import styles from "./workflow-mockup.module.css";
 

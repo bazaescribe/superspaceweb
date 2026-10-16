@@ -1,4 +1,7 @@
-export const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "/contact";
+export const contactEmail = "jl@superspaceos.com";
+export const contactUrl = `mailto:${contactEmail}`;
+export const legalEntityName = "Rosas Baza Consulting SA de CV";
+export const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || contactUrl;
 
 export const platformPillars = [
   {
@@ -89,7 +92,6 @@ export const footerGroups = [
       { label: "Offerings", href: "/offering" },
       { label: "Deployment", href: "/deployment" },
       { label: "FAQ", href: "/faq" },
-      { label: "Changelog", href: "/changelog" },
     ],
   },
   {
@@ -98,7 +100,6 @@ export const footerGroups = [
       { label: "About us", href: "/company" },
       { label: "Manifesto", href: "/manifesto" },
       { label: "Careers", href: "/careers" },
-      { label: "Engineering Blog", href: "/engineering-blog" },
     ],
   },
   {
@@ -106,7 +107,7 @@ export const footerGroups = [
     links: [
       { label: "LinkedIn", href: "https://www.linkedin.com/company/superspaceai/" },
       { label: "X (Twitter)", href: "https://x.com/superspaceai" },
-      { label: "Mail", href: "/contact" },
+      { label: "Mail", href: contactUrl },
     ],
   },
 ] as const;

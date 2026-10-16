@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useRef, useState, type PointerEvent } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { pillarGeometry } from "./pillar-geometry";
 import styles from "./dark-home.module.css";
 import art from "./pillar-card.module.css";

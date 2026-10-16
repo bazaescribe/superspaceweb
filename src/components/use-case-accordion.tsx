@@ -4,7 +4,8 @@ import { EntranceHeading } from "./entrance-heading";
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useEffect, useRef, useState } from "react";
 
 const platformStories = [

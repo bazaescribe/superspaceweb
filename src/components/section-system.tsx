@@ -3,7 +3,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { RevealTitle } from "./reveal-title";
 import { ShimmerAccent } from "./shimmer-accent";
 

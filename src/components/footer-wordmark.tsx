@@ -2,7 +2,8 @@
 
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useHeaderTheme } from "@/components/header-theme";
 
 const GLYPH_COUNT = 10;

@@ -1,5 +1,5 @@
 @import "@fontsource-variable/inter/wght.css";
-@import "@fontsource-variable/rethink-sans/wght.css";
+@import "@fontsource-variable/instrument-sans/wght.css";
 
 @layer theme, tokens, base, components, page, utilities;
 @import "tailwindcss/theme.css" layer(theme);
@@ -29,7 +29,8 @@
     --shadow-media: 0 8px 24px rgb(0 0 0 / 0.16);
     --shadow-mockup: 0 0 0 1px rgb(0 0 0 / 0.04), 0 24px 48px -8px rgb(0 0 0 / 0.12);
     --shadow-hero-mockup: 0 0 0 1px rgb(0 0 0 / 0.04), 0 16px 48px -8px rgb(0 0 0 / 0.12);
-    --font-display: "Rethink Sans Variable", Arial, Helvetica, sans-serif;
+    --font-heading: "Instrument Sans Variable", Arial, Helvetica, sans-serif;
+    --font-display: var(--font-heading);
     --font-body: "Inter Variable", Arial, Helvetica, sans-serif;
     /* Figma Website H1–H6 ramp. Section statements use H5 with an inline
        secondary continuation; hero and closing CTA override weight to Bold. */
@@ -1269,6 +1270,10 @@ html {
     font-weight: var(--weight-display);
     letter-spacing: var(--tracking-display);
   }
+  /* Heading font is a site-wide contract, including module font shorthands. */
+  :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-heading) !important;
+  }
   a {
     color: inherit;
   }
@@ -1291,13 +1296,13 @@ html {
     outline-offset: 4px;
   }
   .shell {
-    max-width: var(--container-7xl);
+    max-width: var(--content-max);
     margin: 0 auto;
-    width: 100%;
+    width: calc(100% - var(--site-gutter) * 2);
   }
   @media (max-width: 767px) {
     .shell {
-      padding: 0 1rem;
+      padding-inline: 0;
     }
   }
 

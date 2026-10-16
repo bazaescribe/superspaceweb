@@ -10,12 +10,10 @@ const routes = [
   "/company",
   "/manifesto",
   "/careers",
-  "/engineering-blog",
   "/contact",
   "/privacy",
   "/terms",
   "/faq",
-  "/changelog",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {

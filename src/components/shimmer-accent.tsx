@@ -2,7 +2,8 @@
 
 import type { ReactNode } from "react";
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import styles from "./shimmer-accent.module.css";
 
 export function ShimmerAccent({ children }: { children: ReactNode }) {

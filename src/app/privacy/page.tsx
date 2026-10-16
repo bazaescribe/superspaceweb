@@ -1,27 +1,34 @@
 import { EditorialPage, EditorialSection } from "@/components/editorial-page";
 import { createPageMetadata } from "@/lib/seo";
+import { contactEmail, contactUrl } from "@/lib/site";
+import { legalUpdated, websitePrivacy } from "@/lib/website-legal";
 
 export const metadata = createPageMetadata({
   title: "Privacy",
-  description: "Website privacy information for Superspace.",
+  description: "How we handle information when you visit this website or contact Superspace.",
   path: "/privacy",
 });
+
 export default function PrivacyPage() {
   return (
     <EditorialPage
       eyebrow="Legal"
       title="Website privacy"
-      intro="The final privacy notice will reflect the actual analytics, hosting, booking and inquiry tools used on this site."
+      intro="How we handle information when you visit this website or contact Superspace."
     >
-      <EditorialSection title="Pending data-flow and legal review">
-        <p className="font-display text-feature text-foreground">
-          This page does not yet collect inquiry data or claim a privacy process that has not been confirmed.
-        </p>
+      <EditorialSection title="Last updated">
+        <p>{legalUpdated}</p>
         <p>
-          Before a form or booking integration launches, the notice should document what is collected, why it is used,
-          processors, retention, international transfers, visitor rights, cookies and a privacy contact.
+          Contact: <a href={contactUrl}>{contactEmail}</a>
         </p>
       </EditorialSection>
+      {websitePrivacy.map((section) => (
+        <EditorialSection key={section.title} title={section.title}>
+          {section.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </EditorialSection>
+      ))}
     </EditorialPage>
   );
 }

@@ -5,8 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navigationState } from "@/lib/navigation";
 import { BookingLink } from "@/components/booking-link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type SetStateAction } from "react";
 import { createPortal } from "react-dom";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Menu09Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
@@ -139,15 +140,27 @@ function MobileNavLink({
   );
 }
 
+const subscribeToHydration = () => () => {};
+const clientHydrationSnapshot = () => true;
+const serverHydrationSnapshot = () => false;
+
 export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const pathname = usePathname();
   const usesHeroCtaTrigger = pathname === "/" || navigation.some(({ href }) => pathname === href);
   const headerTheme = useHeaderTheme();
   const tone = toneOverride ?? headerTheme?.tone ?? "dark";
   const dark = tone === "dark";
-  const [open, setOpen] = useState(false);
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [portalReady, setPortalReady] = useState(false);
+  const [menu, setMenu] = useState({ pathname, open: false, visible: false });
+  // Reset route-owned state before rendering the destination, while retaining the exit animation.
+  if (menu.pathname !== pathname) setMenu({ ...menu, pathname, open: false });
+  const { open, visible: menuVisible } = menu;
+  const setOpen = useCallback((next: SetStateAction<boolean>) => {
+    setMenu((current) => {
+      const open = typeof next === "function" ? next(current.open) : next;
+      return { ...current, open, visible: open || current.visible };
+    });
+  }, []);
+  const portalReady = useSyncExternalStore(subscribeToHydration, clientHydrationSnapshot, serverHydrationSnapshot);
   const [scrolled, setScrolled] = useState(false);
   const [heroActionsPassed, setHeroActionsPassed] = useState(false);
   const showCta = !usesHeroCtaTrigger || heroActionsPassed;
@@ -165,10 +178,6 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    setPortalReady(true);
-  }, []);
-
-  useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape" && open) {
         setOpen(false);
@@ -177,7 +186,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, setOpen]);
 
   useEffect(() => {
     const updateScrollState = () => setScrolled(window.scrollY > 0);
@@ -200,14 +209,6 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   }, [pathname]);
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    if (open) setMenuVisible(true);
-  }, [open]);
-
-  useEffect(() => {
     if (!menuVisible) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -222,7 +223,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [setOpen]);
 
   const updateChromeMask = (latest: { clipPath?: unknown }) => {
     const match = String(latest.clipPath).match(/inset\(0(?:px)? 0(?:px)? ([\d.]+)% 0(?:px)?\)/);
@@ -314,7 +315,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
         )}
       {portalReady &&
         createPortal(
-          <AnimatePresence onExitComplete={() => setMenuVisible(false)}>
+          <AnimatePresence onExitComplete={() => setMenu((current) => ({ ...current, visible: current.open }))}>
             {open && (
               <motion.div
                 id="mobile-navigation"

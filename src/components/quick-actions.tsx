@@ -13,7 +13,7 @@ const actions = [
   { label: "FAQ", href: "/faq", icon: BubbleChatQuestionIcon },
   { label: "Download the brochure", href: undefined, icon: Download04Icon, download: true },
   { label: "About us", href: "/company", icon: Building03Icon },
-  { label: "Book a call", href: bookingUrl, icon: Call02Icon, booking: true },
+  { label: "Talk to us", href: bookingUrl, icon: Call02Icon, booking: true },
 ];
 
 export function QuickActions() {
