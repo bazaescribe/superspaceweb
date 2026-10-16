@@ -15,12 +15,12 @@
 }
 .heroCopy h1 {
   margin: 0 0 16px;
-  font: 600 48px/1.04 var(--font-body);
+  font: 600 var(--type-hero-size)/var(--type-hero-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .heroCopy p {
   margin: 0 0 16px;
-  font: 400 16px/1.3 var(--font-body);
+  font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
   letter-spacing: 0.01em;
   animation: hero-copy 0.5s both 0.12s;
 }
@@ -39,7 +39,7 @@
 }
 .captions p {
   margin: 0;
-  font: 400 14px/1.3 var(--font-body);
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
   color: var(--color-content-secondary);
 }
 .note {
@@ -60,11 +60,9 @@
 }
 @media (max-width: 760px) {
   .hero {
-    padding-block: 64px 96px;
+    padding-block: var(--layout-hero-top) var(--layout-section-gap);
   }
-  .heroCopy h1 {
-    font-size: 40px;
-  }
+
   .captions {
     grid-template-columns: 1fr;
     gap: 24px;

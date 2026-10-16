@@ -687,3 +687,253 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Preserve the desktop coordinate space; art-direct the panels within a clipped mobile stage. */
+.composition {
+  position: absolute;
+  inset: 0;
+}
+@media (min-width: 721px) and (max-width: 1000px) {
+  .composition {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+@media (max-width: 720px) {
+  .stage.stage {
+    display: block;
+    width: 100%;
+    aspect-ratio: auto;
+    height: 480px;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(#000 75%, transparent 100%);
+  }
+  .stage.stage::after {
+    display: none;
+  }
+  .composition {
+    inset: auto;
+    width: calc(100% * 1000 / 361);
+    height: 480px;
+    container-type: inline-size;
+  }
+  .composition > div {
+    font-size: 1.1cqw;
+  }
+  .bar {
+    min-height: 3.4cqw;
+    padding: 0.85cqw 1.2cqw;
+    font-size: 1cqw;
+  }
+  .stage h3,
+  .integrationBody h3,
+  .exportBody h3 {
+    font-size: 2cqw;
+    margin-bottom: 1.7cqw;
+  }
+  .stage h4 {
+    font-size: 1.3cqw;
+    margin: 1.7cqw 0 1cqw;
+  }
+  .document,
+  .agentBody,
+  .orderBody,
+  .integrationBody,
+  .exportBody {
+    padding: 2cqw;
+    font-size: 1.1cqw;
+  }
+  .document ul {
+    padding-left: 1.4cqw;
+  }
+  .metadata,
+  .orderBody .metadata {
+    gap: 1.2cqw;
+    margin-bottom: 2cqw;
+  }
+  .metadata small,
+  .driver small,
+  .response > small,
+  .exportFile small,
+  .integrationTitle small,
+  .integrationCard dt {
+    font-size: 0.9cqw;
+  }
+  .code,
+  .exportCodePanel .code {
+    padding: 2cqw;
+    font-size: 1cqw;
+  }
+  .prompt {
+    padding: 1cqw 1.4cqw;
+    border-radius: 12px;
+  }
+  .composer {
+    margin-top: 2cqw;
+    padding-top: 1.4cqw;
+  }
+  .composer > div {
+    margin-top: 1.4cqw;
+  }
+  .composerActions {
+    gap: 1.2cqw;
+  }
+  .step {
+    gap: 0.7cqw;
+  }
+  .step img {
+    width: 1.7cqw;
+    height: 1.7cqw;
+  }
+  .response > p {
+    margin-top: 1.4cqw;
+  }
+  .orderBody h3 {
+    margin-bottom: 1.7cqw;
+  }
+  .orderBody > small,
+  .assignment > small,
+  .route p,
+  .exportList > strong,
+  .exportFile strong,
+  .integrationTitle strong {
+    font-size: 1.1cqw;
+  }
+  .route {
+    margin-block: 1.7cqw;
+  }
+  .assignButton {
+    min-height: 7.5cqw;
+  }
+  .driver {
+    padding: 1.4cqw;
+  }
+  .tags {
+    margin-top: 1cqw;
+  }
+  .integrationBody > p,
+  .exportList {
+    margin-bottom: 2cqw;
+  }
+  .integrationGrid {
+    gap: 1cqw;
+  }
+  .integrationCard {
+    padding: 1.4cqw;
+  }
+  .integrationTitle {
+    gap: 1cqw;
+    padding-bottom: 1.4cqw;
+    margin-bottom: 1.4cqw;
+  }
+  .integrationCard dl {
+    gap: 0.7cqw;
+  }
+  .integrationCard dl > div {
+    min-height: 1.7cqw;
+    gap: 0.7cqw;
+  }
+  .integrationCard dt {
+    width: 5.5cqw;
+  }
+  .exportList {
+    margin-top: 2cqw;
+  }
+  .exportFile {
+    gap: 0.85cqw;
+    margin-top: 1.4cqw;
+  }
+  .exportFile > img:first-child,
+  .integrationTitle > img:first-child {
+    width: 3cqw;
+    height: 3cqw;
+  }
+  .logicDoc,
+  .logicCode,
+  .agent,
+  .order,
+  .integrations,
+  .exportPanel,
+  .exportCodePanel {
+    position: absolute;
+    bottom: auto;
+    right: auto;
+  }
+  .logicDoc {
+    left: 2.4cqw;
+    top: 12.5cqw;
+    width: 34cqw;
+  }
+  .logicCode {
+    left: 6.7cqw;
+    top: 3.2cqw;
+    width: 43cqw;
+  }
+  .document {
+    max-height: none;
+  }
+  .agent {
+    left: 2.4cqw;
+    top: 12.5cqw;
+    width: 34cqw;
+    z-index: 3;
+  }
+  .order {
+    left: 6.7cqw;
+    top: 3.2cqw;
+    width: 36cqw;
+  }
+  .agentBody {
+    min-height: 46cqw;
+  }
+  .prompt {
+    width: 100%;
+  }
+  .response {
+    min-height: 0;
+    margin-top: 2cqw;
+  }
+  .step {
+    min-height: 2.2cqw;
+  }
+  .response > p {
+    min-height: 0;
+  }
+  .replay {
+    font-size: 1cqw;
+    left: 2.4cqw;
+    right: auto;
+    top: 42cqw;
+    bottom: auto;
+  }
+  .exportPanel {
+    left: 2.4cqw;
+    top: 12.5cqw;
+    width: 34cqw;
+    z-index: 2;
+  }
+  .exportCodePanel {
+    left: 6.7cqw;
+    top: 3.2cqw;
+    width: 43cqw;
+  }
+  .code,
+  .exportCodePanel .code {
+    max-height: none;
+    min-height: 54cqw;
+  }
+  .integrations {
+    left: 3.2cqw;
+    top: 3.2cqw;
+    width: 100cqw;
+  }
+  .integrationGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-height: none;
+    overflow: visible;
+  }
+}

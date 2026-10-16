@@ -121,15 +121,18 @@
   }
   .article {
     padding: 48px var(--site-gutter) 64px;
-    line-height: 1.5;
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-leading);
   }
   .chapter {
     scroll-margin-top: 68px;
   }
   .chapter h1 {
-    font-size: 28px;
+    font-size: var(--type-hero-size);
+    line-height: var(--type-hero-leading);
   }
   .chapter h2 {
-    font-size: 22px;
+    font-size: var(--type-section-size);
+    line-height: var(--type-section-leading);
   }
 }

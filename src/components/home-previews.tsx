@@ -83,6 +83,7 @@ export function HomeRulesPreview() {
     <PreviewStage
       mobileCanvas
       background="Cover Pink.png"
+      className={`${styles.mobileComposition} ${styles.rulesStage}`}
       stageRef={ref}
       entered={entered}
       label="Business logic and connected operational objects"
@@ -492,6 +493,7 @@ export function HomeRolesPreview() {
     <PreviewStage
       mobileCanvas
       background="Cover Ghost.png"
+      className={`${styles.mobileComposition} ${styles.rolesStage}`}
       stageRef={ref}
       entered={entered}
       label="Team roles and their application views"
@@ -616,6 +618,7 @@ export function HomeToolsPreview() {
     <PreviewStage
       mobileCanvas
       background="Cover Sage.png"
+      className={`${styles.mobileComposition} ${styles.toolsStage}`}
       stageRef={ref}
       entered={entered}
       label="A website lead evaluated in Superspace and synced to Salesforce"
@@ -823,6 +826,7 @@ export function HomeAgentsPreview() {
     <PreviewStage
       mobileCanvas
       background="Cover Cotton Candy.png"
+      className={`${styles.mobileComposition} ${styles.agentsStage}`}
       stageRef={ref}
       entered={entered}
       label="Intake, dispatch and follow-up agents processing deliveries"

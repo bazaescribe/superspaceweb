@@ -87,7 +87,7 @@
     gap: 32px;
   }
   .heading h2 {
-    font-size: 28px;
+    font-size: var(--type-section-size);
   }
   .cta {
     padding: 64px 24px;

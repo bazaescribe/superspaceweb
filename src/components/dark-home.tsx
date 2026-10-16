@@ -44,10 +44,10 @@ export function DarkHome() {
     <div className={styles.home}>
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <HeroHeading id="home-title">Operational software, built around your business.</HeroHeading>
+          <HeroHeading id="home-title">The operative system that understands your business.</HeroHeading>
           <p>
-            One managed system for your people, processes, and business rules. Configured to fit how you work, and ready
-            to grow with you.
+            Superspace turns the way your company works into operational software built around your people, processes,
+            and rules, evolving as your business grows.
           </p>
           <div className="hero-actions">
             <BookingLink placement="home_hero" label="Let’s talk" designIcon inverse />
@@ -56,7 +56,24 @@ export function DarkHome() {
             </a>
           </div>
         </div>
-        <ProductPreview />
+        <div className={styles.heroVisual}>
+          <div className={styles.heroInteractive}>
+            <ProductPreview />
+          </div>
+          <div className={styles.heroStatic}>
+            <picture>
+              <source media="(min-width: 721px)" srcSet="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
+              {/* The mobile hero is a fixed-proportion product image, cropped by its stage. */}
+              <img
+                src="/assets/figma/home-previews/hero-mobile.webp"
+                width={739}
+                height={480}
+                alt="Superspace operations dashboard showing service metrics and hourly status charts."
+                fetchPriority="high"
+              />
+            </picture>
+          </div>
+        </div>
       </section>
       <section id="system" className={styles.pillarsSection} aria-labelledby="pillars-title">
         <EntranceHeading id="pillars-title">

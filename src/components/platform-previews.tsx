@@ -35,7 +35,7 @@ function Stage({
 }) {
   return (
     <PreviewStage background={background} stageRef={stageRef} entered={entered} label={label} className={styles.stage}>
-      {children}
+      <div className={styles.composition}>{children}</div>
     </PreviewStage>
   );
 }

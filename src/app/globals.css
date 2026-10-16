@@ -39,10 +39,23 @@
     --text-heading-4: 1.75rem;
     --text-heading-5: 1.5rem;
     --text-heading-6: 1.25rem;
-    --text-display: var(--text-heading-1);
+    /* Semantic page typography: mockup UI keeps its own container-relative scale. */
+    --type-hero-size: 3rem;
+    --type-page-title-size: 2.5rem;
+    --type-section-size: 2.5rem;
+    --type-body-size: 1rem;
+    --type-section-body-size: 0.875rem;
+    --type-hero-leading: 1.04;
+    --type-section-leading: 1.04;
+    --type-body-leading: 1.3;
+    --type-section-body-leading: 1.3;
+    --layout-hero-top: 48px;
+    --layout-section-gap: 96px;
+    --control-touch-size: 44px;
+    --text-display: var(--type-hero-size);
     --text-section: var(--text-heading-5);
     --text-feature: var(--text-heading-6);
-    --text-body: 1rem;
+    --text-body: var(--type-body-size);
     --text-ui: 0.875rem;
     --text-meta: 0.75rem;
     --leading-display: 1.04;
@@ -1354,6 +1367,9 @@ html {
     box-shadow: 0 0 32px rgba(0, 0, 0, 0.05);
   }
   .header__inner {
+    width: calc(100% - var(--site-gutter) * 2);
+    max-width: var(--content-max);
+    padding-inline: 0;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -2022,10 +2038,19 @@ html {
     :root {
       --site-gutter: 16px;
       --section-space: 86px;
-      --header-height: 80px;
+      --header-height: 64px;
+      --type-hero-size: clamp(2rem, calc(0.5rem + 7.5vw), 2.25rem);
+      --type-page-title-size: var(--type-hero-size);
+      --type-section-size: clamp(1.625rem, calc(1.125rem + 2.5vw), 1.75rem);
+      --type-body-size: clamp(0.9375rem, calc(0.5625rem + 1.875vw), 1rem);
+      --type-section-body-size: var(--type-body-size);
+      --type-hero-leading: 1.08;
+      --type-section-leading: 1.15;
+      --type-body-leading: 1.5;
+      --type-section-body-leading: 1.5;
       --hero-space: var(--space-10);
-      --text-display: 2rem;
-      --text-section: 1.375rem;
+      --text-display: var(--type-hero-size);
+      --text-section: var(--type-section-size);
       --text-feature: 1.125rem;
     }
     .header {
@@ -2034,6 +2059,18 @@ html {
     .desktop-nav,
     .header__cta {
       display: none;
+    }
+    .header__brand {
+      min-height: var(--control-touch-size);
+    }
+    .hero-actions {
+      flex-wrap: wrap;
+    }
+    .hero-actions .button,
+    .mobile-nav__cta .button {
+      min-height: var(--control-touch-size);
+      font-size: 0.6875rem;
+      padding-inline: 16px;
     }
     .menu-button {
       display: inline-flex;
@@ -2736,7 +2773,7 @@ html {
     .home-iteration .v24-dark { margin-top: 100px; padding-bottom: 100px; }
     .home-iteration .v24-dark .system-section:first-child .system-section__header { padding-top: 100px; }
     .footer-cta { padding: 24px 0 80px; margin-bottom: 64px; }
-    .footer-cta h2 { font-size: 32px; }
+    .footer-cta h2 { font-size: var(--type-section-size); line-height: var(--type-section-leading); }
   }
 }
 
@@ -2792,7 +2829,7 @@ html {
   @media (max-width: 720px) {
     .site-v2 { --header-height: 64px; }
     .site-v2:not(.home-iteration) .system-section__header { padding-top: 160px; align-items: flex-start; }
-    .site-v2:not(.home-iteration) .system-section__header h2 { font-size: 28px; }
+    .site-v2:not(.home-iteration) .system-section__header h2 { font-size: var(--type-section-size); line-height: var(--type-section-leading); }
     .site-v2:not(.home-iteration) .system-split { height: auto; }
     .site-v2:not(.home-iteration) .system-split__visual { grid-row: 1; height: 508px; }
     .site-v2:not(.home-iteration) .system-split--steps .system-split__sidebar { min-height: 0; padding: 16px; border: 0; }
@@ -2822,5 +2859,11 @@ html {
   }
   .header__cta .button:focus-visible {
     outline-offset: -3px;
+  }
+}
+
+@layer page {
+  @media (min-width: 420px) and (max-width: 45rem) {
+    :root { --site-gutter: 24px; }
   }
 }

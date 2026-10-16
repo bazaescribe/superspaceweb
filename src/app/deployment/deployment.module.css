@@ -15,12 +15,12 @@
 }
 .heroCopy h1 {
   margin: 0 0 16px;
-  font: 600 48px/1.04 var(--font-body);
+  font: 600 var(--type-hero-size)/var(--type-hero-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .heroCopy p {
   margin: 0 0 16px;
-  font: 400 16px/1.2 var(--font-body);
+  font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .heroCopy :global(.hero-actions) {
@@ -39,13 +39,13 @@
 }
 .sectionCopy h2 {
   margin: 0 0 8px;
-  font: 500 40px/1.04 var(--font-body);
+  font: 500 var(--type-section-size)/var(--type-section-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .sectionCopy p,
 .stages p {
   margin: 0;
-  font: 400 14px/1.25 var(--font-body);
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
   color: var(--color-content-secondary);
   letter-spacing: 0.01em;
 }
@@ -120,7 +120,7 @@
   margin: 0 0 4px;
 }
 .launchCopy p {
-  font: 400 14px/1.25 var(--font-body);
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
   margin: 0;
   color: var(--color-content-secondary);
 }
@@ -255,23 +255,21 @@
 }
 @media (max-width: 720px) {
   .hero {
-    padding-block: 48px 80px;
+    padding-block: var(--layout-hero-top) var(--layout-section-gap);
   }
-  .heroCopy h1 {
-    font-size: 36px;
-  }
+
   .heroCopy p {
     line-height: 1.5;
   }
   .section {
-    padding-top: 96px;
+    padding-top: var(--layout-section-gap);
   }
   .section:last-child {
-    padding-bottom: 96px;
+    padding-bottom: var(--layout-section-gap);
   }
   .sectionCopy h2 {
-    font-size: 28px;
-    line-height: 1.15;
+    font-size: var(--type-section-size);
+    line-height: var(--type-section-leading);
   }
   .sectionCopy p,
   .stages p,

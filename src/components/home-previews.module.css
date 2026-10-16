@@ -134,6 +134,145 @@
   height: 100%;
   overflow: hidden;
 }
+/* Mobile is an art-directed crop, with panel geometry based on Figma's 361px stage. */
+@media (max-width: 720px) {
+  .mobileComposition.mobileComposition {
+    height: 480px;
+    overflow: hidden;
+    mask-image: linear-gradient(#000 75%, transparent 100%);
+  }
+  .mobileComposition > div:last-child {
+    width: calc(100% * 1000 / 361);
+    height: 480px;
+  }
+  .rulesStage .rules {
+    left: 3.2cqw;
+    top: 3.2cqw;
+    width: 75.3cqw;
+    height: 54.7cqw;
+    font-size: 1.2cqw;
+  }
+  .rulesStage .graph {
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+  .toolsStage .lead {
+    font-size: 1.2cqw;
+  }
+  .toolsStage .lead0 {
+    left: 2.4cqw;
+    top: 12.5cqw;
+    width: 43.3cqw;
+    height: 57cqw;
+  }
+  .toolsStage .lead1 {
+    left: 6.7cqw;
+    top: 8.1cqw;
+    width: 43.3cqw;
+    height: 53.8cqw;
+  }
+  .toolsStage .lead2 {
+    left: 11.1cqw;
+    top: 3.7cqw;
+    width: 38.2cqw;
+    height: 52.3cqw;
+  }
+  .toolsStage .leadBody {
+    padding: 3cqw;
+    gap: 4cqw;
+  }
+  .toolsStage .leadBody header,
+  .toolsStage .leadBody h4 {
+    font-size: 1.6cqw;
+  }
+  .toolsStage .leadBody header img {
+    width: 3.8cqw;
+    height: 3.8cqw;
+  }
+  .toolsStage .leadBody small,
+  .toolsStage .fields span {
+    font-size: 1.2cqw;
+  }
+  .agentsStage .agents {
+    inset: 0;
+    display: block;
+  }
+  .agentsStage .agent {
+    position: absolute;
+    width: 31.6cqw;
+    transform-origin: top left;
+  }
+  .agentsStage .agent:nth-child(1) {
+    left: 2.3cqw;
+    top: 6.9cqw;
+    z-index: 3;
+  }
+  .agentsStage .agent:nth-child(2) {
+    left: 5.3cqw;
+    top: 3.9cqw;
+    scale: 0.823;
+    z-index: 1;
+  }
+  .agentsStage .agent:nth-child(3) {
+    left: 3.8cqw;
+    top: 5.4cqw;
+    scale: 0.908;
+    z-index: 2;
+  }
+  .agentsStage .agentBody {
+    height: 46.5cqw;
+    padding: 2.6cqw;
+    gap: 3.5cqw;
+    font-size: 1.2cqw;
+  }
+  .agentsStage .agentBody p {
+    font-size: 1.2cqw;
+  }
+  .agentsStage .agentBody small,
+  .agentsStage .tags > span {
+    font-size: 1cqw;
+  }
+  .agentsStage .run {
+    font-size: 1cqw;
+    height: 2.4cqw;
+  }
+  .rolesStage .roleScreen {
+    left: 8.8cqw;
+    top: 4.5cqw;
+    width: 80cqw;
+    height: 48.7cqw;
+  }
+  .rolesStage .members {
+    left: 2.6cqw;
+    top: 14.8cqw;
+    width: 28.6cqw;
+    height: 40.6cqw;
+    font-size: 1.2cqw;
+  }
+  .rolesStage .memberPanel {
+    padding: 2cqw;
+    border-color: #ffffff14;
+  }
+  .rolesStage .memberPanel > h4 {
+    font-size: 1.4cqw;
+  }
+  .rolesStage .memberPanel > span {
+    font-size: 1cqw;
+  }
+  .rolesStage .memberList {
+    margin-top: 2cqw;
+    gap: 0.4cqw;
+  }
+  .rolesStage .member {
+    padding: 1cqw;
+    gap: 0.8cqw;
+    min-height: 6.8cqw;
+  }
+  .rolesStage .member small,
+  .rolesStage .member .tags > span {
+    font-size: 1cqw;
+  }
+}
 .members {
   position: absolute;
   z-index: 3;

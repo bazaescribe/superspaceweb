@@ -7,18 +7,52 @@
 .hero {
   padding-top: 80px;
 }
+.heroStatic {
+  display: none;
+}
+@media (max-width: 720px) {
+  .heroInteractive {
+    display: none;
+  }
+  .heroStatic {
+    display: block;
+    position: relative;
+    height: 560px;
+    margin-inline: calc(-1 * var(--site-gutter));
+    overflow: hidden;
+  }
+  .heroStatic img {
+    position: absolute;
+    top: 80px;
+    left: var(--site-gutter);
+    width: 739px;
+    height: 480px;
+    max-width: none;
+    object-fit: cover;
+    border: 1px solid var(--border, #131416);
+    border-radius: 4px;
+  }
+  .heroStatic::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 98px;
+    background: linear-gradient(to top, #070709 7.653%, transparent);
+    pointer-events: none;
+  }
+}
 .heroCopy {
   max-width: 720px;
   margin-bottom: 96px;
 }
 .heroCopy h1 {
   margin: 0 0 16px;
-  font: 600 48px/1.04 var(--font-body);
+  font: 600 var(--type-hero-size)/var(--type-hero-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .heroCopy p {
   margin: 0 0 16px;
-  font: 400 16px/1.2 var(--font-body);
+  font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .heroCopy :global(.hero-actions) {
@@ -31,7 +65,7 @@
 .pillarsSection > h2 {
   max-width: 720px;
   margin: 0 0 32px;
-  font: 500 40px/1.04 var(--font-body);
+  font: 500 var(--type-section-size)/var(--type-section-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
 .pillarsSection > h2 span {
@@ -66,7 +100,7 @@
   margin: 0 0 4px;
 }
 .pillarCopy p {
-  font: 400 14px/1.25 var(--font-body);
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
   color: var(--color-content-secondary);
   margin: 0;
 }
@@ -81,12 +115,12 @@
   margin-bottom: 32px;
 }
 .featureCopy h2 {
-  font: 500 40px/1.04 var(--font-body);
+  font: 500 var(--type-section-size)/var(--type-section-leading) var(--font-body);
   margin: 0 0 8px;
   letter-spacing: 0.01em;
 }
 .featureCopy p {
-  font: 400 14px/1.25 var(--font-body);
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
   margin: 0;
   color: var(--color-content-secondary);
 }
@@ -118,24 +152,22 @@
 }
 @media (max-width: 720px) {
   .hero {
-    padding-top: 48px;
+    padding-top: var(--layout-hero-top);
   }
   .heroCopy {
     margin-bottom: 40px;
   }
-  .heroCopy h1 {
-    font-size: 36px;
-  }
+
   .heroCopy p {
     line-height: 1.5;
   }
   .pillarsSection {
-    padding-top: 96px;
+    padding-top: var(--layout-section-gap);
   }
   .pillarsSection > h2,
   .featureCopy h2 {
-    font-size: 28px;
-    line-height: 1.15;
+    font-size: var(--type-section-size);
+    line-height: var(--type-section-leading);
   }
   .pillars {
     grid-template-columns: 1fr;
@@ -166,8 +198,8 @@
     line-height: 1.5;
   }
   .features {
-    padding: 96px 0;
-    gap: 96px;
+    padding: var(--layout-section-gap) 0;
+    gap: var(--layout-section-gap);
   }
   .featureCopy p {
     line-height: 1.5;
@@ -185,9 +217,6 @@
   }
 }
 @media (max-width: 380px) {
-  .heroCopy h1 {
-    font-size: 32px;
-  }
   .pillar {
     grid-template-columns: 90px 1fr;
     gap: 16px;

@@ -14,13 +14,13 @@
   --font-display: "Rethink Sans Variable", Arial, Helvetica, sans-serif;
   --font-body: "Inter Variable", Arial, Helvetica, sans-serif;
   --text-display: var(--marketing-display);
-  --text-display--line-height: 1.04;
+  --text-display--line-height: var(--type-hero-leading);
   --text-section: var(--marketing-section);
-  --text-section--line-height: normal;
+  --text-section--line-height: var(--type-section-leading);
   --text-feature: 1.25rem;
   --text-feature--line-height: 1.4;
-  --text-body: 1rem;
-  --text-body--line-height: 1.6;
+  --text-body: var(--type-body-size);
+  --text-body--line-height: var(--type-body-leading);
   --text-label: 0.8125rem;
   --text-label--line-height: 1.4;
   --radius-panel: var(--radius-card);
@@ -48,14 +48,14 @@
 }
 @layer tokens {
   :root {
-    --marketing-display: 3rem;
+    --marketing-display: var(--type-hero-size);
     --marketing-section: 1.5rem;
     --marketing-section-space: 120px;
   }
   @media (max-width: 45rem) {
     :root {
-      --marketing-display: 2rem;
-      --marketing-section: 1.375rem;
+      --marketing-display: var(--type-hero-size);
+      --marketing-section: var(--type-section-size);
       --marketing-section-space: 80px;
     }
   }

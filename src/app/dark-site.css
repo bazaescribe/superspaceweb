@@ -98,6 +98,15 @@
     color: var(--color-background-dark);
   }
   @media (max-width: 720px) {
+    .dark-redesign .hero-actions .button {
+      min-height: var(--control-touch-size);
+      font-size: 0.6875rem;
+      padding-inline: 16px;
+    }
+    .site-footer .footer-cta h2 {
+      font-size: var(--type-section-size);
+      line-height: var(--type-section-leading);
+    }
     .site-footer .footer-cta {
       padding: 24px 0 80px;
     }
@@ -105,10 +114,12 @@
       padding-block: calc(var(--header-height) + 48px) 64px !important;
     }
     .careers-content h1 {
-      font-size: 28px;
+      font-size: var(--type-hero-size);
+      line-height: var(--type-hero-leading);
     }
     .careers-content > div {
-      line-height: 1.5;
+      font-size: var(--type-body-size);
+      line-height: var(--type-body-leading);
     }
     .not-found-content {
       min-height: 720px;

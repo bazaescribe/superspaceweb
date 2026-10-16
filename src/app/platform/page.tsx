@@ -31,11 +31,10 @@ export default function PlatformPage() {
         <section className={styles.hero} aria-labelledby="platform-title">
           <div className={styles.container}>
             <div className={styles.heroCopy}>
-              <HeroHeading id="platform-title">Built for the complexity of real-world operations.</HeroHeading>
+              <HeroHeading id="platform-title">The next generation of business software.</HeroHeading>
               <p>
-                Superspace provides the underlying structure for business data, relationships, permissions, and
-                workflows, so companies can run their operations without building the software infrastructure from
-                scratch.
+                A living model of your business. Connected to the tools you already use. Built for people and AI agents
+                to work, act, and evolve together.
               </p>
               <div className="hero-actions">
                 <BookingLink placement="platform_hero" label="Let’s talk" designIcon inverse />
