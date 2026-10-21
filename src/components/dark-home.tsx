@@ -1,5 +1,6 @@
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
-import { HomeRulesPreview, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview } from "./home-previews";
+import { HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview } from "./home-previews";
+import { OperativeModels } from "./operative-models";
 import { BookingLink } from "./booking-link";
 import { PillarCard } from "./pillar-card";
 import { ProductPreview } from "./product-preview";
@@ -19,11 +20,11 @@ const pillars = [
     text: "A fully managed operational system, designed for reliable daily work. We take care of the software so you can focus on running your business.",
   },
 ];
-const previews = [HomeRulesPreview, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview];
+const previews = [OperativeModels, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview];
 const features = [
   {
-    title: "Your business, your rules.",
-    text: "Model the people, objects, relationships, and processes behind your operation. Make the system reflect how your company actually works.",
+    title: "Different businesses. Different rules.",
+    text: "Superspace can be configured around very different kinds of operations, from marketplaces and service teams to manufacturing and distribution. Explore a few examples of what that can look like.",
   },
   {
     title: "Everyone knows what they can do.",
