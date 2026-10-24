@@ -1,13 +1,15 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
 import { useId, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import data from "@/lib/deployment-comparison.json";
-import styles from "@/app/deployment/deployment.module.css";
+import styles from "@/app/[locale]/deployment/deployment.module.css";
 
 export function DeploymentTradeoffChart() {
+  const localizeCopy = useCopy();
   const [selected, setSelected] = useState(0);
   const id = useId();
   const { ref, entered, reducedMotion } = useScrollEntrance<HTMLDivElement>();
@@ -25,7 +27,7 @@ export function DeploymentTradeoffChart() {
   }
   return (
     <div ref={ref}>
-      <div role="tablist" aria-label={data.title} className={styles.tabs}>
+      <div role="tablist" aria-label={localizeCopy(data.title)} className={styles.tabs}>
         {data.dimensions.map((item, index) => (
           <button
             key={item.id}
@@ -37,7 +39,7 @@ export function DeploymentTradeoffChart() {
             onClick={() => setSelected(index)}
             onKeyDown={(event) => navigate(event, index)}
           >
-            {item.title}
+            {localizeCopy(item.title)}
           </button>
         ))}
       </div>
@@ -61,12 +63,12 @@ export function DeploymentTradeoffChart() {
               }}
               transition={{ ease: [0.22, 0.86, 0.24, 1] }}
             >
-              {dimension.question}
+              {localizeCopy(dimension.question)}
             </motion.p>
           </AnimatePresence>
           <span className="sr-only">
-            {dimension.description}{" "}
-            {dimension.preferredDirection === "higher" ? "Higher is better." : "Lower is better."}
+            {localizeCopy(dimension.description)}{" "}
+            {localizeCopy(dimension.preferredDirection === "higher" ? "Higher is better." : "Lower is better.")}
           </span>
         </div>
         <div className={styles.bars}>
@@ -84,14 +86,21 @@ export function DeploymentTradeoffChart() {
             return (
               <div key={model.id} className={styles.barRow}>
                 <span>
-                  {model.highlight ? (
-                    <Image src="/assets/figma/deployment/wordmark.svg" alt={model.label} width={118} height={16} />
-                  ) : (
-                    model.label
+                  {localizeCopy(
+                    model.highlight ? (
+                      <Image
+                        src="/assets/figma/deployment/wordmark.svg"
+                        alt={localizeCopy(model.label)}
+                        width={118}
+                        height={16}
+                      />
+                    ) : (
+                      model.label
+                    ),
                   )}
                 </span>
-                <span className="sr-only">{item.explanation}</span>
-                <div className={styles.barTrack} title={item.explanation} aria-hidden="true">
+                <span className="sr-only">{localizeCopy(item.explanation)}</span>
+                <div className={styles.barTrack} title={localizeCopy(item.explanation)} aria-hidden="true">
                   <motion.div
                     key={dimension.id}
                     className={styles.barFill}
@@ -110,7 +119,7 @@ export function DeploymentTradeoffChart() {
           })}
         </div>
       </div>
-      <p className={styles.disclaimer}>{data.disclaimer}</p>
+      <p className={styles.disclaimer}>{localizeCopy(data.disclaimer)}</p>
     </div>
   );
 }

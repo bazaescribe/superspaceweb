@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -39,10 +40,11 @@ const positions = [
   [42.86, 145.86],
 ];
 function SmartViews() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.smart} aria-hidden="true">
       <PreviewPanel theme="dark" className={styles.smartPanel}>
-        <PreviewTitle label="Apps">Server Room Floor Plan</PreviewTitle>
+        <PreviewTitle label={localizeCopy("Apps")}>{localizeCopy("Server Room Floor Plan")}</PreviewTitle>
         <div className={styles.floor}>
           {racks.map((file, i) => (
             <Image
@@ -55,7 +57,7 @@ function SmartViews() {
             />
           ))}
         </div>
-        <small>Status overview</small>
+        <small>{localizeCopy("Status overview")}</small>
         {[
           ["Virtual machine server", "132.012.321.32"],
           ["Web server", "10.0.0.12"],
@@ -64,8 +66,8 @@ function SmartViews() {
         ].map(([name, address]) => (
           <div className={styles.server} key={name}>
             <PreviewIcon file="cfc20" />
-            <span>{name}</span>
-            <small>{address}</small>
+            <span>{localizeCopy(name)}</span>
+            <small>{localizeCopy(address)}</small>
           </div>
         ))}
       </PreviewPanel>
@@ -123,16 +125,17 @@ const capabilities = [
   },
 ];
 export function HomeCapabilities() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.grid}>
       {capabilities.map((card) => (
         <article className={styles.card} key={card.title}>
           <div className={styles.copy}>
-            <h3>{card.title}</h3>
-            <p>{card.description}</p>
-            {card.soon && <span className={styles.soon}>Coming soon</span>}
+            <h3>{localizeCopy(card.title)}</h3>
+            <p>{localizeCopy(card.description)}</p>
+            {card.soon && <span className={styles.soon}>{localizeCopy("Coming soon")}</span>}
           </div>
-          <div className={styles.visual}>{card.visual}</div>
+          <div className={styles.visual}>{localizeCopy(card.visual)}</div>
         </article>
       ))}
     </div>
@@ -150,54 +153,69 @@ function DeliveryCard({
   attention?: boolean;
   cycle?: number;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.delivery}>
       {!assigned && !attention && (
         <header>
           <Image src={`${asset}e0afc.svg`} alt="" width={30} height={30} />
           <div>
-            Assignations Agent<small>{cycle % 2 === 0 ? "Confirmed via SMS" : "Checking availability"}</small>
+            {localizeCopy("Assignations Agent")}
+            <small>{localizeCopy(cycle % 2 === 0 ? "Confirmed via SMS" : "Checking availability")}</small>
           </div>
           <PreviewSpinner />
         </header>
       )}
       <div className={styles.deliveryBody}>
         <div>
-          Request #{1129316 - index}
-          <small>Today {index === 0 ? "12" : "5"}m ago.</small>
+          {localizeCopy("Request #")}
+          {localizeCopy(1129316 - index)}
+          <small>
+            {localizeCopy("Today ")}
+            {localizeCopy(index === 0 ? "12" : "5")}
+            {localizeCopy("m ago.")}
+          </small>
         </div>
         <div>
-          <small>Pickup</small>
-          {assigned
-            ? "Blvd. Adolfo López Mateos 789, Lomas de Chapultepec, Miguel Hidalgo, Ciudad de México."
-            : index === 0
-              ? "Av. Insurgentes Sur 1234, Del Valle, Benito Juárez, Ciudad de México."
-              : "Calle Reforma 300, Juárez, Cuauhtémoc, Ciudad de México."}
+          <small>{localizeCopy("Pickup")}</small>
+          {localizeCopy(
+            assigned
+              ? "Blvd. Adolfo López Mateos 789, Lomas de Chapultepec, Miguel Hidalgo, Ciudad de México."
+              : index === 0
+                ? "Av. Insurgentes Sur 1234, Del Valle, Benito Juárez, Ciudad de México."
+                : "Calle Reforma 300, Juárez, Cuauhtémoc, Ciudad de México.",
+          )}
         </div>
         <div>
-          <small>Delivery</small>
-          {assigned
-            ? "Av. Insurgentes Norte 234, Lindavista, Gustavo A. Madero, Ciudad de México."
-            : "Calle Oaxaca 56, Roma Norte, Cuauhtémoc, Ciudad de México."}
+          <small>{localizeCopy("Delivery")}</small>
+          {localizeCopy(
+            assigned
+              ? "Av. Insurgentes Norte 234, Lindavista, Gustavo A. Madero, Ciudad de México."
+              : "Calle Oaxaca 56, Roma Norte, Cuauhtémoc, Ciudad de México.",
+          )}
         </div>
         <div className={styles.deliveryField}>
-          <small>Courier</small>
+          <small>{localizeCopy("Courier")}</small>
           <PreviewTag tone={assigned ? "green" : attention ? "neutral" : "amber"}>
-            {assigned ? "JL Juan López" : attention ? "None" : "Assigned"}
+            {localizeCopy(assigned ? "JL Juan López" : attention ? "None" : "Assigned")}
           </PreviewTag>
         </div>
         <div className={styles.deliveryField}>
-          <small>Delivery</small>
-          <PreviewTag tone={assigned ? "green" : "amber"}>Scheduled {attention ? "3" : "4"}pm</PreviewTag>
+          <small>{localizeCopy("Delivery")}</small>
+          <PreviewTag tone={assigned ? "green" : "amber"}>
+            {localizeCopy("Scheduled ")}
+            {localizeCopy(attention ? "3" : "4")}
+            {localizeCopy("pm")}
+          </PreviewTag>
         </div>
       </div>
       {attention && (
         <div className={styles.exception}>
-          <strong>Delivery couldn’t be assigned.</strong>
-          <p>There were no courier available to complete this delivery.</p>
+          <strong>{localizeCopy("Delivery couldn’t be assigned.")}</strong>
+          <p>{localizeCopy("There were no courier available to complete this delivery.")}</p>
           <div>
-            <span>EDIT PAYMENT</span>
-            <span>CONTACT CLIENT</span>
+            <span>{localizeCopy("EDIT PAYMENT")}</span>
+            <span>{localizeCopy("CONTACT CLIENT")}</span>
           </div>
         </div>
       )}
@@ -205,6 +223,7 @@ function DeliveryCard({
   );
 }
 export function HomeWorkforcePreview() {
+  const localizeCopy = useCopy();
   const { ref, entered, reducedMotion } = useScrollEntrance();
   const visible = useInView(ref, { amount: 0.15 });
   const [cycle, setCycle] = useState(0);
@@ -221,7 +240,7 @@ export function HomeWorkforcePreview() {
         background="Home Workforce.webp"
         stageRef={ref}
         entered={entered}
-        label="AI agents coordinating delivery assignments"
+        label={localizeCopy("AI agents coordinating delivery assignments")}
         className={styles.workforce}
         tabIndex={0}
       >
@@ -234,40 +253,45 @@ export function HomeWorkforcePreview() {
         >
           <div className={styles.boardBar}>
             <span>
-              Operations intelligence <span className={styles.chevron}>›</span> Delivery Assignations
+              {localizeCopy("Operations intelligence ")}
+              <span className={styles.chevron}>{"›"}</span> {localizeCopy(" Delivery Assignations")}
             </span>
-            <PreviewTag tone="green">3 Agents working</PreviewTag>
+            <PreviewTag tone="green">{localizeCopy("3 Agents working")}</PreviewTag>
           </div>
           <div className={styles.boardBody}>
-            <h3>42 deliveries to coordinate today.</h3>
-            <p>Your agents are coordinating assignments, checking availability and flagging exceptions.</p>
+            <h3>{localizeCopy("42 deliveries to coordinate today.")}</h3>
+            <p>
+              {localizeCopy("Your agents are coordinating assignments, checking availability and flagging exceptions.")}
+            </p>
             <div className={styles.columns}>
               {stages.map((stage, i) => (
                 <div className={styles.column} key={stage}>
                   <div className={styles.columnHeading}>
-                    {i === 1 ? <PreviewSpinner /> : <span className={styles.status} data-tone={i} />}
-                    <span>{stage}</span>
-                    <small>{[0, 8, 2, 32][i]}</small>
-                    <span className={styles.arrow}>↓</span>
+                    {localizeCopy(i === 1 ? <PreviewSpinner /> : <span className={styles.status} data-tone={i} />)}
+                    <span>{localizeCopy(stage)}</span>
+                    <small>{localizeCopy([0, 8, 2, 32][i])}</small>
+                    <span className={styles.arrow}>{"↓"}</span>
                   </div>
-                  {i === 0 ? (
-                    <div className={styles.empty}>
-                      <Image src={`${asset}a4949.svg`} alt="" width={56} height={64} />
-                      <strong>Waiting for new services</strong>
-                      <small>3 sources connected</small>
-                    </div>
-                  ) : (
-                    <>
-                      <motion.div
-                        key={i === 1 ? cycle : stage}
-                        initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4 }}
-                      >
-                        <DeliveryCard index={i === 1 ? 0 : 1} assigned={i === 3} attention={i === 2} cycle={cycle} />
-                      </motion.div>
-                      <DeliveryCard index={2} assigned={i === 3} />
-                    </>
+                  {localizeCopy(
+                    i === 0 ? (
+                      <div className={styles.empty}>
+                        <Image src={`${asset}a4949.svg`} alt="" width={56} height={64} />
+                        <strong>{localizeCopy("Waiting for new services")}</strong>
+                        <small>{localizeCopy("3 sources connected")}</small>
+                      </div>
+                    ) : (
+                      <>
+                        <motion.div
+                          key={i === 1 ? cycle : stage}
+                          initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                        >
+                          <DeliveryCard index={i === 1 ? 0 : 1} assigned={i === 3} attention={i === 2} cycle={cycle} />
+                        </motion.div>
+                        <DeliveryCard index={2} assigned={i === 3} />
+                      </>
+                    ),
                   )}
                 </div>
               ))}
@@ -275,7 +299,7 @@ export function HomeWorkforcePreview() {
           </div>
         </motion.div>
       </PreviewStage>
-      <p className={styles.caption}>Feature preview</p>
+      <p className={styles.caption}>{localizeCopy("Feature preview")}</p>
     </div>
   );
 }

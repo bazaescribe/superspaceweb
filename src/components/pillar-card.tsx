@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useId, useRef, useState, type PointerEvent } from "react";
 import { motion } from "motion/react";
@@ -138,6 +139,7 @@ function Spaces({ active }: { active: boolean }) {
 }
 
 export function PillarCard({ title, text, index }: { title: string; text: string; index: number }) {
+  const localizeCopy = useCopy();
   const svg = useRef<SVGSVGElement>(null);
   const reducedMotion = useReducedMotion();
   const [hovered, setHovered] = useState(false);
@@ -166,27 +168,29 @@ export function PillarCard({ title, text, index }: { title: string; text: string
     >
       <div className={styles.pillarVisual} aria-hidden="true">
         <svg ref={svg} className={art.illustration} viewBox="-12 20 348 378" fill="none" focusable="false">
-          {index === 0 ? (
-            <Business active={active} />
-          ) : index === 1 ? (
-            cubes.map(({ x, y }, i) => {
-              const distance = cursor ? Math.hypot(cursor.x - (x + 45.71), cursor.y - (y + 39)) : Infinity;
-              const rise = active ? 24 * Math.pow(Math.max(0, 1 - distance / 125), 2) : 0;
-              return (
-                <g key={i} data-pillar-cube={i}>
-                  <Vector name="c6d2b" x={x - 0.5} y={y} rise={rise} />
-                  <Vector name="c892b" x={x + 0.56} y={y + 25.89} rise={rise} />
-                </g>
-              );
-            })
-          ) : (
-            <Spaces active={active} />
+          {localizeCopy(
+            index === 0 ? (
+              <Business active={active} />
+            ) : index === 1 ? (
+              cubes.map(({ x, y }, i) => {
+                const distance = cursor ? Math.hypot(cursor.x - (x + 45.71), cursor.y - (y + 39)) : Infinity;
+                const rise = active ? 24 * Math.pow(Math.max(0, 1 - distance / 125), 2) : 0;
+                return (
+                  <g key={i} data-pillar-cube={i}>
+                    <Vector name="c6d2b" x={x - 0.5} y={y} rise={rise} />
+                    <Vector name="c892b" x={x + 0.56} y={y + 25.89} rise={rise} />
+                  </g>
+                );
+              })
+            ) : (
+              <Spaces active={active} />
+            ),
           )}
         </svg>
       </div>
       <div className={styles.pillarCopy}>
-        <h3>{title}</h3>
-        <p>{text}</p>
+        <h3>{localizeCopy(title)}</h3>
+        <p>{localizeCopy(text)}</p>
       </div>
     </article>
   );

@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { bookingUrl } from "@/lib/site";
 import { SiteIcon } from "@/components/site-icon";
@@ -18,6 +19,7 @@ export function BookingLink({
   label?: string;
   designIcon?: boolean;
 }) {
+  const localizeCopy = useCopy();
   const external = bookingUrl.startsWith("http");
   return (
     <a
@@ -26,13 +28,15 @@ export function BookingLink({
       onClick={() => track({ name: "cta_clicked", cta: "talk_to_us", destination: bookingUrl, placement })}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
     >
-      {label}{" "}
-      {designIcon ? (
-        <span className="inline-flex size-4 items-center justify-center" aria-hidden="true">
-          <Image src="/brand/cta-chevron.svg" alt="" width={6} height={10} />
-        </span>
-      ) : (
-        <SiteIcon name="arrow" />
+      {localizeCopy(label)}{" "}
+      {localizeCopy(
+        designIcon ? (
+          <span className="inline-flex size-4 items-center justify-center" aria-hidden="true">
+            <Image src="/brand/cta-chevron.svg" alt="" width={6} height={10} />
+          </span>
+        ) : (
+          <SiteIcon name="arrow" />
+        ),
       )}
     </a>
   );

@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -21,6 +22,7 @@ import styles from "./feature-previews.module.css";
 const calendar = <Image src="/assets/figma/workflows/calendar.svg" width={12} height={12} alt="" />;
 const darkCalendar = <PreviewIcon file="ef858" size={12} />;
 export function PermissionsMockup({ platform = false }: { platform?: boolean } = {}) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.viewport} aria-hidden="true">
       <PreviewPanel theme={platform ? "light" : "dark"} className={`${styles.record} ${styles.permissions}`}>
@@ -28,24 +30,24 @@ export function PermissionsMockup({ platform = false }: { platform?: boolean } =
           <Image src="/assets/figma/key-features/fa3d3.png" alt="" width={378} height={212} />
           <div className={styles.identity}>
             <div>
-              <strong>Sam Olguín</strong>
-              <p>Finance Lead</p>
+              <strong>{localizeCopy("Sam Olguín")}</strong>
+              <p>{localizeCopy("Finance Lead")}</p>
             </div>
-            <PreviewTag>Manager</PreviewTag>
-            <PreviewTag tone="green">Active</PreviewTag>
+            <PreviewTag>{localizeCopy("Manager")}</PreviewTag>
+            <PreviewTag tone="green">{localizeCopy("Active")}</PreviewTag>
           </div>
         </div>
         <div className={styles.body}>
-          <PreviewField label="Groups">
+          <PreviewField label={localizeCopy("Groups")}>
             <div className={styles.tags}>
-              <PreviewTag>Finances</PreviewTag>
-              <PreviewTag>Support</PreviewTag>
+              <PreviewTag>{localizeCopy("Finances")}</PreviewTag>
+              <PreviewTag>{localizeCopy("Support")}</PreviewTag>
               <PreviewTag>
                 <PreviewIcon file="03da9" size={12} />
               </PreviewTag>
             </div>
           </PreviewField>
-          <PreviewField label="Effective permissions">
+          <PreviewField label={localizeCopy("Effective permissions")}>
             {[
               ["Manage people", "Invite, edit and remove members."],
               ["View Audit Log", "Read org-wide activity."],
@@ -53,8 +55,8 @@ export function PermissionsMockup({ platform = false }: { platform?: boolean } =
             ].map(([title, detail], i) => (
               <div className={styles.permission} key={title}>
                 <div>
-                  {title}
-                  <p>{detail}</p>
+                  {localizeCopy(title)}
+                  <p>{localizeCopy(detail)}</p>
                 </div>
                 <PreviewSwitch enabled={i === 0} />
               </div>
@@ -78,6 +80,7 @@ const events = [
   ["99554", "Service Closed Successfully", "9:33 AM"],
 ];
 export function ActivityMockup({ delivered = false }: { delivered?: boolean } = {}) {
+  const localizeCopy = useCopy();
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { amount: 0.3 });
   const reduced = useReducedMotion();
@@ -85,19 +88,22 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
     <div ref={ref} className={styles.viewport} aria-hidden="true">
       <PreviewPanel theme={delivered ? "light" : "dark"} className={styles.record}>
         <div className={styles.body}>
-          <PreviewTitle label="F91W">Service History</PreviewTitle>
+          <PreviewTitle label={localizeCopy("F91W")}>{localizeCopy("Service History")}</PreviewTitle>
           <div className={styles.fields}>
-            <PreviewField inline label="Time">
-              <PreviewTag>{delivered ? calendar : darkCalendar}October 3, 8:23 AM</PreviewTag>
+            <PreviewField inline label={localizeCopy("Time")}>
+              <PreviewTag>
+                {localizeCopy(delivered ? calendar : darkCalendar)}
+                {localizeCopy("October 3, 8:23 AM")}
+              </PreviewTag>
             </PreviewField>
-            <PreviewField inline label="Status">
-              <PreviewTag tone="green">Delivered</PreviewTag>
+            <PreviewField inline label={localizeCopy("Status")}>
+              <PreviewTag tone="green">{localizeCopy("Delivered")}</PreviewTag>
             </PreviewField>
-            <PreviewField inline label="Courier">
+            <PreviewField inline label={localizeCopy("Courier")}>
               <PreviewPerson initials="MG" name="Miguel Luis Galvan" color="#fe9a00" />
             </PreviewField>
           </div>
-          <PreviewField label="Recorded Events">
+          <PreviewField label={localizeCopy("Recorded Events")}>
             <div className={styles.timeline}>
               {events.map(([icon, text, time], i) => (
                 <motion.div
@@ -109,9 +115,9 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
                 >
                   <PreviewRow
                     leading={<PreviewIcon file={icon} />}
-                    trailing={<time className={styles.eventTime}>{time}</time>}
+                    trailing={<time className={styles.eventTime}>{localizeCopy(time)}</time>}
                   >
-                    {text}
+                    {localizeCopy(text)}
                   </PreviewRow>
                   {i < events.length - 1 && (
                     <Image
@@ -133,25 +139,31 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
   );
 }
 export function ContextMockup({ dark = false }: { dark?: boolean } = {}) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.viewport} aria-hidden="true">
       <PreviewPanel theme={dark ? "dark" : "light"} className={styles.record}>
         <div className={`${styles.body} ${styles.context}`}>
-          <PreviewTitle label="GMWB5000">Delivery Details</PreviewTitle>
-          <p className={styles.address}>Montecito 301, Int. 2, Nápoles, Benito Juárez, Ciudad de México.</p>
+          <PreviewTitle label={localizeCopy("GMWB5000")}>{localizeCopy("Delivery Details")}</PreviewTitle>
+          <p className={styles.address}>
+            {localizeCopy("Montecito 301, Int. 2, Nápoles, Benito Juárez, Ciudad de México.")}
+          </p>
           <div className={styles.fields}>
-            <PreviewField inline label="Time">
-              <PreviewTag>{dark ? darkCalendar : calendar}May 29, 11:33 AM</PreviewTag>
+            <PreviewField inline label={localizeCopy("Time")}>
+              <PreviewTag>
+                {localizeCopy(dark ? darkCalendar : calendar)}
+                {localizeCopy("May 29, 11:33 AM")}
+              </PreviewTag>
             </PreviewField>
-            <PreviewField inline label="Status">
-              <PreviewTag tone="green">Delivered</PreviewTag>
-              <PreviewTag tone="green">On time</PreviewTag>
+            <PreviewField inline label={localizeCopy("Status")}>
+              <PreviewTag tone="green">{localizeCopy("Delivered")}</PreviewTag>
+              <PreviewTag tone="green">{localizeCopy("On time")}</PreviewTag>
             </PreviewField>
-            <PreviewField inline label="Courier">
+            <PreviewField inline label={localizeCopy("Courier")}>
               <PreviewPerson initials="RV" name="Ramiro Velazquez" color="#f69dcc" />
             </PreviewField>
           </div>
-          <PreviewField label="Attachments">
+          <PreviewField label={localizeCopy("Attachments")}>
             <div>
               {[
                 ["65182", "Packing List - GMWB5000.xlsx", "1.4MB"],
@@ -167,12 +179,14 @@ export function ContextMockup({ dark = false }: { dark?: boolean } = {}) {
               ))}
             </div>
           </PreviewField>
-          <PreviewField label="Comments">
+          <PreviewField label={localizeCopy("Comments")}>
             <div className={styles.tags}>
               <PreviewPerson initials="RV" name="Ramiro Velazquez" color="#f69dcc" />
-              <PreviewTag>9:32 AM</PreviewTag>
+              <PreviewTag>{localizeCopy("9:32 AM")}</PreviewTag>
             </div>
-            <p className={styles.comment}>Delivered all 6 boxes to reception. Signed receipt attached.</p>
+            <p className={styles.comment}>
+              {localizeCopy("Delivered all 6 boxes to reception. Signed receipt attached.")}
+            </p>
           </PreviewField>
         </div>
       </PreviewPanel>
@@ -189,6 +203,7 @@ const steps = [
 ];
 const cycleDuration = 13700;
 export function AutomationsMockup({ compact = false }: { compact?: boolean } = {}) {
+  const localizeCopy = useCopy();
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { amount: 0.3 });
   const reduced = useReducedMotion();
@@ -226,89 +241,96 @@ export function AutomationsMockup({ compact = false }: { compact?: boolean } = {
           >
             <PreviewPanel theme="dark">
               <div className={`${styles.body} ${styles.automationBody}`}>
-                {displayStage === 0 ? (
-                  <>
-                    <PreviewTitle subtitle="Now">New Order Received #78234</PreviewTitle>
-                    <PreviewField label="Checking Stock Availability">
-                      <div className={styles.rows}>
-                        {products.map((product, i) => {
-                          const complete = reduced || elapsed >= [1400, 2000, 2600][i];
-                          return (
-                            <PreviewRow
-                              key={product}
-                              leading={
-                                complete ? (
-                                  <PreviewIcon file={i === 2 ? "0c994" : "cfc20"} />
-                                ) : (
-                                  <PreviewSpinner file="94283" />
-                                )
-                              }
-                            >
-                              {product}
-                            </PreviewRow>
-                          );
-                        })}
-                      </div>
-                    </PreviewField>
-                  </>
-                ) : displayStage === 1 ? (
-                  <>
-                    <PreviewTitle subtitle="Automatic Restock">Ceramic 15 cm. Plant Pot</PreviewTitle>
-                    <PreviewField label="Processing Product Restock">
-                      <div className={styles.rows}>
-                        {steps.map((title, i) => {
-                          const complete = reduced || elapsed >= 4600 + i * 1000;
-                          const active = reduced || elapsed >= 3600 + i * 1000;
-                          return (
-                            <div className={active ? "" : styles.pending} key={title}>
+                {localizeCopy(
+                  displayStage === 0 ? (
+                    <>
+                      <PreviewTitle subtitle="Now">{localizeCopy("New Order Received #78234")}</PreviewTitle>
+                      <PreviewField label={localizeCopy("Checking Stock Availability")}>
+                        <div className={styles.rows}>
+                          {products.map((product, i) => {
+                            const complete = reduced || elapsed >= [1400, 2000, 2600][i];
+                            return (
                               <PreviewRow
+                                key={product}
                                 leading={
                                   complete ? (
-                                    <PreviewIcon file="cfc20" />
-                                  ) : active ? (
-                                    <PreviewSpinner file="94283" />
+                                    <PreviewIcon file={i === 2 ? "0c994" : "cfc20"} />
                                   ) : (
-                                    <span className={styles.indicatorPlaceholder} />
+                                    <PreviewSpinner file="94283" />
                                   )
                                 }
                               >
-                                {title}
+                                {localizeCopy(product)}
                               </PreviewRow>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </PreviewField>
-                  </>
-                ) : (
-                  <>
-                    <PreviewTitle subtitle="Now">Order Update #78234</PreviewTitle>
-                    <div className={styles.fields}>
-                      <PreviewField inline label="Exp. Delivery">
-                        <PreviewTag>{darkCalendar}Nov 29</PreviewTag>
+                            );
+                          })}
+                        </div>
                       </PreviewField>
-                      <PreviewField inline label="Status">
-                        <PreviewTag tone="amber">Waiting for stock</PreviewTag>
+                    </>
+                  ) : displayStage === 1 ? (
+                    <>
+                      <PreviewTitle subtitle="Automatic Restock">
+                        {localizeCopy("Ceramic 15 cm. Plant Pot")}
+                      </PreviewTitle>
+                      <PreviewField label={localizeCopy("Processing Product Restock")}>
+                        <div className={styles.rows}>
+                          {steps.map((title, i) => {
+                            const complete = reduced || elapsed >= 4600 + i * 1000;
+                            const active = reduced || elapsed >= 3600 + i * 1000;
+                            return (
+                              <div className={active ? "" : styles.pending} key={title}>
+                                <PreviewRow
+                                  leading={
+                                    complete ? (
+                                      <PreviewIcon file="cfc20" />
+                                    ) : active ? (
+                                      <PreviewSpinner file="94283" />
+                                    ) : (
+                                      <span className={styles.indicatorPlaceholder} />
+                                    )
+                                  }
+                                >
+                                  {localizeCopy(title)}
+                                </PreviewRow>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </PreviewField>
-                    </div>
-                    <PreviewField label="Available products reserved">
-                      <div className={styles.rows}>
-                        {products.slice(0, 2).map((product) => (
-                          <PreviewRow key={product} leading={<PreviewIcon file="cfc20" />}>
-                            {product}
-                          </PreviewRow>
-                        ))}
+                    </>
+                  ) : (
+                    <>
+                      <PreviewTitle subtitle="Now">{localizeCopy("Order Update #78234")}</PreviewTitle>
+                      <div className={styles.fields}>
+                        <PreviewField inline label={localizeCopy("Exp. Delivery")}>
+                          <PreviewTag>
+                            {localizeCopy(darkCalendar)}
+                            {localizeCopy("Nov 29")}
+                          </PreviewTag>
+                        </PreviewField>
+                        <PreviewField inline label={localizeCopy("Status")}>
+                          <PreviewTag tone="amber">{localizeCopy("Waiting for stock")}</PreviewTag>
+                        </PreviewField>
                       </div>
-                    </PreviewField>
-                    <PreviewField label="Waiting for stock">
-                      <PreviewRow leading={<PreviewIcon file="d356a" />}>
-                        <span className={styles.stockItem}>
-                          {products[2]}
-                          <small>Expected arrival Nov. 14.</small>
-                        </span>
-                      </PreviewRow>
-                    </PreviewField>
-                  </>
+                      <PreviewField label={localizeCopy("Available products reserved")}>
+                        <div className={styles.rows}>
+                          {products.slice(0, 2).map((product) => (
+                            <PreviewRow key={product} leading={<PreviewIcon file="cfc20" />}>
+                              {localizeCopy(product)}
+                            </PreviewRow>
+                          ))}
+                        </div>
+                      </PreviewField>
+                      <PreviewField label={localizeCopy("Waiting for stock")}>
+                        <PreviewRow leading={<PreviewIcon file="d356a" />}>
+                          <span className={styles.stockItem}>
+                            {localizeCopy(products[2])}
+                            <small>{localizeCopy("Expected arrival Nov. 14.")}</small>
+                          </span>
+                        </PreviewRow>
+                      </PreviewField>
+                    </>
+                  ),
                 )}
               </div>
             </PreviewPanel>

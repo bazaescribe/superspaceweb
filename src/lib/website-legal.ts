@@ -1,6 +1,6 @@
 import { contactEmail, legalEntityName } from "./site";
 
-export const legalUpdated = "16 October 2026";
+export const legalUpdated = "24 October 2026";
 export const websitePrivacy = [
   {
     title: "Who is responsible",
@@ -35,6 +35,7 @@ export const websitePrivacy = [
     title: "Cookies and measurement",
     paragraphs: [
       "The current website application does not set advertising cookies or load a third-party marketing analytics tracker. Hosting infrastructure may process technical information needed to deliver and secure the website. Your browser and any external services you choose to visit may have their own storage and privacy settings.",
+      "We store your selected language in a first-party preference cookie for up to one year. On an initial visit, we use your browser language and, as a fallback, the approximate country supplied by our hosting provider from your IP address. We do not request precise device location or send your IP address to a separate geolocation service.",
       "If we add analytics, embedded booking, or other tracking technology, we will update this notice and provide any required information and choices before using it.",
     ],
   },

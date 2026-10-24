@@ -1,10 +1,11 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cubeFaces, cubePositions, turnSlice, type Axis } from "./deployment-cube-geometry";
-import styles from "@/app/deployment/deployment.module.css";
+import styles from "@/app/[locale]/deployment/deployment.module.css";
 
 const outline =
   "M37.8687 0.895271L2.01158 21.3851C1.07686 21.9192 0.5 22.9132 0.5 23.9898V64.916C0.5 65.9926 1.07686 66.9866 2.01158 67.5207L37.8687 88.0105C38.791 88.5376 39.9233 88.5376 40.8456 88.0105L76.7027 67.5207C77.6374 66.9866 78.2143 65.9926 78.2143 64.916V23.9898C78.2143 22.9132 77.6374 21.9192 76.7027 21.3851L40.8456 0.89527C39.9233 0.368243 38.791 0.368244 37.8687 0.895271Z";
@@ -150,6 +151,7 @@ export function DeploymentLaunchCard({
   children: React.ReactNode;
   variant: "platform" | "evolving";
 }) {
+  const localizeCopy = useCopy();
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const reduced = !!useReducedMotion();
@@ -164,15 +166,17 @@ export function DeploymentLaunchCard({
       onPointerCancel={() => setHovered(false)}
     >
       <div className={styles.cubeArt} aria-hidden="true">
-        {variant === "platform" ? (
-          <PlatformBuild active={hovered || focused} reduced={reduced} />
-        ) : (
-          <EvolvingCube active={hovered || focused} reduced={reduced} />
+        {localizeCopy(
+          variant === "platform" ? (
+            <PlatformBuild active={hovered || focused} reduced={reduced} />
+          ) : (
+            <EvolvingCube active={hovered || focused} reduced={reduced} />
+          ),
         )}
       </div>
       <div className={styles.launchCopy}>
-        <h3>{title}</h3>
-        <p>{children}</p>
+        <h3>{localizeCopy(title)}</h3>
+        <p>{localizeCopy(children)}</p>
       </div>
     </article>
   );

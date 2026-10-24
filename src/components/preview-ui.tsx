@@ -1,3 +1,4 @@
+import { useCopy } from "@/i18n/copy";
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import styles from "./preview-ui.module.css";
@@ -12,9 +13,10 @@ export function PreviewPanel({
   theme?: "light" | "dark";
   className?: string;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={`${styles.panel} ${className}`} data-preview-theme={theme}>
-      {children}
+      {localizeCopy(children)}
     </div>
   );
 }
@@ -27,11 +29,12 @@ export function PreviewTitle({
   children: ReactNode;
   subtitle?: string;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.title}>
-      {label && <small>{label}</small>}
-      <strong>{children}</strong>
-      {subtitle && <p>{subtitle}</p>}
+      {label && <small>{localizeCopy(label)}</small>}
+      <strong>{localizeCopy(children)}</strong>
+      {subtitle && <p>{localizeCopy(subtitle)}</p>}
     </div>
   );
 }
@@ -44,10 +47,11 @@ export function PreviewField({
   children: ReactNode;
   inline?: boolean;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={`${styles.field} ${inline ? styles.inline : ""}`}>
-      <small>{label}</small>
-      <div>{children}</div>
+      <small>{localizeCopy(label)}</small>
+      <div>{localizeCopy(children)}</div>
     </div>
   );
 }
@@ -60,20 +64,23 @@ export function PreviewTag({
   tone?: PreviewTone;
   dot?: boolean;
 }) {
-  return <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""}`}>{children}</span>;
+  const localizeCopy = useCopy();
+  return <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""}`}>{localizeCopy(children)}</span>;
 }
 export function PreviewAvatar({ initials, color = "#615fff" }: { initials: string; color?: string }) {
+  const localizeCopy = useCopy();
   return (
     <b className={styles.avatar} style={{ "--avatar-color": color } as CSSProperties}>
-      {initials}
+      {localizeCopy(initials)}
     </b>
   );
 }
 export function PreviewPerson({ initials, name, color }: { initials: string; name: string; color?: string }) {
+  const localizeCopy = useCopy();
   return (
     <span className={styles.person}>
       <PreviewAvatar initials={initials} color={color} />
-      {name}
+      {localizeCopy(name)}
     </span>
   );
 }
@@ -104,21 +111,23 @@ export function PreviewRow({
   leading?: ReactNode;
   trailing?: ReactNode;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.row}>
-      {leading}
-      <span className={styles.rowText}>{children}</span>
-      {trailing && <span className={styles.trailing}>{trailing}</span>}
+      {localizeCopy(leading)}
+      <span className={styles.rowText}>{localizeCopy(children)}</span>
+      {trailing && <span className={styles.trailing}>{localizeCopy(trailing)}</span>}
     </div>
   );
 }
 export function PreviewFile({ image, name, size }: { image: string; name: string; size: string }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.file}>
       <Image src={image} width={36} height={36} alt="" />
       <div>
-        <p>{name}</p>
-        <small>{size}</small>
+        <p>{localizeCopy(name)}</p>
+        <small>{localizeCopy(size)}</small>
       </div>
     </div>
   );

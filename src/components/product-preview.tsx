@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import Image from "next/image";
@@ -39,23 +40,27 @@ function Icon({ name, size = 14 }: { name: string; size?: number }) {
   return <Image src={asset(name)} alt="" width={size} height={size} unoptimized />;
 }
 function Avatar({ name, color, large = false }: { name: string; color: string; large?: boolean }) {
+  const localizeCopy = useCopy();
   return (
     <span className={`${styles.avatar} ${large ? styles.largeAvatar : ""}`} style={{ background: color }}>
-      {name}
+      {localizeCopy(name)}
     </span>
   );
 }
 function Tag({ children, tone }: { children: ReactNode; tone?: "green" | "blue" | "yellow" }) {
-  return <span className={`${styles.tag} ${tone ? styles[tone] : ""}`}>{children}</span>;
+  const localizeCopy = useCopy();
+  return <span className={`${styles.tag} ${tone ? styles[tone] : ""}`}>{localizeCopy(children)}</span>;
 }
 function Panel({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
+  const localizeCopy = useCopy();
   return (
     <div className={`${styles.enter} ${className}`} style={{ "--enter-delay": `${delay}ms` } as CSSProperties}>
-      {children}
+      {localizeCopy(children)}
     </div>
   );
 }
 function Activity({ inbox = false }: { inbox?: boolean }) {
+  const localizeCopy = useCopy();
   const entries = inbox
     ? [
         "Adriana Valverde released the service",
@@ -75,7 +80,8 @@ function Activity({ inbox = false }: { inbox?: boolean }) {
   return (
     <section className={styles.activity}>
       <h3>
-        Activity <span className={styles.smallCircle}>⌄</span>
+        {localizeCopy("Activity ")}
+        <span className={styles.smallCircle}>{"⌄"}</span>
       </h3>
       <ol>
         {entries.map((text, i) => (
@@ -84,8 +90,8 @@ function Activity({ inbox = false }: { inbox?: boolean }) {
               className={styles.activityDot}
               style={{ color: i === 0 && inbox ? colors[4] : i === 2 && inbox ? colors[2] : colors[1] }}
             />
-            <span>{text}</span>
-            <time>{i === 0 ? "08 Oct, 07:12" : "05 Oct, 08:14"}</time>
+            <span>{localizeCopy(text)}</span>
+            <time>{localizeCopy(i === 0 ? "08 Oct, 07:12" : "05 Oct, 08:14")}</time>
           </li>
         ))}
       </ol>
@@ -93,12 +99,13 @@ function Activity({ inbox = false }: { inbox?: boolean }) {
   );
 }
 function FieldList({ fields }: { fields: [string, ReactNode][] }) {
+  const localizeCopy = useCopy();
   return (
     <dl className={styles.fields}>
       {fields.map(([label, value], i) => (
         <div key={label + i}>
-          <dt>{label}</dt>
-          <dd>{value}</dd>
+          <dt>{localizeCopy(label)}</dt>
+          <dd>{localizeCopy(value)}</dd>
         </div>
       ))}
     </dl>
@@ -106,18 +113,19 @@ function FieldList({ fields }: { fields: [string, ReactNode][] }) {
 }
 
 function ProductRail({ screen, navigate }: { screen: Screen; navigate: (screen: Screen) => void }) {
+  const localizeCopy = useCopy();
   return (
-    <nav className={styles.rail} aria-label="Product preview navigation">
+    <nav className={styles.rail} aria-label={localizeCopy("Product preview navigation")}>
       <div>
-        <Image src={asset("cf221.png")} alt="Aliada" width={30} height={30} />
+        <Image src={asset("cf221.png")} alt={localizeCopy("Aliada")} width={30} height={30} />
         <Icon name="26628.svg" size={36} />
         {screens.map((name, i) => (
           <button
             type="button"
             key={name}
-            aria-label={`Show ${name} screen`}
+            aria-label={localizeCopy("Show screen") + ": " + localizeCopy(name)}
             aria-pressed={screen === name}
-            title={name}
+            title={localizeCopy(name)}
             onClick={() => navigate(name)}
           >
             <Icon name={["89179.svg", "fe362.svg", "8b96a.svg"][i]} />
@@ -129,13 +137,20 @@ function ProductRail({ screen, navigate }: { screen: Screen; navigate: (screen: 
       </div>
       <div>
         <Icon name="d7e0c.svg" />
-        <Image className={styles.userPhoto} src={asset("0320b.png")} alt="Jane" width={30} height={30} />
+        <Image
+          className={styles.userPhoto}
+          src={asset("0320b.png")}
+          alt={localizeCopy("Jane")}
+          width={30}
+          height={30}
+        />
       </div>
     </nav>
   );
 }
 
 function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
+  const localizeCopy = useCopy();
   const stacks = [
     [0, 0, 0, 0, 21],
     [0, 0, 0, 0, 48],
@@ -154,11 +169,11 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
     <div className={styles.home}>
       <div className={styles.dashboard}>
         <Panel>
-          <h2>Good afternoon, Jane!</h2>
-          <p className={styles.subtitle}>Here’s how your operations are looking today.</p>
+          <h2>{localizeCopy("Good afternoon, Jane!")}</h2>
+          <p className={styles.subtitle}>{localizeCopy("Here’s how your operations are looking today.")}</p>
         </Panel>
         <Panel delay={70}>
-          <h3>Today</h3>
+          <h3>{localizeCopy("Today")}</h3>
           <div className={styles.metrics}>
             {[
               ["848", "Total services", "white"],
@@ -166,15 +181,15 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
               ["90.8%", "Expected cover rate", colors[1]],
             ].map(([value, label, color]) => (
               <div key={label}>
-                <strong style={{ color }}>{value}</strong>
-                <span>{label}</span>
+                <strong style={{ color }}>{localizeCopy(value)}</strong>
+                <span>{localizeCopy(label)}</span>
               </div>
             ))}
           </div>
         </Panel>
         <Panel delay={120}>
           <ServiceProgress
-            title="Started services"
+            title={localizeCopy("Started services")}
             segments={[
               ["Completed 198", 198, colors[0]],
               ["In progress 187", 187, colors[1]],
@@ -183,7 +198,7 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
         </Panel>
         <Panel delay={170}>
           <ServiceProgress
-            title="Not started services"
+            title={localizeCopy("Not started services")}
             segments={[
               ["Assigned 302", 302, colors[2]],
               ["Unassigned 83", 83, colors[3]],
@@ -192,19 +207,21 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
           />
         </Panel>
         <Panel delay={220}>
-          <h3>Hourly services status</h3>
+          <h3>{localizeCopy("Hourly services status")}</h3>
           <div className={styles.legend}>
             {["Completed", "Started", "Assigned", "Unassigned", "Canceled"].map((label, i) => (
               <span key={label}>
                 <i style={{ background: colors[i] }} />
-                {label}
+                {localizeCopy(label)}
               </span>
             ))}
           </div>
           <div
             className={styles.chart}
             role="img"
-            aria-label="Hourly service status from 7 AM to 6 PM, showing completed, started, assigned, unassigned and canceled services."
+            aria-label={localizeCopy(
+              "Hourly service status from 7 AM to 6 PM, showing completed, started, assigned, unassigned and canceled services.",
+            )}
           >
             {stacks.map((values, i) => {
               const v = [...values];
@@ -223,32 +240,34 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
                       (j) => v[j] > 0 && <span key={j} style={{ flex: v[j], background: colors[j] }} />,
                     )}
                   </div>
-                  <span className={styles.hour}>{i === 7 ? "NOW" : `${i + 7}:00`}</span>
+                  <span className={styles.hour}>{localizeCopy(i === 7 ? "NOW" : `${i + 7}:00`)}</span>
                 </div>
               );
             })}
           </div>
         </Panel>
         <Panel delay={360}>
-          <h3>Yearly cover rate</h3>
+          <h3>{localizeCopy("Yearly cover rate")}</h3>
           <div className={styles.legend}>
             {[">95%", ">90%", ">80%", "Less than 80%", "Today"].map((text, i) => (
               <span key={text}>
                 <i style={{ background: colors[i] }} />
-                {text}
+                {localizeCopy(text)}
               </span>
             ))}
           </div>
           <div className={styles.heatmap} aria-hidden="true">
-            {Array.from({ length: 182 }, (_, i) => (
-              <span key={i} style={{ background: i < 80 ? colors[(i * 7 + (i % 3)) % 5] : undefined }} />
-            ))}
+            {localizeCopy(
+              Array.from({ length: 182 }, (_, i) => (
+                <span key={i} style={{ background: i < 80 ? colors[(i * 7 + (i % 3)) % 5] : undefined }} />
+              )),
+            )}
           </div>
         </Panel>
       </div>
       <aside className={styles.quickActions}>
         <Panel delay={120}>
-          <p className={styles.smallLabel}>Quick Actions</p>
+          <p className={styles.smallLabel}>{localizeCopy("Quick Actions")}</p>
           <div className={styles.actionGrid}>
             {[
               ["View unassigned services", colors[3], "a5ffe.svg", "Inbox"],
@@ -266,7 +285,7 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
                 onClick={() => navigate(destination as Screen)}
               >
                 <Icon name={icon} />
-                <span>{label}</span>
+                <span>{localizeCopy(label)}</span>
               </button>
             ))}
             <div className={styles.addAction}>
@@ -275,7 +294,7 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
           </div>
         </Panel>
         <Panel delay={200}>
-          <p className={styles.smallLabel}>Inbox</p>
+          <p className={styles.smallLabel}>{localizeCopy("Inbox")}</p>
           <div className={styles.agentList}>
             {[
               ["Assignations Agent", "The service #89123 is not being taken...", "e0afc.svg", "4m"],
@@ -285,16 +304,18 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
               ["Growth Agent", "The cover rate is steady all across...", "a0182.svg", "1d"],
             ].map(([name, text, icon, time], i) => (
               <button type="button" onClick={() => navigate("Inbox")} key={name}>
-                {icon.endsWith("svg") ? (
-                  <Icon name={icon} size={30} />
-                ) : (
-                  <Avatar name={icon} color={i === 1 ? "#7ccf00" : colors[3]} />
+                {localizeCopy(
+                  icon.endsWith("svg") ? (
+                    <Icon name={icon} size={30} />
+                  ) : (
+                    <Avatar name={icon} color={i === 1 ? "#7ccf00" : colors[3]} />
+                  ),
                 )}
                 <span>
-                  <span>{name}</span>
-                  <span className={styles.subtitle}>{text}</span>
+                  <span>{localizeCopy(name)}</span>
+                  <span className={styles.subtitle}>{localizeCopy(text)}</span>
                 </span>
-                <time>{time}</time>
+                <time>{localizeCopy(time)}</time>
               </button>
             ))}
           </div>
@@ -304,17 +325,18 @@ function HomeScreen({ navigate }: { navigate: (screen: Screen) => void }) {
   );
 }
 function ServiceProgress({ title, segments }: { title: string; segments: [string, number, string][] }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.progress}>
       <h3>
-        {title}
-        <span>385</span>
+        {localizeCopy(title)}
+        <span>{"385"}</span>
       </h3>
       <div>
         {segments.map(([label, value, color]) => (
           <div style={{ flex: value }} key={label}>
             <i style={{ background: color }} />
-            <span>{label}</span>
+            <span>{localizeCopy(label)}</span>
           </div>
         ))}
       </div>
@@ -323,16 +345,18 @@ function ServiceProgress({ title, segments }: { title: string; segments: [string
 }
 
 function InboxScreen() {
+  const localizeCopy = useCopy();
   const [selected, setSelected] = useState(1);
   return (
     <div className={styles.inbox}>
       <div className={styles.inboxTabs}>
         <span>
-          To Do <Tag>6</Tag>
+          {localizeCopy("To Do ")}
+          <Tag>{"6"}</Tag>
         </span>
-        <span className={styles.muted}>Done</span>
+        <span className={styles.muted}>{localizeCopy("Done")}</span>
       </div>
-      <aside className={styles.taskList} aria-label="Inbox items">
+      <aside className={styles.taskList} aria-label={localizeCopy("Inbox items")}>
         {tasks.map(([title, text, tag, time], i) => (
           <button
             type="button"
@@ -342,70 +366,72 @@ function InboxScreen() {
             className={styles.enter}
             style={{ "--enter-delay": `${80 + i * 35}ms` } as CSSProperties}
           >
-            <span>{title}</span>
-            <time>{time}</time>
-            <p>{text}</p>
-            <Tag>{tag}</Tag>
-            {i === 0 && <Tag tone="yellow">Urgent</Tag>}
+            <span>{localizeCopy(title)}</span>
+            <time>{localizeCopy(time)}</time>
+            <p>{localizeCopy(text)}</p>
+            <Tag>{localizeCopy(tag)}</Tag>
+            {i === 0 && <Tag tone="yellow">{localizeCopy("Urgent")}</Tag>}
           </button>
         ))}
       </aside>
       <div key={selected} className={styles.taskDetail}>
         <Panel>
-          <h2>{selected === 1 ? "Assign an operator" : tasks[selected][0]}</h2>
+          <h2>{localizeCopy(selected === 1 ? "Assign an operator" : tasks[selected][0])}</h2>
           <p className={styles.subtitle}>
-            {selected === 1 ? "#SRV-1082" : selected === 0 ? "#INV-2048" : tasks[selected][2]}
+            {localizeCopy(selected === 1 ? "#SRV-1082" : selected === 0 ? "#INV-2048" : tasks[selected][2])}
           </p>
         </Panel>
         <Panel delay={70}>
           <p className={styles.info}>
-            {selected === 1
-              ? "This service is scheduled for tomorrow and needs an operator before it can proceed."
-              : tasks[selected][1]}
+            {localizeCopy(
+              selected === 1
+                ? "This service is scheduled for tomorrow and needs an operator before it can proceed."
+                : tasks[selected][1],
+            )}
           </p>
         </Panel>
         <Panel delay={120}>
           <div className={styles.detailColumns}>
             <section>
-              <h3>Service Details</h3>
+              <h3>{localizeCopy("Service Details")}</h3>
               <FieldList
                 fields={[
-                  ["Date", <Tag key="date">May 23rd, 2027</Tag>],
-                  ["Hour", <Tag key="hour">7:00 AM</Tag>],
-                  ["Duration", <Tag key="duration">4h</Tag>],
+                  ["Date", <Tag key="date">{localizeCopy("May 23rd, 2027")}</Tag>],
+                  ["Hour", <Tag key="hour">{localizeCopy("7:00 AM")}</Tag>],
+                  ["Duration", <Tag key="duration">{localizeCopy("4h")}</Tag>],
                   [
                     "Status",
                     <Tag key="status" tone="yellow">
-                      Unassigned
+                      {localizeCopy("Unassigned")}
                     </Tag>,
                   ],
                   [
                     "Payout",
                     <span key="payout">
-                      <Tag>$578</Tag> <Tag tone="yellow">+10% Applied</Tag>
+                      <Tag>{"$578"}</Tag> <Tag tone="yellow">{localizeCopy("+10% Applied")}</Tag>
                     </span>,
                   ],
                 ]}
               />
             </section>
             <section>
-              <h3>Client Details</h3>
+              <h3>{localizeCopy("Client Details")}</h3>
               <FieldList
                 fields={[
                   [
                     "Client",
                     <Tag key="client">
-                      <Image src={asset("67e82.png")} alt="" width={16} height={16} /> ACME Inc.
+                      <Image src={asset("67e82.png")} alt="" width={16} height={16} /> {localizeCopy(" ACME Inc.")}
                     </Tag>,
                   ],
                   [
                     "Priority",
                     <Tag key="priority" tone="blue">
-                      VIP
+                      {localizeCopy("VIP")}
                     </Tag>,
                   ],
-                  ["Zone", <Tag key="zone">Puebla 2043, Int 401</Tag>],
-                  ["Zone", <Tag key="zone2">Roma Norte</Tag>],
+                  ["Zone", <Tag key="zone">{localizeCopy("Puebla 2043, Int 401")}</Tag>],
+                  ["Zone", <Tag key="zone2">{localizeCopy("Roma Norte")}</Tag>],
                 ]}
               />
             </section>
@@ -413,9 +439,10 @@ function InboxScreen() {
         </Panel>
         <Panel delay={170}>
           <h3 className={styles.rowHeading}>
-            Operator assigned <span className={styles.smallCircle}>+</span>
+            {localizeCopy("Operator assigned ")}
+            <span className={styles.smallCircle}>{"+"}</span>
           </h3>
-          <p className={styles.empty}>No operator assigned</p>
+          <p className={styles.empty}>{localizeCopy("No operator assigned")}</p>
         </Panel>
         <Panel delay={220}>
           <Activity inbox />
@@ -425,18 +452,20 @@ function InboxScreen() {
   );
 }
 function DataScreen() {
+  const localizeCopy = useCopy();
   const [selected, setSelected] = useState(0);
   const [query, setQuery] = useState("");
   const person = people[selected];
   return (
     <div className={styles.data}>
       <div className={styles.dataTabs}>
-        <span className={styles.selectedTab}>Customers</span>
+        <span className={styles.selectedTab}>{localizeCopy("Customers")}</span>
         <span>
-          Requests <Tag>12</Tag>
+          {localizeCopy("Requests ")}
+          <Tag>{"12"}</Tag>
         </span>
-        <span>Invoices</span>
-        <span>Aliadas</span>
+        <span>{localizeCopy("Invoices ")}</span>
+        <span>{localizeCopy("Aliadas")}</span>
       </div>
       <div className={styles.toolbar}>
         <label>
@@ -444,25 +473,27 @@ function DataScreen() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search clients"
-            aria-label="Search preview clients"
+            placeholder={localizeCopy("Search clients")}
+            aria-label={localizeCopy("Search preview clients")}
           />
         </label>
         <span>
-          Filter <Icon name="820f7.svg" />
+          {localizeCopy("Filter ")}
+          <Icon name="820f7.svg" />
         </span>
         <span>
-          Newest <Icon name="1426b.svg" />
+          {localizeCopy("Newest ")}
+          <Icon name="1426b.svg" />
         </span>
         <div className={styles.viewControls}>
           <Icon name="7d564.svg" />
           <Icon name="61d9e.svg" />
           <Icon name="3f872.svg" />
-          <span>Options ⌄</span>
-          <span className={styles.newRecord}>NEW +</span>
+          <span>{localizeCopy("Options ⌄")}</span>
+          <span className={styles.newRecord}>{localizeCopy("NEW +")}</span>
         </div>
       </div>
-      <aside className={styles.peopleList} aria-label="Clients">
+      <aside className={styles.peopleList} aria-label={localizeCopy("Clients")}>
         {people.map(
           ([name, email, initials, color], i) =>
             (name.toLowerCase().includes(query.toLowerCase()) || email.includes(query.toLowerCase())) && (
@@ -476,8 +507,11 @@ function DataScreen() {
               >
                 <Avatar name={initials} color={color} />
                 <span>
-                  <span>{name}</span>
-                  <span className={styles.subtitle}>{email}@acme.com</span>
+                  <span>{localizeCopy(name)}</span>
+                  <span className={styles.subtitle}>
+                    {localizeCopy(email)}
+                    {localizeCopy("@acme.com")}
+                  </span>
                 </span>
                 {selected === i && <Icon name="ac021.svg" />}
               </button>
@@ -486,29 +520,33 @@ function DataScreen() {
         {query &&
           !people.some(
             (p) => p[0].toLowerCase().includes(query.toLowerCase()) || p[1].includes(query.toLowerCase()),
-          ) && <p className={styles.subtitle}>No matching clients.</p>}
+          ) && <p className={styles.subtitle}>{localizeCopy("No matching clients.")}</p>}
       </aside>
       <div className={styles.customerDetail} key={selected}>
         <Panel>
           <div className={styles.identity}>
             <Avatar name={person[2]} color={person[3]} large />
             <div>
-              <h2>{person[0]}</h2>
-              <p className={styles.subtitle}>{person[1]}@acme.com</p>
+              <h2>{localizeCopy(person[0])}</h2>
+              <p className={styles.subtitle}>
+                {localizeCopy(person[1])}
+                {localizeCopy("@acme.com")}
+              </p>
             </div>
           </div>
           <div className={styles.recordActions}>
             <span>
-              <Icon name="49201.svg" /> EDIT
+              <Icon name="49201.svg" /> {localizeCopy(" EDIT")}
             </span>
             <span>
-              <Icon name="c9125.svg" /> COPY URL
+              <Icon name="c9125.svg" /> {localizeCopy(" COPY URL")}
             </span>
           </div>
         </Panel>
         <Panel delay={100}>
           <h3 className={styles.rowHeading}>
-            Requests <span className={styles.smallCircle}>+</span>
+            {localizeCopy("Requests ")}
+            <span className={styles.smallCircle}>{"+"}</span>
           </h3>
           <table className={styles.requests}>
             <tbody>
@@ -520,31 +558,33 @@ function DataScreen() {
                 ["Desinfección de clínica", "Roma, Córdoba 85", "4h", "18:00", "Completed"],
               ].map(([work, address, duration, time, status]) => (
                 <tr key={work}>
-                  <td>{work}</td>
-                  <td>{address}</td>
-                  <td>{duration}</td>
+                  <td>{localizeCopy(work)}</td>
+                  <td>{localizeCopy(address)}</td>
+                  <td>{localizeCopy(duration)}</td>
                   <td>
-                    <Tag>{time}</Tag>
+                    <Tag>{localizeCopy(time)}</Tag>
                   </td>
                   <td>
                     <Tag tone={status === "Completed" ? "green" : status === "Assigned" ? "blue" : "yellow"}>
-                      {status}
+                      {localizeCopy(status)}
                     </Tag>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <p className={styles.moreRequests}>329 more requests ↗</p>
+          <p className={styles.moreRequests}>{localizeCopy("329 more requests ↗")}</p>
         </Panel>
         <Panel delay={150}>
           <h3 className={styles.rowHeading}>
-            Invoices <span className={styles.smallCircle}>+</span>
+            {localizeCopy("Invoices")}
+            <span className={styles.smallCircle}>{"+"}</span>
           </h3>
         </Panel>
         <Panel delay={180}>
           <h3 className={styles.rowHeading}>
-            Comments <span className={styles.smallCircle}>+</span>
+            {localizeCopy("Comments ")}
+            <span className={styles.smallCircle}>{"+"}</span>
           </h3>
         </Panel>
         <Panel delay={220}>
@@ -553,29 +593,35 @@ function DataScreen() {
       </div>
       <aside className={styles.customerFields}>
         <Panel delay={160}>
-          <p className={styles.smallLabel}>Customer details</p>
+          <p className={styles.smallLabel}>{localizeCopy("Customer details")}</p>
           <FieldList
             fields={[
-              ["ID", <Tag key="id">0130239138</Tag>],
-              ["Email", <Tag key="email">{person[1]}@acme.com</Tag>],
-              ["Phone", <Tag key="phone">+52 1234 2345</Tag>],
+              ["ID", <Tag key="id">{"0130239138"}</Tag>],
+              [
+                "Email",
+                <Tag key="email">
+                  {localizeCopy(person[1])}
+                  {localizeCopy("@acme.com")}
+                </Tag>,
+              ],
+              ["Phone", <Tag key="phone">{"+52 1234 2345"}</Tag>],
               [
                 "Status",
                 <Tag key="status" tone="green">
-                  Active
+                  {localizeCopy("Active")}
                 </Tag>,
               ],
               [
                 "Priority",
                 <Tag key="priority" tone="blue">
-                  VIP
+                  {localizeCopy("VIP")}
                 </Tag>,
               ],
             ]}
           />
-          <p className={styles.smallLabel}>Company</p>
+          <p className={styles.smallLabel}>{localizeCopy("Company")}</p>
           <Tag>
-            <Image src={asset("67e82.png")} alt="" width={16} height={16} /> ACME Inc.
+            <Image src={asset("67e82.png")} alt="" width={16} height={16} /> {localizeCopy(" ACME Inc.")}
           </Tag>
         </Panel>
       </aside>
@@ -584,6 +630,7 @@ function DataScreen() {
 }
 
 export function ProductPreview() {
+  const localizeCopy = useCopy();
   const [screen, setScreen] = useState<Screen>("Home");
   const wrapper = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1280 / 1512);
@@ -601,10 +648,10 @@ export function ProductPreview() {
   };
   return (
     <div className={styles.preview}>
-      <div className={styles.mobileTabs} role="group" aria-label="Product screens">
+      <div className={styles.mobileTabs} role="group" aria-label={localizeCopy("Product screens")}>
         {screens.map((name) => (
           <button type="button" aria-pressed={screen === name} onClick={() => navigate(name)} key={name}>
-            {name}
+            {localizeCopy(name)}
           </button>
         ))}
       </div>
@@ -613,14 +660,14 @@ export function ProductPreview() {
         ref={wrapper}
         tabIndex={0}
         role="region"
-        aria-label={`${screen} product preview`}
+        aria-label={localizeCopy("Product preview") + ": " + localizeCopy(screen)}
       >
         <div className={styles.scaledSpace} style={{ width: 1512 * scale, height: 982 * scale }}>
           <div className={styles.canvas} style={{ transform: `scale(${scale})` }}>
             <ProductRail screen={screen} navigate={navigate} />
             {screen !== "Data" && (
               <div className={styles.topbar}>
-                {screen}
+                {localizeCopy(screen)}
                 <Icon name="77887.svg" size={16} />
               </div>
             )}
@@ -632,12 +679,14 @@ export function ProductPreview() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.35, ease: motionEase }}
             >
-              {screen === "Home" ? (
-                <HomeScreen navigate={navigate} />
-              ) : screen === "Inbox" ? (
-                <InboxScreen />
-              ) : (
-                <DataScreen />
+              {localizeCopy(
+                screen === "Home" ? (
+                  <HomeScreen navigate={navigate} />
+                ) : screen === "Inbox" ? (
+                  <InboxScreen />
+                ) : (
+                  <DataScreen />
+                ),
               )}
             </motion.div>
           </div>
