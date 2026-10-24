@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
@@ -13,10 +14,11 @@ function Asset({ file, width = 20, height = width }: { file: string; width?: num
   return <Image src={`${assets}${file}`} width={width} height={height} alt="" />;
 }
 function Bar({ children, code = false }: { children: ReactNode; code?: boolean }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.bar}>
-      <span>{children}</span>
-      {code ? <Asset file="3d03b.svg" width={16} /> : <span aria-hidden="true">···</span>}
+      <span>{localizeCopy(children)}</span>
+      {localizeCopy(code ? <Asset file="3d03b.svg" width={16} /> : <span aria-hidden="true">{"···"}</span>)}
     </div>
   );
 }
@@ -33,9 +35,10 @@ function Stage({
   stageRef: React.RefObject<HTMLDivElement | null>;
   label: string;
 }) {
+  const localizeCopy = useCopy();
   return (
     <PreviewStage background={background} stageRef={stageRef} entered={entered} label={label} className={styles.stage}>
-      <div className={styles.composition}>{children}</div>
+      <div className={styles.composition}>{localizeCopy(children)}</div>
     </PreviewStage>
   );
 }
@@ -52,6 +55,7 @@ function Swipe({
   children: ReactNode;
   delay?: number;
 }) {
+  const localizeCopy = useCopy();
   return (
     <motion.div
       className={className}
@@ -63,7 +67,7 @@ function Swipe({
       }}
       transition={{ duration: reduced ? 0 : 0.38, delay: reduced ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
     >
-      {children}
+      {localizeCopy(children)}
     </motion.div>
   );
 }
@@ -78,6 +82,7 @@ function FastText({
   reduced: boolean;
   className?: string;
 }) {
+  const localizeCopy = useCopy();
   const [length, setLength] = useState(0);
   useEffect(() => {
     if (!started || reduced) return;
@@ -91,8 +96,8 @@ function FastText({
   }, [started, reduced, text]);
   return (
     <span className={className}>
-      <span className={styles.srOnly}>{text}</span>
-      <span aria-hidden="true">{reduced ? text : text.slice(0, length)}</span>
+      <span className={styles.srOnly}>{localizeCopy(text)}</span>
+      <span aria-hidden="true">{localizeCopy(reduced ? text : text.slice(0, length))}</span>
     </span>
   );
 }
@@ -186,6 +191,7 @@ function Code({
   reduced: boolean;
   exportCode?: boolean;
 }) {
+  const localizeCopy = useCopy();
   const [length, setLength] = useState(0);
   useEffect(() => {
     if (!started || reduced) return;
@@ -199,14 +205,14 @@ function Code({
   }, [started, reduced, text]);
   const visible = reduced ? text : text.slice(0, length);
   return (
-    <pre className={`${styles.code} ${exportCode ? styles.exportCode : ""}`} aria-label="JSON preview">
+    <pre className={`${styles.code} ${exportCode ? styles.exportCode : ""}`} aria-label={localizeCopy("JSON preview")}>
       <code>
         {visible.split(/("(?:[^"\\]|\\.)*"\s*:|"(?:[^"\\]|\\.)*"|\btrue\b|\bfalse\b|\bnull\b)/g).map((token, i) => (
           <span
             key={i}
             className={token.endsWith(":") ? styles.key : token.startsWith('"') ? styles.string : undefined}
           >
-            {token}
+            {localizeCopy(token)}
           </span>
         ))}
       </code>
@@ -214,42 +220,44 @@ function Code({
   );
 }
 export function PlatformLogicPreview() {
+  const localizeCopy = useCopy();
   const { ref, entered, reducedMotion } = useScrollEntrance();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Purple.png"
-      label="Business requirements translated into a declarative model"
+      label={localizeCopy("Business requirements translated into a declarative model")}
     >
       <Swipe entered={entered} reduced={reducedMotion} className={styles.logicCode} delay={0.08}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar code>delivery-assignment.json</Bar>
+          <Bar code>{localizeCopy("delivery-assignment.json")}</Bar>
           <Code text={model} started={entered} reduced={reducedMotion} />
         </PreviewPanel>
       </Swipe>
       <Swipe entered={entered} reduced={reducedMotion} className={styles.logicDoc}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Acme / Docs / </span>Delivery Assignment
+            <span className={styles.muted}>{localizeCopy("Acme / Docs / ")}</span>
+            {localizeCopy("Delivery Assignment")}
           </Bar>
           <div className={styles.document}>
-            <h3>Delivery Assignment</h3>
+            <h3>{localizeCopy("Delivery Assignment")}</h3>
             <div className={styles.metadata}>
               <div>
-                <small>Owner</small>
+                <small>{localizeCopy("Owner")}</small>
                 <PreviewPerson initials="CE" name="Carolina Enríquez" color="#ffa700" />
               </div>
               <div>
-                <small>Last edit</small>
-                <PreviewTag>3d ago</PreviewTag>
+                <small>{localizeCopy("Last edit")}</small>
+                <PreviewTag>{localizeCopy("3d ago")}</PreviewTag>
               </div>
               <div>
-                <small>Version</small>
-                <PreviewTag>4.3</PreviewTag>
+                <small>{localizeCopy("Version")}</small>
+                <PreviewTag>{"4.3"}</PreviewTag>
               </div>
             </div>
-            <h4>Overview</h4>
+            <h4>{localizeCopy("Overview")}</h4>
             <p>
               <FastText
                 text="Every delivery belongs to an order and must be assigned to an available driver before it can begin."
@@ -257,7 +265,7 @@ export function PlatformLogicPreview() {
                 reduced={reducedMotion}
               />
             </p>
-            <h4>Assignment rules</h4>
+            <h4>{localizeCopy("Assignment rules")}</h4>
             <ul>
               {[
                 "Only users with the Dispatcher role can assign drivers.",
@@ -271,12 +279,12 @@ export function PlatformLogicPreview() {
                 </li>
               ))}
             </ul>
-            <h4>When a driver is assigned</h4>
+            <h4>{localizeCopy("When a driver is assigned")}</h4>
             <ul>
-              <li>The driver is linked to the delivery.</li>
-              <li>The delivery status changes from Pending to Assigned.</li>
-              <li>The assignment timestamp is recorded.</li>
-              <li>The delivery remains linked to its original order.</li>
+              <li>{localizeCopy("The driver is linked to the delivery.")}</li>
+              <li>{localizeCopy("The delivery status changes from Pending to Assigned.")}</li>
+              <li>{localizeCopy("The assignment timestamp is recorded.")}</li>
+              <li>{localizeCopy("The delivery remains linked to its original order.")}</li>
             </ul>
           </div>
         </PreviewPanel>
@@ -291,6 +299,7 @@ const steps = [
   "Preparing the assignment action",
 ];
 export function PlatformAgentPreview() {
+  const localizeCopy = useCopy();
   const { ref, entered, reducedMotion } = useScrollEntrance();
   const [time, setTime] = useState(0);
   const [manualAssigned, setManualAssigned] = useState(false);
@@ -324,11 +333,11 @@ export function PlatformAgentPreview() {
       stageRef={ref}
       entered={entered}
       background="Cover Banana Terracota.png"
-      label="Agent configures a delivery assignment action, then a dispatcher assigns a driver"
+      label={localizeCopy("Agent configures a delivery assignment action, then a dispatcher assigns a driver")}
     >
       <Swipe entered={entered} reduced={reducedMotion} className={styles.agent}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar>System Configuration Agent</Bar>
+          <Bar>{localizeCopy("System Configuration Agent")}</Bar>
           <div className={styles.agentBody}>
             <motion.div
               className={styles.prompt}
@@ -336,24 +345,27 @@ export function PlatformAgentPreview() {
               animate={{ opacity: elapsed >= 450 ? 1 : 0, y: elapsed >= 450 ? 0 : 90 }}
               transition={{ duration: reducedMotion ? 0 : 0.5 }}
             >
-              Help me assign deliveries to drivers. Only dispatchers should be able to do this, and drivers must be
-              available in the same service zone.
+              {localizeCopy(
+                "Help me assign deliveries to drivers. Only dispatchers should be able to do this, and drivers must be available in the same service zone.",
+              )}
             </motion.div>
             <div className={styles.response} style={{ opacity: elapsed >= 1200 ? 1 : 0 }}>
-              <small>{ready ? "Operational change ready" : "Preparing an operational change…"}</small>
+              <small>{localizeCopy(ready ? "Operational change ready" : "Preparing an operational change…")}</small>
               {steps.map((step, i) => {
                 const active = elapsed >= 1400 + i * 1000;
                 const complete = elapsed >= 2400 + i * 1000;
                 return (
                   <div className={`${styles.step} ${!active ? styles.pending : ""}`} key={step}>
-                    {complete ? (
-                      <PreviewIcon file="cfc20" />
-                    ) : active ? (
-                      <PreviewSpinner file="94283" />
-                    ) : (
-                      <Asset file="67a10.svg" />
+                    {localizeCopy(
+                      complete ? (
+                        <PreviewIcon file="cfc20" />
+                      ) : active ? (
+                        <PreviewSpinner file="94283" />
+                      ) : (
+                        <Asset file="67a10.svg" />
+                      ),
                     )}
-                    <span>{step}</span>
+                    <span>{localizeCopy(step)}</span>
                   </div>
                 );
               })}
@@ -362,12 +374,13 @@ export function PlatformAgentPreview() {
                 animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 6 }}
                 transition={{ duration: reducedMotion ? 0 : 0.25 }}
               >
-                The assignment action is ready. Dispatchers can now assign an available driver in the same service zone
-                to an unassigned delivery. Existing permissions and business rules remain in effect.
+                {localizeCopy(
+                  "The assignment action is ready. Dispatchers can now assign an available driver in the same service zone to an unassigned delivery. Existing permissions and business rules remain in effect.",
+                )}
               </motion.p>
             </div>
             <div className={styles.composer}>
-              <span>Ask or describe changes to your business model.</span>
+              <span>{localizeCopy("Ask or describe changes to your business model.")}</span>
               <div>
                 <Asset file="f76a5.svg" width={16} />
                 <span className={styles.composerActions}>
@@ -382,36 +395,37 @@ export function PlatformAgentPreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.order} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Orders / </span>Order Detail
+            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
+            {localizeCopy("Order Detail")}
           </Bar>
           <div className={styles.orderBody}>
-            <h3>Order #1042</h3>
-            <small>Customer</small>
+            <h3>{localizeCopy("Order #1042")}</h3>
+            <small>{localizeCopy("Customer")}</small>
             <PreviewPerson initials="SR" name="Sofía Ramírez" color="#2980ff" />
             <div className={styles.route}>
-              <small>Route</small>
+              <small>{localizeCopy("Route")}</small>
               <p>
                 <Asset file="b836a.svg" width={16} />
-                Milwaukee 5011, Int. 2. Nápoles. Benito Juárez. Ciudad de México
+                {localizeCopy("Milwaukee 5011, Int. 2. Nápoles. Benito Juárez. Ciudad de México")}
               </p>
               <Asset file="d9782.svg" width={16} height={8} />
               <p>
                 <Asset file="b5d91.svg" width={16} />
-                Porfirio Díaz 23, Int. 102. Del Valle Sur. Benito Juárez. Ciudad de México
+                {localizeCopy("Porfirio Díaz 23, Int. 102. Del Valle Sur. Benito Juárez. Ciudad de México")}
               </p>
             </div>
             <div className={styles.metadata}>
               <div>
-                <small>Payout</small>
-                <PreviewTag>$12.04</PreviewTag>
+                <small>{localizeCopy("Payout")}</small>
+                <PreviewTag>{"$12.04"}</PreviewTag>
               </div>
               <div>
-                <small>Distance</small>
-                <PreviewTag>2.5 km</PreviewTag>
+                <small>{localizeCopy("Distance")}</small>
+                <PreviewTag>{localizeCopy("2.5 km")}</PreviewTag>
               </div>
               <div>
-                <small>Expected time</small>
-                <PreviewTag>8 min</PreviewTag>
+                <small>{localizeCopy("Expected time")}</small>
+                <PreviewTag>{localizeCopy("8 min")}</PreviewTag>
               </div>
             </div>
             <AnimatePresence>
@@ -423,53 +437,55 @@ export function PlatformAgentPreview() {
                   animate={{ opacity: 1, height: "auto" }}
                   transition={{ duration: reducedMotion ? 0 : 0.35 }}
                 >
-                  <small>Assigned driver</small>
+                  <small>{localizeCopy("Assigned driver")}</small>
                   <AnimatePresence mode="wait" initial={false}>
-                    {assigned ? (
-                      <motion.div
-                        key="driver"
-                        className={styles.driver}
-                        initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: reducedMotion ? 0 : 0.3 }}
-                      >
-                        <div>
-                          <PreviewAvatar initials="ML" color="#7263dd" />
+                    {localizeCopy(
+                      assigned ? (
+                        <motion.div
+                          key="driver"
+                          className={styles.driver}
+                          initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: reducedMotion ? 0 : 0.3 }}
+                        >
                           <div>
-                            <strong>María López</strong>
-                            <small>m.lopez.03@acme.com.mx</small>
+                            <PreviewAvatar initials="ML" color="#7263dd" />
+                            <div>
+                              <strong>{localizeCopy("María López")}</strong>
+                              <small>{localizeCopy("m.lopez.03@acme.com.mx")}</small>
+                            </div>
                           </div>
-                        </div>
-                        <div className={styles.tags}>
-                          <PreviewTag tone="green" dot>
-                            Active
-                          </PreviewTag>
-                          <PreviewTag tone="green" dot>
-                            Available
-                          </PreviewTag>
-                          <PreviewTag>Zone 03</PreviewTag>
-                        </div>
-                      </motion.div>
-                    ) : (
-                      <motion.button
-                        key="empty"
-                        type="button"
-                        className={styles.assignButton}
-                        aria-label="Assign María López to this delivery"
-                        onClick={() => setManualAssigned(true)}
-                        initial={{ opacity: 0 }}
-                        animate={{
-                          opacity: 1,
-                          scale: elapsed >= 7500 ? 0.97 : 1,
-                          backgroundColor: elapsed >= 6800 ? "#ffffff10" : "#ffffff04",
-                        }}
-                        whileHover={{ backgroundColor: "#ffffff10" }}
-                        whileTap={{ scale: reducedMotion ? 1 : 0.97 }}
-                        exit={{ opacity: 0, scale: 0.97 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Asset file="f76a5.svg" width={16} />
-                      </motion.button>
+                          <div className={styles.tags}>
+                            <PreviewTag tone="green" dot>
+                              {localizeCopy("Active")}
+                            </PreviewTag>
+                            <PreviewTag tone="green" dot>
+                              {localizeCopy("Available")}
+                            </PreviewTag>
+                            <PreviewTag>{localizeCopy("Zone 03")}</PreviewTag>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.button
+                          key="empty"
+                          type="button"
+                          className={styles.assignButton}
+                          aria-label={localizeCopy("Assign María López to this delivery")}
+                          onClick={() => setManualAssigned(true)}
+                          initial={{ opacity: 0 }}
+                          animate={{
+                            opacity: 1,
+                            scale: elapsed >= 7500 ? 0.97 : 1,
+                            backgroundColor: elapsed >= 6800 ? "#ffffff10" : "#ffffff04",
+                          }}
+                          whileHover={{ backgroundColor: "#ffffff10" }}
+                          whileTap={{ scale: reducedMotion ? 1 : 0.97 }}
+                          exit={{ opacity: 0, scale: 0.97 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Asset file="f76a5.svg" width={16} />
+                        </motion.button>
+                      ),
                     )}
                   </AnimatePresence>
                 </motion.div>
@@ -482,9 +498,9 @@ export function PlatformAgentPreview() {
         type="button"
         className={styles.replay}
         onClick={replay}
-        aria-label="Replay delivery assignment animation"
+        aria-label={localizeCopy("Replay delivery assignment animation")}
       >
-        Replay ↻
+        {localizeCopy("Replay ↻")}
       </button>
     </Stage>
   );
@@ -565,13 +581,14 @@ const integrations = [
   ],
 ];
 export function PlatformIntegrationsPreview() {
+  const localizeCopy = useCopy();
   const { ref, entered, reducedMotion } = useScrollEntrance();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Perma Frost.png"
-      label="Connected business systems and their operational mappings"
+      label={localizeCopy("Connected business systems and their operational mappings")}
     >
       <motion.div
         className={styles.integrations}
@@ -585,19 +602,20 @@ export function PlatformIntegrationsPreview() {
       >
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Orders / </span>Integrations
+            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
+            {localizeCopy("Integrations")}
           </Bar>
           <div className={styles.integrationBody}>
-            <h3>Integrations</h3>
-            <p>Connect your tools and manage the rules that govern your data.</p>
+            <h3>{localizeCopy("Integrations")}</h3>
+            <p>{localizeCopy("Connect your tools and manage the rules that govern your data.")}</p>
             <div className={styles.integrationGrid}>
               {integrations.map(([logo, name, url, type, object, mapped, sync]) => (
                 <div className={styles.integrationCard} key={name}>
                   <div className={styles.integrationTitle}>
                     <Asset file={logo} width={36} />
                     <div>
-                      <strong>{name}</strong>
-                      <small>{url}</small>
+                      <strong>{localizeCopy(name)}</strong>
+                      <small>{localizeCopy(url)}</small>
                     </div>
                     <Asset file="2bf92.svg" width={32} height={21} />
                   </div>
@@ -609,9 +627,9 @@ export function PlatformIntegrationsPreview() {
                       ["Last sync", sync],
                     ].map(([label, value]) => (
                       <div key={label}>
-                        <dt>{label}</dt>
+                        <dt>{localizeCopy(label)}</dt>
                         <dd>
-                          <PreviewTag>{value}</PreviewTag>
+                          <PreviewTag>{localizeCopy(value)}</PreviewTag>
                         </dd>
                       </div>
                     ))}
@@ -634,31 +652,33 @@ const exportFiles = [
   ["schema.json", "Object definitions and field types"],
 ];
 export function PlatformExportPreview() {
+  const localizeCopy = useCopy();
   const { ref, entered, reducedMotion } = useScrollEntrance();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Jungle.png"
-      label="Portable business data, relationships, and schema export preview"
+      label={localizeCopy("Portable business data, relationships, and schema export preview")}
     >
       <Swipe entered={entered} reduced={reducedMotion} className={styles.exportPanel}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>My Business / Advanced Options / </span>Export my data
+            <span className={styles.muted}>{localizeCopy("My Business / Advanced Options / ")}</span>
+            {localizeCopy("Export my data")}
           </Bar>
           <div className={styles.exportBody}>
-            <h3>Export your data</h3>
-            <p>Prepare a portable copy of your operational data and its relationships.</p>
+            <h3>{localizeCopy("Export your data")}</h3>
+            <p>{localizeCopy("Prepare a portable copy of your operational data and its relationships.")}</p>
             <div className={styles.exportList}>
-              <strong>Operations export</strong>
-              <p>JSON package · All selected records</p>
+              <strong>{localizeCopy("Operations export")}</strong>
+              <p>{localizeCopy("JSON package · All selected records")}</p>
               {exportFiles.map(([name, description]) => (
                 <div className={styles.exportFile} key={name}>
                   <Asset file="43749.png" width={36} />
                   <div>
-                    <strong>{name}</strong>
-                    <small>{description}</small>
+                    <strong>{localizeCopy(name)}</strong>
+                    <small>{localizeCopy(description)}</small>
                   </div>
                   <span className={styles.checkbox}>
                     <Asset file="1c59a.svg" width={16} />
@@ -671,7 +691,7 @@ export function PlatformExportPreview() {
       </Swipe>
       <Swipe entered={entered} reduced={reducedMotion} className={styles.exportCodePanel} delay={0.08}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar code>relationships.json</Bar>
+          <Bar code>{localizeCopy("relationships.json")}</Bar>
           <Code text={relationships} started={entered} reduced={reducedMotion} exportCode />
         </PreviewPanel>
       </Swipe>

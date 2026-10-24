@@ -1,3 +1,4 @@
+import { useCopy } from "@/i18n/copy";
 import type { ReactNode } from "react";
 import { EntranceHeading } from "./entrance-heading";
 import styles from "./showcase-section.module.css";
@@ -16,14 +17,15 @@ export function ShowcaseSection({
   children: ReactNode;
   footer?: ReactNode;
 }) {
+  const localizeCopy = useCopy();
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>
       <header className={styles.copy}>
-        <EntranceHeading id={`${id}-title`}>{title}</EntranceHeading>
-        <p>{description}</p>
+        <EntranceHeading id={`${id}-title`}>{localizeCopy(title)}</EntranceHeading>
+        <p>{localizeCopy(description)}</p>
       </header>
-      <div className={styles.stage}>{children}</div>
-      {footer && <div className={styles.footer}>{footer}</div>}
+      <div className={styles.stage}>{localizeCopy(children)}</div>
+      {footer && <div className={styles.footer}>{localizeCopy(footer)}</div>}
     </section>
   );
 }

@@ -1,6 +1,8 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 import { useId, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -82,52 +84,58 @@ function ModelBackground({ file }: { file: string }) {
   );
 }
 function Field({ label, children }: { label: string; children: ReactNode }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.field}>
-      <small>{label}</small>
-      <div>{children}</div>
+      <small>{localizeCopy(label)}</small>
+      <div>{localizeCopy(children)}</div>
     </div>
   );
 }
 function Person({ name, email, initials }: { name: string; email: string; initials: string }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.person}>
       <PreviewAvatar initials={initials} />
       <div>
-        {name}
-        <small>{email}</small>
+        {localizeCopy(name)}
+        <small>{localizeCopy(email)}</small>
       </div>
     </div>
   );
 }
 function Events({ items }: { items: string[] }) {
+  const localizeCopy = useCopy();
   return (
     <ol className={styles.events}>
       {items.map((item, i) => (
         <li key={item} style={{ "--row": i } as CSSProperties}>
           <span className={i === 1 ? styles.working : ""} />
-          {item}
+          {localizeCopy(item)}
         </li>
       ))}
     </ol>
   );
 }
 function Progress({ manufacturing = false }: { manufacturing?: boolean }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.progressGroup}>
-      <div>{manufacturing ? "Modular Shelf A12 · Panels" : "Stop 11 / 16"}</div>
+      <div>{localizeCopy(manufacturing ? "Modular Shelf A12 · Panels" : "Stop 11 / 16")}</div>
       <div className={styles.progress}>
         <span />
       </div>
       {manufacturing && (
         <small>
-          86 of 120 units completed <span>72%</span>
+          {localizeCopy("86 of 120 units completed ")}
+          <span>{"72%"}</span>
         </small>
       )}
     </div>
   );
 }
 function Detail({ model }: { model: number }) {
+  const localizeCopy = useCopy();
   return (
     <PreviewPanel theme="dark" className={styles.detailPanel}>
       {model === 3 && (
@@ -137,58 +145,60 @@ function Detail({ model }: { model: number }) {
       )}
       <div className={styles.detailBody}>
         <header>
-          {["New order received", "Route N04", "Service Visit Assigned", "CNC Routing Machine 02"][model]}
-          {model === 1 && <PreviewTag>In progress</PreviewTag>}
-          {model === 3 && <PreviewTag tone="green">Running</PreviewTag>}
-          <small>{["PF-234014", "", "JOB #FS1083", "CNC-RTR-02"][model]}</small>
+          {localizeCopy(["New order received", "Route N04", "Service Visit Assigned", "CNC Routing Machine 02"][model])}
+          {model === 1 && <PreviewTag>{localizeCopy("In progress")}</PreviewTag>}
+          {model === 3 && <PreviewTag tone="green">{localizeCopy("Running")}</PreviewTag>}
+          <small>{localizeCopy(["PF-234014", "", "JOB #FS1083", "CNC-RTR-02"][model])}</small>
         </header>
         {model === 0 && (
           <>
-            <Field label="Origin">
+            <Field label={localizeCopy("Origin")}>
               <div className={styles.person}>
                 <div className={styles.shopify}>
                   <Asset file="2e2fa.webp" />
                 </div>
                 <div>
-                  Shopify<small>plantfriends.mx</small>
+                  {localizeCopy("Shopify")}
+                  <small>{localizeCopy("plantfriends.mx")}</small>
                 </div>
               </div>
             </Field>
             <div className={styles.inline}>
-              <Field label="Value">
-                <PreviewTag>$2,480.00</PreviewTag>
+              <Field label={localizeCopy("Value")}>
+                <PreviewTag>{"$2,480.00"}</PreviewTag>
               </Field>
-              <Field label="Delivery">
-                <PreviewTag>Same day pick up</PreviewTag>
+              <Field label={localizeCopy("Delivery")}>
+                <PreviewTag>{localizeCopy("Same day pick up")}</PreviewTag>
               </Field>
             </div>
-            <Field label="Handling location">Showroom Narvarte</Field>
-            <Field label="Order">
+            <Field label={localizeCopy("Handling location")}>{localizeCopy("Showroom Narvarte")}</Field>
+            <Field label={localizeCopy("Order")}>
               <Events items={["Begonia Ferox", "Hoya Kerrii", "Potting mix 5 lb. bag."]} />
             </Field>
-            <Field label="Status">
+            <Field label={localizeCopy("Status")}>
               <Events items={["Stock reserved", "Preparing Hand-off", "Order completed"]} />
             </Field>
           </>
         )}
         {model === 1 && (
           <>
-            <Field label="Route">
-              Benito Juárez II.
+            <Field label={localizeCopy("Route")}>
+              {localizeCopy("Benito Juárez II.")}
               <div className={styles.tags}>
                 {["Narvarte", "Del Valle", "Nápoles"].map((t) => (
-                  <PreviewTag key={t}>{t}</PreviewTag>
+                  <PreviewTag key={t}>{localizeCopy(t)}</PreviewTag>
                 ))}
               </div>
             </Field>
             <Progress />
-            <Field label="Driver">
+            <Field label={localizeCopy("Driver")}>
               <Person name="Valeria Ruíz" email="val.ruiz@northstar.com" initials="AO" />
             </Field>
-            <Field label="Vehicle">
-              Sprinter A2<small>Mercedes-Benz, 043-ALV</small>
+            <Field label={localizeCopy("Vehicle")}>
+              {localizeCopy("Sprinter A2")}
+              <small>{localizeCopy("Mercedes-Benz, 043-ALV")}</small>
             </Field>
-            <Field label="Events">
+            <Field label={localizeCopy("Events")}>
               <Events
                 items={[
                   "Heading to Delivery location for #120428",
@@ -203,24 +213,25 @@ function Detail({ model }: { model: number }) {
         )}
         {model === 2 && (
           <>
-            <Field label="Request">AC Maintenance</Field>
+            <Field label={localizeCopy("Request")}>{localizeCopy("AC Maintenance")}</Field>
             <div>
-              <PreviewTag tone="blue">In progress</PreviewTag>
+              <PreviewTag tone="blue">{localizeCopy("In progress")}</PreviewTag>
             </div>
-            <Field label="Location">
-              Casa Humboldt<small>Av. Parras 1207, Colonia Condesa, Cuauhtémoc, Ciudad de México, CDMX</small>
+            <Field label={localizeCopy("Location")}>
+              {localizeCopy("Casa Humboldt")}
+              <small>{localizeCopy("Av. Parras 1207, Colonia Condesa, Cuauhtémoc, Ciudad de México, CDMX")}</small>
             </Field>
-            <Field label="Schedule">
+            <Field label={localizeCopy("Schedule")}>
               <div className={styles.tags}>
-                <PreviewTag>Today</PreviewTag>
-                <PreviewTag>From 13:00</PreviewTag>
-                <PreviewTag>To 15:00</PreviewTag>
+                <PreviewTag>{localizeCopy("Today")}</PreviewTag>
+                <PreviewTag>{localizeCopy("From 13:00")}</PreviewTag>
+                <PreviewTag>{localizeCopy("To 15:00")}</PreviewTag>
               </div>
             </Field>
-            <Field label="Technician">
+            <Field label={localizeCopy("Technician")}>
               <Person name="Daniel Mejía" email="daniel.mejia@sisyphusmaintenance.co" initials="AO" />
             </Field>
-            <Field label="Service Checklist">
+            <Field label={localizeCopy("Service Checklist")}>
               <Events
                 items={[
                   "Verify equipment",
@@ -236,7 +247,8 @@ function Detail({ model }: { model: number }) {
         {model === 3 && (
           <>
             <div className={styles.orderLabel}>
-              CURRENT WORK ORDER <span>WO-2048</span>
+              {localizeCopy("CURRENT WORK ORDER ")}
+              <span>{localizeCopy("WO-2048")}</span>
             </div>
             <Progress manufacturing />
             <div className={styles.metrics}>
@@ -246,11 +258,11 @@ function Detail({ model }: { model: number }) {
                 ["Total Units", "18,742"],
               ].map(([a, b]) => (
                 <Field label={a} key={a}>
-                  {b}
+                  {localizeCopy(b)}
                 </Field>
               ))}
             </div>
-            <Field label="Shift operator">
+            <Field label={localizeCopy("Shift operator")}>
               <Person name="Jennifer García" email="jennifer.garcia@horusindustries.com.mx" initials="JG" />
             </Field>
           </>
@@ -260,30 +272,33 @@ function Detail({ model }: { model: number }) {
   );
 }
 function Retail() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.store}>
       <div className={styles.plants}>
         <Asset file="c2805.webp" />
       </div>
       <header>
-        <strong>PlantFriends</strong>
+        <strong>{localizeCopy("PlantFriends")}</strong>
         <span>
-          Catalog　 Promos　 About　 <b>Cart (12)</b>
+          {localizeCopy("Catalog　 Promos　 About　 ")}
+          <b>{localizeCopy("Cart (12)")}</b>
         </span>
       </header>
       <div className={styles.storeCopy}>
         <h3>
-          Exotic plants for
+          {localizeCopy("Exotic plants for")}
           <br />
-          your collection
+          {localizeCopy("your collection")}
         </h3>
-        <p>PlantFriends has the largest plant variety and delivers all across Mexico.</p>
-        <span>EXPLORE THE CATALOG</span>
+        <p>{localizeCopy("PlantFriends has the largest plant variety and delivers all across Mexico.")}</p>
+        <span>{localizeCopy("EXPLORE THE CATALOG")}</span>
       </div>
     </div>
   );
 }
 function Logistics() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.map}>
       <Asset file="19c4b.webp" className={styles.mapImage} />
@@ -302,25 +317,28 @@ function Logistics() {
           style={{ left: `${x}%`, top: `${y}%`, "--row": i } as CSSProperties}
         >
           <i />
-          {label}
+          {localizeCopy(label)}
         </span>
       ))}
     </div>
   );
 }
 function FieldOperations() {
+  const localizeCopy = useCopy();
   return (
     <>
       <div className={styles.phone}>
         <div className={styles.phoneStatus}>
-          9:41 <span>▴ ▰ ▰</span>
+          {"9:41"}
+          <span>{"▴ ▰ ▰"}</span>
         </div>
         <div className={styles.phoneNav}>
-          <Asset file="ae5be.webp" />☰{" "}
+          <Asset file="ae5be.webp" />
+          {"☰"}{" "}
           <span className={styles.phoneLogo}>
             <Asset file="cd97c.webp" />
           </span>
-          <b>My Jobs</b>
+          <b>{localizeCopy("My Jobs")}</b>
           <div className={styles.phoneAvatar}>
             <Asset file="442c4.webp" />
           </div>
@@ -329,31 +347,37 @@ function FieldOperations() {
           <Asset file="21839.webp" />
         </div>
         <div className={styles.phoneBody}>
-          <small>Location</small>
-          <p>Casa Humboldt</p>
-          <small>Av. Parras 1207, Colonia Condesa, Cuauhtémoc, Ciudad de México, CDMX</small>
+          <small>{localizeCopy("Location")}</small>
+          <p>{localizeCopy("Casa Humboldt")}</p>
+          <small>{localizeCopy("Av. Parras 1207, Colonia Condesa, Cuauhtémoc, Ciudad de México, CDMX")}</small>
           <br />
           <br />
-          <small>JOB #FS1083</small>
-          <h3>AC Maintenance</h3>
+          <small>{localizeCopy("JOB #FS1083")}</small>
+          <h3>{localizeCopy("AC Maintenance")}</h3>
           <Events items={["Verify equipment", "Inspect filters", "Test electrical system", "Capture service photos"]} />
         </div>
       </div>
       <div className={styles.calendar}>
         <h3>
-          May 2nd, <span>2027</span>
+          {localizeCopy("May 2nd, ")}
+          <span>{"2027"}</span>
         </h3>
         <div className={styles.calendarGrid}>
           <div className={styles.hours}>
-            {Array.from({ length: 16 }, (_, i) => (
-              <span key={i}>{i}:00</span>
-            ))}
+            {localizeCopy(
+              Array.from({ length: 16 }, (_, i) => (
+                <span key={i}>
+                  {localizeCopy(i)}
+                  {":00"}
+                </span>
+              )),
+            )}
           </div>
           {["Edgardo Ramírez", "Carlos Treviño", "Mariana Cruz"].map((name, i) => (
             <div className={styles.day} key={name}>
               <header>
                 <PreviewAvatar initials={["ER", "CT", "MC"][i]} />
-                {name}
+                {localizeCopy(name)}
               </header>
               <div
                 className={styles.appointment}
@@ -365,18 +389,23 @@ function FieldOperations() {
                 }
               >
                 <small>
-                  WO-{1063 - i * 12} <PreviewTag tone="blue">Confirmed</PreviewTag>
+                  {localizeCopy("WO-")}
+                  {localizeCopy(1063 - i * 12)} <PreviewTag tone="blue">{localizeCopy("Confirmed")}</PreviewTag>
                 </small>
                 <p>
-                  {
+                  {localizeCopy(
                     [
                       "Libramiento Noreste km 33, Parque Industrial Escobedo, General Escobedo, NL",
                       "Blvd. Aeropuerto 1001, Parque Industrial Milenium, Apodaca, NL",
                       "Carretera Dulces Nombres–Pesquería km 4.5",
-                    ][i]
-                  }
+                    ][i],
+                  )}
                 </p>
-                <p>{["Critical Equipment Replacement", "Boiler pressure test", "Air compressor inspection"][i]}</p>
+                <p>
+                  {localizeCopy(
+                    ["Critical Equipment Replacement", "Boiler pressure test", "Air compressor inspection"][i],
+                  )}
+                </p>
               </div>
             </div>
           ))}
@@ -404,20 +433,21 @@ const floorLayers = [
   ["e7302.svg", 381.89, 395.62, 412.624, 284.675],
 ] as const;
 function Manufacturing() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.factory}>
       <header>
-        <small>Pesquería IV / Production</small>
+        <small>{localizeCopy("Pesquería IV / Production")}</small>
         <h3>
-          Floor Plan{" "}
+          {localizeCopy("Floor Plan")}{" "}
           <span className={styles.live}>
-            <PreviewTag tone="green">Live</PreviewTag>
+            <PreviewTag tone="green">{localizeCopy("Live")}</PreviewTag>
           </span>
         </h3>
         <div className={styles.tags}>
-          <PreviewTag tone="green">6 running</PreviewTag>
-          <PreviewTag>2 idle</PreviewTag>
-          <PreviewTag>1 needs attention</PreviewTag>
+          <PreviewTag tone="green">{localizeCopy("6 running")}</PreviewTag>
+          <PreviewTag>{localizeCopy("2 idle")}</PreviewTag>
+          <PreviewTag>{localizeCopy("1 needs attention")}</PreviewTag>
         </div>
       </header>
       <div className={styles.floor}>
@@ -443,7 +473,7 @@ function Manufacturing() {
           >
             <div className={styles.floorLabel}>
               <i style={{ background: i === 0 ? "#ff2347" : i === 6 ? "#666" : "#00bc7d" }} />
-              <span>{name}</span>
+              <span>{localizeCopy(name)}</span>
             </div>
           </div>
         ))}
@@ -453,6 +483,7 @@ function Manufacturing() {
 }
 const scenes = [Retail, Logistics, FieldOperations, Manufacturing];
 export function OperativeModels() {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { margin: "100px 0px" });
@@ -464,7 +495,7 @@ export function OperativeModels() {
   return (
     <div ref={ref} className={styles.models} data-active={active} data-running={visible && !reduced}>
       <div className={styles.toolbar}>
-        <div className={styles.tabs} role="tablist" aria-label="Operative models">
+        <div className={styles.tabs} role="tablist" aria-label={localizeCopy("Operative models")}>
           {models.map((model, i) => (
             <button
               key={model.name}
@@ -494,13 +525,13 @@ export function OperativeModels() {
                   transition={{ duration: reduced ? 0 : 0.28 }}
                 />
               )}
-              <span>{model.name}</span>
+              <span>{localizeCopy(model.name)}</span>
             </button>
           ))}
         </div>
-        <a className={styles.more} href="/offering">
-          More operating models
-        </a>
+        <Link className={styles.more} href="/offering">
+          {localizeCopy("More operating models")}
+        </Link>
       </div>
       <div id={id + "-panel"} role="tabpanel" aria-labelledby={id + "-tab-" + active} tabIndex={0}>
         <div
@@ -574,8 +605,8 @@ export function OperativeModels() {
             >
               {models[active].points.map(([title, text]) => (
                 <div key={title}>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+                  <h3>{localizeCopy(title)}</h3>
+                  <p>{localizeCopy(text)}</p>
                 </div>
               ))}
             </motion.div>

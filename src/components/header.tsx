@@ -1,8 +1,9 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { navigationState } from "@/lib/navigation";
 import { BookingLink } from "@/components/booking-link";
 import { AnimatePresence, motion } from "motion/react";
@@ -24,13 +25,14 @@ export function Brand({
   inverse?: boolean;
   compactOnMobile?: boolean;
 }) {
+  const localizeCopy = useCopy();
   const variant = inverse ? "-inverse" : "";
   const className = ["brand", large && "brand--large", compactOnMobile && "brand--compact-mobile"]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <span className={className} aria-label="Superspace">
+    <span className={className} aria-label={localizeCopy("Superspace")}>
       <Image
         className="brand__full"
         src={`/brand/superspace-logo${variant}.svg`}
@@ -103,10 +105,11 @@ const linksVariants = {
 } as const;
 
 function NavigationLink({ href, label }: { href: string; label: string }) {
+  const localizeCopy = useCopy();
   const pathname = usePathname();
   return (
     <Link href={href} aria-current={navigationState(pathname, href)} className="header__nav-link">
-      {label}
+      {localizeCopy(label)}
     </Link>
   );
 }
@@ -122,6 +125,7 @@ function MobileNavLink({
   onClick: () => void;
   reduceMotion: boolean | null;
 }) {
+  const localizeCopy = useCopy();
   const pathname = usePathname();
   const state = navigationState(pathname, href);
   const active = Boolean(state);
@@ -134,7 +138,7 @@ function MobileNavLink({
         aria-current={state}
         className={`mobile-nav__link ${active ? "mobile-nav__link--active" : ""}`}
       >
-        <span className="mobile-nav__link-label">{label}</span>
+        <span className="mobile-nav__link-label">{localizeCopy(label)}</span>
       </Link>
     </motion.div>
   );
@@ -145,6 +149,7 @@ const clientHydrationSnapshot = () => true;
 const serverHydrationSnapshot = () => false;
 
 export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
+  const localizeCopy = useCopy();
   const pathname = usePathname();
   const usesHeroCtaTrigger = pathname === "/" || navigation.some(({ href }) => pathname === href);
   const headerTheme = useHeaderTheme();
@@ -249,8 +254,8 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
       data-tone={tone}
       data-theme={tone}
     >
-      <nav className="shell header__inner" aria-label="Primary navigation">
-        <Link className="header__brand" href="/" aria-label="Superspace home" onClick={closeMenu}>
+      <nav className="shell header__inner" aria-label={localizeCopy("Primary navigation")}>
+        <Link className="header__brand" href="/" aria-label={localizeCopy("Superspace home")} onClick={closeMenu}>
           <span className="header__brand-tone" data-menu-mask="tone">
             <Brand compactOnMobile inverse={dark} />
           </span>
@@ -285,7 +290,9 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           aria-controls="mobile-navigation"
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="sr-only">{open ? "Close" : "Open"} navigation</span>
+          <span className="sr-only">
+            {localizeCopy(open ? "Close" : "Open")} {localizeCopy(" navigation")}
+          </span>
           <span className="menu-button__icon" aria-hidden="true">
             <span className="menu-button__glyph" data-menu-mask="tone">
               <HugeiconsIcon icon={open ? Cancel01Icon : Menu09Icon} size={22} strokeWidth={1.75} focusable="false" />

@@ -1,3 +1,4 @@
+import { useCopy } from "@/i18n/copy";
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
 import { HomeCapabilities, HomeWorkforcePreview } from "./home-capabilities";
 import { OperativeModels } from "./operative-models";
@@ -21,19 +22,23 @@ const pillars = [
   },
 ];
 export function DarkHome() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.home}>
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <HeroHeading id="home-title">The operative system that understands your business.</HeroHeading>
+          <HeroHeading id="home-title">
+            {localizeCopy("The operative system that understands your business.")}
+          </HeroHeading>
           <p>
-            Superspace turns the way your company works into operational software built around your people, processes,
-            and rules, evolving as your business grows.
+            {localizeCopy(
+              "Superspace turns the way your company works into operational software built around your people, processes, and rules, evolving as your business grows.",
+            )}
           </p>
           <div className="hero-actions">
-            <BookingLink placement="home_hero" label="Let’s talk" designIcon inverse />
+            <BookingLink placement="home_hero" label={localizeCopy("Let’s talk")} designIcon inverse />
             <a className="button button--secondary" href="#system">
-              How it works?
+              {localizeCopy("How it works?")}
             </a>
           </div>
         </div>
@@ -49,7 +54,7 @@ export function DarkHome() {
                 src="/assets/figma/home-previews/hero-mobile.webp"
                 width={739}
                 height={480}
-                alt="Superspace operations dashboard showing service metrics and hourly status charts."
+                alt={localizeCopy("Superspace operations dashboard showing service metrics and hourly status charts.")}
                 fetchPriority="high"
               />
             </picture>
@@ -58,7 +63,8 @@ export function DarkHome() {
       </section>
       <section id="system" className={styles.pillarsSection} aria-labelledby="pillars-title">
         <EntranceHeading id="pillars-title">
-          A different kind of business software. <span>Tailored for your company, designed to evolve as you grow.</span>
+          {localizeCopy("A different kind of business software. ")}
+          <span>{localizeCopy("Tailored for your company, designed to evolve as you grow.")}</span>
         </EntranceHeading>
         <div className={styles.pillars}>
           {pillars.map((pillar, index) => (
@@ -69,28 +75,32 @@ export function DarkHome() {
       <div className={styles.features}>
         <section className={styles.feature}>
           <div className={styles.featureCopy}>
-            <EntranceHeading>Different businesses. Different rules.</EntranceHeading>
+            <EntranceHeading>{localizeCopy("Different businesses. Different rules.")}</EntranceHeading>
             <p>
-              Superspace can be configured around very different kinds of operations, from marketplaces and service
-              teams to manufacturing and distribution. Explore a few examples of what that can look like.
+              {localizeCopy(
+                "Superspace can be configured around very different kinds of operations, from marketplaces and service teams to manufacturing and distribution. Explore a few examples of what that can look like.",
+              )}
             </p>
           </div>
           <OperativeModels />
         </section>
         <section className={styles.feature} aria-labelledby="workforce-title">
           <div className={styles.featureCopy}>
-            <EntranceHeading id="workforce-title">Meet your AI workforce.</EntranceHeading>
+            <EntranceHeading id="workforce-title">{localizeCopy("Meet your AI workforce.")}</EntranceHeading>
             <p>
-              Give AI agents the context, tools, and permissions to take action across your operations. From everyday
-              tasks to complex decisions, Superspace brings people and AI together in one operating system.
+              {localizeCopy(
+                "Give AI agents the context, tools, and permissions to take action across your operations. From everyday tasks to complex decisions, Superspace brings people and AI together in one operating system.",
+              )}
             </p>
           </div>
           <HomeWorkforcePreview />
         </section>
         <section className={styles.feature} aria-labelledby="capabilities-title">
           <div className={styles.featureCopy}>
-            <EntranceHeading id="capabilities-title">Everything your business needs to run.</EntranceHeading>
-            <p>Powerful capabilities, built into every operational model.</p>
+            <EntranceHeading id="capabilities-title">
+              {localizeCopy("Everything your business needs to run.")}
+            </EntranceHeading>
+            <p>{localizeCopy("Powerful capabilities, built into every operational model.")}</p>
           </div>
           <HomeCapabilities />
         </section>

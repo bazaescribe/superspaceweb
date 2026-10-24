@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import Image from "next/image";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -11,6 +12,7 @@ import { BookingLink } from "@/components/booking-link";
 import styles from "./offerings-catalog.module.css";
 
 export function OfferingsCatalog() {
+  const localizeCopy = useCopy();
   const [selected, setSelected] = useState<Offering | null>(null);
   const [closing, setClosing] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -91,8 +93,8 @@ export function OfferingsCatalog() {
                   />
                 </div>
                 <div className={styles.copy}>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <h3>{localizeCopy(item.title)}</h3>
+                  <p>{localizeCopy(item.description)}</p>
                 </div>
               </a>
             </article>
@@ -139,6 +141,7 @@ export function OfferingsCatalog() {
 const tabs = ["Our approach", "Illustrative workflow", "Built-in features"] as const;
 
 function OfferingDetails({ offering, onClose }: { offering: Offering; onClose: () => void }) {
+  const localizeCopy = useCopy();
   const [activeTab, setActiveTab] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   return (
@@ -149,21 +152,21 @@ function OfferingDetails({ offering, onClose }: { offering: Offering; onClose: (
           className={styles.closeButton}
           type="button"
           autoFocus
-          aria-label="Close offering details"
+          aria-label={localizeCopy("Close offering details")}
           onClick={onClose}
         >
           <HugeiconsIcon icon={Cancel01Icon} size={14} strokeWidth={1.5} aria-hidden="true" />
         </button>
         <div className={styles.heroOverlay}>
           <div>
-            <h2 id="offering-dialog-title">{offering.title}</h2>
-            <p id="offering-dialog-intro">{offering.description}</p>
+            <h2 id="offering-dialog-title">{localizeCopy(offering.title)}</h2>
+            <p id="offering-dialog-intro">{localizeCopy(offering.description)}</p>
           </div>
-          <BookingLink placement={`offering_${offering.id}`} label="Talk about this solution" inverse />
+          <BookingLink placement={`offering_${offering.id}`} label={localizeCopy("Talk about this solution")} inverse />
         </div>
       </div>
       <div className={styles.modalBody}>
-        <div className={styles.tabs} role="tablist" aria-label="Offering details">
+        <div className={styles.tabs} role="tablist" aria-label={localizeCopy("Offering details")}>
           {tabs.map((label, index) => (
             <button
               key={label}
@@ -188,7 +191,7 @@ function OfferingDetails({ offering, onClose }: { offering: Offering; onClose: (
                 tabRefs.current[next]?.focus();
               }}
             >
-              {label}
+              {localizeCopy(label)}
             </button>
           ))}
         </div>
@@ -206,32 +209,37 @@ function OfferingDetails({ offering, onClose }: { offering: Offering; onClose: (
               (index === 0 ? (
                 <div className={styles.approach}>
                   <section>
-                    <h3>When the work is connected, but the tools aren’t.</h3>
-                    <p>{offering.problem}</p>
+                    <h3>{localizeCopy("When the work is connected, but the tools aren’t.")}</h3>
+                    <p>{localizeCopy(offering.problem)}</p>
                   </section>
                   <section>
-                    <h3>What we could configure</h3>
+                    <h3>{localizeCopy("What we could configure")}</h3>
                     <ul>
                       {offering.capabilities.map((capability) => (
-                        <li key={capability}>{capability}</li>
+                        <li key={capability}>{localizeCopy(capability)}</li>
                       ))}
                     </ul>
                   </section>
                   <p className={styles.scopeNote}>
-                    Discovery establishes your requirements, confirms platform fit, and defines the scope of your
-                    deployment.
+                    {localizeCopy(
+                      "Discovery establishes your requirements, confirms platform fit, and defines the scope of your deployment.",
+                    )}
                   </p>
                 </div>
               ) : index === 1 ? (
                 <OfferingWorkflow steps={offering.workflow} />
               ) : (
                 <div className={styles.features}>
-                  <p>Shared platform features, configured around the needs of {offering.title.toLowerCase()}.</p>
+                  <p>
+                    {localizeCopy("Shared platform features, configured around the needs of ")}
+                    {localizeCopy(offering.title.toLowerCase())}
+                    {"."}
+                  </p>
                   <dl>
                     {offering.features.map((feature) => (
                       <div key={feature.title}>
-                        <dt>{feature.title}</dt>
-                        <dd>{feature.description}</dd>
+                        <dt>{localizeCopy(feature.title)}</dt>
+                        <dd>{localizeCopy(feature.description)}</dd>
                       </div>
                     ))}
                   </dl>

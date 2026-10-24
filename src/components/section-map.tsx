@@ -1,8 +1,11 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
+
 import { useEffect, useRef, useState } from "react";
 import styles from "./company-story.module.css";
 
 export function SectionMap({ sections }: { sections: { id: string; label: string }[] }) {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(sections[0].id);
   const navigation = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -45,10 +48,10 @@ export function SectionMap({ sections }: { sections: { id: string; label: string
     });
   }, [active]);
   return (
-    <nav ref={navigation} className={styles.map} aria-label="On this page">
+    <nav ref={navigation} className={styles.map} aria-label={localizeCopy("On this page")}>
       {sections.map(({ id, label }) => (
         <a href={"#" + id} key={id} aria-current={active === id ? "location" : undefined}>
-          {label}
+          {localizeCopy(label)}
         </a>
       ))}
     </nav>
