@@ -251,3 +251,26 @@
     animation: none;
   }
 }
+
+@media (min-width: 1101px) {
+  .heroCopy {
+    margin-bottom: 80px;
+  }
+  .heroVisual {
+    height: 720px;
+    margin-inline: -52px;
+    padding: 32px 40px 0;
+    overflow: hidden;
+    border-radius: 0 0 16px 16px;
+    background:
+      linear-gradient(#070709 19.77%, transparent),
+      url("/assets/figma/home-iteration/a218b.webp") center/cover;
+  }
+  .pillarsSection {
+    padding-top: 240px;
+  }
+  .features {
+    padding-block: 240px;
+    gap: 240px;
+  }
+}

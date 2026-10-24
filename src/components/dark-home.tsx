@@ -1,5 +1,5 @@
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
-import { HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview } from "./home-previews";
+import { HomeCapabilities, HomeWorkforcePreview } from "./home-capabilities";
 import { OperativeModels } from "./operative-models";
 import { BookingLink } from "./booking-link";
 import { PillarCard } from "./pillar-card";
@@ -20,26 +20,6 @@ const pillars = [
     text: "A fully managed operational system, designed for reliable daily work. We take care of the software so you can focus on running your business.",
   },
 ];
-const previews = [OperativeModels, HomeRolesPreview, HomeToolsPreview, HomeAgentsPreview];
-const features = [
-  {
-    title: "Different businesses. Different rules.",
-    text: "Superspace can be configured around very different kinds of operations, from marketplaces and service teams to manufacturing and distribution. Explore a few examples of what that can look like.",
-  },
-  {
-    title: "Everyone knows what they can do.",
-    text: "Define who can access information, approve decisions, and perform actions. Keep a clear record of what happens across your operation.",
-  },
-  {
-    title: "Your tools, working together.",
-    text: "Connect the systems your business already relies on, bringing information and actions into one coordinated operation.",
-  },
-  {
-    title: "Put your operation in motion.",
-    text: "Turn business rules into repeatable workflows, with intelligent assistance where decisions need more context.",
-  },
-];
-
 export function DarkHome() {
   return (
     <div className={styles.home}>
@@ -87,18 +67,33 @@ export function DarkHome() {
         </div>
       </section>
       <div className={styles.features}>
-        {features.map((feature, index) => {
-          const Preview = previews[index];
-          return (
-            <section className={styles.feature} key={feature.title}>
-              <div className={styles.featureCopy}>
-                <EntranceHeading>{feature.title}</EntranceHeading>
-                <p>{feature.text}</p>
-              </div>
-              <Preview />
-            </section>
-          );
-        })}
+        <section className={styles.feature}>
+          <div className={styles.featureCopy}>
+            <EntranceHeading>Different businesses. Different rules.</EntranceHeading>
+            <p>
+              Superspace can be configured around very different kinds of operations, from marketplaces and service
+              teams to manufacturing and distribution. Explore a few examples of what that can look like.
+            </p>
+          </div>
+          <OperativeModels />
+        </section>
+        <section className={styles.feature} aria-labelledby="workforce-title">
+          <div className={styles.featureCopy}>
+            <EntranceHeading id="workforce-title">Meet your AI workforce.</EntranceHeading>
+            <p>
+              Give AI agents the context, tools, and permissions to take action across your operations. From everyday
+              tasks to complex decisions, Superspace brings people and AI together in one operating system.
+            </p>
+          </div>
+          <HomeWorkforcePreview />
+        </section>
+        <section className={styles.feature} aria-labelledby="capabilities-title">
+          <div className={styles.featureCopy}>
+            <EntranceHeading id="capabilities-title">Everything your business needs to run.</EntranceHeading>
+            <p>Powerful capabilities, built into every operational model.</p>
+          </div>
+          <HomeCapabilities />
+        </section>
       </div>
     </div>
   );

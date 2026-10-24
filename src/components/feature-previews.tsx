@@ -132,16 +132,16 @@ export function ActivityMockup({ delivered = false }: { delivered?: boolean } = 
     </div>
   );
 }
-export function ContextMockup() {
+export function ContextMockup({ dark = false }: { dark?: boolean } = {}) {
   return (
     <div className={styles.viewport} aria-hidden="true">
-      <PreviewPanel className={styles.record}>
+      <PreviewPanel theme={dark ? "dark" : "light"} className={styles.record}>
         <div className={`${styles.body} ${styles.context}`}>
           <PreviewTitle label="GMWB5000">Delivery Details</PreviewTitle>
           <p className={styles.address}>Montecito 301, Int. 2, Nápoles, Benito Juárez, Ciudad de México.</p>
           <div className={styles.fields}>
             <PreviewField inline label="Time">
-              <PreviewTag>{calendar}May 29, 11:33 AM</PreviewTag>
+              <PreviewTag>{dark ? darkCalendar : calendar}May 29, 11:33 AM</PreviewTag>
             </PreviewField>
             <PreviewField inline label="Status">
               <PreviewTag tone="green">Delivered</PreviewTag>
@@ -176,7 +176,7 @@ export function ContextMockup() {
           </PreviewField>
         </div>
       </PreviewPanel>
-      <div className={styles.lightFade} />
+      <div className={dark ? styles.darkFade : styles.lightFade} />
     </div>
   );
 }
@@ -188,7 +188,7 @@ const steps = [
   "Purchase order sent",
 ];
 const cycleDuration = 13700;
-export function AutomationsMockup() {
+export function AutomationsMockup({ compact = false }: { compact?: boolean } = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { amount: 0.3 });
   const reduced = useReducedMotion();
@@ -213,106 +213,108 @@ export function AutomationsMockup() {
   // Restock begins one second later, completes at 7.6s, and reports at 8.6s.
   const stage = reduced ? 2 : elapsed < 3600 ? 0 : elapsed < 8600 ? 1 : 2;
   return (
-    <div ref={ref} className={`${styles.viewport} ${styles.automation}`} aria-hidden="true">
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={stage}
-          className={styles.automationCard}
-          initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: reduced ? 0 : -12 }}
-          transition={{ duration: reduced ? 0 : 0.25 }}
-        >
-          <PreviewPanel theme="dark">
-            <div className={`${styles.body} ${styles.automationBody}`}>
-              {stage === 0 ? (
-                <>
-                  <PreviewTitle subtitle="Now">New Order Received #78234</PreviewTitle>
-                  <PreviewField label="Checking Stock Availability">
-                    <div className={styles.rows}>
-                      {products.map((product, i) => {
-                        const complete = elapsed >= [1400, 2000, 2600][i];
-                        return (
-                          <PreviewRow
-                            key={product}
-                            leading={
-                              complete ? (
-                                <PreviewIcon file={i === 2 ? "0c994" : "cfc20"} />
-                              ) : (
-                                <PreviewSpinner file="94283" />
-                              )
-                            }
-                          >
-                            {product}
-                          </PreviewRow>
-                        );
-                      })}
-                    </div>
-                  </PreviewField>
-                </>
-              ) : stage === 1 ? (
-                <>
-                  <PreviewTitle subtitle="Automatic Restock">Ceramic 15 cm. Plant Pot</PreviewTitle>
-                  <PreviewField label="Processing Product Restock">
-                    <div className={styles.rows}>
-                      {steps.map((title, i) => {
-                        const complete = elapsed >= 4600 + i * 1000;
-                        const active = elapsed >= 3600 + i * 1000;
-                        return (
-                          <div className={active ? "" : styles.pending} key={title}>
+    <div ref={ref} className={`${styles.viewport} ${styles.automation}`} data-compact={compact} aria-hidden="true">
+      {(compact ? [0, 1] : [stage]).map((displayStage, index) => (
+        <AnimatePresence key={index} mode="wait" initial={false}>
+          <motion.div
+            key={displayStage}
+            className={styles.automationCard}
+            initial={{ opacity: reduced ? 1 : 0, y: reduced ? 0 : 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduced ? 0 : -12 }}
+            transition={{ duration: reduced ? 0 : 0.25 }}
+          >
+            <PreviewPanel theme="dark">
+              <div className={`${styles.body} ${styles.automationBody}`}>
+                {displayStage === 0 ? (
+                  <>
+                    <PreviewTitle subtitle="Now">New Order Received #78234</PreviewTitle>
+                    <PreviewField label="Checking Stock Availability">
+                      <div className={styles.rows}>
+                        {products.map((product, i) => {
+                          const complete = reduced || elapsed >= [1400, 2000, 2600][i];
+                          return (
                             <PreviewRow
+                              key={product}
                               leading={
                                 complete ? (
-                                  <PreviewIcon file="cfc20" />
-                                ) : active ? (
-                                  <PreviewSpinner file="94283" />
+                                  <PreviewIcon file={i === 2 ? "0c994" : "cfc20"} />
                                 ) : (
-                                  <span className={styles.indicatorPlaceholder} />
+                                  <PreviewSpinner file="94283" />
                                 )
                               }
                             >
-                              {title}
+                              {product}
                             </PreviewRow>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </PreviewField>
-                </>
-              ) : (
-                <>
-                  <PreviewTitle subtitle="Now">Order Update #78234</PreviewTitle>
-                  <div className={styles.fields}>
-                    <PreviewField inline label="Exp. Delivery">
-                      <PreviewTag>{darkCalendar}Nov 29</PreviewTag>
+                          );
+                        })}
+                      </div>
                     </PreviewField>
-                    <PreviewField inline label="Status">
-                      <PreviewTag tone="amber">Waiting for stock</PreviewTag>
+                  </>
+                ) : displayStage === 1 ? (
+                  <>
+                    <PreviewTitle subtitle="Automatic Restock">Ceramic 15 cm. Plant Pot</PreviewTitle>
+                    <PreviewField label="Processing Product Restock">
+                      <div className={styles.rows}>
+                        {steps.map((title, i) => {
+                          const complete = reduced || elapsed >= 4600 + i * 1000;
+                          const active = reduced || elapsed >= 3600 + i * 1000;
+                          return (
+                            <div className={active ? "" : styles.pending} key={title}>
+                              <PreviewRow
+                                leading={
+                                  complete ? (
+                                    <PreviewIcon file="cfc20" />
+                                  ) : active ? (
+                                    <PreviewSpinner file="94283" />
+                                  ) : (
+                                    <span className={styles.indicatorPlaceholder} />
+                                  )
+                                }
+                              >
+                                {title}
+                              </PreviewRow>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </PreviewField>
-                  </div>
-                  <PreviewField label="Available products reserved">
-                    <div className={styles.rows}>
-                      {products.slice(0, 2).map((product) => (
-                        <PreviewRow key={product} leading={<PreviewIcon file="cfc20" />}>
-                          {product}
-                        </PreviewRow>
-                      ))}
+                  </>
+                ) : (
+                  <>
+                    <PreviewTitle subtitle="Now">Order Update #78234</PreviewTitle>
+                    <div className={styles.fields}>
+                      <PreviewField inline label="Exp. Delivery">
+                        <PreviewTag>{darkCalendar}Nov 29</PreviewTag>
+                      </PreviewField>
+                      <PreviewField inline label="Status">
+                        <PreviewTag tone="amber">Waiting for stock</PreviewTag>
+                      </PreviewField>
                     </div>
-                  </PreviewField>
-                  <PreviewField label="Waiting for stock">
-                    <PreviewRow leading={<PreviewIcon file="d356a" />}>
-                      <span className={styles.stockItem}>
-                        {products[2]}
-                        <small>Expected arrival Nov. 14.</small>
-                      </span>
-                    </PreviewRow>
-                  </PreviewField>
-                </>
-              )}
-            </div>
-          </PreviewPanel>
-        </motion.div>
-      </AnimatePresence>
+                    <PreviewField label="Available products reserved">
+                      <div className={styles.rows}>
+                        {products.slice(0, 2).map((product) => (
+                          <PreviewRow key={product} leading={<PreviewIcon file="cfc20" />}>
+                            {product}
+                          </PreviewRow>
+                        ))}
+                      </div>
+                    </PreviewField>
+                    <PreviewField label="Waiting for stock">
+                      <PreviewRow leading={<PreviewIcon file="d356a" />}>
+                        <span className={styles.stockItem}>
+                          {products[2]}
+                          <small>Expected arrival Nov. 14.</small>
+                        </span>
+                      </PreviewRow>
+                    </PreviewField>
+                  </>
+                )}
+              </div>
+            </PreviewPanel>
+          </motion.div>
+        </AnimatePresence>
+      ))}
     </div>
   );
 }

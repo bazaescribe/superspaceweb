@@ -207,5 +207,16 @@
       }
     ],
     "blurDataURL": "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoMAAcAAwBSJZwAAl1NdAAA+wUtxBfeHrxQ3ICAAAA="
+  },
+  "Home Workforce.webp": {
+    "width": 1920,
+    "height": 1080,
+    "variants": [
+      {
+        "width": 1920,
+        "src": "/assets/figma/home-iteration/ab11f.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoMAAcAAwBSJZACdAELG4b5LgD+8lpMVO2muc+bgMbBBkfWfB7yAl9fGOcAAA=="
   }
 }

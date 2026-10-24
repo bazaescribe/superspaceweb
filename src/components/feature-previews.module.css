@@ -233,3 +233,17 @@
   font-size: 10px;
   color: var(--preview-muted);
 }
+
+.automation[data-compact="true"] {
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 48px 32px 0;
+}
+.automation[data-compact="true"] .automationCard {
+  width: 360px;
+  flex: none;
+}
+.automation[data-compact="true"] .automationBody {
+  padding: 24px;
+}

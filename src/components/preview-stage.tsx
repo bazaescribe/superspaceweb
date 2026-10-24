@@ -13,6 +13,7 @@ export function PreviewStage({
   label,
   className = "",
   mobileCanvas = false,
+  tabIndex,
 }: {
   background: string;
   children: ReactNode;
@@ -21,6 +22,7 @@ export function PreviewStage({
   label: string;
   className?: string;
   mobileCanvas?: boolean;
+  tabIndex?: number;
 }) {
   const nearViewport = useInView(stageRef, { once: true, margin: "500px 0px" });
   const [loadedSource, setLoadedSource] = useState("");
@@ -30,6 +32,7 @@ export function PreviewStage({
   return (
     <div
       ref={stageRef}
+      tabIndex={tabIndex}
       className={`${styles.stage} ${mobileCanvas ? styles.scrollable : ""} ${className}`}
       data-entered={entered}
       role="group"
