@@ -1,0 +1,262 @@
+/* Monday walkthrough */
+.walkthrough {
+  display: flex;
+  flex-direction: column;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.steps button {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 72px;
+  padding: 14px 16px;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-content-secondary);
+  font: 500 14px/1.3 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+.steps button small {
+  font-size: 11px;
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.steps button:hover {
+  color: white;
+}
+.steps button[aria-selected="true"] {
+  color: white;
+  border-top-color: white;
+  background: linear-gradient(rgb(255 255 255 / 0.04), transparent);
+}
+.steps button:focus-visible,
+.next:focus-visible,
+.anatomyItems button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.stepCopy {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 48px;
+  margin-bottom: 24px;
+}
+.stepCopy p {
+  max-width: 640px;
+  margin: 0;
+  font: 400 var(--type-section-body-size) / var(--type-section-body-leading) var(--font-body);
+  color: var(--color-content-secondary);
+}
+.next {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.06);
+  color: white;
+  font: 700 10px/1.2 var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+.next:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+.next svg {
+  width: 12px;
+  height: 12px;
+}
+.footnotes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px 48px;
+  margin-top: 32px;
+}
+.thesis {
+  margin: 0;
+  font: 500 18px/1.35 var(--font-body);
+}
+.agent {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.02);
+}
+.agent > svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  margin-top: 2px;
+  color: #b9a6ff;
+}
+.agent strong {
+  display: block;
+  margin-bottom: 4px;
+  font: 500 14px/1.3 var(--font-body);
+}
+.agent p {
+  margin: 0;
+  font: 400 14px/1.45 var(--font-body);
+  color: var(--color-content-secondary);
+}
+.disclosure {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-content-tertiary);
+}
+
+/* Operation anatomy */
+.anatomyStage.anatomyStage {
+  aspect-ratio: 2.1;
+}
+.anatomyPanel {
+  position: absolute;
+  left: 6%;
+  top: 9%;
+  width: 50%;
+  bottom: -4%;
+  font-size: clamp(9px, 0.9cqw, 12px);
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms var(--ease-standard),
+    transform 600ms var(--ease-standard);
+}
+.anatomyPanel[data-entered="true"] {
+  opacity: 1;
+  transform: none;
+}
+.panel.panel {
+  height: 100%;
+  background: radial-gradient(ellipse at top left, #111116, #070709);
+  border-color: #202024;
+  box-shadow: 0 4px 48px #0005;
+  font-size: inherit;
+}
+.panelBody {
+  padding: 2.4em 2.4em 0;
+}
+.anatomyExample {
+  position: absolute;
+  z-index: 1;
+  left: 62%;
+  right: 5%;
+  top: 38%;
+  margin: 0;
+  font: 500 clamp(16px, 2.3cqw, 30px) / 1.2 var(--font-body);
+  letter-spacing: 0.01em;
+  color: white;
+  text-shadow: 0 2px 24px #0006;
+  animation: example-in 400ms var(--ease-standard) both;
+}
+.anatomyItems {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+.anatomyItems button {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  background: none;
+  color: var(--color-content-secondary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.anatomyItems strong {
+  font: 600 18px/1.3 var(--font-body);
+  color: white;
+}
+.anatomyItems span {
+  font: 400 var(--type-section-body-size) / var(--type-section-body-leading) var(--font-body);
+}
+.anatomyItems button[aria-pressed="true"] {
+  border-top-color: #8f72ff;
+  color: white;
+}
+@keyframes example-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anatomyPanel {
+    transition: none;
+  }
+  .anatomyExample {
+    animation: none;
+  }
+}
+@media (max-width: 900px) {
+  .footnotes {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 720px) {
+  .steps {
+    display: flex;
+    overflow-x: auto;
+    margin-inline: calc(-1 * var(--site-gutter));
+    padding-inline: var(--site-gutter);
+    scrollbar-width: none;
+  }
+  .steps button {
+    flex: 0 0 150px;
+    min-height: 64px;
+    padding: 12px;
+    font-size: 13px;
+  }
+  .stepCopy {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .anatomyStage.anatomyStage {
+    aspect-ratio: auto;
+    height: 460px;
+  }
+  .anatomyPanel {
+    left: 16px;
+    right: 16px;
+    width: auto;
+    top: 96px;
+    bottom: -40px;
+    font-size: 11px;
+  }
+  .anatomyExample {
+    left: 16px;
+    right: 16px;
+    top: 24px;
+    font-size: 18px;
+  }
+  .anatomyItems {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 16px;
+  }
+}

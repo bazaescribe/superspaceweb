@@ -1,100 +1,112 @@
+import Link from "next/link";
 import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
-import { HomeCapabilities, HomeWorkforcePreview } from "./home-capabilities";
-import { OperativeModels } from "./operative-models";
 import { BookingLink } from "./booking-link";
-import { PillarCard } from "./pillar-card";
+import { MondayWalkthrough, OperationAnatomy } from "./home-story";
+import { OperativeModels } from "./operative-models";
 import { ProductPreview } from "./product-preview";
 import styles from "./dark-home.module.css";
 
-const pillars = [
-  {
-    title: "Built around your business.",
-    text: "Your people, processes, and business rules, modeled into one operational system that works the way your company does.",
-  },
-  {
-    title: "Designed to evolve.",
-    text: "Add new workflows, connect new systems, and expand what your business can do without starting from scratch.",
-  },
-  {
-    title: "Built to run. Managed for you.",
-    text: "A fully managed operational system, designed for reliable daily work. We take care of the software so you can focus on running your business.",
-  },
-];
+const stages = [
+  ["Understand", "Your people, records, decisions, and rules."],
+  ["Model", "Objects, states, actions, and permissions, configured in Superspace."],
+  ["Deploy", "Tested against real scenarios, then used every day."],
+  ["Expand", "New teams and processes on the same foundation."],
+] as const;
+
 export function DarkHome() {
   return (
     <div className={styles.home}>
       <section className={styles.hero} aria-labelledby="home-title">
         <div className={styles.heroCopy}>
-          <HeroHeading id="home-title">The operative system that understands your business.</HeroHeading>
+          <HeroHeading id="home-title">The operating system that understands your business.</HeroHeading>
           <p>
-            Superspace turns the way your company works into operational software built around your people, processes,
-            and rules, evolving as your business grows.
+            Bring your operations together. Know what needs attention, keep work moving, and give your people the tools
+            to act. Superspace is configured around the way your business works, and managed for you.
           </p>
           <div className="hero-actions">
-            <BookingLink placement="home_hero" label="Let’s talk" designIcon inverse />
-            <a className="button button--secondary" href="#system">
-              How it works?
+            <BookingLink placement="home_hero" designIcon inverse />
+            <a className="button button--secondary" href="#monday">
+              See how it works
             </a>
           </div>
         </div>
         <div className={styles.heroVisual}>
-          <div className={styles.heroInteractive}>
-            <ProductPreview />
-          </div>
-          <div className={styles.heroStatic}>
-            <picture>
-              <source media="(min-width: 721px)" srcSet="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
-              {/* The mobile hero is a fixed-proportion product image, cropped by its stage. */}
-              <img
-                src="/assets/figma/home-previews/hero-mobile.webp"
-                width={739}
-                height={480}
-                alt="Superspace operations dashboard showing service metrics and hourly status charts."
-                fetchPriority="high"
-              />
-            </picture>
-          </div>
+          <ProductPreview label="Superspace Orders workspace preview" />
         </div>
       </section>
-      <section id="system" className={styles.pillarsSection} aria-labelledby="pillars-title">
-        <EntranceHeading id="pillars-title">
-          A different kind of business software. <span>Tailored for your company, designed to evolve as you grow.</span>
-        </EntranceHeading>
-        <div className={styles.pillars}>
-          {pillars.map((pillar, index) => (
-            <PillarCard key={pillar.title} {...pillar} index={index} />
+
+      <section id="monday" className={styles.section} aria-labelledby="monday-title">
+        <div className={styles.sectionCopy}>
+          <p className={styles.eyebrow}>Monday, 8:00 AM</p>
+          <EntranceHeading id="monday-title">Know what needs you. Act where the work lives.</EntranceHeading>
+          <p>
+            Superspace briefs you on what happened, what’s still open, and which exceptions matter. Every item points to
+            a real record, so you go straight from noticing a problem to resolving it, within the rules your business
+            already follows.
+          </p>
+        </div>
+        <MondayWalkthrough />
+      </section>
+
+      <section className={styles.section} aria-labelledby="operation-title">
+        <div className={styles.sectionCopy}>
+          <EntranceHeading id="operation-title">
+            Superspace models the work itself. <span>Not just records about it.</span>
+          </EntranceHeading>
+          <p>
+            Spreadsheets, project tools, and ERPs can all be shaped to fit an operation. What differs is what the
+            software understands. In Superspace, an order isn’t a row or a task. It’s an object that knows its customer
+            and driver, the state it’s in, what can happen next, and who is allowed to do it.
+          </p>
+        </div>
+        <OperationAnatomy />
+        <div className={styles.payoff}>
+          <p>
+            That understanding is what makes intelligence useful. Briefings point to real records. Agents can only
+            propose actions your rules allow. AI works from the same facts and the same permissions as your team.
+          </p>
+          <Link className={styles.link} href="/platform">
+            How the platform works →
+          </Link>
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="operations-title">
+        <div className={styles.sectionCopy}>
+          <EntranceHeading id="operations-title">One platform. Different operations.</EntranceHeading>
+          <p>
+            An order waiting for a driver and a production job waiting for an owner are different problems with the same
+            shape. Superspace runs both on the same foundation, each modeled in its own terms.
+          </p>
+        </div>
+        <OperativeModels />
+      </section>
+
+      <section className={`${styles.section} ${styles.last}`} aria-labelledby="start-title">
+        <div className={styles.sectionCopy}>
+          <EntranceHeading id="start-title">Start with one operation. Grow from there.</EntranceHeading>
+          <p>
+            We begin where coordination costs you most. Our team learns how that operation works, models it in
+            Superspace, and brings it into daily use with your people. When you’re ready for the next area, it builds on
+            the model you already have.
+          </p>
+        </div>
+        <ol className={styles.stages}>
+          {stages.map(([title, text], i) => (
+            <li key={title}>
+              <small>0{i + 1}</small>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
           ))}
+        </ol>
+        <div className={styles.managed}>
+          <p>You get a running system, not a codebase or a project. We host, maintain, and update the platform.</p>
+          <Link className={styles.link} href="/deployment">
+            How deployment works →
+          </Link>
         </div>
       </section>
-      <div className={styles.features}>
-        <section className={styles.feature}>
-          <div className={styles.featureCopy}>
-            <EntranceHeading>Different businesses. Different rules.</EntranceHeading>
-            <p>
-              Superspace can be configured around very different kinds of operations, from marketplaces and service
-              teams to manufacturing and distribution. Explore a few examples of what that can look like.
-            </p>
-          </div>
-          <OperativeModels />
-        </section>
-        <section className={styles.feature} aria-labelledby="workforce-title">
-          <div className={styles.featureCopy}>
-            <EntranceHeading id="workforce-title">Meet your AI workforce.</EntranceHeading>
-            <p>
-              Give AI agents the context, tools, and permissions to take action across your operations. From everyday
-              tasks to complex decisions, Superspace brings people and AI together in one operating system.
-            </p>
-          </div>
-          <HomeWorkforcePreview />
-        </section>
-        <section className={styles.feature} aria-labelledby="capabilities-title">
-          <div className={styles.featureCopy}>
-            <EntranceHeading id="capabilities-title">Everything your business needs to run.</EntranceHeading>
-            <p>Powerful capabilities, built into every operational model.</p>
-          </div>
-          <HomeCapabilities />
-        </section>
-      </div>
     </div>
   );
 }

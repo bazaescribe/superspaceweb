@@ -4,9 +4,9 @@ import { DarkHome } from "@/components/dark-home";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/lib/seo";
 export const metadata = createPageMetadata({
-  title: "Superspace — Operational software for growing companies",
+  title: "Superspace — The operating system that understands your business",
   description:
-    "One managed system for your people, processes, and business rules. Configured to fit how you work, and ready to grow with you.",
+    "Bring your operations together. Know what needs attention, keep work moving, and give your people the tools to act. Configured around the way your business works, and managed for you.",
   path: "/",
   absoluteTitle: true,
 });
@@ -20,7 +20,16 @@ export default function Home() {
       <main id="main-content">
         <DarkHome />
       </main>
-      <Footer />
+      <Footer
+        cta={{
+          title: "Which operation would you start with?",
+          text: "Tell us where work slips between people, spreadsheets, and systems. We’ll show you how Superspace would model it.",
+          label: "Plan your first operation",
+          subject: "Planning a first operation with Superspace",
+          placement: "home_closing",
+          secondary: { label: "Explore the platform", href: "/platform" },
+        }}
+      />
     </HeaderThemeScope>
   );
 }
