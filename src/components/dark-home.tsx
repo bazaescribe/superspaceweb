@@ -3,8 +3,12 @@ import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
 import { BookingLink } from "./booking-link";
 import { MondayWalkthrough, OperationAnatomy } from "./home-story";
 import { OperativeModels } from "./operative-models";
-import { ProductPreview } from "./product-preview";
+import { ProductPreview, type Screen } from "./product-preview";
+import { briefing } from "@/lib/operational-story";
 import styles from "./dark-home.module.css";
+
+// The hero shows only verified surfaces; Inbox joins it once Operational Intelligence v0 is validated.
+const heroScreens: Screen[] = briefing.status === "verified" ? ["Inbox", "Data"] : ["Data"];
 
 const stages = [
   ["Understand", "Your people, records, decisions, and rules."],
@@ -31,7 +35,7 @@ export function DarkHome() {
           </div>
         </div>
         <div className={styles.heroVisual}>
-          <ProductPreview label="Superspace Orders workspace preview" />
+          <ProductPreview screens={heroScreens} label="Superspace Orders workspace preview" />
         </div>
       </section>
 
