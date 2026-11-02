@@ -3,27 +3,6 @@ export const contactUrl = `mailto:${contactEmail}`;
 export const legalEntityName = "Rosas Baza Consulting SA de CV";
 export const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || contactUrl;
 
-export const platformPillars = [
-  {
-    id: "matrix",
-    title: "Matrix, your company modeled.",
-    description: "The people, customers, projects, contracts, orders and relationships that make your business work.",
-    number: "01",
-  },
-  {
-    id: "flow",
-    title: "Flow, your company in motion.",
-    description: "The rules and workflows that move work through your operation.",
-    number: "02",
-  },
-  {
-    id: "atlas",
-    title: "Atlas, your company understood.",
-    description: "The knowledge your people and systems need to operate with context.",
-    number: "03",
-  },
-] as const;
-
 export const industries = [
   {
     id: "marketplaces",

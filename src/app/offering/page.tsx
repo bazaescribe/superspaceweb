@@ -37,7 +37,7 @@ export default function OfferingPage() {
                 the same operational foundation could support the way your team works.
               </p>
               <div className="hero-actions">
-                <BookingLink placement="offering_hero" label="Let’s talk" designIcon inverse />
+                <BookingLink placement="offering_hero" designIcon inverse />
                 <a className="button button--secondary" href="#operations">
                   Explore offerings
                 </a>
@@ -56,7 +56,7 @@ export default function OfferingPage() {
                   <h3>Don’t see your operation here?</h3>
                   <p>Let’s explore whether Superspace is a fit.</p>
                 </div>
-                <BookingLink placement="offering_catalog" label="Let’s talk" designIcon inverse />
+                <BookingLink placement="offering_catalog" designIcon inverse />
               </div>
             }
           >

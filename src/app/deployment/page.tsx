@@ -13,7 +13,7 @@ import styles from "./deployment.module.css";
 export const metadata = createPageMetadata({
   title: "Deployment — Forward Deployed Intelligence",
   description:
-    "Our team works with yours to understand your business, configure Superspace and bring your system into everyday use. From zero to ops in weeks.",
+    "Our team works with yours to understand your business, configure Superspace and bring your system into everyday use.",
   path: "/deployment",
 });
 
@@ -62,12 +62,12 @@ export default function DeploymentPage() {
               </HeroHeading>
               <p>
                 Our team works with yours to understand your business, configure Superspace and bring your system into
-                everyday use. From zero to ops in weeks.
+                everyday use.
               </p>
               <div className="hero-actions">
-                <BookingLink placement="deployment_hero" label="Let’s talk" designIcon inverse />
+                <BookingLink placement="deployment_hero" designIcon inverse />
                 <a className="button button--secondary" href="#how-it-works">
-                  How it works?
+                  See how it works
                 </a>
               </div>
             </div>
@@ -81,7 +81,7 @@ export default function DeploymentPage() {
                 <br className={styles.desktopBreak} /> behind it.
               </EntranceHeading>
               <p>
-                Every business works differently. Our team learns how yours operates, then configures SuperSpace around
+                Every business works differently. Our team learns how yours operates, then configures Superspace around
                 your people, processes, and rules.
               </p>
             </div>

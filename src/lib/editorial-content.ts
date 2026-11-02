@@ -53,7 +53,7 @@ export const aboutSections: EditorialChapter[] = [
         strong: true,
       },
       {
-        text: "So we started building SuperSpace.",
+        text: "So we started building Superspace.",
       },
     ],
   },
@@ -332,7 +332,7 @@ export const manifestoSections: EditorialChapter[] = [
         text: "They shouldn’t need to ask their software for permission to become something new.",
       },
       {
-        text: "We’re building SuperSpace because we believe the next generation of business software shouldn’t prescribe how organizations operate.",
+        text: "We’re building Superspace because we believe the next generation of business software shouldn’t prescribe how organizations operate.",
       },
       {
         text: "It should give them the tools to figure that out for themselves.",

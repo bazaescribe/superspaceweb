@@ -9,21 +9,26 @@ export function BookingLink({
   inverse = false,
   className = "",
   placement = "unspecified",
-  label = "Talk to us",
+  label = "Talk to our team",
+  subject,
   designIcon = false,
 }: {
   inverse?: boolean;
   className?: string;
   placement?: string;
   label?: string;
+  /** Prefills the email subject when the contact destination is a mailto link. */
+  subject?: string;
   designIcon?: boolean;
 }) {
   const external = bookingUrl.startsWith("http");
+  const href =
+    subject && bookingUrl.startsWith("mailto:") ? `${bookingUrl}?subject=${encodeURIComponent(subject)}` : bookingUrl;
   return (
     <a
       className={`button ${inverse ? "button--inverse" : ""} ${className}`}
-      href={bookingUrl}
-      onClick={() => track({ name: "cta_clicked", cta: "talk_to_us", destination: bookingUrl, placement })}
+      href={href}
+      onClick={() => track({ name: "cta_clicked", cta: "talk_to_us", destination: href, placement })}
       {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
     >
       {label}{" "}
