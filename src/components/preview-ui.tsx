@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import styles from "./preview-ui.module.css";
 
-export type PreviewTone = "neutral" | "green" | "blue" | "amber";
+export type PreviewTone = "neutral" | "green" | "blue" | "amber" | "red";
 export function PreviewPanel({
   children,
   theme = "light",
@@ -55,12 +55,14 @@ export function PreviewTag({
   children,
   tone = "neutral",
   dot = false,
+  className = "",
 }: {
   children: ReactNode;
   tone?: PreviewTone;
   dot?: boolean;
+  className?: string;
 }) {
-  return <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""}`}>{children}</span>;
+  return <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""} ${className}`}>{children}</span>;
 }
 export function PreviewAvatar({ initials, color = "#615fff" }: { initials: string; color?: string }) {
   return (

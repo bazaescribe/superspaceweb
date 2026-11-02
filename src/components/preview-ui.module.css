@@ -95,6 +95,10 @@
   color: #f08800;
   background: #f0880014;
 }
+.red {
+  color: #fb2c36;
+  background: #fb2c3614;
+}
 .dot::before {
   content: "";
   width: 4px;
