@@ -14,6 +14,13 @@
   font: 500 var(--type-section-size)/var(--type-section-leading) var(--font-body);
   letter-spacing: 0.01em;
 }
+.copy .eyebrow {
+  margin-bottom: 12px;
+  font: 500 12px/1.2 var(--font-body);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #b9a6ff;
+}
 .copy p {
   margin: 0;
   font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
