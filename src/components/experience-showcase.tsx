@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type KeyboardEvent } from "react";
+import { useCopy } from "@/i18n/copy";
 import { AdaptPreview, AttentionPreview, PlatformActionPreview, PlatformWorkspacePreview } from "./platform-previews";
 import styles from "./home-narrative.module.css";
 
@@ -33,6 +34,7 @@ const benefits = [
 
 /** The four benefits of the product experience, each shown on a working mockup. */
 export function ExperienceShowcase() {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(0);
   const { Preview } = benefits[active];
   const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -46,7 +48,7 @@ export function ExperienceShowcase() {
   };
   return (
     <div className={styles.experience}>
-      <div className={styles.benefits} role="tablist" aria-label="What your team can do">
+      <div className={styles.benefits} role="tablist" aria-label={localizeCopy("What your team can do")}>
         {benefits.map((benefit, i) => (
           <button
             key={benefit.id}
@@ -59,8 +61,8 @@ export function ExperienceShowcase() {
             onClick={() => setActive(i)}
             onKeyDown={(event) => onKeyDown(event, i)}
           >
-            <strong>{benefit.title}</strong>
-            <span>{benefit.text}</span>
+            <strong>{localizeCopy(benefit.title)}</strong>
+            <span>{localizeCopy(benefit.text)}</span>
           </button>
         ))}
       </div>

@@ -5,7 +5,7 @@ import { useId, useState, type KeyboardEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import data from "@/lib/deployment-comparison.json";
-import styles from "@/app/how-it-works/deployment.module.css";
+import styles from "@/app/[locale]/how-it-works/deployment.module.css";
 
 export function DeploymentTradeoffChart() {
   const [selected, setSelected] = useState(0);

@@ -3,6 +3,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { motion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
+import { useCopy } from "@/i18n/copy";
+import { Link } from "@/i18n/navigation";
 import {
   agentProposal,
   assignDriver,
@@ -35,9 +37,10 @@ import styles from "./platform-previews.module.css";
 const story = orders.find((order) => order.id === storyOrderId)!;
 
 function Bar({ children, trailing }: { children: ReactNode; trailing?: ReactNode }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.bar}>
-      <span>{children}</span>
+      <span>{localizeCopy(children)}</span>
       {trailing ?? <span aria-hidden="true">···</span>}
     </div>
   );
@@ -110,8 +113,9 @@ function Code({ text, started, reduced }: { text: string; started: boolean; redu
     return () => window.clearInterval(timer);
   }, [started, reduced, text]);
   const visible = reduced ? text : text.slice(0, length);
+  const localizeCopy = useCopy();
   return (
-    <pre className={styles.code} aria-label="Illustrative model definition">
+    <pre className={styles.code} aria-label={localizeCopy("Illustrative model definition")}>
       <code>
         {visible.split(/("(?:[^"\\]|\\.)*"\s*:|"(?:[^"\\]|\\.)*"|\btrue\b|\bfalse\b|\bnull\b)/g).map((token, i) => (
           <span
@@ -139,7 +143,7 @@ const coreLinks = {
     title: "Intelligence & Agents",
     text: "Briefings and agent proposals that read the same model.",
   },
-  model: { href: "#model", title: "Business Model", text: "Objects, relationships and lifecycle states." },
+  model: { href: "/how-it-works#model", title: "Business Model", text: "Objects, relationships and lifecycle states." },
   actions: {
     href: "/product#actions",
     title: "Actions & Workflows",
@@ -147,16 +151,18 @@ const coreLinks = {
   },
 };
 function CoreNode({ node, tone }: { node: (typeof coreLinks)[keyof typeof coreLinks]; tone?: "core" }) {
+  const localizeCopy = useCopy();
   return (
-    <a className={styles.coreNode} href={node.href} data-tone={tone}>
-      <strong>{node.title}</strong>
-      <span>{node.text}</span>
-    </a>
+    <Link className={styles.coreNode} href={node.href} data-tone={tone}>
+      <strong>{localizeCopy(node.title)}</strong>
+      <span>{localizeCopy(node.text)}</span>
+    </Link>
   );
 }
 /** A conceptual view: people and AI reach the same model and actions through controlled paths. */
 export function PlatformCoreDiagram() {
   const { ref, entered } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <PreviewStage
       background="Cover Ghost.png"
@@ -168,26 +174,26 @@ export function PlatformCoreDiagram() {
       <div className={styles.core} data-entered={entered}>
         <div className={styles.coreActors}>
           <div className={styles.coreColumn}>
-            <span className={styles.actor}>People</span>
+            <span className={styles.actor}>{localizeCopy("People")}</span>
             <CoreNode node={coreLinks.people} />
-            <span className={styles.path}>Run permitted actions</span>
+            <span className={styles.path}>{localizeCopy("Run permitted actions")}</span>
           </div>
           <div className={styles.coreColumn}>
-            <span className={styles.actor}>AI</span>
+            <span className={styles.actor}>{localizeCopy("AI")}</span>
             <CoreNode node={coreLinks.ai} />
-            <span className={styles.path}>Read in scope · propose for approval</span>
+            <span className={styles.path}>{localizeCopy("Read in scope · propose for approval")}</span>
           </div>
         </div>
         <div className={styles.ring}>
-          <a className={styles.ringLabel} href="/product#governance">
-            Governance & Security
-          </a>
+          <Link className={styles.ringLabel} href="/product#governance">
+            {localizeCopy("Governance & Security")}
+          </Link>
           <span className={styles.ringNodes}>
             <CoreNode node={coreLinks.model} tone="core" />
             <CoreNode node={coreLinks.actions} tone="core" />
           </span>
           <span className={styles.ringFooter}>
-            Organization isolation · Role permissions on every action · Append-only activity
+            {localizeCopy("Organization isolation · Role permissions on every action · Append-only activity")}
           </span>
         </div>
       </div>
@@ -230,6 +236,7 @@ const model = JSON.stringify(
 );
 export function PlatformModelPreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -246,14 +253,17 @@ export function PlatformModelPreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.modelDoc}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Acme Logistics / Model / </span>Order
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Model / ")}</span>
+            {localizeCopy("Order")}
           </Bar>
           <div className={styles.document}>
-            <strong className={styles.docTitle}>Order</strong>
+            <strong className={styles.docTitle}>{localizeCopy("Order")}</strong>
             <p>
-              An order is placed by a customer and moves through a defined lifecycle. A driver can be assigned to it.
+              {localizeCopy(
+                "An order is placed by a customer and moves through a defined lifecycle. A driver can be assigned to it.",
+              )}
             </p>
-            <small>Lifecycle</small>
+            <small>{localizeCopy("Lifecycle")}</small>
             <div className={styles.docStates}>
               {["Draft", "Confirmed", "In Transit", "Delivered"].map((state, i) => (
                 <span key={state}>
@@ -267,20 +277,23 @@ export function PlatformModelPreview() {
                 Cancelled
               </OpTag>
             </div>
-            <small>Relationships</small>
+            <small>{localizeCopy("Relationships")}</small>
             <ul>
               <li>
-                <ObjectChip id="Customer" /> places the order. Required.
+                <ObjectChip id="Customer" /> {localizeCopy("places the order. Required.")}
               </li>
               <li>
-                <ObjectChip id="Driver" /> is the assigned driver. Optional.
+                <ObjectChip id="Driver" /> {localizeCopy("is the assigned driver. Optional.")}
               </li>
             </ul>
-            <small>Actions</small>
+            <small>{localizeCopy("Actions")}</small>
             <ul>
               <li>
-                <strong>Assign driver</strong> requires <code>order.assign_driver</code>, takes a Driver reference and
-                creates the assignment. It does not change the order’s state.
+                <strong>{localizeCopy("Assign driver")}</strong> {localizeCopy("requires")}{" "}
+                <code>order.assign_driver</code>
+                {localizeCopy(
+                  ", takes a Driver reference and creates the assignment. It does not change the order’s state.",
+                )}
               </li>
             </ul>
           </div>
@@ -294,6 +307,7 @@ export function PlatformModelPreview() {
 
 export function PlatformWorkspacePreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -304,15 +318,16 @@ export function PlatformWorkspacePreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.collection}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Data / </span>Orders
+            <span className={styles.muted}>{localizeCopy("Data / ")}</span>
+            {localizeCopy("Orders")}
           </Bar>
           <div className={styles.filters} aria-hidden="true">
             <span>
-              <OpIcon name="search" /> Search orders
+              <OpIcon name="search" /> {localizeCopy("Search orders")}
             </span>
-            <span>State: Any</span>
-            <span>Priority: Any</span>
-            <span>Newest first</span>
+            <span>{localizeCopy("State: Any")}</span>
+            <span>{localizeCopy("Priority: Any")}</span>
+            <span>{localizeCopy("Newest first")}</span>
           </div>
           <div className={styles.collectionRows}>
             <CollectionList
@@ -331,7 +346,7 @@ export function PlatformWorkspacePreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.detail} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Orders / </span>
+            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
             {storyOrderId}
           </Bar>
           <div className={styles.panelBody}>
@@ -349,6 +364,7 @@ export function PlatformActionPreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
   const [driver, setDriver] = useState<string | undefined>(drivers[0].name);
   const [done, setDone] = useState(false);
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -359,7 +375,7 @@ export function PlatformActionPreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.actionDetail}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>Orders / </span>
+            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
             {storyOrderId}
           </Bar>
           <div className={styles.panelBody}>
@@ -375,7 +391,7 @@ export function PlatformActionPreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.actionDialog} delay={0.1}>
         {done ? (
           <div className={styles.actionDone}>
-            <Toast>Action completed.</Toast>
+            <Toast>{localizeCopy("Action completed.")}</Toast>
             <button
               type="button"
               className={styles.replay}
@@ -384,7 +400,7 @@ export function PlatformActionPreview() {
                 setDriver(drivers[0].name);
               }}
             >
-              Run it again ↻
+              {localizeCopy("Run it again")} ↻
             </button>
           </div>
         ) : (
@@ -397,7 +413,8 @@ export function PlatformActionPreview() {
             selected={driver}
             requirement={
               <>
-                Requires <code>{assignDriver.permission}</code>, granted to the {assignDriver.role} role.
+                {localizeCopy("Requires")} <code>{assignDriver.permission}</code>
+                {localizeCopy(`, granted to the ${assignDriver.role} role.`)}
               </>
             }
             effect={assignDriver.effect}
@@ -417,7 +434,8 @@ type ProposalStep = "proposed" | "approved" | "executed";
 const executedEntry: ActivityEntry = {
   id: "agent",
   actor: viewer.name,
-  text: `ran ${agentProposal.action}`,
+  text: "ran",
+  subject: agentProposal.action,
   detail: `Driver: ${agentProposal.input} · proposed by ${agentProposal.agent}`,
   time: "Mon 08:21",
   tone: "green",
@@ -426,6 +444,7 @@ const executedEntry: ActivityEntry = {
 export function PlatformIntelligencePreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
   const [step, setStep] = useState<ProposalStep>("proposed");
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -446,23 +465,23 @@ export function PlatformIntelligencePreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.proposal} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar trailing={<OpTag>Experimental</OpTag>}>
-            <span className={styles.muted}>Agent analysis / </span>
+            <span className={styles.muted}>{localizeCopy("Agent analysis / ")}</span>
             {agentProposal.subject}
           </Bar>
           <div className={styles.panelBody}>
             <div className={styles.proposalBody}>
               <small className={styles.label}>
-                <OpIcon name="spark" /> {agentProposal.agent} · {agentProposal.expires}
+                <OpIcon name="spark" /> {localizeCopy(agentProposal.agent)} · {localizeCopy(agentProposal.expires)}
               </small>
               <div className={styles.proposalAction}>
-                <span>Proposed action</span>
+                <span>{localizeCopy("Proposed action")}</span>
                 <strong>
-                  {agentProposal.action} <OpIcon name="arrow" /> {agentProposal.input}
+                  {localizeCopy(agentProposal.action)} <OpIcon name="arrow" /> {agentProposal.input}
                 </strong>
               </div>
-              <p>{agentProposal.rationale}</p>
+              <p>{localizeCopy(agentProposal.rationale)}</p>
               <div className={styles.evidence}>
-                <span>Evidence</span>
+                <span>{localizeCopy("Evidence")}</span>
                 {agentProposal.evidence.map((item) => (
                   <ObjectChip key={item} id={item} />
                 ))}
@@ -480,14 +499,16 @@ export function PlatformIntelligencePreview() {
                   <ActionButton primary onClick={() => setStep("executed")} icon="check">
                     Execute approved action
                   </ActionButton>
-                  <span className={styles.muted}>Runs with your permissions, after checking nothing changed.</span>
+                  <span className={styles.muted}>
+                    {localizeCopy("Runs with your permissions, after checking nothing changed.")}
+                  </span>
                 </div>
               )}
               {step === "executed" && (
                 <div className={styles.executed}>
                   <ActivityTimeline entries={[executedEntry]} highlight="agent" />
                   <button type="button" className={styles.replay} onClick={() => setStep("proposed")}>
-                    Replay ↻
+                    {localizeCopy("Replay")} ↻
                   </button>
                 </div>
               )}
@@ -519,10 +540,18 @@ const auditTrail: ActivityEntry[] = [
     time: "Fri 17:41",
     tone: "amber",
   },
-  { id: "created", actor: "Diego Marín", text: `created ${storyOrderId}`, detail: "State: Draft", time: "Fri 17:40" },
+  {
+    id: "created",
+    actor: "Diego Marín",
+    text: "created",
+    subject: storyOrderId,
+    detail: "State: Draft",
+    time: "Fri 17:40",
+  },
 ];
 export function PlatformGovernancePreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -533,16 +562,17 @@ export function PlatformGovernancePreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.role}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar trailing={<OpTag tone="green">Isolated organization</OpTag>}>
-            <span className={styles.muted}>Acme Logistics / Roles / </span>Logistics operator
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Roles / ")}</span>
+            {localizeCopy("Logistics operator")}
           </Bar>
           <div className={styles.panelBody}>
-            <small className={styles.label}>Capabilities</small>
+            <small className={styles.label}>{localizeCopy("Capabilities")}</small>
             <div className={styles.capabilities}>
               {capabilities.map(([key, text, enabled]) => (
                 <div key={key}>
                   <span>
                     <code>{key}</code>
-                    <small>{text}</small>
+                    <small>{localizeCopy(text)}</small>
                   </span>
                   <PreviewSwitch enabled={enabled} />
                 </div>
@@ -554,12 +584,13 @@ export function PlatformGovernancePreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.audit} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>{storyOrderId} / </span>Activity
+            <span className={styles.muted}>{storyOrderId} / </span>
+            {localizeCopy("Activity")}
           </Bar>
           <div className={styles.panelBody}>
             <ActivityTimeline entries={auditTrail} />
             <p className={styles.appendOnly}>
-              <OpIcon name="lock" /> Append-only. Events can’t be edited or deleted.
+              <OpIcon name="lock" /> {localizeCopy("Append-only. Events can’t be edited or deleted.")}
             </p>
           </div>
         </PreviewPanel>
@@ -644,6 +675,7 @@ const changes = [
 export function AdaptPreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
   const [applied, setApplied] = useState(true);
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
@@ -654,18 +686,19 @@ export function AdaptPreview() {
       <Swipe entered={entered} reduced={reducedMotion} className={styles.adapt}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar trailing={<OpTag>Illustrative</OpTag>}>
-            <span className={styles.muted}>Acme Logistics / Change / </span>Add a quality check before dispatch
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Change / ")}</span>
+            {localizeCopy("Add a quality check before dispatch")}
           </Bar>
           <div className={styles.panelBody}>
-            <div className={styles.adaptToggle} role="group" aria-label="Order process version">
+            <div className={styles.adaptToggle} role="group" aria-label={localizeCopy("Order process version")}>
               <button type="button" aria-pressed={!applied} onClick={() => setApplied(false)}>
-                Current process
+                {localizeCopy("Current process")}
               </button>
               <button type="button" aria-pressed={applied} onClick={() => setApplied(true)}>
-                With the change
+                {localizeCopy("With the change")}
               </button>
             </div>
-            <small className={styles.label}>Order lifecycle</small>
+            <small className={styles.label}>{localizeCopy("Order lifecycle")}</small>
             <StateBar
               key={applied ? "after" : "before"}
               states={applied ? lifecycleAfter : lifecycleBefore}
@@ -675,8 +708,8 @@ export function AdaptPreview() {
             <dl className={styles.changes} data-applied={applied}>
               {changes.map(([term, text]) => (
                 <div key={term} data-kind={term === "Unchanged" ? "kept" : "new"}>
-                  <dt>{term}</dt>
-                  <dd>{text}</dd>
+                  <dt>{localizeCopy(term)}</dt>
+                  <dd>{localizeCopy(text)}</dd>
                 </div>
               ))}
             </dl>

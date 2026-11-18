@@ -1,3 +1,4 @@
+import { useCopy } from "@/i18n/copy";
 import { HeroHeading } from "@/components/entrance-heading";
 import type { ReactNode } from "react";
 import styles from "./site-hero.module.css";
@@ -12,12 +13,13 @@ export function HeroBlueprint({
   hasActions?: boolean;
   colorful?: boolean;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div
       className={`hero-product ${colorful ? styles.colorfulField : ""} ${children ? "" : `${styles.compactField} ${hasActions ? styles.withActions : ""}`}`}
     >
       <div className="hero-point-field" aria-hidden="true" />
-      {children}
+      {localizeCopy(children)}
     </div>
   );
 }
@@ -35,6 +37,7 @@ export function SiteHero({
   variant?: "home" | "page" | "platform";
   visual?: ReactNode;
 }) {
+  const localizeCopy = useCopy();
   return (
     <>
       <section
@@ -42,12 +45,14 @@ export function SiteHero({
         id="top"
       >
         <div className={styles.copy}>
-          <HeroHeading className={styles.title}>{title}</HeroHeading>
-          {intro && <p className={styles.intro}>{intro}</p>}
-          {actions && <div className="hero-actions">{actions}</div>}
+          <HeroHeading className={styles.title}>{localizeCopy(title)}</HeroHeading>
+          {intro && <p className={styles.intro}>{localizeCopy(intro)}</p>}
+          {actions && <div className="hero-actions">{localizeCopy(actions)}</div>}
         </div>
       </section>
-      {variant === "home" ? visual : <HeroBlueprint hasActions={Boolean(actions)} colorful={variant === "platform"} />}
+      {localizeCopy(
+        variant === "home" ? visual : <HeroBlueprint hasActions={Boolean(actions)} colorful={variant === "platform"} />,
+      )}
     </>
   );
 }

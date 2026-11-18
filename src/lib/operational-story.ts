@@ -11,7 +11,10 @@ export type StoryTone = "neutral" | "green" | "blue" | "amber" | "red";
 export type ActivityEntry = {
   id: string;
   actor: string;
+  /** The verb phrase, kept free of names and IDs so it can be localized as a whole. */
   text: string;
+  /** Optional object or action the verb applies to, rendered after `text` (e.g. "created" + "PO-48202"). */
+  subject?: string;
   detail?: string;
   time: string;
   tone?: StoryTone;
@@ -160,15 +163,29 @@ export function orderRecord(order: OrderRow, assignedDriver?: string): ObjectRec
       time: "Fri 17:41",
       tone: "amber",
     },
-    { id: "created", actor: "Diego Marín", text: `created ${order.id}`, detail: "State: Draft", time: "Fri 17:40" },
+    {
+      id: "created",
+      actor: "Diego Marín",
+      text: "created",
+      subject: order.id,
+      detail: "State: Draft",
+      time: "Fri 17:40",
+    },
   ];
   if (!story)
-    activity.splice(0, 1, { id: "state", actor: "Lucía Méndez", text: `moved to ${order.state}`, time: "Sat 09:12" });
+    activity.splice(0, 1, {
+      id: "state",
+      actor: "Lucía Méndez",
+      text: "moved to",
+      subject: order.state,
+      time: "Sat 09:12",
+    });
   if (assignedDriver)
     activity.unshift({
       id: "assigned",
       actor: viewer.name,
-      text: `ran ${assignDriver.name}`,
+      text: "ran",
+      subject: assignDriver.name,
       detail: `Driver: ${assignedDriver} · Assigned driver relationship created`,
       time: "Mon 08:14",
       tone: "green",
@@ -337,6 +354,13 @@ export const productionJob: ObjectRecord = {
   ],
   actions: ["Assign production owner", "Start production"],
   activity: [
-    { id: "queued", actor: "Carlos Ruiz", text: "created JOB-209", detail: "State: Queued", time: "Thu 11:05" },
+    {
+      id: "queued",
+      actor: "Carlos Ruiz",
+      text: "created",
+      subject: "JOB-209",
+      detail: "State: Queued",
+      time: "Thu 11:05",
+    },
   ],
 };

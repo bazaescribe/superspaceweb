@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useCopy } from "@/i18n/copy";
 import { PreviewAvatar, PreviewTag, type PreviewTone } from "./preview-ui";
 import {
   stateTones,
@@ -19,6 +20,34 @@ import styles from "./operational-ui.module.css";
 
 export type Highlight =
   "summary" | "exception" | "context" | "proposal" | "actions" | "dialog" | "result" | "state" | "related" | "activity";
+
+type Localize = ReturnType<typeof useCopy>;
+
+/** Fills `{name}` placeholders after localizing the template, so word order can change per locale. */
+function fill(localizeCopy: Localize, template: string, values: Record<string, string>) {
+  return localizeCopy(template).replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
+}
+
+/**
+ * Localizes composite display strings piece by piece: `A · B` segments, `Label: value` pairs and
+ * `X → Y` transitions. Names and IDs have no dictionary entry and pass through unchanged.
+ */
+function localizeParts(localizeCopy: Localize, text: string) {
+  const whole = localizeCopy(text);
+  if (whole !== text) return whole;
+  const value = (part: string) =>
+    part
+      .split(" → ")
+      .map((piece) => localizeCopy(piece))
+      .join(" → ");
+  return text
+    .split(" · ")
+    .map((part) => {
+      const pair = part.match(/^([^:]+): (.+)$/);
+      return pair ? `${localizeCopy(pair[1])}: ${value(pair[2])}` : value(part);
+    })
+    .join(" · ");
+}
 
 const toneMap: Record<StoryTone, PreviewTone> = {
   neutral: "neutral",
@@ -74,13 +103,20 @@ export function OpIcon({ name }: { name: IconName }) {
 
 /** A reference to a real business object. Interactive when given an onClick. */
 export function ObjectChip({ id, onClick, label }: { id: string; onClick?: () => void; label?: string }) {
+  const localizeCopy = useCopy();
+  const text = localizeCopy(id);
   if (onClick)
     return (
-      <button type="button" className={styles.chip} onClick={onClick} aria-label={label ?? `Open ${id}`}>
-        {id}
+      <button
+        type="button"
+        className={styles.chip}
+        onClick={onClick}
+        aria-label={label ? localizeCopy(label) : fill(localizeCopy, "Open {id}", { id: text })}
+      >
+        {text}
       </button>
     );
-  return <span className={styles.chip}>{id}</span>;
+  return <span className={styles.chip}>{text}</span>;
 }
 
 export function ActionButton({
@@ -96,16 +132,17 @@ export function ActionButton({
   label?: string;
   icon?: IconName;
 }) {
+  const localizeCopy = useCopy();
   const content = (
     <>
       {icon && <OpIcon name={icon} />}
-      {children}
+      {localizeCopy(children)}
     </>
   );
   const className = `${styles.button} ${primary ? styles.primary : ""}`;
   if (!onClick) return <span className={className}>{content}</span>;
   return (
-    <button type="button" className={className} onClick={onClick} aria-label={label}>
+    <button type="button" className={className} onClick={onClick} aria-label={label && localizeCopy(label)}>
       {content}
     </button>
   );
@@ -121,16 +158,20 @@ export function StateBar({
   current: string;
   terminal?: string;
 }) {
+  const localizeCopy = useCopy();
   return (
-    <div className={styles.stateBar} aria-label={`State: ${current}`}>
+    <div
+      className={styles.stateBar}
+      aria-label={fill(localizeCopy, "State: {state}", { state: localizeCopy(current) })}
+    >
       {states.map((state) => (
         <span key={state} data-current={state === current || undefined}>
-          {state}
+          {localizeCopy(state)}
         </span>
       ))}
       {terminal && (
         <span data-terminal data-current={terminal === current || undefined}>
-          {terminal}
+          {localizeCopy(terminal)}
         </span>
       )}
     </div>
@@ -138,6 +179,7 @@ export function StateBar({
 }
 
 export function ActivityTimeline({ entries, highlight }: { entries: ActivityEntry[]; highlight?: string }) {
+  const localizeCopy = useCopy();
   return (
     <ol className={styles.timeline}>
       {entries.map((entry) => (
@@ -145,16 +187,17 @@ export function ActivityTimeline({ entries, highlight }: { entries: ActivityEntr
           <span className={styles.timelineDot} aria-hidden="true" />
           <div>
             <p>
-              <strong>{entry.actor}</strong> {entry.text}
+              <strong>{entry.actor}</strong> {localizeCopy(entry.text)}
+              {entry.subject && <> {localizeCopy(entry.subject)}</>}
             </p>
-            {entry.detail && <small>{entry.detail}</small>}
+            {entry.detail && <small>{localizeParts(localizeCopy, entry.detail)}</small>}
             {entry.badge && (
               <span className={styles.timelineBadge}>
                 <OpTag tone="blue">{entry.badge}</OpTag>
               </span>
             )}
           </div>
-          <time>{entry.time}</time>
+          <time>{localizeCopy(entry.time)}</time>
         </li>
       ))}
     </ol>
@@ -172,10 +215,11 @@ function Section({
   highlighted?: boolean;
   trailing?: ReactNode;
 }) {
+  const localizeCopy = useCopy();
   return (
     <section className={styles.section} data-highlighted={highlighted || undefined}>
       <div className={styles.sectionLabel}>
-        <span>{label}</span>
+        <span>{localizeCopy(label)}</span>
         {trailing}
       </div>
       {children}
@@ -201,22 +245,27 @@ export function ObjectDetail({
   sections?: ("properties" | "details" | "related" | "activity")[];
 }) {
   const lit = (...names: Highlight[]) => (highlight ? names.includes(highlight) : false);
+  const localizeCopy = useCopy();
   return (
     <div className={styles.detail} data-focused={highlight ? true : undefined}>
       <header className={styles.detailHeader}>
         <div>
-          <small>{record.type}</small>
+          <small>{localizeCopy(record.type)}</small>
           <strong>{record.id}</strong>
-          <span>{record.subtitle}</span>
+          <span>{localizeCopy(record.subtitle)}</span>
         </div>
         <div className={styles.detailActions} data-highlighted={lit("actions") || undefined}>
-          <small>Actions</small>
+          <small>{localizeCopy("Actions")}</small>
           {record.actions.map((action, i) => (
             <ActionButton
               key={action}
               primary={i === 0}
               onClick={onAction ? () => onAction(action) : undefined}
-              label={onAction ? `${action} on ${record.id}` : undefined}
+              label={
+                onAction
+                  ? fill(localizeCopy, "{action} on {id}", { action: localizeCopy(action), id: record.id })
+                  : undefined
+              }
             >
               {action}
             </ActionButton>
@@ -233,8 +282,8 @@ export function ObjectDetail({
           <dl className={styles.fields}>
             {record.fields.map((field) => (
               <div key={field.label}>
-                <dt>{field.label}</dt>
-                <dd>{field.tone ? <OpTag tone={field.tone}>{field.value}</OpTag> : field.value}</dd>
+                <dt>{localizeCopy(field.label)}</dt>
+                <dd>{field.tone ? <OpTag tone={field.tone}>{field.value}</OpTag> : localizeCopy(field.value)}</dd>
               </div>
             ))}
           </dl>
@@ -245,15 +294,15 @@ export function ObjectDetail({
           <dl className={styles.fields}>
             {record.related.map((item) => (
               <div key={item.label}>
-                <dt>{item.label}</dt>
+                <dt>{localizeCopy(item.label)}</dt>
                 <dd>
                   {item.value ? (
                     <span className={styles.relatedValue}>
                       <ObjectChip id={item.value} />
-                      <small>{item.type}</small>
+                      <small>{localizeCopy(item.type)}</small>
                     </span>
                   ) : (
-                    <span className={styles.empty}>{item.empty}</span>
+                    <span className={styles.empty}>{localizeCopy(item.empty)}</span>
                   )}
                 </dd>
               </div>
@@ -265,7 +314,7 @@ export function ObjectDetail({
         <Section
           label="Activity"
           highlighted={lit("activity", "result")}
-          trailing={<span className={styles.sectionLink}>View activity</span>}
+          trailing={<span className={styles.sectionLink}>{localizeCopy("View activity")}</span>}
         >
           <ActivityTimeline entries={record.activity} highlight={activityHighlight} />
         </Section>
@@ -292,18 +341,19 @@ export function CollectionList({
   onSelect?: (id: string) => void;
   label: string;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div
       className={styles.collection}
       role={onSelect ? "listbox" : undefined}
-      aria-label={onSelect ? label : undefined}
+      aria-label={onSelect ? localizeCopy(label) : undefined}
     >
       {rows.map((row) => {
         const content = (
           <>
             <span className={styles.rowTitle}>
-              <strong>{row.title}</strong>
-              <span>{row.subtitle}</span>
+              <strong>{localizeCopy(row.title)}</strong>
+              <span>{localizeParts(localizeCopy, row.subtitle)}</span>
             </span>
             <span className={styles.rowTags}>
               {row.tags.map((tag) => (
@@ -345,13 +395,14 @@ export function ExceptionRow({
   highlighted?: boolean;
   onAction?: (intent: BriefingItem["actions"][number]["intent"], id: string) => void;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.exception} data-highlighted={highlighted || undefined}>
       <span className={styles.exceptionDot} aria-hidden="true" />
       <div className={styles.exceptionMain}>
         <p className={styles.exceptionTitle}>
-          {item.title}
-          <time>{item.time}</time>
+          {localizeCopy(item.title)}
+          <time>{localizeCopy(item.time)}</time>
         </p>
         <div className={styles.exceptionSubject}>
           <ObjectChip id={item.subject} />
@@ -367,7 +418,8 @@ export function ExceptionRow({
           // Assign driver is the row's call to action; other actions open the record behind an arrow.
           const assign = action.intent === "assign";
           const className = assign ? styles.assign : styles.arrow;
-          const content = assign ? action.label : <OpIcon name="arrow" />;
+          const actionLabel = localizeCopy(action.label);
+          const content = assign ? actionLabel : <OpIcon name="arrow" />;
           if (!onAction)
             return (
               <span key={action.label} className={className}>
@@ -380,8 +432,8 @@ export function ExceptionRow({
               key={action.label}
               className={className}
               onClick={() => onAction(action.intent, item.id)}
-              aria-label={`${action.label}: ${item.subject}`}
-              title={action.label}
+              aria-label={`${actionLabel}: ${localizeCopy(item.subject)}`}
+              title={actionLabel}
             >
               {content}
             </button>
@@ -413,21 +465,22 @@ export function BriefingCard({
   onAction?: (intent: BriefingItem["actions"][number]["intent"], id: string) => void;
   onReference?: (id: string) => void;
 }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.briefing} data-focused={highlight ? true : undefined}>
       <section className={styles.section} data-highlighted={highlight === "summary" || undefined}>
         <small className={styles.briefingLabel}>
           <OpIcon name="spark" />
-          {label} · {generatedAt}
+          {localizeCopy(label)} · {localizeCopy(generatedAt)}
         </small>
-        <strong className={styles.greeting}>{greeting}</strong>
+        <strong className={styles.greeting}>{localizeCopy(greeting)}</strong>
         <p className={styles.summary}>
           {summary.map((segment, i) =>
             typeof segment === "string" ? (
-              segment
+              localizeCopy(segment)
             ) : "figure" in segment ? (
               <span key={i} className={styles.figure}>
-                {segment.figure}
+                {localizeCopy(segment.figure)}
               </span>
             ) : (
               <ObjectChip key={i} id={segment.ref} onClick={onReference ? () => onReference(segment.ref) : undefined} />
@@ -437,7 +490,7 @@ export function BriefingCard({
       </section>
       <section className={styles.section} data-highlighted={highlight === "exception" || undefined}>
         <div className={styles.sectionLabel}>
-          <span>Needs attention</span>
+          <span>{localizeCopy("Needs attention")}</span>
           <small>{items.length}</small>
         </div>
         <div className={styles.exceptions}>
@@ -453,7 +506,7 @@ export function BriefingCard({
       </section>
       <footer className={styles.provenance}>
         {provenance.map((item) => (
-          <span key={item}>{item}</span>
+          <span key={item}>{localizeCopy(item)}</span>
         ))}
       </footer>
     </div>
@@ -480,12 +533,13 @@ export function PersonOption({
   disabled?: boolean;
   onClick?: () => void;
 }) {
+  const localizeCopy = useCopy();
   const content = (
     <>
       <PreviewAvatar initials={initials} color={color} />
       <span className={styles.optionName}>
         {name}
-        <small>{detail ?? "Driver"}</small>
+        <small>{localizeParts(localizeCopy, detail ?? "Driver")}</small>
       </span>
       {tag && <OpTag tone={tag.tone}>{tag.label}</OpTag>}
       {selected && <OpIcon name="check" />}
@@ -544,20 +598,22 @@ export function ActionDialog({
   onCancel?: () => void;
   highlighted?: boolean;
 }) {
+  const localizeCopy = useCopy();
+  const titleText = localizeCopy(title);
   return (
     <div
       className={styles.dialog}
       role="group"
-      aria-label={`${title}: ${subject}`}
+      aria-label={`${titleText}: ${subject}`}
       data-highlighted={highlighted || undefined}
     >
       <header>
-        <strong>{title}</strong>
+        <strong>{titleText}</strong>
         <ObjectChip id={subject} />
       </header>
       <div className={styles.dialogField}>
         <small>
-          {input} <span>Required</span>
+          {localizeCopy(input)} <span>{localizeCopy("Required")}</span>
         </small>
         <div className={styles.combobox}>
           <OpIcon name="search" />
@@ -566,7 +622,7 @@ export function ActionDialog({
         <div
           className={styles.options}
           role={onSelect ? "listbox" : undefined}
-          aria-label={onSelect ? input : undefined}
+          aria-label={onSelect ? localizeCopy(input) : undefined}
         >
           {options.map((option) => (
             <PersonOption
@@ -581,16 +637,20 @@ export function ActionDialog({
       <div className={styles.dialogNotes}>
         <p>
           <OpIcon name="lock" />
-          {requirement}
+          {localizeCopy(requirement)}
         </p>
         <p>
           <OpIcon name="arrow" />
-          {effect}
+          {localizeCopy(effect)}
         </p>
       </div>
       <footer>
         <ActionButton onClick={onCancel}>Cancel</ActionButton>
-        <ActionButton primary onClick={onConfirm} label={onConfirm ? `Confirm ${title}` : undefined}>
+        <ActionButton
+          primary
+          onClick={onConfirm}
+          label={onConfirm ? fill(localizeCopy, "Confirm {action}", { action: titleText }) : undefined}
+        >
           {title}
         </ActionButton>
       </footer>
@@ -599,10 +659,11 @@ export function ActionDialog({
 }
 
 export function Toast({ children }: { children: ReactNode }) {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.toast} role="status">
       <OpIcon name="check" />
-      {children}
+      {localizeCopy(children)}
     </div>
   );
 }

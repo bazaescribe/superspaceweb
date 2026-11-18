@@ -17,6 +17,7 @@ import {
 } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useCopy } from "@/i18n/copy";
 import Image from "next/image";
 import { PreviewTag } from "./preview-ui";
 import { WorkspaceSidebar } from "./workspace-shell";
@@ -162,6 +163,7 @@ function useElapsedSeconds(active: boolean) {
 }
 
 export function HomeControlCenter() {
+  const localizeCopy = useCopy();
   const [run, setRun] = useState(0);
   const reduced = useReducedMotion();
   const frame = useRef<HTMLDivElement>(null);
@@ -181,7 +183,9 @@ export function HomeControlCenter() {
         className={styles.canvas}
         style={{ transform: `scale(${scale})` }}
         role="img"
-        aria-label="Superspace home: an AI summary of today's operation, progress charts, overdue orders and the Superspace AI inspector"
+        aria-label={localizeCopy(
+          "Superspace home: an AI summary of today's operation, progress charts, overdue orders and the Superspace AI inspector",
+        )}
       >
         <ControlCenter key={run} reduced={reduced} onReplay={() => setRun((value) => value + 1)} />
       </div>
@@ -215,6 +219,7 @@ function nextAfter(
 }
 
 function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () => void }) {
+  const localizeCopy = useCopy();
   const [stage, setStage] = useState<Stage | null>(null);
   const current = reduced ? "review" : stage;
   const reached = (name: Stage) => (current ? stageIndex(current) >= stageIndex(name) : false);
@@ -222,9 +227,9 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
   const [inspectorTab, setInspectorTab] = useState<"Shortcuts" | "Superspace AI">("Superspace AI");
   const [applied, setApplied] = useState(false);
   const [view, setView] = useState<"dashboard" | "assistant">("dashboard");
-  const summary = { shown: SUMMARY, done: true };
-  const question = useTyped(QUESTION, reached("asking") && !reached("sent"), reduced, 28);
-  const answer = useTyped(ANSWER, reached("answer"), reduced, 18);
+  const summary = { shown: localizeCopy(SUMMARY), done: true };
+  const question = useTyped(localizeCopy(QUESTION), reached("asking") && !reached("sent"), reduced, 28);
+  const answer = useTyped(localizeCopy(ANSWER), reached("answer"), reduced, 18);
   const elapsed = useElapsedSeconds(reached("step1") && !reached("review"));
   // Reduced motion skips the run, so it reports the length a full run takes.
   const seconds = reduced ? WORKED_SECONDS : elapsed;
@@ -256,19 +261,19 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
         active="Home"
         onNavigate={() => {}}
         organization="Aliada"
-        organizationSubtitle="Work"
+        organizationSubtitle={localizeCopy("Work")}
         businessLogo="/assets/figma/logos/Logo-Aliada.png"
         userName="Ana Torres"
         userEmail="ana@aliada.example"
       />
-      <div className={styles.mobileSwitch} role="tablist" aria-label="Home sections">
+      <div className={styles.mobileSwitch} role="tablist" aria-label={localizeCopy("Home sections")}>
         <button
           role="tab"
           aria-selected={view === "dashboard"}
           className={view === "dashboard" ? styles.tabActive : undefined}
           onClick={() => setView("dashboard")}
         >
-          Dashboard
+          {localizeCopy("Dashboard")}
         </button>
         <button
           role="tab"
@@ -284,9 +289,9 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
         <main className={styles.main}>
           <div className={styles.column}>
             <header className={`${styles.intro} ${styles.stagger}`} style={enterAt(0)}>
-              <p className={styles.date}>Thu 5 Nov, 2:05 PM</p>
-              <h2 className={styles.hello}>Hello Ana!</h2>
-              <h3 className={styles.today}>Today</h3>
+              <p className={styles.date}>{localizeCopy("Thu 5 Nov, 2:05 PM")}</p>
+              <h2 className={styles.hello}>{localizeCopy("Hello Ana!")}</h2>
+              <h3 className={styles.today}>{localizeCopy("Today")}</h3>
             </header>
 
             <div className={styles.stagger} style={enterAt(300)}>
@@ -294,7 +299,9 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
                 generating={false}
                 text={
                   applied
-                    ? "5 orders remain overdue. ORD-1045 and ORD-1037 now have drivers assigned. Their workflow states are unchanged."
+                    ? localizeCopy(
+                        "5 orders remain overdue. ORD-1045 and ORD-1037 now have drivers assigned. Their workflow states are unchanged.",
+                      )
                     : summary.shown
                 }
                 done={summary.done}
@@ -304,7 +311,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
             </div>
 
             <div className={`${styles.tabBar} ${styles.stagger}`} style={enterAt(600)}>
-              <div className={styles.tabs} role="tablist" aria-label="Home views">
+              <div className={styles.tabs} role="tablist" aria-label={localizeCopy("Home views")}>
                 {tabs.map((name) => (
                   <button
                     key={name}
@@ -313,11 +320,11 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
                     className={tab === name ? styles.tabActive : undefined}
                     onClick={() => setTab(name)}
                   >
-                    {name}
+                    {localizeCopy(name)}
                   </button>
                 ))}
               </div>
-              <button className={styles.filterButton} aria-label="Filter">
+              <button className={styles.filterButton} aria-label={localizeCopy("Filter")}>
                 <Funnel size={13} />
               </button>
             </div>
@@ -325,7 +332,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
             <div>
               <OverdueCard
                 key={tab}
-                heading={tabCards[tab].heading}
+                heading={localizeCopy(tabCards[tab].heading)}
                 rows={tabCards[tab].rows.map((row) => {
                   const assignment = applied && reviewRows.find((item) => item.from === row.id);
                   return assignment
@@ -339,8 +346,8 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
           </div>
         </main>
 
-        <section className={styles.inspector} aria-label="Superspace AI inspector">
-          <div className={styles.inspectorTabs} role="tablist" aria-label="Inspector">
+        <section className={styles.inspector} aria-label={localizeCopy("Superspace AI inspector")}>
+          <div className={styles.inspectorTabs} role="tablist" aria-label={localizeCopy("Inspector")}>
             <button
               role="tab"
               aria-selected={inspectorTab === "Shortcuts"}
@@ -348,7 +355,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
               onClick={() => setInspectorTab("Shortcuts")}
             >
               <ArrowUpRight size={12} />
-              Shortcuts
+              {localizeCopy("Shortcuts")}
             </button>
             <button
               role="tab"
@@ -364,7 +371,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
           {inspectorTab === "Shortcuts" ? (
             <div className={styles.shortcuts}>
               {["Open Inbox", "Find an order", "Assign a driver", "Show overdue work"].map((label) => (
-                <button key={label}>{label}</button>
+                <button key={label}>{localizeCopy(label)}</button>
               ))}
             </div>
           ) : (
@@ -372,12 +379,12 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
               <div className={styles.thread} ref={thread} aria-live="polite">
                 {!reached("sent") && (
                   <div className={styles.empty}>
-                    <h3 className={styles.emptyTitle}>What are we working on today?</h3>
+                    <h3 className={styles.emptyTitle}>{localizeCopy("What are we working on today?")}</h3>
                     <PromptBox text={question.shown} caret={reached("asking") && !question.done} />
                   </div>
                 )}
 
-                {reached("sent") && <p className={styles.timestamp}>Thu 5 Nov, 2:03 PM</p>}
+                {reached("sent") && <p className={styles.timestamp}>{localizeCopy("Thu 5 Nov, 2:03 PM")}</p>}
                 {reached("sent") && (
                   <motion.div
                     className={styles.bubble}
@@ -385,7 +392,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    {QUESTION}
+                    {localizeCopy(QUESTION)}
                   </motion.div>
                 )}
                 {reached("step1") && (
@@ -414,6 +421,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
 
 /** One prompt box, shared by the empty state and the composer: it glides between them with a layout animation. */
 function PromptBox({ text, caret }: { text: string; caret: boolean }) {
+  const localizeCopy = useCopy();
   return (
     <motion.div
       layoutId="prompt-box"
@@ -421,18 +429,18 @@ function PromptBox({ text, caret }: { text: string; caret: boolean }) {
       transition={{ type: "spring", stiffness: 280, damping: 34 }}
     >
       <p className={text ? styles.promptText : styles.promptPlaceholder}>
-        {text || "Ask a follow-up or change the plan…"}
+        {text || localizeCopy("Ask a follow-up or change the plan…")}
         {caret && <span className={styles.caret} aria-hidden="true" />}
       </p>
       <div className={styles.promptControls}>
-        <button className={styles.plus} aria-label="Add">
+        <button className={styles.plus} aria-label={localizeCopy("Add")}>
           <Plus size={14} />
         </button>
         <div className={styles.promptRight}>
-          <button className={styles.mic} aria-label="Voice input">
+          <button className={styles.mic} aria-label={localizeCopy("Voice input")}>
             <Microphone size={14} />
           </button>
-          <button className={styles.send} aria-label="Send" disabled={!text}>
+          <button className={styles.send} aria-label={localizeCopy("Send")} disabled={!text}>
             <ArrowRight size={14} weight="bold" />
           </button>
         </div>
@@ -454,21 +462,27 @@ function AiSummary({
   done: boolean;
   onReplay: () => void;
 }) {
+  const localizeCopy = useCopy();
   return (
-    <section className={styles.summary} aria-label="AI summary">
+    <section className={styles.summary} aria-label={localizeCopy("AI summary")}>
       <div className={styles.summaryHead}>
         <span className={styles.chip}>
           <CaretDown size={10} />
-          Operational brief · 2:00 PM
+          {localizeCopy("Operational brief · 2:00 PM")}
         </span>
-        <button className={styles.iconButton} aria-label="Replay assistant preview" disabled={!done} onClick={onReplay}>
+        <button
+          className={styles.iconButton}
+          aria-label={localizeCopy("Replay assistant preview")}
+          disabled={!done}
+          onClick={onReplay}
+        >
           <ArrowClockwise size={14} />
         </button>
       </div>
       {generating ? (
         <div className={styles.generating}>
           <span className={styles.orb} aria-hidden="true" />
-          <span className={styles.generatingLabel}>Generating summary</span>
+          <span className={styles.generatingLabel}>{localizeCopy("Generating summary")}</span>
           <div className={styles.skeleton} aria-hidden="true">
             <span />
             <span />
@@ -487,6 +501,7 @@ function AiSummary({
 
 /** Straight segments between daily values, as the product draws them: no spline smoothing. */
 function ProgressCard() {
+  const localizeCopy = useCopy();
   const [hover, setHover] = useState<number | null>(null);
   const svg = useRef<SVGSVGElement>(null);
   const active = hover ?? chartDays.length - 1;
@@ -505,9 +520,9 @@ function ProgressCard() {
       <header className={styles.cardHead}>
         <span className={styles.chip}>
           <CaretDown size={10} />
-          Progress
+          {localizeCopy("Progress")}
         </span>
-        <button className={styles.iconButton} aria-label="Chart options">
+        <button className={styles.iconButton} aria-label={localizeCopy("Chart options")}>
           <DotsThree size={16} weight="bold" />
         </button>
       </header>
@@ -515,7 +530,7 @@ function ProgressCard() {
         {series.map((line) => (
           <li key={line.name}>
             <span style={{ background: line.color }} />
-            {line.name}
+            {localizeCopy(line.name)}
           </li>
         ))}
       </ul>
@@ -527,7 +542,7 @@ function ProgressCard() {
           onPointerMove={onPointerMove}
           onPointerLeave={() => setHover(null)}
           role="img"
-          aria-label="Daily orders by status over the last five days"
+          aria-label={localizeCopy("Daily orders by status over the last five days")}
         >
           <defs>
             {series.map((line) => (
@@ -588,7 +603,7 @@ function ProgressCard() {
               textAnchor={i === 0 ? "start" : i === chartDays.length - 1 ? "end" : "middle"}
               className={i === active ? styles.tickActive : styles.tick}
             >
-              {label}
+              {localizeCopy(label)}
             </text>
           ))}
         </svg>
@@ -601,11 +616,11 @@ function ProgressCard() {
             }}
             aria-hidden="true"
           >
-            <strong>{chartDays[active]}</strong>
+            <strong>{localizeCopy(chartDays[active])}</strong>
             {series.map((line) => (
               <span key={line.name}>
                 <i style={{ background: line.color }} />
-                {line.name}
+                {localizeCopy(line.name)}
                 <b>{line.values[active]}</b>
               </span>
             ))}
@@ -628,6 +643,10 @@ function Tag({ tone, children }: { tone: Tone; children: ReactNode }) {
 }
 
 function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
+  const localizeCopy = useCopy();
+  /* Assignment labels carry a driver name after the "Driver:" prefix; only the prefix is copy. */
+  const assignmentLabel = (label: string) =>
+    label.startsWith("Driver: ") ? `${localizeCopy("Driver:")} ${label.slice("Driver: ".length)}` : localizeCopy(label);
   return (
     <article className={styles.itemCard}>
       <header className={styles.itemHeader}>
@@ -637,7 +656,7 @@ function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
           </span>
           {heading}
         </span>
-        <button className={styles.itemMore} aria-label="More options">
+        <button className={styles.itemMore} aria-label={localizeCopy("More options")}>
           <Image src="/assets/figma/home-control/list/more.svg" alt="" width={14} height={14} />
         </button>
       </header>
@@ -645,12 +664,12 @@ function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
         {rows.map((row) => (
           <li key={row.id} className={styles.itemRow}>
             <div className={styles.itemDetails}>
-              <span className={styles.rowId}>{row.id}</span>
-              <span className={styles.itemName}>{row.title}</span>
-              {row.assignment && <Tag tone={row.assignment.tone}>{row.assignment.label}</Tag>}
-              {!row.assignment && <span className={styles.itemMeta}>{row.meta}</span>}
+              <span className={styles.rowId}>{localizeCopy(row.id)}</span>
+              <span className={styles.itemName}>{localizeCopy(row.title)}</span>
+              {row.assignment && <Tag tone={row.assignment.tone}>{assignmentLabel(row.assignment.label)}</Tag>}
+              {!row.assignment && <span className={styles.itemMeta}>{localizeCopy(row.meta)}</span>}
             </div>
-            <Tag tone={row.tone}>{row.tag}</Tag>
+            <Tag tone={row.tone}>{localizeCopy(row.tag)}</Tag>
           </li>
         ))}
       </ul>
@@ -659,6 +678,7 @@ function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
 }
 
 function AgentRun({ stage, seconds, finished }: { stage: number; seconds: number; finished: boolean }) {
+  const localizeCopy = useCopy();
   return (
     <div className={`${styles.run} ${styles.enter}`}>
       <div className={styles.runHead}>
@@ -666,12 +686,14 @@ function AgentRun({ stage, seconds, finished }: { stage: number; seconds: number
           {finished && <Check size={8} weight="bold" />}
         </span>
         <span>
-          {finished ? `Superspace worked for ${seconds}s` : "Superspace is working"}
+          {finished ? `${localizeCopy("Superspace worked for")} ${seconds}s` : localizeCopy("Superspace is working")}
           {!finished && <span className={styles.dots} aria-hidden="true" />}
         </span>
       </div>
       <p className={styles.runLead}>
-        {finished ? "Assignment review complete." : "Checking assignments and available capacity."}
+        {finished
+          ? localizeCopy("Assignment review complete.")
+          : localizeCopy("Checking assignments and available capacity.")}
       </p>
       <ol className={styles.steps}>
         {STEPS.map((label, index) => {
@@ -682,7 +704,7 @@ function AgentRun({ stage, seconds, finished }: { stage: number; seconds: number
               {status === "done" && <CheckCircle size={14} weight="fill" className={styles.stepDone} />}
               {status === "running" && <CircleNotch size={14} className={styles.stepSpin} />}
               {status === "pending" && <span className={styles.stepPending} />}
-              {label}
+              {localizeCopy(label)}
             </li>
           );
         })}
@@ -697,11 +719,15 @@ const reviewRows = [
 ];
 
 function ReviewCard({ applied, onApply }: { applied: boolean; onApply: () => void }) {
+  const localizeCopy = useCopy();
   return (
     <div className={`${styles.review} ${styles.enter}`}>
       <div className={styles.reviewHead}>
-        <strong>Review assignments</strong>
-        <small>Experimental preview · {applied ? "Applied in preview" : "2 proposals for review"}</small>
+        <strong>{localizeCopy("Review assignments")}</strong>
+        <small>
+          {localizeCopy("Experimental preview")} ·{" "}
+          {applied ? localizeCopy("Applied in preview") : localizeCopy("2 proposals for review")}
+        </small>
       </div>
       {reviewRows.map((row, index) => (
         <div
@@ -715,13 +741,15 @@ function ReviewCard({ applied, onApply }: { applied: boolean; onApply: () => voi
           <span className={styles.pill}>{row.to}</span>
         </div>
       ))}
-      <p className={styles.reviewNote}>Suggested by availability and location. Review each order before applying.</p>
+      <p className={styles.reviewNote}>
+        {localizeCopy("Suggested by availability and location. Review each order before applying.")}
+      </p>
       <div className={styles.reviewActions}>
         <button className={styles.primary} onClick={onApply} disabled={applied}>
-          {applied ? "Assignments applied" : "Apply assignments"}
+          {applied ? localizeCopy("Assignments applied") : localizeCopy("Apply assignments")}
         </button>
         <button className={styles.secondary} disabled={applied}>
-          Adjust
+          {localizeCopy("Adjust")}
         </button>
       </div>
     </div>

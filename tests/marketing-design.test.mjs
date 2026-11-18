@@ -67,7 +67,7 @@ test("footer preserves Figma ordering, canonical routes and working destinations
       if (label === "Mail") {
         assert.equal(href, `mailto:${contactEmail}`);
       } else if (href.startsWith("/")) {
-        assert.ok(href === "/" || existsSync(new URL(`src/app${href}/page.tsx`, root)), href);
+        assert.ok(href === "/" || existsSync(new URL(`src/app/[locale]${href}/page.tsx`, root)), href);
       } else assert.ok(new URL(href).protocol === "https:");
     }
 });

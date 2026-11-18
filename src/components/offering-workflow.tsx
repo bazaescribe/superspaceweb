@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useState } from "react";
 import { cubeFaces } from "./deployment-cube-geometry";
@@ -7,13 +8,14 @@ import styles from "./offerings-catalog.module.css";
 const faces = cubeFaces([[0, 0, 0]], 0, 9, 0);
 
 export function OfferingWorkflow({ steps }: { steps: readonly string[] }) {
+  const localizeCopy = useCopy();
   const [paused, setPaused] = useState(false);
   return (
     <div className={styles.workflow} data-paused={paused}>
       <div className={styles.workflowHeading}>
-        <h3>One connected flow of work.</h3>
+        <h3>{localizeCopy("One connected flow of work.")}</h3>
         <button type="button" aria-pressed={paused} onClick={() => setPaused(!paused)}>
-          {paused ? "Play animation" : "Pause animation"}
+          {localizeCopy(paused ? "Play animation" : "Pause animation")}
         </button>
       </div>
       <ol>
@@ -34,12 +36,19 @@ export function OfferingWorkflow({ steps }: { steps: readonly string[] }) {
                 </g>
               ))}
             </svg>
-            <span className={styles.stepNumber}>0{index + 1}</span>
-            <strong>{step}</strong>
+            <span className={styles.stepNumber}>
+              {"0"}
+              {localizeCopy(index + 1)}
+            </span>
+            <strong>{localizeCopy(step)}</strong>
           </li>
         ))}
       </ol>
-      <p>Illustrative sequence. Your team’s stages, responsibilities, and exceptions are defined during discovery.</p>
+      <p>
+        {localizeCopy(
+          "Illustrative sequence. Your team’s stages, responsibilities, and exceptions are defined during discovery.",
+        )}
+      </p>
     </div>
   );
 }

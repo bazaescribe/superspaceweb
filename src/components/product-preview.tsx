@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { motionEase } from "@/lib/motion";
+import { useCopy } from "@/i18n/copy";
 import {
   assignDriver,
   briefing,
@@ -32,6 +33,11 @@ import styles from "./product-preview.module.css";
 
 const asset = (name: string) => `/assets/figma/dark-site/${name}`;
 const screenIcons = { Inbox: "fe362.svg", Data: "8b96a.svg" } as const;
+/** Display copy per screen. Screen names stay English as state keys; only these strings are localized. */
+const screenCopy = {
+  Inbox: { show: "Show Inbox", region: "Inbox product preview" },
+  Data: { show: "Show Data", region: "Data product preview" },
+} as const;
 
 export type Screen = keyof typeof screenIcons;
 export type AppState = {
@@ -97,22 +103,23 @@ function ProductRail({
   screen: Screen;
   dispatch: (intent: AppIntent) => void;
 }) {
+  const localizeCopy = useCopy();
   return (
-    <nav className={styles.rail} aria-label="Product preview navigation">
+    <nav className={styles.rail} aria-label={localizeCopy("Product preview navigation")}>
       <div>
         <span className={styles.organization} title={organization}>
           AL
         </span>
-        <span className={styles.railDecoration} title="Home">
+        <span className={styles.railDecoration} title={localizeCopy("Home")}>
           <Icon name="89179.svg" />
         </span>
         {screens.map((name) => (
           <button
             type="button"
             key={name}
-            aria-label={`Show ${name}`}
+            aria-label={localizeCopy(screenCopy[name].show)}
             aria-pressed={screen === name}
-            title={name}
+            title={localizeCopy(name)}
             onClick={() => dispatch({ type: "screen", screen: name })}
           >
             <Icon name={screenIcons[name]} />
@@ -130,28 +137,29 @@ function ProductRail({
 
 function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: AppIntent) => void }) {
   const toDo = briefing.standing.length + briefing.items.length;
+  const localizeCopy = useCopy();
   return (
     <div className={styles.inbox}>
-      <aside className={styles.inboxList} aria-label="Inbox items">
-        <h2 className={styles.inboxTitle}>Inbox</h2>
+      <aside className={styles.inboxList} aria-label={localizeCopy("Inbox items")}>
+        <h2 className={styles.inboxTitle}>{localizeCopy("Inbox")}</h2>
         <div className={styles.inboxControls}>
-          <div className={styles.segmented} role="group" aria-label="Inbox status">
+          <div className={styles.segmented} role="group" aria-label={localizeCopy("Inbox status")}>
             <span className={styles.segmentActive}>
-              To Do <OpTag tone="red">{toDo}</OpTag>
+              {localizeCopy("To Do")} <OpTag tone="red">{toDo}</OpTag>
             </span>
-            <span className={styles.segment}>Done</span>
+            <span className={styles.segment}>{localizeCopy("Done")}</span>
           </div>
           <span className={styles.control} aria-hidden="true">
             <OpIcon name="filter" />
           </span>
         </div>
-        <section className={styles.group} aria-label="Pinned">
+        <section className={styles.group} aria-label={localizeCopy("Pinned")}>
           <div className={styles.groupHeader}>
             <span className={styles.groupTitle}>
               <span className={styles.collapsed} aria-hidden="true">
                 <OpIcon name="chevron" />
               </span>
-              Pinned
+              {localizeCopy("Pinned")}
             </span>
             <span className={styles.control} aria-hidden="true">
               <OpIcon name="ellipsis" />
@@ -162,15 +170,15 @@ function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: 
           <div className={styles.groupHeader}>
             <span className={styles.groupTitle}>
               <OpIcon name="chevron" />
-              Operational Briefings
+              {localizeCopy("Operational Briefings")}
             </span>
           </div>
           {briefing.standing.map((entry, i) => (
             <div key={entry.id} className={styles.listItem} data-selected={i === 0 || undefined}>
               <span className={styles.unread} aria-hidden="true" />
               <div className={styles.listBody}>
-                <span className={styles.listTitle}>{entry.title}</span>
-                <p>{entry.detail}</p>
+                <span className={styles.listTitle}>{localizeCopy(entry.title)}</span>
+                <p>{localizeCopy(entry.detail)}</p>
               </div>
               <time>{entry.time}</time>
             </div>
@@ -180,7 +188,7 @@ function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: 
           <div className={styles.groupHeader}>
             <span className={styles.groupTitle}>
               <OpIcon name="chevron" />
-              My Tasks
+              {localizeCopy("My Tasks")}
             </span>
             <span className={styles.control} aria-hidden="true">
               <OpIcon name="ellipsis" />
@@ -195,9 +203,9 @@ function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: 
             >
               <span className={styles.unread} aria-hidden="true" />
               <div className={styles.listBody}>
-                <span className={styles.listTitle}>{item.title}</span>
+                <span className={styles.listTitle}>{localizeCopy(item.title)}</span>
                 <span className={styles.listTags}>
-                  <ObjectChip id={item.subject} />
+                  <ObjectChip id={localizeCopy(item.subject)} />
                   {item.tags.slice(0, 1).map((tag) => (
                     <OpTag key={tag.label} tone={tag.tone}>
                       {tag.label}
@@ -210,12 +218,12 @@ function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: 
           ))}
         </section>
       </aside>
-      <section className={styles.workspace} aria-label={briefing.standing[0].title}>
+      <section className={styles.workspace} aria-label={localizeCopy(briefing.standing[0].title)}>
         <header className={styles.workspaceBar}>
           <div className={styles.workspaceTitle}>
-            <span>Daily Operational briefing</span>
+            <span>{localizeCopy("Daily Operational briefing")}</span>
             <time>8:00 AM</time>
-            {briefing.status === "design-preview" && <OpTag tone="blue">Design preview</OpTag>}
+            {briefing.status === "design-preview" && <OpTag tone="blue">{localizeCopy("Design preview")}</OpTag>}
           </div>
           <span className={styles.control} aria-hidden="true">
             <OpIcon name="ellipsis" />
@@ -238,6 +246,7 @@ function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: 
 
 function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: AppIntent) => void }) {
   const [query, setQuery] = useState("");
+  const localizeCopy = useCopy();
   const order = orders.find((item) => item.id === state.selected) ?? orders[0];
   const assigned = state.assigned[order.id];
   const record = orderRecord(order, assigned);
@@ -248,10 +257,10 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
     <div className={styles.data}>
       <div className={styles.dataTabs}>
         <span className={styles.selectedTab}>
-          Orders <span className={styles.count}>46</span>
+          {localizeCopy("Orders")} <span className={styles.count}>46</span>
         </span>
-        <span>Customers</span>
-        <span>Drivers</span>
+        <span>{localizeCopy("Customers")}</span>
+        <span>{localizeCopy("Drivers")}</span>
       </div>
       <div className={styles.toolbar}>
         <label>
@@ -259,21 +268,21 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search orders"
-            aria-label="Search preview orders"
+            placeholder={localizeCopy("Search orders")}
+            aria-label={localizeCopy("Search preview orders")}
           />
         </label>
         <span>
-          State <Icon name="820f7.svg" />
+          {localizeCopy("State")} <Icon name="820f7.svg" />
         </span>
         <span>
-          Newest <Icon name="1426b.svg" />
+          {localizeCopy("Newest")} <Icon name="1426b.svg" />
         </span>
-        <span className={styles.newRecord}>New order +</span>
+        <span className={styles.newRecord}>{localizeCopy("New order")} +</span>
       </div>
       <aside className={styles.list}>
         <CollectionList
-          label="Orders"
+          label={localizeCopy("Orders")}
           selected={order.id}
           onSelect={(id) => dispatch({ type: "select", id })}
           rows={visible.map((item) => {
@@ -296,7 +305,7 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
             };
           })}
         />
-        {visible.length === 0 && <p className={styles.muted}>No matching orders.</p>}
+        {visible.length === 0 && <p className={styles.muted}>{localizeCopy("No matching orders.")}</p>}
       </aside>
       <div className={styles.detailPane} key={order.id}>
         <div className={`${styles.enter} ${styles.detailBody}`}>
@@ -304,19 +313,19 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
             <aside
               className={styles.proposal}
               data-highlighted={state.highlight === "proposal" || undefined}
-              aria-label={storyResolution.title}
+              aria-label={localizeCopy(storyResolution.title)}
             >
               <div className={styles.proposalHead}>
                 <OpIcon name="spark" />
-                <span>{storyResolution.title}</span>
-                <OpTag>Experimental</OpTag>
+                <span>{localizeCopy(storyResolution.title)}</span>
+                <OpTag>{localizeCopy("Experimental")}</OpTag>
               </div>
-              <strong>{storyResolution.summary}</strong>
+              <strong>{localizeCopy(storyResolution.summary)}</strong>
               <ul>
                 {storyResolution.reasons.map((reason) => (
                   <li key={reason}>
                     <OpIcon name="check" />
-                    {reason}
+                    {localizeCopy(reason)}
                   </li>
                 ))}
               </ul>
@@ -325,7 +334,7 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
                 className={styles.proposalButton}
                 onClick={() => dispatch({ type: "driver", name: storyResolution.driver })}
               >
-                Review assignment <OpIcon name="arrow" />
+                {localizeCopy("Review assignment")} <OpIcon name="arrow" />
               </button>
             </aside>
           )}
@@ -350,7 +359,8 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
               highlighted={state.highlight === "dialog"}
               requirement={
                 <>
-                  Requires <code>{assignDriver.permission}</code>, granted to your {assignDriver.role} role.
+                  {localizeCopy("Requires")} <code>{assignDriver.permission}</code>
+                  {localizeCopy(`, granted to your ${assignDriver.role} role.`)}
                 </>
               }
               effect={assignDriver.effect}
@@ -363,7 +373,7 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
       )}
       {state.toast && (
         <div className={styles.toastFrame}>
-          <Toast>Action completed.</Toast>
+          <Toast>{localizeCopy("Action completed.")}</Toast>
         </div>
       )}
     </div>
@@ -390,6 +400,7 @@ export function ProductPreview({
 }) {
   const [internal, setInternal] = useState<AppState>({ ...initialAppState, screen: screens[0] });
   const state = controlled ?? internal;
+  const localizeCopy = useCopy();
   const wrapper = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1280 / 1512);
   const reduce = useReducedMotion();
@@ -408,7 +419,7 @@ export function ProductPreview({
   return (
     <div className={styles.preview} style={{ "--canvas-height": `${height}px` } as CSSProperties}>
       {screens.length > 1 && (
-        <div className={styles.mobileTabs} role="group" aria-label="Product screens">
+        <div className={styles.mobileTabs} role="group" aria-label={localizeCopy("Product screens")}>
           {screens.map((name) => (
             <button
               type="button"
@@ -416,7 +427,7 @@ export function ProductPreview({
               onClick={() => dispatch({ type: "screen", screen: name })}
               key={name}
             >
-              {name}
+              {localizeCopy(name)}
             </button>
           ))}
         </div>
@@ -426,7 +437,7 @@ export function ProductPreview({
         ref={wrapper}
         tabIndex={0}
         role="region"
-        aria-label={label ?? `${state.screen} product preview`}
+        aria-label={localizeCopy(label ?? screenCopy[state.screen].region)}
       >
         <div className={styles.scaledSpace} style={{ width: 1512 * scale, height: height * scale }}>
           <div className={styles.canvas} style={{ transform: `scale(${scale})` }}>

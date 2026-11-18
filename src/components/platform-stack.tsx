@@ -1,3 +1,4 @@
+import { useCopy } from "@/i18n/copy";
 import styles from "./home-narrative.module.css";
 
 const layers = [
@@ -35,22 +36,24 @@ const layers = [
 
 /** The platform layers, from the interfaces people use down to the engine. */
 export function PlatformStack() {
+  const localizeCopy = useCopy();
   return (
     <div className={styles.stack}>
       <ol className={styles.layers}>
         {layers.map((layer) => (
           <li key={layer.name} data-tone={layer.tone}>
             <div>
-              <strong>{layer.name}</strong>
-              <small>{layer.detail}</small>
+              <strong>{localizeCopy(layer.name)}</strong>
+              <small>{localizeCopy(layer.detail)}</small>
             </div>
-            <p>{layer.text}</p>
+            <p>{localizeCopy(layer.text)}</p>
           </li>
         ))}
       </ol>
       <p className={styles.note}>
-        Governed collaboration between people and AI is the design direction. Orchestration of external systems is on
-        the roadmap.
+        {localizeCopy(
+          "Governed collaboration between people and AI is the design direction. Orchestration of external systems is on the roadmap.",
+        )}
       </p>
     </div>
   );

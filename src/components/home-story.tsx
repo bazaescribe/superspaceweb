@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useCopy } from "@/i18n/copy";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import { briefing, drivers, orderRecord, orders, storyOrderId } from "@/lib/operational-story";
 import { ObjectDetail, OpIcon, type Highlight } from "./operational-ui";
@@ -52,6 +53,7 @@ const steps: { label: string; text: string; state: AppState }[] = [
 
 /** Exception → context and proposal → constraints → human approval → recorded result, in one mockup application. */
 export function MondayWalkthrough() {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(0);
   const [state, setState] = useState<AppState>(steps[0].state);
   const go = (index: number) => {
@@ -75,7 +77,7 @@ export function MondayWalkthrough() {
   };
   return (
     <div className={styles.walkthrough}>
-      <div className={styles.steps} role="tablist" aria-label="An order needs a driver">
+      <div className={styles.steps} role="tablist" aria-label={localizeCopy("An order needs a driver")}>
         {steps.map((step, i) => (
           <button
             key={step.label}
@@ -86,40 +88,41 @@ export function MondayWalkthrough() {
             onClick={() => go(i)}
           >
             <small>0{i + 1}</small>
-            <span>{step.label}</span>
+            <span>{localizeCopy(step.label)}</span>
           </button>
         ))}
       </div>
       <div className={styles.stepCopy} aria-live="polite">
-        <p>{steps[active].text}</p>
+        <p>{localizeCopy(steps[active].text)}</p>
         {active < steps.length - 1 ? (
           <button type="button" className={styles.next} onClick={() => go(active + 1)}>
-            Next step <OpIcon name="arrow" />
+            {localizeCopy("Next step")} <OpIcon name="arrow" />
           </button>
         ) : (
           <button type="button" className={styles.next} onClick={() => go(0)}>
-            Start again
+            {localizeCopy("Start again")}
           </button>
         )}
       </div>
-      <div id="monday-stage" role="tabpanel" aria-label={steps[active].label}>
+      <div id="monday-stage" role="tabpanel" aria-label={localizeCopy(steps[active].label)}>
         <ProductPreview
           screens={["Inbox", "Data"]}
           state={state}
           onIntent={onIntent}
           height={740}
-          label="Superspace Inbox and Orders workspace"
+          label={localizeCopy("Superspace Inbox and Orders workspace")}
         />
       </div>
       <div className={styles.footnotes}>
         <p className={styles.thesis}>
-          Superspace finds the gap and prepares the decision. A person stays accountable for it.
+          {localizeCopy("Superspace finds the gap and prepares the decision. A person stays accountable for it.")}
         </p>
         <p className={styles.disclosure}>
-          Controlled product demonstration with fictional data. Record views, governed actions, and activity history
-          have been demonstrated in controlled environments.{" "}
-          {briefing.status === "design-preview" && "Operational briefings are in development. "}
-          Suggested resolutions are experimental and not yet generally available.
+          {localizeCopy(
+            "Controlled product demonstration with fictional data. Record views, governed actions, and activity history have been demonstrated in controlled environments.",
+          )}{" "}
+          {briefing.status === "design-preview" && `${localizeCopy("Operational briefings are in development.")} `}
+          {localizeCopy("Suggested resolutions are experimental and not yet generally available.")}
         </p>
       </div>
     </div>
@@ -155,6 +158,7 @@ const anatomy: { key: Highlight; title: string; text: string; example: string }[
 
 /** One order and the four things it knows, highlighted in the shared object detail. */
 export function OperationAnatomy() {
+  const localizeCopy = useCopy();
   const { ref, entered } = useScrollEntrance();
   const [active, setActive] = useState<Highlight>("related");
   const record = orderRecord(story, drivers[0].name);
@@ -165,7 +169,7 @@ export function OperationAnatomy() {
         background="Cover Purple.png"
         stageRef={ref}
         entered={entered}
-        label="An order in Superspace with its relationships, state, actions and history"
+        label={localizeCopy("An order in Superspace with its relationships, state, actions and history")}
         className={styles.anatomyStage}
       >
         <div className={styles.anatomyPanel} data-entered={entered}>
@@ -181,7 +185,7 @@ export function OperationAnatomy() {
           </PreviewPanel>
         </div>
         <p className={styles.anatomyExample} aria-hidden="true" key={active}>
-          {current.example}
+          {localizeCopy(current.example)}
         </p>
       </PreviewStage>
       <div className={styles.anatomyItems}>
@@ -194,8 +198,8 @@ export function OperationAnatomy() {
             onPointerEnter={(event) => event.pointerType !== "touch" && setActive(item.key)}
             onFocus={() => setActive(item.key)}
           >
-            <strong>{item.title}</strong>
-            <span>{item.text}</span>
+            <strong>{localizeCopy(item.title)}</strong>
+            <span>{localizeCopy(item.text)}</span>
           </button>
         ))}
       </div>

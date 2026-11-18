@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useCopy } from "@/i18n/copy";
 import styles from "./home-narrative.module.css";
 
 const logic = [
@@ -52,11 +53,12 @@ const operations = [
 
 /** Resource Allocation: one shared logic, shown against three business models. */
 export function ResourceAllocation() {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(0);
   const operation = operations[active];
   return (
     <div className={styles.allocation} style={{ "--operation": operation.color } as React.CSSProperties}>
-      <div className={styles.allocationTabs} role="group" aria-label="Example operation">
+      <div className={styles.allocationTabs} role="group" aria-label={localizeCopy("Example operation")}>
         {operations.map((item, i) => (
           <button
             key={item.id}
@@ -65,9 +67,9 @@ export function ResourceAllocation() {
             onClick={() => setActive(i)}
             style={{ "--tab": item.color } as React.CSSProperties}
           >
-            <span>{item.label}</span>
+            <span>{localizeCopy(item.label)}</span>
             <small>
-              {item.pair[0]} → {item.pair[1]}
+              {localizeCopy(item.pair[0])} → {localizeCopy(item.pair[1])}
             </small>
           </button>
         ))}
@@ -75,24 +77,26 @@ export function ResourceAllocation() {
       <div className={styles.allocationTable}>
         <div className={styles.allocationHead}>
           <span>
-            Capability <strong>Resource Allocation</strong>
+            {localizeCopy("Capability")} <strong>{localizeCopy("Resource Allocation")}</strong>
           </span>
           <span aria-live="polite">
-            {operation.label} <strong>{operation.pair.join(" → ")}</strong>
+            {localizeCopy(operation.label)} <strong>{localizeCopy(operation.pair).join(" → ")}</strong>
           </span>
         </div>
         {logic.map(([term, text], i) => (
           <div className={styles.allocationRow} key={term}>
             <div>
-              <strong>{term}</strong>
-              <span>{text}</span>
+              <strong>{localizeCopy(term)}</strong>
+              <span>{localizeCopy(text)}</span>
             </div>
-            <p key={operation.id}>{operation.values[i]}</p>
+            <p key={operation.id}>{localizeCopy(operation.values[i])}</p>
           </div>
         ))}
       </div>
       <p className={styles.note}>
-        Illustrative applications of one capability, not existing deployments. Resource Allocation is in development.
+        {localizeCopy(
+          "Illustrative applications of one capability, not existing deployments. Resource Allocation is in development.",
+        )}
       </p>
     </div>
   );

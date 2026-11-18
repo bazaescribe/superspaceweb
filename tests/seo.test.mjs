@@ -11,8 +11,8 @@ test("page metadata keeps canonical and social fields aligned", () => {
 
   assert.equal(metadata.title, "Platform");
   assert.equal(metadata.description, "A useful description.");
-  assert.equal(metadata.alternates.canonical, "/platform");
-  assert.equal(metadata.openGraph.url, "/platform");
+  assert.equal(metadata.alternates.canonical, "/en/platform");
+  assert.equal(metadata.openGraph.url, "/en/platform");
   assert.equal(metadata.openGraph.title, "Platform — Superspace");
   assert.equal(metadata.twitter.card, "summary_large_image");
 });

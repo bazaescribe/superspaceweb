@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useCopy } from "@/i18n/copy";
 import { useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -15,6 +16,8 @@ import backgroundPlaceholders from "./operative-model-backgrounds.json";
 const path = "/assets/figma/operative-models/";
 const story = orders.find((order) => order.id === storyOrderId)!;
 
+type Localize = (value: string) => string;
+
 const models = [
   {
     name: "Logistics",
@@ -22,12 +25,13 @@ const models = [
     collection: "Orders",
     record: orderRecord(story),
     sections: ["properties", "related", "activity"] as const,
-    rows: orders.slice(0, 7).map<CollectionRow>((order) => ({
-      id: order.id,
-      title: order.id,
-      subtitle: `${order.customer}${order.driver ? ` · ${order.driver}` : ""}`,
-      tags: [{ label: order.state, tone: stateTones[order.state] }],
-    })),
+    rows: (localize: Localize) =>
+      orders.slice(0, 7).map<CollectionRow>((order) => ({
+        id: order.id,
+        title: order.id,
+        subtitle: `${order.customer}${order.driver ? ` · ${order.driver}` : ""}`,
+        tags: [{ label: localize(order.state), tone: stateTones[order.state] }],
+      })),
     points: [
       ["Connected deliveries", "Keep each order linked to its customer and assigned driver."],
       ["Visible progress", "Follow orders from draft through delivery."],
@@ -40,12 +44,13 @@ const models = [
     collection: "Production jobs",
     record: productionJob,
     sections: ["properties", "details", "related"] as const,
-    rows: productionJobs.map<CollectionRow>((job) => ({
-      id: job.id,
-      title: job.id,
-      subtitle: `${job.order} · ${job.product}${job.owner ? ` · ${job.owner}` : ""}`,
-      tags: [{ label: job.state, tone: stateTones[job.state] }],
-    })),
+    rows: (localize: Localize) =>
+      productionJobs.map<CollectionRow>((job) => ({
+        id: job.id,
+        title: job.id,
+        subtitle: `${job.order} · ${localize(job.product)}${job.owner ? ` · ${job.owner}` : ""}`,
+        tags: [{ label: localize(job.state), tone: stateTones[job.state] }],
+      })),
     points: [
       ["Connected production", "Keep production jobs linked to the customer orders they serve."],
       ["Visible progress", "Follow each job from queue to completion."],
@@ -77,6 +82,7 @@ function ModelBackground({ file }: { file: string }) {
 
 /** The same object detail and collection primitives, configured for two different operations. */
 export function OperativeModels() {
+  const localizeCopy = useCopy();
   const [active, setActive] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const entered = useInView(ref, { once: true, amount: 0.15 });
@@ -87,7 +93,7 @@ export function OperativeModels() {
   return (
     <div ref={ref} className={styles.models} data-active={active}>
       <div className={styles.toolbar}>
-        <div className={styles.tabs} role="tablist" aria-label="Operations">
+        <div className={styles.tabs} role="tablist" aria-label={localizeCopy("Operations")}>
           {models.map((item, i) => (
             <button
               key={item.name}
@@ -114,12 +120,12 @@ export function OperativeModels() {
                   transition={{ duration: reduced ? 0 : 0.28 }}
                 />
               )}
-              <span>{item.name}</span>
+              <span>{localizeCopy(item.name)}</span>
             </button>
           ))}
         </div>
         <Link className={styles.more} href="/how-it-works#operations">
-          See what’s shared
+          {localizeCopy("See what’s shared")}
         </Link>
       </div>
       <div id={id + "-panel"} role="tabpanel" aria-labelledby={id + "-tab-" + active} tabIndex={0}>
@@ -158,13 +164,17 @@ export function OperativeModels() {
                 <div className={styles.collectionBody} key="collection">
                   <div className={styles.bar}>
                     <span>
-                      <span className={styles.muted}>Data / </span>
-                      {model.collection}
+                      <span className={styles.muted}>{localizeCopy("Data")} / </span>
+                      {localizeCopy(model.collection)}
                     </span>
                     <span aria-hidden="true">···</span>
                   </div>
                   <div className={styles.collectionRows}>
-                    <CollectionList label={model.collection} rows={model.rows} selected={model.record.id} />
+                    <CollectionList
+                      label={localizeCopy(model.collection)}
+                      rows={model.rows(localizeCopy)}
+                      selected={model.record.id}
+                    />
                   </div>
                 </div>,
                 <div className={styles.detailBody} key="detail">
@@ -200,15 +210,16 @@ export function OperativeModels() {
             >
               {model.points.map(([title, text]) => (
                 <div key={title}>
-                  <h3>{title}</h3>
-                  <p>{text}</p>
+                  <h3>{localizeCopy(title)}</h3>
+                  <p>{localizeCopy(text)}</p>
                 </div>
               ))}
             </motion.div>
           </AnimatePresence>
         </div>
         <p className={styles.shared}>
-          <span>Shared by both</span> Objects · Relationships · States · Actions · Roles · Activity
+          <span>{localizeCopy("Shared by both")}</span>{" "}
+          {localizeCopy("Objects · Relationships · States · Actions · Roles · Activity")}
         </p>
       </div>
     </div>

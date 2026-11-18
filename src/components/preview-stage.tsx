@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useState, type ReactNode, type RefObject } from "react";
 import { useInView } from "motion/react";
@@ -24,6 +25,7 @@ export function PreviewStage({
   mobileCanvas?: boolean;
   tabIndex?: number;
 }) {
+  const localizeCopy = useCopy();
   const nearViewport = useInView(stageRef, { once: true, margin: "500px 0px" });
   const [loadedSource, setLoadedSource] = useState("");
   const asset = backgrounds[background as keyof typeof backgrounds];
@@ -36,7 +38,7 @@ export function PreviewStage({
       className={`${styles.stage} ${mobileCanvas ? styles.scrollable : ""} ${className}`}
       data-entered={entered}
       role="group"
-      aria-label={label}
+      aria-label={localizeCopy(label)}
     >
       <div className={styles.backgroundLayer} aria-hidden="true" data-loaded={loaded}>
         <span className={styles.placeholder} style={{ backgroundImage: `url("${asset.blurDataURL}")` }} />
@@ -56,7 +58,7 @@ export function PreviewStage({
           />
         )}
       </div>
-      {mobileCanvas ? <div className={styles.canvas}>{children}</div> : children}
+      {localizeCopy(mobileCanvas ? <div className={styles.canvas}>{localizeCopy(children)}</div> : children)}
     </div>
   );
 }

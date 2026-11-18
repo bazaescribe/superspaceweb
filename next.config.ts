@@ -1,3 +1,4 @@
+import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -6,13 +7,17 @@ const nextConfig: NextConfig = {
   turbopack: { root: __dirname },
   // Routes consolidated into the Product, Capabilities and How it works pages.
   async redirects() {
-    return [
-      { source: "/platform", destination: "/product", permanent: true },
-      { source: "/deployment", destination: "/how-it-works", permanent: true },
-      { source: "/offering", destination: "/capabilities", permanent: true },
-      { source: "/solutions", destination: "/capabilities", permanent: true },
+    const moved = [
+      ["platform", "product"],
+      ["deployment", "how-it-works"],
+      ["offering", "capabilities"],
+      ["solutions", "capabilities"],
     ];
+    return moved.flatMap(([from, to]) => [
+      { source: `/${from}`, destination: `/${to}`, permanent: true },
+      { source: `/:locale(en|es)/${from}`, destination: `/:locale/${to}`, permanent: true },
+    ]);
   },
 };
 
-export default nextConfig;
+export default createNextIntlPlugin()(nextConfig);

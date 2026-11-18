@@ -1,5 +1,7 @@
+import { useCopy } from "@/i18n/copy";
 import { EntranceHeading } from "./entrance-heading";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { LanguageSelector } from "./language-selector";
 import { FooterReveal, FooterWordmark } from "@/components/footer-wordmark";
 import { footerGroups } from "@/lib/site";
 import { BookingLink } from "./booking-link";
@@ -22,56 +24,55 @@ const defaultCta: FooterCta = {
 
 /** Pages with their own closing argument can replace the shared footer call to action. */
 export function Footer({ cta = defaultCta }: { cta?: FooterCta }) {
+  const localizeCopy = useCopy();
   return (
     <FooterReveal>
       <footer className="v2-footer shell">
         <div className="footer-cta">
-          <EntranceHeading>{cta.title}</EntranceHeading>
-          <p>{cta.text}</p>
+          <EntranceHeading>{localizeCopy(cta.title)}</EntranceHeading>
+          <p>{localizeCopy(cta.text)}</p>
           <div className="hero-actions">
             <BookingLink
               placement={cta.placement ?? "footer"}
-              label={cta.label}
+              label={cta.label && localizeCopy(cta.label)}
               subject={cta.subject}
               designIcon
               inverse
             />
             {cta.secondary && (
               <Link className="button button--secondary" href={cta.secondary.href}>
-                {cta.secondary.label}
+                {localizeCopy(cta.secondary.label)}
               </Link>
             )}
           </div>
         </div>
         <div className="v2-footer__top">
           {footerGroups.map((group) => (
-            <nav className="v2-footer__group" aria-label={group.title} key={group.title}>
-              <h2 className="v2-footer__label">{group.title}</h2>
+            <nav className="v2-footer__group" aria-label={localizeCopy(group.title)} key={group.title}>
+              <h2 className="v2-footer__label">{localizeCopy(group.title)}</h2>
               {group.links.map((link) => (
                 <Link href={link.href} key={link.label}>
-                  {link.label}
+                  {localizeCopy(link.label)}
                 </Link>
               ))}
             </nav>
           ))}
           <div className="v2-footer__actions">
             <p>
-              Superspace Intelligent Industries.
+              {localizeCopy("Superspace Intelligent Industries.")}
               <br />
-              Operational infrastructure for growing businesses.
+              {localizeCopy("Operational infrastructure for growing businesses.")}
               <br />
-              Mexico City, MX.
+              {localizeCopy("Mexico City, MX.")}
               <br />
-              Est. 2024. 2026 All Rights Reserved.
+              {localizeCopy("Est. 2024. 2026 All Rights Reserved.")}
             </p>
             <div className="v2-footer__legal">
-              <Link href="/terms">Website Terms</Link>
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/llms.txt">LLMs</Link>
+              <Link href="/terms">{localizeCopy("Website Terms")}</Link>
+              <Link href="/privacy">{localizeCopy("Privacy Policy")}</Link>
+              <a href="/llms.txt">{localizeCopy("LLMs")}</a>
             </div>
-            <span className="language" aria-label="Current language: English">
-              English <span>Español</span> <span>Português</span> <span>日本語</span>
-            </span>
+            <LanguageSelector />
           </div>
         </div>
         <FooterWordmark />

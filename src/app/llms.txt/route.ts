@@ -34,11 +34,11 @@ Superspace's core offering is operational infrastructure for growing businesses.
 
 ## Official sources
 
-- [Superspace website](https://superspaceweb.vercel.app/): Why operational software should adapt to the business, and what it looks like in use.
-- [Product](https://superspaceweb.vercel.app/product): The operator experience: Inbox, workspaces, governed actions, proposals and history.
-- [Capabilities](https://superspaceweb.vercel.app/capabilities): Reusable operational capabilities, starting with Resource Allocation (in development).
-- [How it works](https://superspaceweb.vercel.app/how-it-works): Assisted deployment, managed software, the underlying platform, and current product status.
-- [Company](https://superspaceweb.vercel.app/company): Why Superspace exists, its founder, and the long-term vision.
+- [Superspace website](https://superspaceos.com/): Why operational software should adapt to the business, and what it looks like in use.
+- [Product](https://superspaceos.com/product): The operator experience: Inbox, workspaces, governed actions, proposals and history.
+- [Capabilities](https://superspaceos.com/capabilities): Reusable operational capabilities, starting with Resource Allocation (in development).
+- [How it works](https://superspaceos.com/how-it-works): Assisted deployment, managed software, the underlying platform, and current product status.
+- [Company](https://superspaceos.com/company): Why Superspace exists, its founder, and the long-term vision.
 `,
     { headers: { "content-type": "text/plain; charset=utf-8" } },
   );

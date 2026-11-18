@@ -1,4 +1,5 @@
 "use client";
+import { useCopy } from "@/i18n/copy";
 
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "motion/react";
@@ -61,6 +62,7 @@ function scene(time: number, reduced: boolean, activityTime: number) {
 }
 
 export function DeploymentAssembly() {
+  const localizeCopy = useCopy();
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { amount: 0.2 });
   const reduced = useReducedMotion();
@@ -97,7 +99,9 @@ export function DeploymentAssembly() {
         viewBox="0 0 1280 640"
         fill="none"
         role="img"
-        aria-label="Scattered business elements organize into layers, then assemble into one active operating system."
+        aria-label={localizeCopy(
+          "Scattered business elements organize into layers, then assemble into one active operating system.",
+        )}
       >
         <g opacity={opacity}>
           {scene(time, !!reduced, activityTime).map((cube) => (
@@ -125,14 +129,16 @@ export function DeploymentAssembly() {
           className={styles.pause}
           type="button"
           onClick={() => setPaused(!paused)}
-          aria-label={paused ? "Play illustration" : "Pause illustration"}
+          aria-label={localizeCopy(paused ? "Play illustration" : "Pause illustration")}
           aria-pressed={paused}
         >
           <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
-            {paused ? (
-              <path d="m5 3 7 5-7 5Z" fill="currentColor" />
-            ) : (
-              <path d="M5 3v10M11 3v10" stroke="currentColor" strokeWidth="2" />
+            {localizeCopy(
+              paused ? (
+                <path d="m5 3 7 5-7 5Z" fill="currentColor" />
+              ) : (
+                <path d="M5 3v10M11 3v10" stroke="currentColor" strokeWidth="2" />
+              ),
             )}
           </svg>
         </button>
