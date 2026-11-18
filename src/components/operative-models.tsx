@@ -29,9 +29,9 @@ const models = [
       tags: [{ label: order.state, tone: stateTones[order.state] }],
     })),
     points: [
-      ["Objects", "Customers, orders, and drivers, connected by who placed an order and who delivers it."],
-      ["States", "Draft → Confirmed → In Transit → Delivered, or Cancelled."],
-      ["Exception and action", "PO-48202 is urgent and has no driver. Assign driver resolves it."],
+      ["Connected deliveries", "Keep each order linked to its customer and assigned driver."],
+      ["Visible progress", "Follow orders from draft through delivery."],
+      ["Clear next steps", "Identify orders waiting for a driver and make the assignment from the same workspace."],
     ],
   },
   {
@@ -47,12 +47,9 @@ const models = [
       tags: [{ label: job.state, tone: stateTones[job.state] }],
     })),
     points: [
-      ["Objects", "Manufacturing orders, production jobs, and fulfillments, each linked to the order it serves."],
-      ["States", "Queued → In Progress → Completed for every production job."],
-      [
-        "Exception and action",
-        "JOB-209 is queued with no owner, holding ORD-1043. Assign production owner, then Start production.",
-      ],
+      ["Connected production", "Keep production jobs linked to the customer orders they serve."],
+      ["Visible progress", "Follow each job from queue to completion."],
+      ["Clear ownership", "See which jobs need an owner before production begins."],
     ],
   },
 ];
@@ -121,7 +118,7 @@ export function OperativeModels() {
             </button>
           ))}
         </div>
-        <Link className={styles.more} href="/platform#operations">
+        <Link className={styles.more} href="/how-it-works#operations">
           See what’s shared
         </Link>
       </div>

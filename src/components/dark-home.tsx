@@ -1,102 +1,139 @@
 import Link from "next/link";
-import { HeroHeading, EntranceHeading } from "@/components/entrance-heading";
-import { BookingLink } from "./booking-link";
+import { EntranceHeading } from "@/components/entrance-heading";
+import { HomeHero } from "./home-hero";
 import { MondayWalkthrough, OperationAnatomy } from "./home-story";
-import { OperativeModels } from "./operative-models";
-import { ProductPreview, type Screen } from "./product-preview";
-import { briefing } from "@/lib/operational-story";
+import { ExperienceShowcase } from "./experience-showcase";
+import { ResourceAllocation } from "./resource-allocation";
+import { PlatformStack } from "./platform-stack";
 import styles from "./dark-home.module.css";
 
-// The hero shows only verified surfaces; Inbox joins it once Operational Intelligence v0 is validated.
-const heroScreens: Screen[] = briefing.status === "verified" ? ["Inbox", "Data"] : ["Data"];
+const gaps = [
+  ["Spreadsheets", "Track what the system can’t, until nobody is sure which version is right."],
+  ["Disconnected tools", "Each team sees part of the picture. Nobody sees all of it."],
+  ["Manual coordination", "Messages and meetings carry the work between people and systems."],
+  ["Custom development", "Every change becomes a project, and the backlog grows faster than the business."],
+] as const;
 
-const stages = [
-  ["Understand", "Your people, records, decisions, and rules."],
-  ["Model", "Objects, states, actions, and permissions, configured in Superspace."],
-  ["Deploy", "Tested against real scenarios, then used every day."],
-  ["Expand", "New teams and processes on the same foundation."],
+const delivery = [
+  [
+    "Model your operations.",
+    "We work with your team to understand the process, the business objects involved, and the rules and requirements behind them.",
+  ],
+  [
+    "Configure and deploy.",
+    "We configure reusable capabilities and deliver your first workflows on a platform we host and maintain.",
+  ],
+  [
+    "Evolve on a shared foundation.",
+    "Extend to more workflows as your needs grow. Improvements to the engine and capabilities can benefit every deployment.",
+  ],
 ] as const;
 
 export function DarkHome() {
   return (
     <div className={styles.home}>
-      <section className={styles.hero} aria-labelledby="home-title">
-        <div className={styles.heroCopy}>
-          <HeroHeading id="home-title">The operating system that understands your business.</HeroHeading>
+      <HomeHero />
+
+      <section className={styles.section} aria-labelledby="problem-title">
+        <div className={styles.sectionCopy}>
+          <p className={styles.eyebrow}>The problem</p>
+          <EntranceHeading id="problem-title">Operations change. Software struggles to keep up.</EntranceHeading>
           <p>
-            Bring your operations together. Know what needs attention, keep work moving, and give your people the tools
-            to act. Superspace is configured around the way your business works, and managed for you.
+            New processes, new rules, new teams. When your software can’t follow, people fill the gaps, and the work
+            that matters most ends up living outside the system.
           </p>
-          <div className="hero-actions">
-            <BookingLink placement="home_hero" designIcon inverse />
-            <a className="button button--secondary" href="#monday">
-              See how it works
-            </a>
-          </div>
         </div>
-        <div className={styles.heroVisual}>
-          <ProductPreview screens={heroScreens} label="Superspace Orders workspace preview" />
+        <ul className={styles.gaps}>
+          {gaps.map(([title, text]) => (
+            <li key={title}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="experience" className={styles.section} aria-labelledby="experience-title">
+        <div className={styles.sectionCopy}>
+          <p className={styles.eyebrow}>The experience</p>
+          <EntranceHeading id="experience-title">Know what needs attention. Move work forward.</EntranceHeading>
+          <p>
+            Superspace gives every operator a clear view of their work, the context to make decisions, and the controls
+            to act on them.
+          </p>
+        </div>
+        <ExperienceShowcase />
+        <div className={styles.payoff}>
+          <p>Every screen, action, and approval works from the same operational information.</p>
+          <Link className={styles.link} href="/product">
+            Explore the product →
+          </Link>
         </div>
       </section>
 
-      <section id="monday" className={styles.section} aria-labelledby="monday-title">
+      <section id="story" className={styles.section} aria-labelledby="story-title">
         <div className={styles.sectionCopy}>
-          <p className={styles.eyebrow}>Monday, 8:00 AM</p>
-          <EntranceHeading id="monday-title">Know what needs you. Act where the work lives.</EntranceHeading>
+          <p className={styles.eyebrow}>See it in action</p>
+          <EntranceHeading id="story-title">An order needs a driver.</EntranceHeading>
           <p>
-            Superspace briefs you on what happened, what’s still open, and which exceptions matter. Every item points to
-            a real record, so you go straight from noticing a problem to resolving it, within the rules your business
-            already follows.
+            Follow one exception from the moment it appears to the moment work moves forward. Step through it, or click
+            around the product yourself.
           </p>
         </div>
         <MondayWalkthrough />
       </section>
 
-      <section className={styles.section} aria-labelledby="operation-title">
+      <section id="fit" className={styles.section} aria-labelledby="fit-title">
         <div className={styles.sectionCopy}>
-          <EntranceHeading id="operation-title">
-            Superspace models the work itself. <span>Not just records about it.</span>
+          <p className={styles.eyebrow}>Built around your business</p>
+          <EntranceHeading id="fit-title">
+            Software that fits your operations. <span>Not the other way around.</span>
           </EntranceHeading>
           <p>
-            Spreadsheets, project tools, and ERPs can all be shaped to fit an operation. What differs is what the
-            software understands. In Superspace, an order isn’t a row or a task. It’s an object that knows its customer
-            and driver, the state it’s in, what can happen next, and who is allowed to do it.
+            Superspace starts from how your business actually works: the things you manage, the stages they move
+            through, the rules that apply, and the record of what happened. Screens and actions follow from those
+            definitions.
           </p>
         </div>
         <OperationAnatomy />
         <div className={styles.payoff}>
           <p>
-            That understanding is what makes intelligence useful. Briefings point to real records. Agents can only
-            propose actions your rules allow. AI works from the same facts and the same permissions as your team.
+            When your operation changes, those definitions change with it. You don’t replace the system or rebuild it
+            from scratch.
           </p>
-          <Link className={styles.link} href="/platform">
-            How the platform works →
+        </div>
+      </section>
+
+      <section id="capabilities" className={styles.section} aria-labelledby="capabilities-title">
+        <div className={styles.sectionCopy}>
+          <p className={styles.eyebrow}>Reusable capabilities</p>
+          <EntranceHeading id="capabilities-title">Build once. Adapt across operations.</EntranceHeading>
+          <p>
+            Superspace packages common operational problems as reusable capabilities. Resource Allocation, our first,
+            matches demand with eligible resources under business-specific constraints. The logic stays the same. The
+            business it serves changes.
+          </p>
+        </div>
+        <ResourceAllocation />
+        <div className={styles.payoff}>
+          <p>Each capability adapts to your objects and rules instead of asking you to adopt someone else’s.</p>
+          <Link className={styles.link} href="/capabilities">
+            About capabilities →
           </Link>
         </div>
       </section>
 
-      <section className={styles.section} aria-labelledby="operations-title">
+      <section id="delivery" className={styles.section} aria-labelledby="delivery-title">
         <div className={styles.sectionCopy}>
-          <EntranceHeading id="operations-title">One platform. Different operations.</EntranceHeading>
+          <p className={styles.eyebrow}>How delivery works</p>
+          <EntranceHeading id="delivery-title">Start with one workflow. Evolve from there.</EntranceHeading>
           <p>
-            An order waiting for a driver and a production job waiting for an owner are different problems with the same
-            shape. Superspace runs both on the same foundation, each modeled in its own terms.
-          </p>
-        </div>
-        <OperativeModels />
-      </section>
-
-      <section className={`${styles.section} ${styles.last}`} aria-labelledby="start-title">
-        <div className={styles.sectionCopy}>
-          <EntranceHeading id="start-title">Start with one operation. Grow from there.</EntranceHeading>
-          <p>
-            We begin where coordination costs you most. Our team learns how that operation works, models it in
-            Superspace, and brings it into daily use with your people. When you’re ready for the next area, it builds on
-            the model you already have.
+            Superspace isn’t a do-it-yourself builder or a one-off software project. We deploy it with you and run it as
+            managed software.
           </p>
         </div>
         <ol className={styles.stages}>
-          {stages.map(([title, text], i) => (
+          {delivery.map(([title, text], i) => (
             <li key={title}>
               <small>0{i + 1}</small>
               <h3>{title}</h3>
@@ -105,10 +142,27 @@ export function DarkHome() {
           ))}
         </ol>
         <div className={styles.managed}>
-          <p>You get a running system, not a codebase or a project. We host, maintain, and update the platform.</p>
-          <Link className={styles.link} href="/deployment">
-            How deployment works →
+          <p>Superspace hosts, maintains, and updates the platform for you.</p>
+          <Link className={styles.link} href="/how-it-works">
+            How it works →
           </Link>
+        </div>
+      </section>
+
+      <section className={`${styles.section} ${styles.last}`} aria-labelledby="platform-title">
+        <div className={styles.split}>
+          <div className={styles.sectionCopy}>
+            <p className={styles.eyebrow}>Under the hood</p>
+            <EntranceHeading id="platform-title">One foundation. Many business models.</EntranceHeading>
+            <p>
+              Each business defines its own model. A shared engine interprets it, reusable capabilities supply the
+              operational logic, and people, apps, and AI agents work through the same governed actions.
+            </p>
+            <Link className={styles.link} href="/how-it-works#foundation">
+              Explore the platform →
+            </Link>
+          </div>
+          <PlatformStack />
         </div>
       </section>
     </div>

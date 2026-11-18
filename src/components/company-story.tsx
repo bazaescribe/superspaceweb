@@ -20,7 +20,7 @@ export function CompanyStory({ chapters, about = false }: { chapters: EditorialC
           <SectionMap sections={chapters.map(({ id, label }) => ({ id, label }))} />
           <nav className={styles.related} aria-label="More about Superspace">
             <Link href={about ? "/manifesto" : "/company"}>
-              {about ? "Manifesto" : "About us"}{" "}
+              {about ? "Manifesto" : "Company"}{" "}
               <Image src="/assets/figma/dark-site/46fe6.svg" alt="" width={14} height={14} unoptimized />
             </Link>
             <Link href="/careers">

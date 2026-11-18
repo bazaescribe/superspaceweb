@@ -410,12 +410,13 @@ button.row {
 .greeting {
   display: block;
   margin-bottom: 0.6em;
-  font: 700 1.67em/1.2 var(--font-body);
+  font: 700 2.33em/1.1 var(--font-body);
+  letter-spacing: 0.01em;
 }
 .summary {
   max-width: 36em;
-  font-size: 1.25em;
-  line-height: 1.6;
+  font-size: 1.17em;
+  line-height: 1.5;
   color: var(--op-secondary);
 }
 .summary .chip {
@@ -430,41 +431,96 @@ button.row {
 .exceptions {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 0.25em;
 }
 .exception {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75em 1em;
-  padding: 0.85em 1em;
-  border: 1px solid #ffffff0d;
-  border-radius: 0.7em;
-  background: var(--op-hover);
+  gap: 0.9em;
+  padding: 0.75em 0.67em;
+  border-radius: 0.5em;
 }
 [data-highlighted="true"].exception {
-  border-color: var(--op-focus);
-  background: #8f72ff12;
+  background-color: #8f72ff12;
 }
-.exception > div:first-child {
-  flex: 1 1 18em;
+.exceptionDot {
+  flex: none;
+  align-self: flex-start;
+  width: 0.5em;
+  height: 0.5em;
+  margin-top: 0.4em;
+  border-radius: 50%;
+  background: #ffffff40;
+}
+.exceptionMain {
+  flex: 1 1 auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+}
+.exceptionTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  font-size: 1em;
+  color: var(--op-main);
+}
+.exceptionTitle time {
+  font-size: 0.83em;
+  color: var(--op-muted);
 }
 .exceptionSubject {
   display: flex;
   align-items: center;
   gap: 0.35em;
   flex-wrap: wrap;
-  margin-bottom: 0.4em;
-}
-.exception p {
-  color: var(--op-secondary);
 }
 .exceptionActions {
   display: flex;
-  gap: 0.4em;
+  align-items: center;
+  gap: 0.5em;
   flex: none;
+}
+.assign {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.75em;
+  padding: 0 1.4em;
+  border: 0;
+  border-radius: 100px;
+  background: #fff;
+  color: #070709;
+  font: 700 0.83em/1 var(--font-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+button.assign {
+  cursor: pointer;
+}
+button.assign:hover {
+  background: #e7e7ea;
+}
+.arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5em;
+  height: 2.5em;
+  border: 0;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--op-secondary);
+}
+button.arrow {
+  cursor: pointer;
+}
+button.arrow:hover,
+button.arrow:focus-visible {
+  background: var(--op-hover);
+  color: var(--op-main);
+  outline: 0;
 }
 .provenance {
   display: flex;
@@ -572,12 +628,19 @@ button.option {
 .option[data-selected] {
   background: #ffffff0f;
 }
-.option span {
+.option .optionName {
+  display: flex;
   flex: 1;
+  flex-direction: column;
+  gap: 0.15em;
+  min-width: 0;
 }
 .option small {
   font-size: 0.833em;
   color: var(--op-muted);
+}
+.option[data-disabled] {
+  opacity: 0.5;
 }
 .option .icon {
   color: #00bc7d;

@@ -56,8 +56,8 @@ test("footer preserves Figma ordering, canonical routes and working destinations
   assert.deepEqual(
     footerGroups.map((g) => g.links.map((l) => l.label)),
     [
-      ["Home", "Platform", "Offerings", "Deployment", "FAQ"],
-      ["About us", "Manifesto", "Careers"],
+      ["Home", "Product", "Capabilities", "How it works", "FAQ"],
+      ["Company", "Manifesto", "Careers"],
       ["LinkedIn", "X (Twitter)", "Mail"],
     ],
   );

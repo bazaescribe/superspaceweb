@@ -9,7 +9,7 @@ export function BookingLink({
   inverse = false,
   className = "",
   placement = "unspecified",
-  label = "Talk to our team",
+  label = "Book a demo",
   subject,
   designIcon = false,
 }: {
@@ -22,8 +22,9 @@ export function BookingLink({
   designIcon?: boolean;
 }) {
   const external = bookingUrl.startsWith("http");
-  const href =
-    subject && bookingUrl.startsWith("mailto:") ? `${bookingUrl}?subject=${encodeURIComponent(subject)}` : bookingUrl;
+  const href = bookingUrl.startsWith("mailto:")
+    ? `${bookingUrl}?subject=${encodeURIComponent(subject ?? "Superspace demo request")}`
+    : bookingUrl;
   return (
     <a
       className={`button ${inverse ? "button--inverse" : ""} ${className}`}

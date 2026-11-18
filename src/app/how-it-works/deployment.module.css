@@ -319,3 +319,76 @@
     gap: 32px;
   }
 }
+
+/* How it works: five-step journey and product status. */
+.stages.journey {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-inline: 0;
+  padding: 0;
+  list-style: none;
+}
+.journey li {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+.journey small {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 11px;
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.journey h3 {
+  font: 600 18px/1.3 var(--font-body);
+}
+.journey p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.status {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-bottom: 16px;
+}
+.status > div {
+  padding: 20px 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+.status h3 {
+  margin: 0 0 12px;
+  font: 600 16px/1.3 var(--font-body);
+}
+.status > div:nth-child(1) h3 {
+  color: #00bc7d;
+}
+.status > div:nth-child(2) h3 {
+  color: #f5c84c;
+}
+.status > div:nth-child(3) h3 {
+  color: #b9a6ff;
+}
+.status ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 400 15px/1.45 var(--font-body);
+  color: var(--color-content-secondary);
+}
+@media (max-width: 1000px) {
+  .stages.journey {
+    grid-template-columns: 1fr 1fr;
+  }
+  .status {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .stages.journey {
+    grid-template-columns: 1fr;
+  }
+}

@@ -14,6 +14,7 @@ import {
   organization,
   stateTones,
   storyOrderId,
+  storyResolution,
   viewer,
 } from "@/lib/operational-story";
 import {
@@ -23,6 +24,7 @@ import {
   ObjectChip,
   ObjectDetail,
   OpTag,
+  OpIcon,
   Toast,
   type Highlight,
 } from "./operational-ui";
@@ -40,6 +42,8 @@ export type AppState = {
   assigned: Record<string, string>;
   highlight?: Highlight;
   toast?: boolean;
+  /** Shows the suggested resolution on the story order until it is assigned. */
+  proposal?: boolean;
 };
 export type AppIntent =
   | { type: "screen"; screen: Screen }
@@ -54,7 +58,7 @@ export const initialAppState: AppState = { screen: "Data", selected: storyOrderI
 
 /** The default behavior of the mockup application. Controlled hosts may map intents to their own states. */
 export function applyIntent(state: AppState, intent: AppIntent): AppState {
-  const base = { ...state, highlight: undefined, toast: false };
+  const base: AppState = { ...state, highlight: undefined, toast: false };
   switch (intent.type) {
     case "screen":
       return { ...base, screen: intent.screen, dialog: false };
@@ -125,45 +129,109 @@ function ProductRail({
 }
 
 function InboxScreen({ state, dispatch }: { state: AppState; dispatch: (intent: AppIntent) => void }) {
+  const toDo = briefing.standing.length + briefing.items.length;
   return (
     <div className={styles.inbox}>
-      <div className={styles.inboxTabs}>
-        <span>
-          To do <OpTag>{briefing.items.length + 1}</OpTag>
-        </span>
-        <span className={styles.muted}>Done</span>
-      </div>
       <aside className={styles.inboxList} aria-label="Inbox items">
-        <div className={styles.inboxItem} data-selected>
-          <span>{briefing.label}</span>
-          <time>8:02</time>
-          <p>What happened since Friday and what needs you today.</p>
+        <h2 className={styles.inboxTitle}>Inbox</h2>
+        <div className={styles.inboxControls}>
+          <div className={styles.segmented} role="group" aria-label="Inbox status">
+            <span className={styles.segmentActive}>
+              To Do <OpTag tone="red">{toDo}</OpTag>
+            </span>
+            <span className={styles.segment}>Done</span>
+          </div>
+          <span className={styles.control} aria-hidden="true">
+            <OpIcon name="filter" />
+          </span>
         </div>
-        {briefing.items.map((item) => (
-          <button
-            type="button"
-            key={item.id}
-            className={styles.inboxItem}
-            onClick={() => dispatch({ type: "briefing", intent: "open", id: item.id })}
-          >
-            <span>{item.title}</span>
-            <time>8:02</time>
-            <p>
-              <ObjectChip id={item.subject} />
-            </p>
-          </button>
-        ))}
+        <section className={styles.group} aria-label="Pinned">
+          <div className={styles.groupHeader}>
+            <span className={styles.groupTitle}>
+              <span className={styles.collapsed} aria-hidden="true">
+                <OpIcon name="chevron" />
+              </span>
+              Pinned
+            </span>
+            <span className={styles.control} aria-hidden="true">
+              <OpIcon name="ellipsis" />
+            </span>
+          </div>
+        </section>
+        <section className={styles.group}>
+          <div className={styles.groupHeader}>
+            <span className={styles.groupTitle}>
+              <OpIcon name="chevron" />
+              Operational Briefings
+            </span>
+          </div>
+          {briefing.standing.map((entry, i) => (
+            <div key={entry.id} className={styles.listItem} data-selected={i === 0 || undefined}>
+              <span className={styles.unread} aria-hidden="true" />
+              <div className={styles.listBody}>
+                <span className={styles.listTitle}>{entry.title}</span>
+                <p>{entry.detail}</p>
+              </div>
+              <time>{entry.time}</time>
+            </div>
+          ))}
+        </section>
+        <section className={styles.group}>
+          <div className={styles.groupHeader}>
+            <span className={styles.groupTitle}>
+              <OpIcon name="chevron" />
+              My Tasks
+            </span>
+            <span className={styles.control} aria-hidden="true">
+              <OpIcon name="ellipsis" />
+            </span>
+          </div>
+          {briefing.items.map((item) => (
+            <button
+              type="button"
+              key={item.id}
+              className={styles.listItem}
+              onClick={() => dispatch({ type: "briefing", intent: "open", id: item.id })}
+            >
+              <span className={styles.unread} aria-hidden="true" />
+              <div className={styles.listBody}>
+                <span className={styles.listTitle}>{item.title}</span>
+                <span className={styles.listTags}>
+                  <ObjectChip id={item.subject} />
+                  {item.tags.slice(0, 1).map((tag) => (
+                    <OpTag key={tag.label} tone={tag.tone}>
+                      {tag.label}
+                    </OpTag>
+                  ))}
+                </span>
+              </div>
+              <time>{item.time}</time>
+            </button>
+          ))}
+        </section>
       </aside>
-      <div className={styles.briefingPane}>
-        <div className={`${styles.enter} ${styles.briefingBody}`}>
-          <BriefingCard
-            {...briefing}
-            highlight={state.highlight}
-            onAction={(intent, id) => dispatch({ type: "briefing", intent, id })}
-            onReference={(id) => dispatch({ type: "briefing", intent: "open", id })}
-          />
+      <section className={styles.workspace} aria-label={briefing.standing[0].title}>
+        <header className={styles.workspaceBar}>
+          <div className={styles.workspaceTitle}>
+            <span>Daily Operational briefing</span>
+            <time>8:00 AM</time>
+            {briefing.status === "design-preview" && <OpTag tone="blue">Design preview</OpTag>}
+          </div>
+          <span className={styles.control} aria-hidden="true">
+            <OpIcon name="ellipsis" />
+          </span>
+        </header>
+        <div className={styles.workspaceBody}>
+          <div className={`${styles.enter} ${styles.briefingBody}`}>
+            <BriefingCard
+              {...briefing}
+              highlight={state.highlight}
+              onAction={(intent, id) => dispatch({ type: "briefing", intent, id })}
+              onReference={(id) => dispatch({ type: "briefing", intent: "open", id })}
+            />
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
@@ -232,9 +300,38 @@ function DataScreen({ state, dispatch }: { state: AppState; dispatch: (intent: A
       </aside>
       <div className={styles.detailPane} key={order.id}>
         <div className={`${styles.enter} ${styles.detailBody}`}>
+          {state.proposal && order.id === storyOrderId && !assigned && (
+            <aside
+              className={styles.proposal}
+              data-highlighted={state.highlight === "proposal" || undefined}
+              aria-label={storyResolution.title}
+            >
+              <div className={styles.proposalHead}>
+                <OpIcon name="spark" />
+                <span>{storyResolution.title}</span>
+                <OpTag>Experimental</OpTag>
+              </div>
+              <strong>{storyResolution.summary}</strong>
+              <ul>
+                {storyResolution.reasons.map((reason) => (
+                  <li key={reason}>
+                    <OpIcon name="check" />
+                    {reason}
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                className={styles.proposalButton}
+                onClick={() => dispatch({ type: "driver", name: storyResolution.driver })}
+              >
+                Review assignment <OpIcon name="arrow" />
+              </button>
+            </aside>
+          )}
           <ObjectDetail
             record={record}
-            highlight={state.highlight}
+            highlight={state.highlight === "proposal" ? undefined : state.highlight}
             activityHighlight={assigned ? "assigned" : undefined}
             onAction={() => dispatch({ type: "action" })}
           />
@@ -334,15 +431,6 @@ export function ProductPreview({
         <div className={styles.scaledSpace} style={{ width: 1512 * scale, height: height * scale }}>
           <div className={styles.canvas} style={{ transform: `scale(${scale})` }}>
             <ProductRail screens={screens} screen={state.screen} dispatch={dispatch} />
-            {state.screen === "Inbox" && (
-              <div className={styles.topbar}>
-                <span>
-                  Inbox
-                  {briefing.status === "design-preview" && <OpTag tone="blue">Design preview</OpTag>}
-                </span>
-                <Icon name="77887.svg" size={16} />
-              </div>
-            )}
             <motion.div
               key={state.screen}
               className={styles.screen}

@@ -15,9 +15,9 @@ export type FooterCta = {
 };
 
 const defaultCta: FooterCta = {
-  title: "Your business deserves its own Superspace.",
-  text: "Tell us how your business runs. We’ll show you how Superspace could become its operating system.",
-  secondary: { label: "Explore deployment", href: "/deployment" },
+  title: "Let’s make software work around your business.",
+  text: "See how Superspace can support your operations in a 20-minute demo.",
+  secondary: { label: "See how it works", href: "/how-it-works" },
 };
 
 /** Pages with their own closing argument can replace the shared footer call to action. */

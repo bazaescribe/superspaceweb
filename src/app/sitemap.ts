@@ -3,10 +3,9 @@ import { siteUrl } from "@/lib/seo";
 
 const routes = [
   "/",
-  "/platform",
-  "/offering",
-  "/deployment",
-  "/solutions",
+  "/product",
+  "/capabilities",
+  "/how-it-works",
   "/company",
   "/manifesto",
   "/careers",

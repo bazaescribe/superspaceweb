@@ -97,11 +97,46 @@ export const orders: OrderRow[] = [
   { id: "PO-48208", customer: "Norte Home", total: "$1,780.00", priority: "Normal", state: "Cancelled" },
 ];
 
-export const drivers = [
-  { name: "María López", initials: "ML", color: "#7263dd" },
-  { name: "Jorge Ramírez", initials: "JR", color: "#00a6f4" },
-  { name: "Lucía Méndez", initials: "LM", color: "#00bc7d" },
+/** Drivers with the availability and eligibility the Assign driver dialog shows for PO-48202. */
+export const drivers: {
+  name: string;
+  initials: string;
+  color: string;
+  detail?: string;
+  tag?: { label: string; tone: StoryTone };
+  disabled?: boolean;
+}[] = [
+  {
+    name: "María López",
+    initials: "ML",
+    color: "#7263dd",
+    detail: "Zone North · 2 open slots before 5 PM",
+    tag: { label: "Available", tone: "green" },
+  },
+  {
+    name: "Jorge Ramírez",
+    initials: "JR",
+    color: "#00a6f4",
+    detail: "On route until 4:30 PM",
+    tag: { label: "Limited", tone: "amber" },
+  },
+  {
+    name: "Lucía Méndez",
+    initials: "LM",
+    color: "#00bc7d",
+    detail: "Off shift today",
+    tag: { label: "Unavailable", tone: "neutral" },
+    disabled: true,
+  },
 ];
+
+/** The resolution proposed for the story order. Agent proposals are experimental. */
+export const storyResolution = {
+  driver: "María López",
+  title: "Suggested resolution",
+  summary: "Assign María López",
+  reasons: ["Delivery due today at 5:00 PM", "Available in Zone North", "Capacity for 2 more stops"],
+};
 
 /** The authorized action in the story. It creates a relationship; it does not change lifecycle state. */
 export const assignDriver = {
@@ -168,6 +203,7 @@ export type BriefingItem = {
   subject: string;
   tags: { label: string; tone?: StoryTone }[];
   title: string;
+  time: string;
   actions: { label: string; intent: "assign" | "open" | "collection" }[];
 };
 
@@ -191,12 +227,28 @@ export const briefing = {
     { ref: "PO-48202" },
     ", is urgent.",
   ] as BriefingSegment[],
+  /** Standing briefings listed in the Inbox sidebar. The daily briefing is the one open in the workspace. */
+  standing: [
+    {
+      id: "daily",
+      title: "Daily Operational Brief",
+      detail: "What happened since Friday and what needs you today.",
+      time: "8:02 AM",
+    },
+    {
+      id: "weekly",
+      title: "Weekly Operational Brief",
+      detail: "Summary of last week’s key metrics and targets for improvement.",
+      time: "8:01 AM",
+    },
+  ],
   items: [
     {
       id: "PO-48202",
       subject: "PO-48202",
       tags: [{ label: "Urgent", tone: "red" }, { label: "Draft" }, { label: "No driver", tone: "amber" }],
       title: "Urgent order without a driver",
+      time: "8:02 AM",
       actions: [
         { label: "Assign driver", intent: "assign" },
         { label: "Open order", intent: "open" },
@@ -210,6 +262,7 @@ export const briefing = {
         { label: "No driver", tone: "amber" },
       ],
       title: "Confirmed orders without a driver",
+      time: "8:02 AM",
       actions: [{ label: "View in Orders", intent: "collection" }],
     },
     {
@@ -217,6 +270,7 @@ export const briefing = {
       subject: "PO-48208",
       tags: [{ label: "Cancelled", tone: "red" }],
       title: "Order cancelled on Saturday",
+      time: "8:02 AM",
       actions: [{ label: "Open order", intent: "open" }],
     },
   ] as BriefingItem[],

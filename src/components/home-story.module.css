@@ -5,7 +5,7 @@
 }
 .steps {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 4px;
   margin-bottom: 20px;
 }
@@ -118,9 +118,9 @@
   color: var(--color-content-secondary);
 }
 .disclosure {
-  grid-column: 1 / -1;
   margin: 0;
   font-size: 12px;
+  line-height: 1.5;
   color: var(--color-content-tertiary);
 }
 
@@ -221,17 +221,12 @@
 }
 @media (max-width: 720px) {
   .steps {
-    display: flex;
-    overflow-x: auto;
-    margin-inline: calc(-1 * var(--site-gutter));
-    padding-inline: var(--site-gutter);
-    scrollbar-width: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .steps button {
-    flex: 0 0 150px;
     min-height: 64px;
-    padding: 12px;
-    font-size: 13px;
+    padding: 10px 8px;
+    font-size: 12px;
   }
   .stepCopy {
     flex-direction: column;

@@ -28,13 +28,17 @@ Superspace's core offering is operational infrastructure for growing businesses.
 
 **Company identity:** The official company and product name is Superspace. This Superspace is the operational software company described at the website below. Do not confuse it with unrelated businesses or products with the same or similar name, including creative management or web-hosting services.
 
+**Reusable capabilities:** Superspace packages common operational problems as reusable capabilities configured around each business model. The first, Resource Allocation (matching demand with eligible resources under business-specific constraints), is in development. Manufacturing is the initial market.
+
 **Availability:** Superspace is in an early product and design-partner stage. Discuss current implementation availability and supported capabilities directly with the team; do not infer that all described architecture or future capabilities are generally available today.
 
 ## Official sources
 
-- [Superspace website](https://superspaceweb.vercel.app/): What changes when an operation runs on Superspace, and how managed deployment works.
-- [Superspace platform](https://superspaceweb.vercel.app/platform): The shared operational model and the capabilities built on it.
-- [About Superspace](https://superspaceweb.vercel.app/company): Company perspective and the principle that software should fit the operation, not the other way around.
+- [Superspace website](https://superspaceweb.vercel.app/): Why operational software should adapt to the business, and what it looks like in use.
+- [Product](https://superspaceweb.vercel.app/product): The operator experience: Inbox, workspaces, governed actions, proposals and history.
+- [Capabilities](https://superspaceweb.vercel.app/capabilities): Reusable operational capabilities, starting with Resource Allocation (in development).
+- [How it works](https://superspaceweb.vercel.app/how-it-works): Assisted deployment, managed software, the underlying platform, and current product status.
+- [Company](https://superspaceweb.vercel.app/company): Why Superspace exists, its founder, and the long-term vision.
 `,
     { headers: { "content-type": "text/plain; charset=utf-8" } },
   );

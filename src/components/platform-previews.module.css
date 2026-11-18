@@ -496,6 +496,82 @@ a.coreNode:hover {
   }
 }
 
+.tasks {
+  position: absolute;
+  z-index: 2;
+  left: 54%;
+  top: 19%;
+  width: 41%;
+  min-height: 100%;
+}
+
+/* Adapt: one process change shown on the order lifecycle. */
+.adapt {
+  position: absolute;
+  left: 12%;
+  top: 14%;
+  width: 76%;
+  font-size: 1.2em;
+}
+.adaptToggle {
+  display: inline-flex;
+  gap: 0.25em;
+  margin-bottom: 1.75em;
+  padding: 0.25em;
+  border-radius: 0.6em;
+  background: #ffffff0a;
+}
+.adaptToggle button {
+  padding: 0.5em 0.9em;
+  border: 0;
+  border-radius: 0.45em;
+  background: transparent;
+  color: #ffffffb3;
+  font: inherit;
+  cursor: pointer;
+}
+.adaptToggle button[aria-pressed="true"] {
+  background: #ffffff1a;
+  color: #fff;
+}
+.adaptToggle button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.changes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75em;
+  margin: 2em 0 0;
+}
+.changes div {
+  padding: 1em 1.1em;
+  border: 1px solid #ffffff0f;
+  border-radius: 0.6em;
+  transition:
+    opacity 300ms ease,
+    border-color 300ms ease;
+}
+.changes dt {
+  margin-bottom: 0.35em;
+  font-size: 0.833em;
+  font-weight: 600;
+  color: #b9a6ff;
+}
+.changes div[data-kind="kept"] dt {
+  color: #00bc7d;
+}
+.changes dd {
+  margin: 0;
+  color: #ffffffb3;
+}
+.changes[data-applied="false"] div[data-kind="new"] {
+  opacity: 0.35;
+}
+.changes[data-applied="true"] div[data-kind="new"] {
+  border-color: #8f72ff40;
+}
+
 /* Below desktop, panels stack inside the stage and keep their own readable size. */
 @media (max-width: 1000px) {
   .stage.stage {
@@ -521,6 +597,8 @@ a.coreNode:hover {
   .actionDialog,
   .briefing,
   .proposal,
+  .tasks,
+  .adapt,
   .role,
   .audit {
     position: relative;
@@ -554,6 +632,13 @@ a.coreNode:hover {
   .collection,
   .role {
     max-height: 300px;
+  }
+  .adapt {
+    max-height: none;
+    font-size: inherit;
+  }
+  .changes {
+    grid-template-columns: 1fr;
   }
   .core {
     padding: 32px 16px 40px;

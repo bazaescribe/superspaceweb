@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
-import { agentProposal, briefing, drivers, orderRecord, orders, storyOrderId } from "@/lib/operational-story";
+import { briefing, drivers, orderRecord, orders, storyOrderId } from "@/lib/operational-story";
 import { ObjectDetail, OpIcon, type Highlight } from "./operational-ui";
 import { PreviewPanel } from "./preview-ui";
 import { PreviewStage } from "./preview-stage";
@@ -13,30 +13,36 @@ const story = orders.find((order) => order.id === storyOrderId)!;
 
 const steps: { label: string; text: string; state: AppState }[] = [
   {
-    label: "What changed",
-    text: "The figures come from your operational data. AI writes the summary around them; it doesn’t invent the numbers.",
+    label: "An order needs a driver",
+    text: "PO-48202 is due for delivery today at 5:00 PM, and nobody has been assigned to drive it.",
     state: { ...initialAppState, screen: "Inbox", highlight: "summary" },
   },
   {
-    label: "What needs you",
-    text: "An urgent order has no driver. It’s flagged because the record says so, not because someone remembered to check.",
+    label: "The exception surfaces",
+    text: "Instead of being discovered at dispatch, the gap appears in the operator’s Inbox as an urgent exception, linked to the order.",
     state: { ...initialAppState, screen: "Inbox", highlight: "exception" },
   },
   {
-    label: "The full context",
-    text: "Open the order: its state, customer, related work, and history, in the workspace your team already uses.",
-    state: { ...initialAppState, highlight: "context" },
+    label: "Context and a proposal",
+    text: "The order opens with its customer, state, and history, next to a suggested resolution and the reasons behind it.",
+    state: { ...initialAppState, proposal: true, highlight: "proposal" },
   },
   {
-    label: "What you’re allowed to do",
-    text: "Assign driver appears because your role permits it. Choose María López and confirm.",
-    state: { ...initialAppState, dialog: true, driver: drivers[0].name, highlight: "dialog" },
+    label: "Capacity and constraints",
+    text: "Driver availability and eligibility inform the choice. Drivers who are off shift can’t be selected.",
+    state: { ...initialAppState, proposal: true, dialog: true, highlight: "dialog" },
   },
   {
-    label: "What happened",
-    text: "The driver is assigned, and the activity history records who acted, what changed, and when. The order stays Draft until someone confirms it.",
+    label: "A person approves",
+    text: "The operator reviews the assignment and confirms it. Superspace checks their role allows the action before it runs.",
+    state: { ...initialAppState, proposal: true, dialog: true, driver: drivers[0].name, highlight: "dialog" },
+  },
+  {
+    label: "Work moves forward",
+    text: "The order has a driver, the change is recorded with who made it and when, and dispatch can go ahead.",
     state: {
       ...initialAppState,
+      proposal: true,
       assigned: { [storyOrderId]: drivers[0].name },
       toast: true,
       highlight: "result",
@@ -44,7 +50,7 @@ const steps: { label: string; text: string; state: AppState }[] = [
   },
 ];
 
-/** Briefing → exception → object → authorized action → recorded result, in the same mockup application. */
+/** Exception → context and proposal → constraints → human approval → recorded result, in one mockup application. */
 export function MondayWalkthrough() {
   const [active, setActive] = useState(0);
   const [state, setState] = useState<AppState>(steps[0].state);
@@ -57,23 +63,19 @@ export function MondayWalkthrough() {
     const onStory = next.selected === storyOrderId;
     let step = -1;
     if (intent.type === "screen" && intent.screen === "Inbox") step = 0;
-    else if (intent.type === "confirm" && onStory) step = 4;
-    else if (next.dialog && onStory) step = 3;
+    else if (intent.type === "confirm" && onStory) step = 5;
+    else if (next.dialog && onStory) step = next.driver ? 4 : 3;
     else if ((intent.type === "select" || intent.type === "briefing") && onStory && next.screen === "Data") step = 2;
     if (step < 0) {
       setState(next);
       return;
     }
     setActive(step);
-    setState({ ...next, highlight: steps[step].state.highlight });
+    setState({ ...next, proposal: true, highlight: steps[step].state.highlight });
   };
-  const disclosure =
-    briefing.status === "design-preview"
-      ? "Operational briefings are in development and agent proposals are experimental. Steps 03–05 show the product as it works today."
-      : "Agent proposals are experimental and not yet generally available.";
   return (
     <div className={styles.walkthrough}>
-      <div className={styles.steps} role="tablist" aria-label="Monday walkthrough">
+      <div className={styles.steps} role="tablist" aria-label="An order needs a driver">
         {steps.map((step, i) => (
           <button
             key={step.label}
@@ -110,19 +112,15 @@ export function MondayWalkthrough() {
         />
       </div>
       <div className={styles.footnotes}>
-        <p className={styles.thesis}>Inbox tells you where to look. The workspace is where the work gets done.</p>
-        <aside className={styles.agent}>
-          <OpIcon name="spark" />
-          <div>
-            <strong>Or let an agent propose it.</strong>
-            <p>
-              An agent can analyze the order and propose {agentProposal.action}, with its reasoning and the records it
-              relied on. You approve it, and it runs with your permissions, recorded as{" "}
-              {agentProposal.badge.toLowerCase()}.
-            </p>
-          </div>
-        </aside>
-        <p className={styles.disclosure}>{disclosure}</p>
+        <p className={styles.thesis}>
+          Superspace finds the gap and prepares the decision. A person stays accountable for it.
+        </p>
+        <p className={styles.disclosure}>
+          Controlled product demonstration with fictional data. Record views, governed actions, and activity history
+          have been demonstrated in controlled environments.{" "}
+          {briefing.status === "design-preview" && "Operational briefings are in development. "}
+          Suggested resolutions are experimental and not yet generally available.
+        </p>
       </div>
     </div>
   );
@@ -131,26 +129,26 @@ export function MondayWalkthrough() {
 const anatomy: { key: Highlight; title: string; text: string; example: string }[] = [
   {
     key: "related",
-    title: "Relationships",
-    text: "What it’s connected to.",
+    title: "Your objects",
+    text: "Orders, customers, drivers, machines: the things your business runs on, connected the way they really are.",
     example: "Customer → Order → Driver",
   },
   {
     key: "state",
-    title: "State",
-    text: "Where it stands.",
+    title: "Your stages",
+    text: "The steps work moves through, from draft to delivered, in your own terms.",
     example: "Draft · Confirmed · In Transit · Delivered",
   },
   {
     key: "actions",
-    title: "Actions",
-    text: "What can happen next, and who can do it.",
+    title: "Your rules",
+    text: "Who can do what, and when. Checked every time an action runs.",
     example: "Assign driver · Logistics operator",
   },
   {
     key: "activity",
-    title: "History",
-    text: "What already happened, and who did it.",
+    title: "Your record",
+    text: "What changed, who changed it, and when, kept for every object.",
     example: "Mon 08:14 · Ana Torres ran Assign driver",
   },
 ];

@@ -18,7 +18,7 @@ import styles from "./operational-ui.module.css";
  */
 
 export type Highlight =
-  "summary" | "exception" | "context" | "actions" | "dialog" | "result" | "state" | "related" | "activity";
+  "summary" | "exception" | "context" | "proposal" | "actions" | "dialog" | "result" | "state" | "related" | "activity";
 
 const toneMap: Record<StoryTone, PreviewTone> = {
   neutral: "neutral",
@@ -52,10 +52,12 @@ export function StateTag({ state }: { state: string }) {
   );
 }
 
-type IconName = "check" | "chevron" | "lock" | "plus" | "search" | "spark" | "arrow";
+type IconName = "check" | "chevron" | "ellipsis" | "filter" | "lock" | "plus" | "search" | "spark" | "arrow";
 const iconPaths: Record<IconName, string> = {
   check: "M3 8.5 6.5 12 13 4.5",
   chevron: "M4 6l4 4 4-4",
+  ellipsis: "M4 8h.01M8 8h.01M12 8h.01",
+  filter: "M2.5 4h11M4.5 8h7M6.5 12h3",
   lock: "M4.5 7.5h7v6h-7zM6 7.5V5.5a2 2 0 0 1 4 0v2",
   plus: "M8 3.5v9M3.5 8h9",
   search: "M7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10zM10.5 10.5 14 14",
@@ -345,7 +347,12 @@ export function ExceptionRow({
 }) {
   return (
     <div className={styles.exception} data-highlighted={highlighted || undefined}>
-      <div>
+      <span className={styles.exceptionDot} aria-hidden="true" />
+      <div className={styles.exceptionMain}>
+        <p className={styles.exceptionTitle}>
+          {item.title}
+          <time>{item.time}</time>
+        </p>
         <div className={styles.exceptionSubject}>
           <ObjectChip id={item.subject} />
           {item.tags.map((tag) => (
@@ -354,19 +361,32 @@ export function ExceptionRow({
             </OpTag>
           ))}
         </div>
-        <p>{item.title}</p>
       </div>
       <div className={styles.exceptionActions}>
-        {item.actions.map((action, i) => (
-          <ActionButton
-            key={action.label}
-            primary={i === 0 && action.intent === "assign"}
-            onClick={onAction ? () => onAction(action.intent, item.id) : undefined}
-            label={onAction ? `${action.label}: ${item.subject}` : undefined}
-          >
-            {action.label}
-          </ActionButton>
-        ))}
+        {item.actions.map((action) => {
+          // Assign driver is the row's call to action; other actions open the record behind an arrow.
+          const assign = action.intent === "assign";
+          const className = assign ? styles.assign : styles.arrow;
+          const content = assign ? action.label : <OpIcon name="arrow" />;
+          if (!onAction)
+            return (
+              <span key={action.label} className={className}>
+                {content}
+              </span>
+            );
+          return (
+            <button
+              type="button"
+              key={action.label}
+              className={className}
+              onClick={() => onAction(action.intent, item.id)}
+              aria-label={`${action.label}: ${item.subject}`}
+              title={action.label}
+            >
+              {content}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -445,28 +465,45 @@ export function PersonOption({
   initials,
   color,
   selected,
+  detail,
+  tag,
+  disabled,
   onClick,
 }: {
   name: string;
   initials: string;
   color: string;
   selected?: boolean;
+  /** Availability or eligibility shown under the name. */
+  detail?: string;
+  tag?: { label: string; tone: StoryTone };
+  disabled?: boolean;
   onClick?: () => void;
 }) {
   const content = (
     <>
       <PreviewAvatar initials={initials} color={color} />
-      <span>{name}</span>
-      <small>Driver</small>
+      <span className={styles.optionName}>
+        {name}
+        <small>{detail ?? "Driver"}</small>
+      </span>
+      {tag && <OpTag tone={tag.tone}>{tag.label}</OpTag>}
       {selected && <OpIcon name="check" />}
     </>
   );
-  return onClick ? (
+  return onClick && !disabled ? (
     <button type="button" role="option" aria-selected={selected} className={styles.option} onClick={onClick}>
       {content}
     </button>
   ) : (
-    <div className={styles.option} data-selected={selected || undefined}>
+    <div
+      className={styles.option}
+      role={onClick ? "option" : undefined}
+      aria-selected={onClick ? false : undefined}
+      aria-disabled={disabled || undefined}
+      data-selected={selected || undefined}
+      data-disabled={disabled || undefined}
+    >
       {content}
     </div>
   );
@@ -491,7 +528,14 @@ export function ActionDialog({
   subject: string;
   input: string;
   query: string;
-  options: { name: string; initials: string; color: string }[];
+  options: {
+    name: string;
+    initials: string;
+    color: string;
+    detail?: string;
+    tag?: { label: string; tone: StoryTone };
+    disabled?: boolean;
+  }[];
   selected?: string;
   requirement: ReactNode;
   effect: string;

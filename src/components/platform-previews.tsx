@@ -25,6 +25,7 @@ import {
   ObjectDetail,
   OpIcon,
   OpTag,
+  StateBar,
   Toast,
 } from "./operational-ui";
 import { PreviewPanel, PreviewSwitch } from "./preview-ui";
@@ -129,18 +130,18 @@ function Code({ text, started, reduced }: { text: string; started: boolean; redu
 
 const coreLinks = {
   people: {
-    href: "#workspaces",
+    href: "/product#workspaces",
     title: "Workspaces",
     text: "Collections, details and Inbox, generated from the model.",
   },
   ai: {
-    href: "#intelligence",
+    href: "/product#intelligence",
     title: "Intelligence & Agents",
     text: "Briefings and agent proposals that read the same model.",
   },
   model: { href: "#model", title: "Business Model", text: "Objects, relationships and lifecycle states." },
   actions: {
-    href: "#actions",
+    href: "/product#actions",
     title: "Actions & Workflows",
     text: "Typed operations with permissions and declared effects.",
   },
@@ -178,7 +179,7 @@ export function PlatformCoreDiagram() {
           </div>
         </div>
         <div className={styles.ring}>
-          <a className={styles.ringLabel} href="#governance">
+          <a className={styles.ringLabel} href="/product#governance">
             Governance & Security
           </a>
           <span className={styles.ringNodes}>
@@ -560,6 +561,125 @@ export function PlatformGovernancePreview() {
             <p className={styles.appendOnly}>
               <OpIcon name="lock" /> Append-only. Events can’t be edited or deleted.
             </p>
+          </div>
+        </PreviewPanel>
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Know what matters: the Inbox briefing and the tasks waiting on the operator. */
+
+export function AttentionPreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Cotton Candy.png"
+      label="The Inbox: a daily briefing with exceptions, and the tasks waiting for the operator"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.briefing}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={briefing.status === "design-preview" ? <OpTag tone="blue">Design preview</OpTag> : undefined}>
+            Inbox
+          </Bar>
+          <div className={styles.panelBody}>
+            <BriefingCard {...briefing} />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.tasks} delay={0.1}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar>My tasks</Bar>
+          <div className={styles.collectionRows}>
+            <CollectionList
+              label="My tasks"
+              selected={storyOrderId}
+              rows={[
+                {
+                  id: storyOrderId,
+                  title: "Assign a driver",
+                  subtitle: `${storyOrderId} · Altamira Retail · due 5:00 PM`,
+                  tags: [{ label: "Urgent", tone: "red" }],
+                },
+                {
+                  id: "unassigned",
+                  title: "3 confirmed orders without a driver",
+                  subtitle: "Orders · Confirmed",
+                  tags: [{ label: "Exception", tone: "amber" }],
+                },
+                {
+                  id: "approval",
+                  title: "Approve rescheduled delivery",
+                  subtitle: "PO-48205 · requested by Diego Marín",
+                  tags: [{ label: "Approval", tone: "blue" }],
+                },
+                {
+                  id: "PO-48208",
+                  title: "Review cancelled order",
+                  subtitle: "PO-48208 · Norte Home",
+                  tags: [{ label: "Cancelled", tone: "red" }],
+                },
+              ]}
+            />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Adapt as operations change: one change to the order process, applied to the same model. */
+
+const lifecycleBefore = ["Draft", "Confirmed", "In Transit", "Delivered"] as const;
+const lifecycleAfter = ["Draft", "Confirmed", "Quality check", "In Transit", "Delivered"] as const;
+const changes = [
+  ["New stage", "Quality check, between Confirmed and In Transit."],
+  ["New action", "Pass quality check, available to the Warehouse lead role."],
+  ["New rule", "An order can’t be dispatched until its quality check has passed."],
+  ["Unchanged", "Existing orders, their history, and every other workflow."],
+] as const;
+
+export function AdaptPreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  const [applied, setApplied] = useState(true);
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Banana Terracota.png"
+      label="A process change: adding a quality check stage to the order lifecycle"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.adapt}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={<OpTag>Illustrative</OpTag>}>
+            <span className={styles.muted}>Acme Logistics / Change / </span>Add a quality check before dispatch
+          </Bar>
+          <div className={styles.panelBody}>
+            <div className={styles.adaptToggle} role="group" aria-label="Order process version">
+              <button type="button" aria-pressed={!applied} onClick={() => setApplied(false)}>
+                Current process
+              </button>
+              <button type="button" aria-pressed={applied} onClick={() => setApplied(true)}>
+                With the change
+              </button>
+            </div>
+            <small className={styles.label}>Order lifecycle</small>
+            <StateBar
+              key={applied ? "after" : "before"}
+              states={applied ? lifecycleAfter : lifecycleBefore}
+              current={applied ? "Quality check" : "Confirmed"}
+              terminal="Cancelled"
+            />
+            <dl className={styles.changes} data-applied={applied}>
+              {changes.map(([term, text]) => (
+                <div key={term} data-kind={term === "Unchanged" ? "kept" : "new"}>
+                  <dt>{term}</dt>
+                  <dd>{text}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </PreviewPanel>
       </Swipe>

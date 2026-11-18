@@ -67,16 +67,16 @@ export const footerGroups = [
     title: "Product",
     links: [
       { label: "Home", href: "/" },
-      { label: "Platform", href: "/platform" },
-      { label: "Offerings", href: "/offering" },
-      { label: "Deployment", href: "/deployment" },
+      { label: "Product", href: "/product" },
+      { label: "Capabilities", href: "/capabilities" },
+      { label: "How it works", href: "/how-it-works" },
       { label: "FAQ", href: "/faq" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About us", href: "/company" },
+      { label: "Company", href: "/company" },
       { label: "Manifesto", href: "/manifesto" },
       { label: "Careers", href: "/careers" },
     ],
