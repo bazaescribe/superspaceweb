@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import styles from "./preview-ui.module.css";
 
-export type PreviewTone = "neutral" | "green" | "blue" | "amber";
+export type PreviewTone = "neutral" | "green" | "blue" | "amber" | "red";
 export function PreviewPanel({
   children,
   theme = "light",
@@ -59,19 +59,24 @@ export function PreviewTag({
   children,
   tone = "neutral",
   dot = false,
+  className = "",
 }: {
   children: ReactNode;
   tone?: PreviewTone;
   dot?: boolean;
+  className?: string;
 }) {
   const localizeCopy = useCopy();
-  return <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""}`}>{localizeCopy(children)}</span>;
+  return (
+    <span className={`${styles.tag} ${styles[tone]} ${dot ? styles.dot : ""} ${className}`}>
+      {localizeCopy(children)}
+    </span>
+  );
 }
 export function PreviewAvatar({ initials, color = "#615fff" }: { initials: string; color?: string }) {
-  const localizeCopy = useCopy();
   return (
     <b className={styles.avatar} style={{ "--avatar-color": color } as CSSProperties}>
-      {localizeCopy(initials)}
+      {initials}
     </b>
   );
 }

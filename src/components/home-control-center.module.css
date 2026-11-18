@@ -1,0 +1,1106 @@
+@property --siri-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1128px;
+  height: 733px;
+  transform-origin: top left;
+}
+
+/* The shared shell is light by default; these variables and overrides make it the dark control center. */
+.control {
+  --color-background-light: #17171c;
+  --color-border-light: #303036;
+  --color-content-light: #fafaf9;
+  --color-background-secondary-light: rgba(250, 250, 249, 0.08);
+  --color-content-dark: #202027;
+  --color-accent-light: #8b7dff;
+  position: relative;
+  display: flex;
+  width: 1128px;
+  height: 733px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-light);
+  border-radius: 14px;
+  background: #050506;
+  color: var(--color-content-light);
+  font-family: "Inter Variable", Inter, Arial, sans-serif;
+  box-shadow: 0 4px 48px rgba(0, 0, 0, 0.32);
+  -webkit-font-smoothing: antialiased;
+}
+.control :global(aside[aria-label="Workspace navigation"]) {
+  background: #050506;
+  border-color: var(--color-border-light);
+}
+.control :global(aside[aria-label="Workspace navigation"] img[src$=".svg"]) {
+  filter: invert(1) opacity(0.85);
+}
+.control :global(aside button:hover),
+.control :global(aside button[aria-current="page"]) {
+  background: rgba(250, 250, 249, 0.1);
+}
+.control :global(aside button[aria-current="page"]) {
+  background: rgba(250, 250, 249, 0.14);
+}
+.control :global(header) {
+  font-family: "Instrument Sans Variable", "Instrument Sans", sans-serif;
+  font-size: 13px;
+}
+:where(.control) button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+:where(.control) button:disabled {
+  cursor: default;
+}
+
+.workspace {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+/* Main column */
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  padding: 28px 24px 40px;
+  background: #17171c;
+  scrollbar-width: none;
+}
+.column {
+  width: 560px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.column > * {
+  flex-shrink: 0;
+}
+.date {
+  margin: 0;
+  font-size: 10px;
+  color: rgba(250, 250, 249, 0.4);
+  text-align: left;
+}
+.hello {
+  margin: 0;
+  font:
+    700 28px/1.1 "Instrument Sans Variable",
+    "Instrument Sans",
+    sans-serif;
+  letter-spacing: 0.01em;
+  color: #fafaf9;
+}
+.today {
+  margin: 14px 0 0;
+  font:
+    600 18px/1.2 "Instrument Sans Variable",
+    "Instrument Sans",
+    sans-serif;
+  color: #fafaf9;
+}
+
+/* The briefing uses the same quiet surface as operational records. */
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(250, 250, 249, 0.1);
+  border-radius: 10px;
+  background: #202027;
+}
+.summaryHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 11px;
+  color: rgba(250, 250, 249, 0.7);
+  white-space: nowrap;
+}
+.summaryText {
+  margin: 0;
+  min-height: 44px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(250, 250, 249, 0.92);
+}
+.generating {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 66px;
+}
+.generatingLabel {
+  font-size: 12px;
+  color: rgba(250, 250, 249, 0.55);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+.skeleton {
+  display: grid;
+  gap: 8px;
+}
+.skeleton span {
+  display: block;
+  height: 9px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, rgba(250, 250, 249, 0.06), rgba(250, 250, 249, 0.18), rgba(250, 250, 249, 0.06));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+.skeleton span:nth-child(2) {
+  width: 86%;
+}
+.skeleton span:nth-child(3) {
+  width: 58%;
+}
+.aurora {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7c6cff, #00d4ff, #ff6ad5, #ffb36b, #7cf0c4, #7c6cff);
+  background-size: 200% 100%;
+  animation: aurora 4s linear infinite;
+  opacity: 0.8;
+}
+.orb {
+  position: relative;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #8b7dff;
+  animation: breathe 1.8s ease-in-out infinite;
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: #fafaf9;
+  animation: blink 0.9s steps(1) infinite;
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 100px;
+  color: rgba(250, 250, 249, 0.7);
+}
+.iconButton:hover:not(:disabled) {
+  background: rgba(250, 250, 249, 0.08);
+  color: #fafaf9;
+}
+.iconButton:disabled {
+  opacity: 0.4;
+}
+
+/* Sections enter one after another; each wrapper reads its own delay from --d. */
+.stagger {
+  opacity: 1;
+}
+
+/* Tabs and cards */
+.enter {
+  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+/* The tabs belong to the chart and list below them, so they sit closer to those than to the summary. */
+.tabBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 0 -4px;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+.tabs button {
+  height: 24px;
+  padding: 0 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  background: rgba(250, 250, 249, 0.06);
+  color: rgba(250, 250, 249, 0.62);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.tabs button:hover {
+  background: rgba(250, 250, 249, 0.1);
+  color: #fafaf9;
+}
+.filterButton {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+  background: rgba(250, 250, 249, 0.08);
+  color: rgba(250, 250, 249, 0.7);
+}
+.inspectorTabs button {
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: rgba(250, 250, 249, 0.6);
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+.inspectorTabs button:hover {
+  color: #fafaf9;
+}
+.tabActive {
+  background: rgba(250, 250, 249, 0.14);
+  color: #fafaf9 !important;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid rgba(250, 250, 249, 0.08);
+  border-radius: 10px;
+  background: #202027;
+}
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 6px 0 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 11px;
+  color: rgba(250, 250, 249, 0.8);
+}
+.legend li span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Chart: a 1:1 SVG with real axis labels, a hover marker and a tooltip. Lines draw in once the card mounts. */
+.chart {
+  position: relative;
+}
+.chart svg {
+  display: block;
+  overflow: visible;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+.grid {
+  stroke: rgba(250, 250, 249, 0.07);
+  stroke-width: 1;
+}
+.tick,
+.tickActive {
+  font:
+    400 9px/1 "Inter Variable",
+    Inter,
+    sans-serif;
+  fill: rgba(250, 250, 249, 0.38);
+}
+.tickActive {
+  font-weight: 500;
+  fill: #fafaf9;
+}
+.line {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.area {
+  opacity: 1;
+}
+.marker {
+  stroke: rgba(250, 250, 249, 0.28);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.tooltip {
+  position: absolute;
+  top: 4px;
+  display: grid;
+  gap: 4px;
+  min-width: 132px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(250, 250, 249, 0.1);
+  background: rgba(12, 12, 16, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  font-size: 10px;
+  color: rgba(250, 250, 249, 0.7);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.tooltip strong {
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fafaf9;
+}
+.tooltip span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tooltip i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.tooltip b {
+  margin-left: auto;
+  padding-left: 12px;
+  font-weight: 500;
+  color: #fafaf9;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Overdue lists */
+/* Reviewed platform list: assignment and lifecycle status remain distinct. */
+.itemCard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 8px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #202027;
+}
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px 0;
+}
+.itemHeading {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+  padding-right: 12px;
+  padding-left: 1px;
+  border-radius: 100px;
+  background: rgba(250, 250, 249, 0.12);
+  font:
+    400 12px/normal "Inter Variable",
+    Inter,
+    sans-serif;
+  letter-spacing: 0.12px;
+}
+.itemChevron {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+}
+.itemMore {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 100px;
+  background: rgba(250, 250, 249, 0.04);
+}
+.itemRows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0 16px;
+  list-style: none;
+}
+.itemRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: normal;
+  letter-spacing: 0.12px;
+}
+.itemDetails {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.rowId {
+  color: rgba(250, 250, 249, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+.itemName {
+  color: #fafaf9;
+  font-weight: 400;
+}
+.itemMeta {
+  color: rgba(250, 250, 249, 0.4);
+  font-size: 10px;
+}
+.itemCard .tag {
+  padding: 4px 8px;
+  border-radius: 100px;
+  font:
+    400 10px/normal "Inter Variable",
+    Inter,
+    sans-serif;
+  white-space: nowrap;
+  letter-spacing: 0;
+  backdrop-filter: blur(8px);
+}
+.itemCard .tone_red {
+  background: rgba(251, 44, 54, 0.08);
+  color: #fb2c36;
+}
+.itemCard .tone_amber {
+  background: rgba(240, 136, 0, 0.08);
+  color: #f0ac00;
+}
+.itemCard .tone_green {
+  background: rgba(0, 188, 125, 0.08);
+  color: #00bc7d;
+}
+.itemCard .tone_blue {
+  background: rgba(0, 166, 244, 0.08);
+  color: #5ec8ff;
+}
+.itemCard .tone_neutral {
+  background: rgba(250, 250, 249, 0.08);
+  color: rgba(250, 250, 249, 0.7);
+}
+
+/* Inspector: the Superspace AI prototype. Tabs, surface and prompt box follow the Figma frame. */
+.inspector {
+  width: 320px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--color-border-light);
+  background: #17171c;
+}
+.inspectorTabs {
+  display: flex;
+  gap: 4px;
+  padding: 24px 16px 16px;
+}
+.inspectorTabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px 0 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #fafaf9;
+  background: rgba(250, 250, 249, 0.04);
+  transition: background 0.2s;
+}
+.inspectorTabs button:hover {
+  background: rgba(250, 250, 249, 0.1);
+}
+.inspectorTabs .tabActive {
+  background: rgba(250, 250, 249, 0.16);
+}
+.shortcuts {
+  display: grid;
+  gap: 6px;
+  padding: 8px 16px;
+}
+.shortcuts button {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 12px;
+  background: rgba(250, 250, 249, 0.04);
+}
+.shortcuts button:hover {
+  background: rgba(250, 250, 249, 0.08);
+}
+
+.aiPane {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.thread {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 16px 16px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 8px 56px;
+}
+.emptyTitle {
+  margin: 0;
+  font:
+    500 20px/1.2 "Instrument Sans Variable",
+    "Instrument Sans",
+    sans-serif;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+}
+
+/* Prompt box: the same surface for the empty state and the composer. */
+.prompt {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 93px;
+  padding: 16px 12px 12px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 16px;
+  background: #202027;
+  font-size: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+.promptText {
+  margin: 0;
+  line-height: 1.5;
+  color: #fafaf9;
+}
+.promptPlaceholder {
+  margin: 0;
+  line-height: 1.5;
+  color: rgba(250, 250, 249, 0.4);
+}
+.promptControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.promptRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plus,
+.mic,
+.send {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+}
+.plus {
+  color: rgba(250, 250, 249, 0.7);
+}
+.mic {
+  background: #17171c;
+  color: rgba(250, 250, 249, 0.8);
+}
+.send {
+  background: #fafaf9;
+  color: #17171c;
+  transition: opacity 0.2s;
+}
+.send:disabled {
+  opacity: 0.4;
+}
+.composerSlot {
+  padding: 0 16px 4px;
+}
+
+/* The user's message rises into the thread from the composer. */
+.bubble {
+  align-self: flex-end;
+  max-width: 86%;
+  padding: 10px 14px;
+  border-radius: 14px 14px 4px 14px;
+  background: rgba(98, 88, 230, 0.22);
+  border: 1px solid rgba(124, 108, 255, 0.28);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fafaf9;
+}
+
+.run {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.runHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(250, 250, 249, 0.7);
+}
+.runHead .orb {
+  width: 14px;
+  height: 14px;
+}
+.runDone {
+  display: grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00bc7d;
+  color: #050506;
+}
+.dots::after {
+  content: "...";
+  animation: breathe 1.2s ease-in-out infinite;
+}
+.runLead {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(250, 250, 249, 0.85);
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+}
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(250, 250, 249, 0.85);
+}
+.steps li[data-status="pending"] {
+  color: rgba(250, 250, 249, 0.35);
+}
+.stepDone {
+  color: #00bc7d;
+  flex: none;
+  animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.stepSpin {
+  flex: none;
+  color: #8b7dff;
+  animation: spin 0.9s linear infinite;
+}
+.stepPending {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin: 2px;
+  border: 1px solid rgba(250, 250, 249, 0.3);
+  border-radius: 50%;
+}
+.answer {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(250, 250, 249, 0.92);
+}
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #202027;
+  border: 1px solid rgba(250, 250, 249, 0.08);
+}
+.reviewHead {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+}
+.reviewHead small {
+  font-size: 11px;
+  color: rgba(250, 250, 249, 0.5);
+}
+.reviewRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  animation: rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.pill {
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: rgba(250, 250, 249, 0.08);
+}
+.arrow {
+  color: rgba(250, 250, 249, 0.4);
+}
+.reviewNote {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(250, 250, 249, 0.5);
+}
+.reviewActions {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+.primary,
+.secondary {
+  white-space: nowrap;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.primary {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: #fafaf9;
+  color: #17171c;
+}
+.primary:disabled {
+  background: rgba(0, 188, 125, 0.9);
+  color: #050506;
+}
+.secondary {
+  flex: none;
+  background: rgba(250, 250, 249, 0.08);
+  color: #fafaf9;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes siri-spin {
+  to {
+    --siri-angle: 360deg;
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes aurora {
+  to {
+    background-position: 200% 0;
+  }
+}
+@keyframes orb {
+  0%,
+  100% {
+    transform: scale(0.9);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.12);
+    filter: hue-rotate(60deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .control *,
+  .control *::before,
+  .control *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.cardCount {
+  margin-left: auto;
+  margin-right: 6px;
+  font-size: 11px;
+  color: rgba(250, 250, 249, 0.45);
+  font-variant-numeric: tabular-nums;
+}
+.timestamp {
+  align-self: center;
+  margin: 0;
+  font-size: 10px;
+  color: rgba(250, 250, 249, 0.4);
+}
+
+/* Desktop shows the rail, the dashboard and the inspector side by side. */
+.mobileSwitch {
+  display: none;
+}
+
+/* Phone composition keeps the desktop surfaces and crops the application's lower edge. */
+@media (max-width: 760px) {
+  .frame {
+    height: auto !important;
+  }
+  .canvas {
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+  }
+  .control {
+    flex-direction: column;
+    width: 100%;
+    height: 700px;
+    border-radius: 12px;
+    background: #17171c;
+    box-shadow: none;
+  }
+  .control :global(aside[aria-label="Workspace navigation"]),
+  .inspectorTabs {
+    display: none;
+  }
+  .mobileSwitch {
+    display: flex;
+    flex: none;
+    gap: 20px;
+    padding: 0 16px;
+    border-bottom: 1px solid rgba(250, 250, 249, 0.08);
+    background: #17171c;
+  }
+  .mobileSwitch button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0;
+    border-radius: 0;
+    border-bottom: 2px solid transparent;
+    font-size: 11px;
+    color: rgba(250, 250, 249, 0.52);
+    background: transparent;
+  }
+  .mobileSwitch .tabActive {
+    border-bottom-color: rgba(250, 250, 249, 0.8);
+    background: transparent;
+    color: #fafaf9;
+  }
+  .body {
+    min-height: 0;
+    /* Keep scrolling content and assistant controls above the stage's crop. */
+    margin-bottom: 80px;
+  }
+  .main {
+    padding: 20px 14px 24px;
+  }
+  .column {
+    width: 100%;
+    gap: 14px;
+  }
+  .date {
+    color: rgba(250, 250, 249, 0.48);
+    margin-bottom: 6px;
+  }
+  .hello {
+    font-size: 24px;
+  }
+  .today {
+    font-size: 16px;
+    margin-top: 16px;
+  }
+  .summary {
+    padding: 12px;
+    gap: 8px;
+  }
+  .summaryText {
+    min-height: 0;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .summary .chip {
+    font-size: 10px;
+    color: rgba(250, 250, 249, 0.6);
+  }
+  .tabBar {
+    margin-top: 4px;
+  }
+  .itemHeader {
+    padding: 12px 12px 0;
+  }
+  .itemRows {
+    padding: 0 12px;
+  }
+  .itemRow {
+    gap: 10px;
+    padding: 8px 0;
+  }
+  .itemDetails {
+    flex: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 6px 8px;
+  }
+  .rowId {
+    font-size: 10px;
+    color: rgba(250, 250, 249, 0.48);
+  }
+  .itemName {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+  .itemDetails > .tag,
+  .itemMeta {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .itemCard .tone_red {
+    background: rgba(251, 44, 54, 0.1);
+    color: #ff7881;
+  }
+  .itemCard .tone_amber {
+    background: rgba(240, 172, 0, 0.1);
+    color: #eec35e;
+  }
+  .itemCard .tone_green {
+    background: rgba(0, 188, 125, 0.1);
+    color: #4bd4a2;
+  }
+  .control[data-view="dashboard"] .inspector {
+    display: none;
+  }
+  .control[data-view="assistant"] .main {
+    display: none;
+  }
+  .inspector {
+    width: 100%;
+    flex: 1;
+    border-left: 0;
+  }
+  .thread {
+    padding: 20px 14px 16px;
+  }
+  .empty {
+    padding: 0 0 32px;
+  }
+  .emptyTitle {
+    font-size: 20px;
+  }
+  .composerSlot {
+    padding: 0 14px 14px;
+  }
+  .chart svg .tick,
+  .chart svg .tickActive {
+    font-size: 14px;
+  }
+}

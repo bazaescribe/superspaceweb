@@ -1,24 +1,47 @@
 "use client";
-import { useCopy } from "@/i18n/copy";
 
-import Image from "next/image";
 import { useEffect, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
-import { PreviewPanel, PreviewPerson, PreviewTag, PreviewSpinner, PreviewIcon, PreviewAvatar } from "./preview-ui";
-import styles from "./platform-previews.module.css";
+import { useCopy } from "@/i18n/copy";
+import { Link } from "@/i18n/navigation";
+import {
+  agentProposal,
+  assignDriver,
+  briefing,
+  drivers,
+  orderRecord,
+  orders,
+  stateTones,
+  storyOrderId,
+  viewer,
+  type ActivityEntry,
+} from "@/lib/operational-story";
+import {
+  ActionButton,
+  ActionDialog,
+  ActivityTimeline,
+  BriefingCard,
+  CollectionList,
+  ObjectChip,
+  ObjectDetail,
+  OpIcon,
+  OpTag,
+  StateBar,
+  Toast,
+} from "./operational-ui";
+import { PreviewPanel, PreviewSwitch } from "./preview-ui";
 import { PreviewStage } from "./preview-stage";
+import styles from "./platform-previews.module.css";
 
-const assets = "/assets/figma/platform-v2/";
-function Asset({ file, width = 20, height = width }: { file: string; width?: number; height?: number }) {
-  return <Image src={`${assets}${file}`} width={width} height={height} alt="" />;
-}
-function Bar({ children, code = false }: { children: ReactNode; code?: boolean }) {
+const story = orders.find((order) => order.id === storyOrderId)!;
+
+function Bar({ children, trailing }: { children: ReactNode; trailing?: ReactNode }) {
   const localizeCopy = useCopy();
   return (
     <div className={styles.bar}>
       <span>{localizeCopy(children)}</span>
-      {localizeCopy(code ? <Asset file="3d03b.svg" width={16} /> : <span aria-hidden="true">{"···"}</span>)}
+      {trailing ?? <span aria-hidden="true">···</span>}
     </div>
   );
 }
@@ -28,17 +51,24 @@ function Stage({
   entered,
   stageRef,
   label,
+  className = "",
 }: {
   background: string;
   children: ReactNode;
   entered: boolean;
   stageRef: React.RefObject<HTMLDivElement | null>;
   label: string;
+  className?: string;
 }) {
-  const localizeCopy = useCopy();
   return (
-    <PreviewStage background={background} stageRef={stageRef} entered={entered} label={label} className={styles.stage}>
-      <div className={styles.composition}>{localizeCopy(children)}</div>
+    <PreviewStage
+      background={background}
+      stageRef={stageRef}
+      entered={entered}
+      label={label}
+      className={`${styles.stage} ${className}`}
+    >
+      <div className={styles.composition}>{children}</div>
     </PreviewStage>
   );
 }
@@ -55,7 +85,6 @@ function Swipe({
   children: ReactNode;
   delay?: number;
 }) {
-  const localizeCopy = useCopy();
   return (
     <motion.div
       className={className}
@@ -67,131 +96,11 @@ function Swipe({
       }}
       transition={{ duration: reduced ? 0 : 0.38, delay: reduced ? 0 : delay, ease: [0.16, 1, 0.3, 1] }}
     >
-      {localizeCopy(children)}
+      {children}
     </motion.div>
   );
 }
-function FastText({
-  text,
-  started,
-  reduced,
-  className,
-}: {
-  text: string;
-  started: boolean;
-  reduced: boolean;
-  className?: string;
-}) {
-  const localizeCopy = useCopy();
-  const [length, setLength] = useState(0);
-  useEffect(() => {
-    if (!started || reduced) return;
-    const start = performance.now();
-    const timer = window.setInterval(() => {
-      const progress = Math.min(1, (performance.now() - start) / 720);
-      setLength(Math.ceil(text.length * progress));
-      if (progress === 1) window.clearInterval(timer);
-    }, 24);
-    return () => window.clearInterval(timer);
-  }, [started, reduced, text]);
-  return (
-    <span className={className}>
-      <span className={styles.srOnly}>{localizeCopy(text)}</span>
-      <span aria-hidden="true">{localizeCopy(reduced ? text : text.slice(0, length))}</span>
-    </span>
-  );
-}
-const model = JSON.stringify(
-  {
-    model: "DeliveryAssignment",
-    version: "1.0",
-    objects: {
-      Delivery: {
-        fields: {
-          status: { type: "enum", values: ["pending", "assigned", "in_progress", "completed", "cancelled"] },
-          assignedAt: { type: "datetime", nullable: true },
-        },
-        relationships: {
-          order: { target: "Order", required: true },
-          driver: { target: "Driver", required: false },
-          serviceZone: { target: "ServiceZone", required: true },
-        },
-      },
-    },
-    actions: {
-      assignDriver: {
-        target: "Delivery",
-        input: { driver: { type: "reference", target: "Driver" } },
-        permissions: { roles: ["Dispatcher"] },
-        conditions: {
-          all: [
-            { field: "delivery.status", operator: "equals", value: "pending" },
-            { field: "delivery.driver", operator: "isNull" },
-            { field: "driver.status", operator: "equals", value: "active" },
-            { field: "driver.available", operator: "equals", value: true },
-            { field: "driver.serviceZone", operator: "equalsField", value: "delivery.serviceZone" },
-            { metric: "driver.activeDeliveries", operator: "lessThan", value: 3 },
-          ],
-        },
-        effects: [
-          { operation: "setRelationship", field: "delivery.driver", value: "$input.driver" },
-          { operation: "setField", field: "delivery.status", value: "assigned" },
-          { operation: "setField", field: "delivery.assignedAt", value: "$now" },
-        ],
-      },
-    },
-  },
-  null,
-  2,
-);
-const relationships = JSON.stringify(
-  {
-    exportVersion: "1.0",
-    exportedAt: "2026-10-14T18:30:00Z",
-    workspace: "acme-logistics",
-    relationships: [
-      {
-        id: "rel_001",
-        type: "placed_by",
-        source: { object: "Order", id: "ORD-1042" },
-        target: { object: "Customer", id: "CUS-018" },
-      },
-      {
-        id: "rel_002",
-        type: "fulfilled_by",
-        source: { object: "Order", id: "ORD-1042" },
-        target: { object: "Delivery", id: "DLV-1042" },
-      },
-      {
-        id: "rel_003",
-        type: "assigned_to",
-        source: { object: "Delivery", id: "DLV-1042" },
-        target: { object: "Driver", id: "DRV-007" },
-        metadata: { assignedAt: "2026-10-14T16:12:00Z", assignedBy: "USR-003" },
-      },
-      {
-        id: "rel_004",
-        type: "operates_in",
-        source: { object: "Driver", id: "DRV-007" },
-        target: { object: "ServiceZone", id: "ZONE-03" },
-      },
-    ],
-  },
-  null,
-  2,
-);
-function Code({
-  text,
-  started,
-  reduced,
-  exportCode = false,
-}: {
-  text: string;
-  started: boolean;
-  reduced: boolean;
-  exportCode?: boolean;
-}) {
-  const localizeCopy = useCopy();
+function Code({ text, started, reduced }: { text: string; started: boolean; reduced: boolean }) {
   const [length, setLength] = useState(0);
   useEffect(() => {
     if (!started || reduced) return;
@@ -204,495 +113,607 @@ function Code({
     return () => window.clearInterval(timer);
   }, [started, reduced, text]);
   const visible = reduced ? text : text.slice(0, length);
+  const localizeCopy = useCopy();
   return (
-    <pre className={`${styles.code} ${exportCode ? styles.exportCode : ""}`} aria-label={localizeCopy("JSON preview")}>
+    <pre className={styles.code} aria-label={localizeCopy("Illustrative model definition")}>
       <code>
         {visible.split(/("(?:[^"\\]|\\.)*"\s*:|"(?:[^"\\]|\\.)*"|\btrue\b|\bfalse\b|\bnull\b)/g).map((token, i) => (
           <span
             key={i}
             className={token.endsWith(":") ? styles.key : token.startsWith('"') ? styles.string : undefined}
           >
-            {localizeCopy(token)}
+            {token}
           </span>
         ))}
       </code>
     </pre>
   );
 }
-export function PlatformLogicPreview() {
+
+/* One foundation */
+
+const coreLinks = {
+  people: {
+    href: "/product#workspaces",
+    title: "Workspaces",
+    text: "Collections, details and Inbox, generated from the model.",
+  },
+  ai: {
+    href: "/product#intelligence",
+    title: "Intelligence & Agents",
+    text: "Briefings and agent proposals that read the same model.",
+  },
+  model: { href: "/how-it-works#model", title: "Business Model", text: "Objects, relationships and lifecycle states." },
+  actions: {
+    href: "/product#actions",
+    title: "Actions & Workflows",
+    text: "Typed operations with permissions and declared effects.",
+  },
+};
+function CoreNode({ node, tone }: { node: (typeof coreLinks)[keyof typeof coreLinks]; tone?: "core" }) {
   const localizeCopy = useCopy();
+  return (
+    <Link className={styles.coreNode} href={node.href} data-tone={tone}>
+      <strong>{localizeCopy(node.title)}</strong>
+      <span>{localizeCopy(node.text)}</span>
+    </Link>
+  );
+}
+/** A conceptual view: people and AI reach the same model and actions through controlled paths. */
+export function PlatformCoreDiagram() {
+  const { ref, entered } = useScrollEntrance();
+  const localizeCopy = useCopy();
+  return (
+    <PreviewStage
+      background="Cover Ghost.png"
+      stageRef={ref}
+      entered={entered}
+      label="Conceptual view of the Superspace platform"
+      className={styles.coreStage}
+    >
+      <div className={styles.core} data-entered={entered}>
+        <div className={styles.coreActors}>
+          <div className={styles.coreColumn}>
+            <span className={styles.actor}>{localizeCopy("People")}</span>
+            <CoreNode node={coreLinks.people} />
+            <span className={styles.path}>{localizeCopy("Run permitted actions")}</span>
+          </div>
+          <div className={styles.coreColumn}>
+            <span className={styles.actor}>{localizeCopy("AI")}</span>
+            <CoreNode node={coreLinks.ai} />
+            <span className={styles.path}>{localizeCopy("Read in scope · propose for approval")}</span>
+          </div>
+        </div>
+        <div className={styles.ring}>
+          <Link className={styles.ringLabel} href="/product#governance">
+            {localizeCopy("Governance & Security")}
+          </Link>
+          <span className={styles.ringNodes}>
+            <CoreNode node={coreLinks.model} tone="core" />
+            <CoreNode node={coreLinks.actions} tone="core" />
+          </span>
+          <span className={styles.ringFooter}>
+            {localizeCopy("Organization isolation · Role permissions on every action · Append-only activity")}
+          </span>
+        </div>
+      </div>
+    </PreviewStage>
+  );
+}
+
+/* Business Model */
+
+const model = JSON.stringify(
+  {
+    objectType: "Order",
+    fields: { number: "text", total: "currency", priority: { enum: ["Normal", "High", "Urgent"] } },
+    lifecycle: {
+      initial: "Draft",
+      states: ["Draft", "Confirmed", "In Transit", "Delivered", "Cancelled"],
+      transitions: {
+        confirm: ["Draft", "Confirmed"],
+        dispatch: ["Confirmed", "In Transit"],
+        deliver: ["In Transit", "Delivered"],
+        cancelDraft: ["Draft", "Cancelled"],
+        cancelConfirmed: ["Confirmed", "Cancelled"],
+      },
+    },
+    relationships: {
+      placedBy: { target: "Customer", required: true },
+      assignedDriver: { target: "Driver", required: false },
+    },
+    actions: {
+      assignDriver: {
+        input: { driver: { reference: "Driver", required: true } },
+        capability: "order.assign_driver",
+        effects: [{ createRelationship: "assignedDriver", to: "$input.driver" }],
+        audit: { driver: "value" },
+      },
+    },
+  },
+  null,
+  2,
+);
+export function PlatformModelPreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Purple.png"
-      label={localizeCopy("Business requirements translated into a declarative model")}
+      label="The Order object type: fields, lifecycle, relationships and the Assign driver action"
     >
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.logicCode} delay={0.08}>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.modelCode} delay={0.08}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar code>{localizeCopy("delivery-assignment.json")}</Bar>
+          <Bar trailing={<OpTag>Illustrative</OpTag>}>order.model.json</Bar>
           <Code text={model} started={entered} reduced={reducedMotion} />
         </PreviewPanel>
       </Swipe>
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.logicDoc}>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.modelDoc}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
-            <span className={styles.muted}>{localizeCopy("Acme / Docs / ")}</span>
-            {localizeCopy("Delivery Assignment")}
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Model / ")}</span>
+            {localizeCopy("Order")}
           </Bar>
           <div className={styles.document}>
-            <h3>{localizeCopy("Delivery Assignment")}</h3>
-            <div className={styles.metadata}>
-              <div>
-                <small>{localizeCopy("Owner")}</small>
-                <PreviewPerson initials="CE" name="Carolina Enríquez" color="#ffa700" />
-              </div>
-              <div>
-                <small>{localizeCopy("Last edit")}</small>
-                <PreviewTag>{localizeCopy("3d ago")}</PreviewTag>
-              </div>
-              <div>
-                <small>{localizeCopy("Version")}</small>
-                <PreviewTag>{"4.3"}</PreviewTag>
-              </div>
-            </div>
-            <h4>{localizeCopy("Overview")}</h4>
+            <strong className={styles.docTitle}>{localizeCopy("Order")}</strong>
             <p>
-              <FastText
-                text="Every delivery belongs to an order and must be assigned to an available driver before it can begin."
-                started={entered}
-                reduced={reducedMotion}
-              />
-            </p>
-            <h4>{localizeCopy("Assignment rules")}</h4>
-            <ul>
-              {[
-                "Only users with the Dispatcher role can assign drivers.",
-                "A delivery must be in Pending status.",
-                "The selected driver must be active and available.",
-                "The driver must operate in the same service zone as the delivery.",
-                "A driver cannot have more than 3 active deliveries.",
-              ].map((rule) => (
-                <li key={rule}>
-                  <FastText text={rule} started={entered} reduced={reducedMotion} />
-                </li>
-              ))}
-            </ul>
-            <h4>{localizeCopy("When a driver is assigned")}</h4>
-            <ul>
-              <li>{localizeCopy("The driver is linked to the delivery.")}</li>
-              <li>{localizeCopy("The delivery status changes from Pending to Assigned.")}</li>
-              <li>{localizeCopy("The assignment timestamp is recorded.")}</li>
-              <li>{localizeCopy("The delivery remains linked to its original order.")}</li>
-            </ul>
-          </div>
-        </PreviewPanel>
-      </Swipe>
-    </Stage>
-  );
-}
-const steps = [
-  "Inspecting the delivery model",
-  "Checking existing permissions",
-  "Validating assignment conditions",
-  "Preparing the assignment action",
-];
-export function PlatformAgentPreview() {
-  const localizeCopy = useCopy();
-  const { ref, entered, reducedMotion } = useScrollEntrance();
-  const [time, setTime] = useState(0);
-  const [manualAssigned, setManualAssigned] = useState(false);
-  const [cycle, setCycle] = useState(0);
-  useEffect(() => {
-    if (!entered || reducedMotion) return;
-    let previous = performance.now();
-    let accumulated = 0;
-    const timer = window.setInterval(() => {
-      const now = performance.now();
-      const delta = now - previous;
-      previous = now;
-      if (!document.hidden) {
-        accumulated = Math.min(accumulated + delta, 9200);
-        setTime(accumulated);
-        if (accumulated === 9200) window.clearInterval(timer);
-      }
-    }, 50);
-    return () => window.clearInterval(timer);
-  }, [entered, reducedMotion, cycle]);
-  const elapsed = reducedMotion ? 9200 : time;
-  const ready = elapsed >= 5700;
-  const assigned = elapsed >= 7900 || manualAssigned;
-  const replay = () => {
-    setTime(0);
-    setManualAssigned(false);
-    setCycle((value) => value + 1);
-  };
-  return (
-    <Stage
-      stageRef={ref}
-      entered={entered}
-      background="Cover Banana Terracota.png"
-      label={localizeCopy("Agent configures a delivery assignment action, then a dispatcher assigns a driver")}
-    >
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.agent}>
-        <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar>{localizeCopy("System Configuration Agent")}</Bar>
-          <div className={styles.agentBody}>
-            <motion.div
-              className={styles.prompt}
-              initial={false}
-              animate={{ opacity: elapsed >= 450 ? 1 : 0, y: elapsed >= 450 ? 0 : 90 }}
-              transition={{ duration: reducedMotion ? 0 : 0.5 }}
-            >
               {localizeCopy(
-                "Help me assign deliveries to drivers. Only dispatchers should be able to do this, and drivers must be available in the same service zone.",
+                "An order is placed by a customer and moves through a defined lifecycle. A driver can be assigned to it.",
               )}
-            </motion.div>
-            <div className={styles.response} style={{ opacity: elapsed >= 1200 ? 1 : 0 }}>
-              <small>{localizeCopy(ready ? "Operational change ready" : "Preparing an operational change…")}</small>
-              {steps.map((step, i) => {
-                const active = elapsed >= 1400 + i * 1000;
-                const complete = elapsed >= 2400 + i * 1000;
-                return (
-                  <div className={`${styles.step} ${!active ? styles.pending : ""}`} key={step}>
-                    {localizeCopy(
-                      complete ? (
-                        <PreviewIcon file="cfc20" />
-                      ) : active ? (
-                        <PreviewSpinner file="94283" />
-                      ) : (
-                        <Asset file="67a10.svg" />
-                      ),
-                    )}
-                    <span>{localizeCopy(step)}</span>
-                  </div>
-                );
-              })}
-              <motion.p
-                initial={false}
-                animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 6 }}
-                transition={{ duration: reducedMotion ? 0 : 0.25 }}
-              >
-                {localizeCopy(
-                  "The assignment action is ready. Dispatchers can now assign an available driver in the same service zone to an unassigned delivery. Existing permissions and business rules remain in effect.",
-                )}
-              </motion.p>
-            </div>
-            <div className={styles.composer}>
-              <span>{localizeCopy("Ask or describe changes to your business model.")}</span>
-              <div>
-                <Asset file="f76a5.svg" width={16} />
-                <span className={styles.composerActions}>
-                  <Asset file="37d7d.svg" width={16} />
-                  <Asset file="b36eb.svg" width={16} />
+            </p>
+            <small>{localizeCopy("Lifecycle")}</small>
+            <div className={styles.docStates}>
+              {["Draft", "Confirmed", "In Transit", "Delivered"].map((state, i) => (
+                <span key={state}>
+                  <OpTag tone={stateTones[state]} dot>
+                    {state}
+                  </OpTag>
+                  {i < 3 && <OpIcon name="arrow" />}
                 </span>
-              </div>
+              ))}
+              <OpTag tone="red" dot>
+                Cancelled
+              </OpTag>
             </div>
+            <small>{localizeCopy("Relationships")}</small>
+            <ul>
+              <li>
+                <ObjectChip id="Customer" /> {localizeCopy("places the order. Required.")}
+              </li>
+              <li>
+                <ObjectChip id="Driver" /> {localizeCopy("is the assigned driver. Optional.")}
+              </li>
+            </ul>
+            <small>{localizeCopy("Actions")}</small>
+            <ul>
+              <li>
+                <strong>{localizeCopy("Assign driver")}</strong> {localizeCopy("requires")}{" "}
+                <code>order.assign_driver</code>
+                {localizeCopy(
+                  ", takes a Driver reference and creates the assignment. It does not change the order’s state.",
+                )}
+              </li>
+            </ul>
           </div>
         </PreviewPanel>
       </Swipe>
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.order} delay={0.1}>
-        <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar>
-            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
-            {localizeCopy("Order Detail")}
-          </Bar>
-          <div className={styles.orderBody}>
-            <h3>{localizeCopy("Order #1042")}</h3>
-            <small>{localizeCopy("Customer")}</small>
-            <PreviewPerson initials="SR" name="Sofía Ramírez" color="#2980ff" />
-            <div className={styles.route}>
-              <small>{localizeCopy("Route")}</small>
-              <p>
-                <Asset file="b836a.svg" width={16} />
-                {localizeCopy("Milwaukee 5011, Int. 2. Nápoles. Benito Juárez. Ciudad de México")}
-              </p>
-              <Asset file="d9782.svg" width={16} height={8} />
-              <p>
-                <Asset file="b5d91.svg" width={16} />
-                {localizeCopy("Porfirio Díaz 23, Int. 102. Del Valle Sur. Benito Juárez. Ciudad de México")}
-              </p>
-            </div>
-            <div className={styles.metadata}>
-              <div>
-                <small>{localizeCopy("Payout")}</small>
-                <PreviewTag>{"$12.04"}</PreviewTag>
-              </div>
-              <div>
-                <small>{localizeCopy("Distance")}</small>
-                <PreviewTag>{localizeCopy("2.5 km")}</PreviewTag>
-              </div>
-              <div>
-                <small>{localizeCopy("Expected time")}</small>
-                <PreviewTag>{localizeCopy("8 min")}</PreviewTag>
-              </div>
-            </div>
-            <AnimatePresence>
-              {ready && (
-                <motion.div
-                  className={styles.assignment}
-                  key="assignment"
-                  initial={reducedMotion ? false : { opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  transition={{ duration: reducedMotion ? 0 : 0.35 }}
-                >
-                  <small>{localizeCopy("Assigned driver")}</small>
-                  <AnimatePresence mode="wait" initial={false}>
-                    {localizeCopy(
-                      assigned ? (
-                        <motion.div
-                          key="driver"
-                          className={styles.driver}
-                          initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: reducedMotion ? 0 : 0.3 }}
-                        >
-                          <div>
-                            <PreviewAvatar initials="ML" color="#7263dd" />
-                            <div>
-                              <strong>{localizeCopy("María López")}</strong>
-                              <small>{localizeCopy("m.lopez.03@acme.com.mx")}</small>
-                            </div>
-                          </div>
-                          <div className={styles.tags}>
-                            <PreviewTag tone="green" dot>
-                              {localizeCopy("Active")}
-                            </PreviewTag>
-                            <PreviewTag tone="green" dot>
-                              {localizeCopy("Available")}
-                            </PreviewTag>
-                            <PreviewTag>{localizeCopy("Zone 03")}</PreviewTag>
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <motion.button
-                          key="empty"
-                          type="button"
-                          className={styles.assignButton}
-                          aria-label={localizeCopy("Assign María López to this delivery")}
-                          onClick={() => setManualAssigned(true)}
-                          initial={{ opacity: 0 }}
-                          animate={{
-                            opacity: 1,
-                            scale: elapsed >= 7500 ? 0.97 : 1,
-                            backgroundColor: elapsed >= 6800 ? "#ffffff10" : "#ffffff04",
-                          }}
-                          whileHover={{ backgroundColor: "#ffffff10" }}
-                          whileTap={{ scale: reducedMotion ? 1 : 0.97 }}
-                          exit={{ opacity: 0, scale: 0.97 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <Asset file="f76a5.svg" width={16} />
-                        </motion.button>
-                      ),
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </PreviewPanel>
-      </Swipe>
-      <button
-        type="button"
-        className={styles.replay}
-        onClick={replay}
-        aria-label={localizeCopy("Replay delivery assignment animation")}
-      >
-        {localizeCopy("Replay ↻")}
-      </button>
     </Stage>
   );
 }
-const integrations = [
-  [
-    "65182.png",
-    "Accounting Revenue Book",
-    "https://graph.microsoft.com/v1.0/me/…",
-    "Outgoing",
-    "Order",
-    "Order.Completed",
-    "Now",
-  ],
-  [
-    "2e2fa.png",
-    "Shopify Sales Data",
-    "https://api.shopify.com/v1/orders.json",
-    "Incoming",
-    "Order",
-    "Order.Created",
-    "Now",
-  ],
-  [
-    "f802c.png",
-    "Stripe Payment Transactions",
-    "https://api.stripe.com/v1/charges",
-    "Incoming",
-    "Payment",
-    "Order.Paid",
-    "Now",
-  ],
-  [
-    "f7830.png",
-    "PayPal Sales Records",
-    "https://api.paypal.com/v1/payments/…",
-    "Incoming",
-    "Sale",
-    "Order.Completed",
-    "5 minutes ago",
-  ],
-  [
-    "eed14.png",
-    "Apple Pay Receipts",
-    "https://api.apple.com/payments/…",
-    "Incoming",
-    "Receipt",
-    "Order.Paid",
-    "30 seconds ago",
-  ],
-  [
-    "268dc.png",
-    "Square Transaction Logs",
-    "https://connect.squareup.com/v2/…",
-    "Incoming",
-    "Payment",
-    "Order.Paid",
-    "10 minutes ago",
-  ],
-  ["c5886.png", "Google Pay Transactions", "https://pay.google.com/…", "Incoming", "Payment", "Order.Paid", "Just now"],
-  [
-    "ce692.png",
-    "Amazon Seller Transactions",
-    "https://sellingpartnerapi.amazon.com/…",
-    "Incoming",
-    "Transaction",
-    "Order.Paid",
-    "1 hour ago",
-  ],
-  [
-    "2e2fa.png",
-    "Shopify Order Payments",
-    "https://api.shopify.com/v1/…",
-    "Incoming",
-    "Order",
-    "Order.Paid",
-    "2 minutes ago",
-  ],
-];
-export function PlatformIntegrationsPreview() {
-  const localizeCopy = useCopy();
+
+/* Workspaces */
+
+export function PlatformWorkspacePreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Perma Frost.png"
-      label={localizeCopy("Connected business systems and their operational mappings")}
+      label="The Orders collection and an order detail, generated from the model"
     >
-      <motion.div
-        className={styles.integrations}
-        initial={false}
-        animate={{
-          opacity: entered ? 1 : 0,
-          y: entered || reducedMotion ? 0 : 32,
-          filter: entered || reducedMotion ? "blur(0px)" : "blur(4px)",
-        }}
-        transition={{ duration: reducedMotion ? 0 : 0.55, ease: [0.16, 1, 0.3, 1] }}
-      >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.collection}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar>
+            <span className={styles.muted}>{localizeCopy("Data / ")}</span>
+            {localizeCopy("Orders")}
+          </Bar>
+          <div className={styles.filters} aria-hidden="true">
+            <span>
+              <OpIcon name="search" /> {localizeCopy("Search orders")}
+            </span>
+            <span>{localizeCopy("State: Any")}</span>
+            <span>{localizeCopy("Priority: Any")}</span>
+            <span>{localizeCopy("Newest first")}</span>
+          </div>
+          <div className={styles.collectionRows}>
+            <CollectionList
+              label="Orders"
+              selected={storyOrderId}
+              rows={orders.map((order) => ({
+                id: order.id,
+                title: order.id,
+                subtitle: `${order.customer}${order.driver ? ` · ${order.driver}` : ""}`,
+                tags: [{ label: order.state, tone: stateTones[order.state] }],
+              }))}
+            />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.detail} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
           <Bar>
             <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
-            {localizeCopy("Integrations")}
+            {storyOrderId}
           </Bar>
-          <div className={styles.integrationBody}>
-            <h3>{localizeCopy("Integrations")}</h3>
-            <p>{localizeCopy("Connect your tools and manage the rules that govern your data.")}</p>
-            <div className={styles.integrationGrid}>
-              {integrations.map(([logo, name, url, type, object, mapped, sync]) => (
-                <div className={styles.integrationCard} key={name}>
-                  <div className={styles.integrationTitle}>
-                    <Asset file={logo} width={36} />
-                    <div>
-                      <strong>{localizeCopy(name)}</strong>
-                      <small>{localizeCopy(url)}</small>
-                    </div>
-                    <Asset file="2bf92.svg" width={32} height={21} />
-                  </div>
-                  <dl>
-                    {[
-                      ["Type", type],
-                      ["Object", object],
-                      ["Mapped to", mapped],
-                      ["Last sync", sync],
-                    ].map(([label, value]) => (
-                      <div key={label}>
-                        <dt>{localizeCopy(label)}</dt>
-                        <dd>
-                          <PreviewTag>{localizeCopy(value)}</PreviewTag>
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              ))}
-            </div>
+          <div className={styles.panelBody}>
+            <ObjectDetail record={orderRecord(story)} sections={["properties", "details", "related"]} />
           </div>
         </PreviewPanel>
-      </motion.div>
+      </Swipe>
     </Stage>
   );
 }
-const exportFiles = [
-  ["orders.json", "Order records and attributes"],
-  ["deliveries.json", "Delivery records and status"],
-  ["team-members.json", "Team information and permissions"],
-  ["drivers.json", "Drivers and assignment data"],
-  ["relationships.json", "Connections between records"],
-  ["schema.json", "Object definitions and field types"],
-];
-export function PlatformExportPreview() {
-  const localizeCopy = useCopy();
+
+/* Actions & Workflows */
+
+export function PlatformActionPreview() {
   const { ref, entered, reducedMotion } = useScrollEntrance();
+  const [driver, setDriver] = useState<string | undefined>(drivers[0].name);
+  const [done, setDone] = useState(false);
+  const localizeCopy = useCopy();
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Banana Terracota.png"
+      label="Running the Assign driver action on an order and recording its activity"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.actionDetail}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar>
+            <span className={styles.muted}>{localizeCopy("Orders / ")}</span>
+            {storyOrderId}
+          </Bar>
+          <div className={styles.panelBody}>
+            <ObjectDetail
+              record={orderRecord(story, done ? driver : undefined)}
+              sections={["properties", "related", "activity"]}
+              highlight={done ? "result" : undefined}
+              activityHighlight={done ? "assigned" : undefined}
+            />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.actionDialog} delay={0.1}>
+        {done ? (
+          <div className={styles.actionDone}>
+            <Toast>{localizeCopy("Action completed.")}</Toast>
+            <button
+              type="button"
+              className={styles.replay}
+              onClick={() => {
+                setDone(false);
+                setDriver(drivers[0].name);
+              }}
+            >
+              {localizeCopy("Run it again")} ↻
+            </button>
+          </div>
+        ) : (
+          <ActionDialog
+            title={assignDriver.name}
+            subject={storyOrderId}
+            input={assignDriver.input}
+            query={assignDriver.query}
+            options={drivers}
+            selected={driver}
+            requirement={
+              <>
+                {localizeCopy("Requires")} <code>{assignDriver.permission}</code>
+                {localizeCopy(`, granted to the ${assignDriver.role} role.`)}
+              </>
+            }
+            effect={assignDriver.effect}
+            onSelect={setDriver}
+            onConfirm={() => setDone(true)}
+            onCancel={() => setDriver(undefined)}
+          />
+        )}
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Intelligence & Agents */
+
+type ProposalStep = "proposed" | "approved" | "executed";
+const executedEntry: ActivityEntry = {
+  id: "agent",
+  actor: viewer.name,
+  text: "ran",
+  subject: agentProposal.action,
+  detail: `Driver: ${agentProposal.input} · proposed by ${agentProposal.agent}`,
+  time: "Mon 08:21",
+  tone: "green",
+  badge: agentProposal.badge,
+};
+export function PlatformIntelligencePreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  const [step, setStep] = useState<ProposalStep>("proposed");
+  const localizeCopy = useCopy();
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Cotton Candy.png"
+      label="An operational briefing and an agent proposal that a person approves and executes"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.briefing}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={briefing.status === "design-preview" ? <OpTag tone="blue">Design preview</OpTag> : undefined}>
+            Inbox
+          </Bar>
+          <div className={styles.panelBody}>
+            <BriefingCard {...briefing} items={briefing.items.slice(0, 2)} />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.proposal} delay={0.1}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={<OpTag>Experimental</OpTag>}>
+            <span className={styles.muted}>{localizeCopy("Agent analysis / ")}</span>
+            {agentProposal.subject}
+          </Bar>
+          <div className={styles.panelBody}>
+            <div className={styles.proposalBody}>
+              <small className={styles.label}>
+                <OpIcon name="spark" /> {localizeCopy(agentProposal.agent)} · {localizeCopy(agentProposal.expires)}
+              </small>
+              <div className={styles.proposalAction}>
+                <span>{localizeCopy("Proposed action")}</span>
+                <strong>
+                  {localizeCopy(agentProposal.action)} <OpIcon name="arrow" /> {agentProposal.input}
+                </strong>
+              </div>
+              <p>{localizeCopy(agentProposal.rationale)}</p>
+              <div className={styles.evidence}>
+                <span>{localizeCopy("Evidence")}</span>
+                {agentProposal.evidence.map((item) => (
+                  <ObjectChip key={item} id={item} />
+                ))}
+              </div>
+              {step === "proposed" && (
+                <div className={styles.proposalActions}>
+                  <ActionButton primary onClick={() => setStep("approved")} label="Approve proposal">
+                    Approve
+                  </ActionButton>
+                  <ActionButton>Reject</ActionButton>
+                </div>
+              )}
+              {step === "approved" && (
+                <div className={styles.proposalActions}>
+                  <ActionButton primary onClick={() => setStep("executed")} icon="check">
+                    Execute approved action
+                  </ActionButton>
+                  <span className={styles.muted}>
+                    {localizeCopy("Runs with your permissions, after checking nothing changed.")}
+                  </span>
+                </div>
+              )}
+              {step === "executed" && (
+                <div className={styles.executed}>
+                  <ActivityTimeline entries={[executedEntry]} highlight="agent" />
+                  <button type="button" className={styles.replay} onClick={() => setStep("proposed")}>
+                    {localizeCopy("Replay")} ↻
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </PreviewPanel>
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Governance & Security */
+
+const capabilities = [
+  ["order.read", "Read orders", true],
+  ["order.create", "Create orders", true],
+  ["order.assign_driver", "Run Assign driver", true],
+  ["customer.read", "Read customers", true],
+  ["order.archive", "Archive orders", false],
+  ["ontology.manage", "Change the model", false],
+] as const;
+const auditTrail: ActivityEntry[] = [
+  executedEntry,
+  {
+    id: "priority",
+    actor: "Diego Marín",
+    text: "set Priority to Urgent",
+    detail: "Priority: Normal → Urgent",
+    time: "Fri 17:41",
+    tone: "amber",
+  },
+  {
+    id: "created",
+    actor: "Diego Marín",
+    text: "created",
+    subject: storyOrderId,
+    detail: "State: Draft",
+    time: "Fri 17:40",
+  },
+];
+export function PlatformGovernancePreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  const localizeCopy = useCopy();
   return (
     <Stage
       stageRef={ref}
       entered={entered}
       background="Cover Jungle.png"
-      label={localizeCopy("Portable business data, relationships, and schema export preview")}
+      label="Role permissions for a logistics operator and the append-only activity of an order"
     >
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.exportPanel}>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.role}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar>
-            <span className={styles.muted}>{localizeCopy("My Business / Advanced Options / ")}</span>
-            {localizeCopy("Export my data")}
+          <Bar trailing={<OpTag tone="green">Isolated organization</OpTag>}>
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Roles / ")}</span>
+            {localizeCopy("Logistics operator")}
           </Bar>
-          <div className={styles.exportBody}>
-            <h3>{localizeCopy("Export your data")}</h3>
-            <p>{localizeCopy("Prepare a portable copy of your operational data and its relationships.")}</p>
-            <div className={styles.exportList}>
-              <strong>{localizeCopy("Operations export")}</strong>
-              <p>{localizeCopy("JSON package · All selected records")}</p>
-              {exportFiles.map(([name, description]) => (
-                <div className={styles.exportFile} key={name}>
-                  <Asset file="43749.png" width={36} />
-                  <div>
-                    <strong>{localizeCopy(name)}</strong>
-                    <small>{localizeCopy(description)}</small>
-                  </div>
-                  <span className={styles.checkbox}>
-                    <Asset file="1c59a.svg" width={16} />
+          <div className={styles.panelBody}>
+            <small className={styles.label}>{localizeCopy("Capabilities")}</small>
+            <div className={styles.capabilities}>
+              {capabilities.map(([key, text, enabled]) => (
+                <div key={key}>
+                  <span>
+                    <code>{key}</code>
+                    <small>{localizeCopy(text)}</small>
                   </span>
+                  <PreviewSwitch enabled={enabled} />
                 </div>
               ))}
             </div>
           </div>
         </PreviewPanel>
       </Swipe>
-      <Swipe entered={entered} reduced={reducedMotion} className={styles.exportCodePanel} delay={0.08}>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.audit} delay={0.1}>
         <PreviewPanel theme="dark" className={styles.panel}>
-          <Bar code>{localizeCopy("relationships.json")}</Bar>
-          <Code text={relationships} started={entered} reduced={reducedMotion} exportCode />
+          <Bar>
+            <span className={styles.muted}>{storyOrderId} / </span>
+            {localizeCopy("Activity")}
+          </Bar>
+          <div className={styles.panelBody}>
+            <ActivityTimeline entries={auditTrail} />
+            <p className={styles.appendOnly}>
+              <OpIcon name="lock" /> {localizeCopy("Append-only. Events can’t be edited or deleted.")}
+            </p>
+          </div>
+        </PreviewPanel>
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Know what matters: the Inbox briefing and the tasks waiting on the operator. */
+
+export function AttentionPreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Cotton Candy.png"
+      label="The Inbox: a daily briefing with exceptions, and the tasks waiting for the operator"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.briefing}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={briefing.status === "design-preview" ? <OpTag tone="blue">Design preview</OpTag> : undefined}>
+            Inbox
+          </Bar>
+          <div className={styles.panelBody}>
+            <BriefingCard {...briefing} />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.tasks} delay={0.1}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar>My tasks</Bar>
+          <div className={styles.collectionRows}>
+            <CollectionList
+              label="My tasks"
+              selected={storyOrderId}
+              rows={[
+                {
+                  id: storyOrderId,
+                  title: "Assign a driver",
+                  subtitle: `${storyOrderId} · Altamira Retail · due 5:00 PM`,
+                  tags: [{ label: "Urgent", tone: "red" }],
+                },
+                {
+                  id: "unassigned",
+                  title: "3 confirmed orders without a driver",
+                  subtitle: "Orders · Confirmed",
+                  tags: [{ label: "Exception", tone: "amber" }],
+                },
+                {
+                  id: "approval",
+                  title: "Approve rescheduled delivery",
+                  subtitle: "PO-48205 · requested by Diego Marín",
+                  tags: [{ label: "Approval", tone: "blue" }],
+                },
+                {
+                  id: "PO-48208",
+                  title: "Review cancelled order",
+                  subtitle: "PO-48208 · Norte Home",
+                  tags: [{ label: "Cancelled", tone: "red" }],
+                },
+              ]}
+            />
+          </div>
+        </PreviewPanel>
+      </Swipe>
+    </Stage>
+  );
+}
+
+/* Adapt as operations change: one change to the order process, applied to the same model. */
+
+const lifecycleBefore = ["Draft", "Confirmed", "In Transit", "Delivered"] as const;
+const lifecycleAfter = ["Draft", "Confirmed", "Quality check", "In Transit", "Delivered"] as const;
+const changes = [
+  ["New stage", "Quality check, between Confirmed and In Transit."],
+  ["New action", "Pass quality check, available to the Warehouse lead role."],
+  ["New rule", "An order can’t be dispatched until its quality check has passed."],
+  ["Unchanged", "Existing orders, their history, and every other workflow."],
+] as const;
+
+export function AdaptPreview() {
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  const [applied, setApplied] = useState(true);
+  const localizeCopy = useCopy();
+  return (
+    <Stage
+      stageRef={ref}
+      entered={entered}
+      background="Cover Banana Terracota.png"
+      label="A process change: adding a quality check stage to the order lifecycle"
+    >
+      <Swipe entered={entered} reduced={reducedMotion} className={styles.adapt}>
+        <PreviewPanel theme="dark" className={styles.panel}>
+          <Bar trailing={<OpTag>Illustrative</OpTag>}>
+            <span className={styles.muted}>{localizeCopy("Acme Logistics / Change / ")}</span>
+            {localizeCopy("Add a quality check before dispatch")}
+          </Bar>
+          <div className={styles.panelBody}>
+            <div className={styles.adaptToggle} role="group" aria-label={localizeCopy("Order process version")}>
+              <button type="button" aria-pressed={!applied} onClick={() => setApplied(false)}>
+                {localizeCopy("Current process")}
+              </button>
+              <button type="button" aria-pressed={applied} onClick={() => setApplied(true)}>
+                {localizeCopy("With the change")}
+              </button>
+            </div>
+            <small className={styles.label}>{localizeCopy("Order lifecycle")}</small>
+            <StateBar
+              key={applied ? "after" : "before"}
+              states={applied ? lifecycleAfter : lifecycleBefore}
+              current={applied ? "Quality check" : "Confirmed"}
+              terminal="Cancelled"
+            />
+            <dl className={styles.changes} data-applied={applied}>
+              {changes.map(([term, text]) => (
+                <div key={term} data-kind={term === "Unchanged" ? "kept" : "new"}>
+                  <dt>{localizeCopy(term)}</dt>
+                  <dd>{localizeCopy(text)}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </PreviewPanel>
       </Swipe>
     </Stage>

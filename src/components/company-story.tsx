@@ -22,11 +22,11 @@ export function CompanyStory({ chapters, about = false }: { chapters: EditorialC
           <SectionMap sections={chapters.map(({ id, label }) => ({ id, label }))} />
           <nav className={styles.related} aria-label={localizeCopy("More about Superspace")}>
             <Link href={about ? "/manifesto" : "/company"}>
-              {localizeCopy(about ? "Manifesto" : "About us")}{" "}
+              {localizeCopy(about ? "Manifesto" : "Company")}{" "}
               <Image src="/assets/figma/dark-site/46fe6.svg" alt="" width={14} height={14} unoptimized />
             </Link>
             <Link href="/careers">
-              {localizeCopy("Careers ")}
+              {localizeCopy("Careers")}{" "}
               <Image src="/assets/figma/dark-site/46fe6.svg" alt="" width={14} height={14} unoptimized />
             </Link>
           </nav>
@@ -39,15 +39,13 @@ export function CompanyStory({ chapters, about = false }: { chapters: EditorialC
               className={styles.chapter}
               aria-labelledby={chapter.id + "-title"}
             >
-              {localizeCopy(
-                index === 0 ? (
-                  <HeroHeading id={chapter.id + "-title"}>{localizeCopy(chapter.title)}</HeroHeading>
-                ) : (
-                  <EntranceHeading id={chapter.id + "-title"}>{localizeCopy(chapter.title)}</EntranceHeading>
-                ),
+              {index === 0 ? (
+                <HeroHeading id={chapter.id + "-title"}>{localizeCopy(chapter.title)}</HeroHeading>
+              ) : (
+                <EntranceHeading id={chapter.id + "-title"}>{localizeCopy(chapter.title)}</EntranceHeading>
               )}
               {chapter.blocks.map((block, i) => (
-                <p key={i}>{localizeCopy(block.strong ? <strong>{localizeCopy(block.text)}</strong> : block.text)}</p>
+                <p key={i}>{block.strong ? <strong>{localizeCopy(block.text)}</strong> : localizeCopy(block.text)}</p>
               ))}
             </section>
           ))}

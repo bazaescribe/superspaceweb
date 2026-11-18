@@ -6,8 +6,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
   return createPageMetadata({
-    title: "About us",
-    description: "Building software around the way businesses work.",
+    title: "Company — Building software around the way businesses work",
+    description:
+      "Why Superspace exists, where the product stands today, the founder behind it, and the long-term vision of an autonomous enterprise where people and AI run operations together.",
     path: "/company",
   });
 }

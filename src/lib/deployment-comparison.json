@@ -11,7 +11,7 @@
   "models": [
     {
       "id": "superspace",
-      "label": "SuperSpace",
+      "label": "Superspace",
       "highlight": true
     },
     {
@@ -95,7 +95,7 @@
       "values": {
         "superspace": {
           "value": 38,
-          "explanation": "Your team participates in discovery and validation while SuperSpace handles configuration and deployment."
+          "explanation": "Your team participates in discovery and validation while Superspace handles configuration and deployment."
         },
         "saas": {
           "value": 20,
@@ -124,7 +124,7 @@
       "values": {
         "superspace": {
           "value": 14,
-          "explanation": "SuperSpace hosts, operates, maintains, and updates the underlying platform."
+          "explanation": "Superspace hosts, operates, maintains, and updates the underlying platform."
         },
         "saas": {
           "value": 14,

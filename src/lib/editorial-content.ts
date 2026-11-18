@@ -53,7 +53,7 @@ export const aboutSections: EditorialChapter[] = [
         strong: true,
       },
       {
-        text: "So we started building SuperSpace.",
+        text: "So we started building Superspace.",
       },
     ],
   },
@@ -82,11 +82,74 @@ export const aboutSections: EditorialChapter[] = [
         text: "When the business changes, the model can change with it. Translating real operations into working systems without writing new application-specific code.",
       },
       {
-        text: "It’s an ambitious idea, and we’re still early. But the technology is real. And it’s working.",
+        text: "It’s an ambitious idea, and we’re still early. But the core is real: the engine, the state machine, and the shared runtime are built and have run different operations in controlled demonstrations.",
       },
       {
-        text: "The complexity belongs in the engine. The possibilities belongs to the people using it.",
+        text: "The complexity belongs in the engine. The possibilities belong to the people using it.",
         strong: true,
+      },
+    ],
+  },
+  {
+    id: "vision",
+    label: "The vision",
+    title: "The autonomous enterprise.",
+    blocks: [
+      {
+        text: "Software is getting cheaper to build. Businesses are not getting easier to run.",
+        strong: true,
+      },
+      {
+        text: "Our long-term vision is an enterprise where people and AI run operations together: working from the same understanding of the business, acting through the same rules, with every decision traceable.",
+      },
+      {
+        text: "That only works if the software understands the business first. Every organization defines its objects, relationships, states, roles, and workflows. That model gives people, applications, and agents grounded context, and governed actions give them a safe way to act on it.",
+      },
+      {
+        text: "In that future, people keep final decision authority. AI prepares, proposes, and executes within limits the business sets.",
+      },
+      {
+        text: "This is a direction, not a description of today’s product.",
+        strong: true,
+      },
+    ],
+  },
+  {
+    id: "today",
+    label: "Where we are",
+    title: "Where we are today.",
+    blocks: [
+      {
+        text: "Today, Superspace is an operational platform deployed with each customer: a managed system that helps teams see what needs attention, act within their rules, and adapt as operations change.",
+      },
+      {
+        text: "Built and demonstrated: the ontology engine, the state machine, the shared operational runtime, and controlled operational demos.",
+      },
+      {
+        text: "In development: Resource Allocation, our first reusable capability, along with capability packaging and the operational interfaces capabilities supply.",
+      },
+      {
+        text: "Still to be proven: our first live customer deployment, operator adoption, repeatable deployment economics, and AI execution under human oversight.",
+      },
+      {
+        text: "We’re starting with operations leaders in manufacturing, beginning with one bounded workflow alongside a design partner in Latin America.",
+      },
+    ],
+  },
+  {
+    id: "founder",
+    label: "Founder",
+    title: "Bridging the gap between software and operational reality.",
+    blocks: [
+      {
+        text: "José Luis Rosas Baza, Founder & CEO.",
+        strong: true,
+      },
+      {
+        text: "José Luis has spent his career across operations, product design, and engineering, building software for real businesses.",
+      },
+      {
+        text: "Previously: CPO at Homely, where more than 500,000 services were handled on the platform during his tenure. Product design at Aliada. Founder and CPO of CareMe. Head of Product School at DEV.F. CTO and Head of Product at Raising Well.",
       },
     ],
   },
@@ -332,7 +395,7 @@ export const manifestoSections: EditorialChapter[] = [
         text: "They shouldn’t need to ask their software for permission to become something new.",
       },
       {
-        text: "We’re building SuperSpace because we believe the next generation of business software shouldn’t prescribe how organizations operate.",
+        text: "We’re building Superspace because we believe the next generation of business software shouldn’t prescribe how organizations operate.",
       },
       {
         text: "It should give them the tools to figure that out for themselves.",

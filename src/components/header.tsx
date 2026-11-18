@@ -58,9 +58,10 @@ export function Brand({
 }
 
 const navigation = [
-  { href: "/platform", label: "Platform" },
-  { href: "/deployment", label: "Deployment" },
-  { href: "/offering", label: "Offerings" },
+  { href: "/product", label: "Product" },
+  { href: "/capabilities", label: "Capabilities" },
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/company", label: "Company" },
 ] as const;
 
 const mobileNavigation = [{ href: "/", label: "Home" }, ...navigation] as const;
@@ -168,7 +169,9 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   const portalReady = useSyncExternalStore(subscribeToHydration, clientHydrationSnapshot, serverHydrationSnapshot);
   const [scrolled, setScrolled] = useState(false);
   const [heroActionsPassed, setHeroActionsPassed] = useState(false);
-  const showCta = !usesHeroCtaTrigger || heroActionsPassed;
+  // The floating CTA steps aside while the Monday product demonstration is on screen.
+  const [demoInView, setDemoInView] = useState(false);
+  const showCta = (!usesHeroCtaTrigger || heroActionsPassed) && !demoInView;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const chromeRef = useRef<HTMLElement>(null);
   const shadeRef = useRef<HTMLDivElement>(null);
@@ -210,6 +213,19 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
     );
 
     observer.observe(heroActions);
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  useEffect(() => {
+    const demo = document.getElementById("monday-stage");
+    if (!demo) return;
+
+    const observer = new IntersectionObserver(([entry]) => setDemoInView(entry.isIntersecting), {
+      rootMargin: "-64px 0px 0px 0px",
+      threshold: 0,
+    });
+
+    observer.observe(demo);
     return () => observer.disconnect();
   }, [pathname]);
 

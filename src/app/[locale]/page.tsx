@@ -10,9 +10,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
   return createPageMetadata({
-    title: "Superspace — Operational software for growing companies",
+    title: "Superspace — Your business changes. Your software should adapt.",
     description:
-      "One managed system for your people, processes, and business rules. Configured to fit how you work, and ready to grow with you.",
+      "Operational software built around how your business actually works. Know what needs attention, move work forward, and adapt as operations change, on a managed platform deployed with your team.",
     path: "/",
     absoluteTitle: true,
   });
@@ -28,7 +28,14 @@ function Home() {
       <main id="main-content">
         <DarkHome />
       </main>
-      <Footer />
+      <Footer
+        cta={{
+          title: "Let’s make software work around your business.",
+          text: "See how Superspace can support your operations in a 20-minute demo.",
+          placement: "home_closing",
+          secondary: { label: "See how it works", href: "/how-it-works" },
+        }}
+      />
     </HeaderThemeScope>
   );
 }

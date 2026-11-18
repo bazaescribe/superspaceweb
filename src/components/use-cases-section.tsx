@@ -104,7 +104,7 @@ export function UseCasesSection() {
             The Operating System built around how your business works.
           </EntranceHeading>
           <p>
-            From coordinating deliveries to managing inventory and field teams, SuperSpace adapts to the people,
+            From coordinating deliveries to managing inventory and field teams, Superspace adapts to the people,
             processes and tools behind your operation.
           </p>
         </header>
