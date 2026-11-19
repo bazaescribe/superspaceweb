@@ -218,5 +218,20 @@
       }
     ],
     "blurDataURL": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAQCdASoMAAcAAwBSJZACdAELG4b5LgD+8lpMVO2muc+bgMbBBkfWfB7yAl9fGOcAAA=="
+  },
+  "Commercial model": {
+    "width": 1920,
+    "height": 1280,
+    "variants": [
+      {
+        "width": 640,
+        "src": "/assets/figma/backgrounds/optimized/commercial-model-640.webp"
+      },
+      {
+        "width": 1920,
+        "src": "/assets/figma/backgrounds/optimized/commercial-model-1920.webp"
+      }
+    ],
+    "blurDataURL": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAABQAgCdASoMAAgAAwBSJbACdLoAAuQI/JcgogAA/uqlGZl65mY/qt3igP5hRLFpcCY0nRPXjLpYV2CQeU8sx+bxX/+MQQ7fncB14NH/s/PP/AWyYftUAV+4PoUHYT3AAAA="
   }
 }

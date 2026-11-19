@@ -1,9 +1,11 @@
+import "../commercial-home.css";
+
 import { setRequestLocale } from "next-intl/server";
 
 import { useCopy } from "@/i18n/copy";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { DarkHome } from "@/components/dark-home";
+import { CommercialHome } from "@/components/commercial-home";
 import { HeaderThemeScope } from "@/components/header-theme";
 import { createPageMetadata } from "@/i18n/metadata";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -20,22 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 function Home() {
   const localizeCopy = useCopy();
   return (
-    <HeaderThemeScope defaultTone="dark" data-theme="dark" className="site-v2 dark-redesign home-dark">
+    <HeaderThemeScope defaultTone="light" data-theme="light" className="site-v2 commercial-home">
       <a className="skip-link" href="#main-content">
         {localizeCopy("Skip to content")}
       </a>
-      <Header />
+      <Header desktopBookingLabel="Let’s talk" />
       <main id="main-content">
-        <DarkHome />
+        <CommercialHome />
       </main>
-      <Footer
-        cta={{
-          title: "Let’s make software work around your business.",
-          text: "See how Superspace can support your operations in a 20-minute demo.",
-          placement: "home_closing",
-          secondary: { label: "See how it works", href: "/how-it-works" },
-        }}
-      />
+      <Footer cta={null} />
     </HeaderThemeScope>
   );
 }

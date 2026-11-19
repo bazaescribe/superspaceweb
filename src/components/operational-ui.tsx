@@ -1,3 +1,5 @@
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Tick02Icon, ArrowDown01Icon, MoreHorizontalIcon, FilterHorizontalIcon, LockKeyIcon, PlusSignIcon, Search01Icon, SparklesIcon, ArrowRight02Icon } from "@hugeicons/core-free-icons";
 import type { ReactNode } from "react";
 import { useCopy } from "@/i18n/copy";
 import { PreviewAvatar, PreviewTag, type PreviewTone } from "./preview-ui";
@@ -81,24 +83,21 @@ export function StateTag({ state }: { state: string }) {
   );
 }
 
-type IconName = "check" | "chevron" | "ellipsis" | "filter" | "lock" | "plus" | "search" | "spark" | "arrow";
-const iconPaths: Record<IconName, string> = {
-  check: "M3 8.5 6.5 12 13 4.5",
-  chevron: "M4 6l4 4 4-4",
-  ellipsis: "M4 8h.01M8 8h.01M12 8h.01",
-  filter: "M2.5 4h11M4.5 8h7M6.5 12h3",
-  lock: "M4.5 7.5h7v6h-7zM6 7.5V5.5a2 2 0 0 1 4 0v2",
-  plus: "M8 3.5v9M3.5 8h9",
-  search: "M7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10zM10.5 10.5 14 14",
-  spark: "M8 1.5 9.4 6.6 14.5 8 9.4 9.4 8 14.5 6.6 9.4 1.5 8 6.6 6.6z",
-  arrow: "M3.5 8h9M9 4.5 12.5 8 9 11.5",
+const operationalIcons = {
+  check: Tick02Icon,
+  chevron: ArrowDown01Icon,
+  ellipsis: MoreHorizontalIcon,
+  filter: FilterHorizontalIcon,
+  lock: LockKeyIcon,
+  plus: PlusSignIcon,
+  search: Search01Icon,
+  spark: SparklesIcon,
+  arrow: ArrowRight02Icon,
 };
+type IconName = keyof typeof operationalIcons;
+
 export function OpIcon({ name }: { name: IconName }) {
-  return (
-    <svg className={styles.icon} viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-      <path d={iconPaths[name]} fill={name === "spark" ? "currentColor" : "none"} />
-    </svg>
-  );
+  return <HugeiconsIcon icon={operationalIcons[name]} className={styles.icon} aria-hidden="true" focusable="false" />;
 }
 
 /** A reference to a real business object. Interactive when given an onClick. */

@@ -1,85 +1,25 @@
 .hero {
-  padding-top: 80px;
+  padding-top: clamp(48px, 6vw, 80px);
 }
 .copy {
-  max-width: 720px;
-  margin-bottom: 72px;
+  max-width: var(--commercial-copy-width);
+  margin-bottom: clamp(40px, 6vw, 80px);
 }
 .copy h1 {
-  margin: 0 0 16px;
-  font: 600 var(--type-hero-size)/var(--type-hero-leading) var(--font-body);
-  letter-spacing: 0.01em;
+  margin: 0 0 var(--space-2);
+  font: 700 var(--type-hero-size)/var(--type-hero-leading) var(--font-heading);
+  letter-spacing: var(--tracking-display);
 }
 .copy p {
-  margin: 0 0 24px;
-  font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
-  letter-spacing: 0.01em;
+  margin: 0 0 var(--space-6);
+  color: var(--color-content-secondary);
+  font: 400 var(--type-body-size)/1.2 var(--font-body);
+  letter-spacing: var(--tracking-body);
 }
-
-/* The stage is the brand background; the control center bleeds off its bottom edge. */
 .stage {
-  position: relative;
   overflow: hidden;
-  padding: 56px 56px 0;
-  border-radius: 24px;
-  background: #0b0b0e url("/assets/figma/home-control/hero-background.jpg") center / cover no-repeat;
-  box-shadow: inset 0 0 0 1px rgba(250, 250, 249, 0.06);
-}
-.stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(5, 5, 6, 0.55) 100%);
-  pointer-events: none;
-}
-.tilt {
-  position: relative;
-  filter: drop-shadow(var(--shadow-x, 0px) var(--shadow-y, 28px) 44px rgba(0, 0, 0, 0.5));
-  /* The app runs past the stage's bottom edge, so it reads as cropped by the container. */
-  margin-bottom: -112px;
-}
-.rise {
-  position: relative;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(48px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (max-width: 760px) {
-  .hero {
-    padding-top: 48px;
-  }
-  .copy {
-    margin-bottom: 40px;
-  }
-  .stage {
-    padding: 24px 12px 0;
-    border-radius: 16px;
-    background-position: 42% top;
-  }
-  .stage::before {
-    background: linear-gradient(180deg, rgba(5, 5, 6, 0.18), rgba(5, 5, 6, 0.6));
-  }
-  /* The application continues below the stage, as in the desktop composition. */
-  .tilt {
-    margin-bottom: -80px;
-    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.3));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rise {
-    animation: none;
-  }
-  .tilt {
-    transform: none;
-  }
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-background);
+  box-shadow: var(--shadow-figma-mockup-panel);
 }

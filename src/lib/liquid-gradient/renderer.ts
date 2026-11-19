@@ -27,7 +27,7 @@ function rgb(hex: string): [number, number, number] {
   return [((parsed >> 16) & 255) / 255, ((parsed >> 8) & 255) / 255, (parsed & 255) / 255];
 }
 
-export function mountLiquidGradient(canvas: HTMLCanvasElement, settings: LiquidGradientSettings): () => void {
+export function mountLiquidGradient(canvas: HTMLCanvasElement, settings: LiquidGradientSettings, fragmentShader = fragmentSource): () => void {
   const gl = canvas.getContext("webgl", {
     alpha: false,
     antialias: false,
@@ -57,7 +57,7 @@ export function mountLiquidGradient(canvas: HTMLCanvasElement, settings: LiquidG
 
   try {
     const vertex = compile(gl.VERTEX_SHADER, vertexSource);
-    const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
+    const fragment = compile(gl.FRAGMENT_SHADER, fragmentShader);
     program = gl.createProgram();
     if (!program) throw new Error("Program allocation failed");
     gl.attachShader(program, vertex);
