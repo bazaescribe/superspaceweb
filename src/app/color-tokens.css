@@ -1,24 +1,23 @@
-/* Figma Colors collection. Explicit theme scopes can be nested in either mode.
-   The dark accent uses Accent/Darker, approved for card hover contrast. */
+/* Figma surface, content, border and interactive tokens, resolved per theme. */
 @layer tokens {
   :root {
-    --color-background-light: #fafafa;
+    --color-background-light: #fbfaf9;
     --color-background-secondary-light: #f5f6f7;
     --color-background-tertiary-light: #f3f4f6;
-    --color-content-light: #070709;
-    --color-content-secondary-light: rgb(9 9 11 / 0.6);
-    --color-content-tertiary-light: rgb(9 9 11 / 0.3);
+    --color-content-light: #1d1816;
+    --color-content-secondary-light: rgb(29 24 22 / 0.7);
+    --color-content-tertiary-light: rgb(29 24 22 / 0.4);
     --color-accent-light: #f865b0;
-    --color-border-light: #e8eaee;
+    --color-border-light: rgb(29 24 22 / 0.08);
     --color-background-dark: #070709;
-    --color-background-secondary-dark: #0f0f0f;
+    --color-background-secondary-dark: #141414;
     --color-background-tertiary-dark: rgb(255 255 255 / 0.08);
     --color-content-dark: #ffffff;
-    --color-content-secondary-dark: rgb(255 255 255 / 0.6);
-    --color-content-tertiary-dark: rgb(255 255 255 / 0.3);
+    --color-content-secondary-dark: rgb(255 255 255 / 0.7);
+    --color-content-tertiary-dark: rgb(255 255 255 / 0.4);
     --color-accent-dark: #231f91;
     --color-accent-highlight-dark: #f865b0;
-    --color-border-dark: #202225;
+    --color-border-dark: rgb(255 255 255 / 0.08);
   }
 
   [data-theme="light"] {
@@ -31,6 +30,9 @@
     --color-content-tertiary: var(--color-content-tertiary-light);
     --color-accent: var(--color-accent-light);
     --color-border: var(--color-border-light);
+    --color-interactive-default: rgb(29 24 22 / 0.02);
+    --color-interactive-hover: rgb(29 24 22 / 0.04);
+    --color-interactive-selected: rgb(29 24 22 / 0.08);
   }
 
   :root,
@@ -44,6 +46,9 @@
     --color-content-tertiary: var(--color-content-tertiary-dark);
     --color-accent: var(--color-accent-highlight-dark);
     --color-border: var(--color-border-dark);
+    --color-interactive-default: rgb(255 255 255 / 0.04);
+    --color-interactive-hover: rgb(255 255 255 / 0.08);
+    --color-interactive-selected: rgb(255 255 255 / 0.12);
   }
 
   /* Keep the established CSS and Tailwind vocabulary connected to the same

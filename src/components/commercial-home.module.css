@@ -1,0 +1,69 @@
+.home {
+  --commercial-gutter: max(var(--site-gutter), (100% - var(--content-max)) / 2);
+  --commercial-copy-width: 45rem;
+  --commercial-section-space: clamp(72px, 9vw, 144px);
+  display: grid;
+  gap: var(--commercial-section-space);
+  grid-template-columns: var(--commercial-gutter) minmax(0, 1fr) var(--commercial-gutter);
+  column-gap: 0;
+  padding-block: var(--header-height) var(--commercial-section-space);
+}
+.home > section {
+  grid-column: 2;
+  min-width: 0;
+}
+.home > .experience {
+  grid-column: 1 / -1;
+}
+.experience .sectionCopy {
+  margin-inline: var(--commercial-gutter);
+}
+.sectionCopy {
+  max-width: var(--commercial-copy-width);
+  margin-bottom: clamp(24px, 4vw, var(--space-12));
+}
+.sectionCopy h2,
+.cta h2 {
+  margin: 0 0 var(--space-2);
+  font: 700 var(--type-section-size)/var(--type-section-leading) var(--font-heading);
+  letter-spacing: var(--tracking-display);
+}
+.sectionCopy p,
+.cta p {
+  margin: 0;
+  color: var(--color-content-secondary);
+  font: 400 var(--type-section-body-size)/1.4 var(--font-body);
+  letter-spacing: var(--tracking-body);
+}
+.cta {
+  display: grid;
+  justify-items: center;
+  gap: clamp(24px, 4vw, var(--space-12));
+  padding: clamp(44px, 7vw, 96px) clamp(20px, 6.35vw, 96px);
+  border-radius: var(--radius-panel);
+  background: #201321 url("/assets/figma/backgrounds/optimized/commercial-call-1920.webp") center 10.6% / cover;
+  color: var(--color-content);
+  text-align: center;
+  min-height: min(28vw, 423px);
+}
+.cta h2 {
+  font-size: var(--type-hero-size);
+  line-height: var(--type-hero-leading);
+}
+.cta h2 span {
+  display: block;
+}
+.cta p {
+  max-width: var(--commercial-copy-width);
+  font-size: var(--type-body-size);
+  margin-top: var(--space-3);
+}
+.cta :global(.hero-actions) {
+  justify-content: center;
+}
+
+@media (min-width: 60rem) {
+  .cta {
+    background-size: 100% 235.02%;
+  }
+}

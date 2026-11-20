@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import { PlayIcon, PauseIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useInView } from "motion/react";
 import { useCopy } from "@/i18n/copy";
 import { useScrollEntrance } from "@/hooks/use-scroll-entrance";
 import { briefing, drivers, orderRecord, orders, storyOrderId } from "@/lib/operational-story";
@@ -129,6 +132,23 @@ export function MondayWalkthrough() {
   );
 }
 
+const customers = [
+  ["0130239138", "Amara", "Okafor", "Mar 23, 2025"],
+  ["0221457890", "Liam", "Nguyen", "Apr 12, 2025"],
+  ["0319876541", "Sofia", "Martínez", "May 14, 2025"],
+  ["0456123789", "Ethan", "Patel", "Jun 4, 2025"],
+  ["0543217890", "Isabella", "Chen", "Jun 18, 2025"],
+  ["0632198745", "Noah", "García", "Jul 2, 2025"],
+  ["0745263190", "Emma", "Martínez", "Aug 9, 2025"],
+  ["0893746152", "Liam", "Rodríguez", "Sep 3, 2025"],
+  ["0965124783", "Sophia", "Lopez", "Oct 7, 2025"],
+  ["0102457893", "James", "González", "Nov 5, 2025"],
+  ["0113579246", "Isabella", "Pérez", "Dec 12, 2025"],
+  ["0124681357", "Mason", "Sánchez", "Jan 3, 2026"],
+  ["0135792468", "Mia", "Ramírez", "Feb 9, 2026"],
+  ["0146803579", "Ethan", "Torres", "Mar 10, 2026"],
+] as const;
+
 const anatomy: { key: Highlight; title: string; text: string; example: string }[] = [
   {
     key: "related",
@@ -159,50 +179,135 @@ const anatomy: { key: Highlight; title: string; text: string; example: string }[
 /** One order and the four things it knows, highlighted in the shared object detail. */
 export function OperationAnatomy() {
   const localizeCopy = useCopy();
-  const { ref, entered } = useScrollEntrance();
-  const [active, setActive] = useState<Highlight>("related");
+  const { ref, entered, reducedMotion } = useScrollEntrance();
+  const inView = useInView(ref, { amount: 0.2 });
+  const id = useId();
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const current = anatomy[index];
+  const active = current.key;
   const record = orderRecord(story, drivers[0].name);
-  const current = anatomy.find((item) => item.key === active)!;
+
   return (
     <div className={styles.anatomy}>
+      <div className={styles.anatomySidebar}>
+        <div className={styles.anatomyItems}>
+          {anatomy.map((item, i) => {
+            const expanded = i === index;
+            const descriptionId = `${id}-${item.key}`;
+            return (
+              <div key={item.key}>
+                <h3>
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    aria-controls={descriptionId}
+                    onClick={() => setIndex(i)}
+                  >
+                    {localizeCopy(item.title)}
+                  </button>
+                </h3>
+                <div
+                  id={descriptionId}
+                  className={styles.anatomyDescription}
+                  data-expanded={expanded}
+                  inert={!expanded}
+                >
+                  <div>
+                    <p>{localizeCopy(item.text)}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {!reducedMotion && (
+          <button
+            className={styles.anatomyProgress}
+            type="button"
+            aria-label={localizeCopy(paused ? "Resume automatic selection" : "Pause automatic selection")}
+            onClick={() => setPaused((value) => !value)}
+          >
+            <svg viewBox="0 0 28 28" aria-hidden="true">
+              <circle cx="14" cy="14" r="11" className={styles.progressTrack} />
+              <circle
+                key={active}
+                cx="14"
+                cy="14"
+                r="11"
+                pathLength="100"
+                className={styles.progressFill}
+                data-running={inView && !paused}
+                onAnimationEnd={() => setIndex((value) => (value + 1) % anatomy.length)}
+              />
+            </svg>
+            <HugeiconsIcon icon={paused ? PlayIcon : PauseIcon} size={12} aria-hidden="true" />
+          </button>
+        )}
+      </div>
       <PreviewStage
-        background="Cover Purple.png"
+        background="Commercial model"
         stageRef={ref}
         entered={entered}
-        label={localizeCopy("An order in Superspace with its relationships, state, actions and history")}
+        label={localizeCopy(
+          active === "related"
+            ? "Customers"
+            : "An order in Superspace with its relationships, state, actions and history",
+        )}
         className={styles.anatomyStage}
       >
-        <div className={styles.anatomyPanel} data-entered={entered}>
+        <div className={styles.anatomyPanel} data-entered={entered} data-collection={active === "related" || undefined}>
           <PreviewPanel theme="dark" className={styles.panel}>
-            <div className={styles.panelBody}>
-              <ObjectDetail
-                record={record}
-                highlight={active}
-                sections={["properties", "related", "activity"]}
-                activityHighlight={active === "activity" ? "assigned" : undefined}
-              />
-            </div>
+            {active === "related" ? (
+              <>
+                <div className={styles.collectionBar}>
+                  {localizeCopy("Customers")} <span>{localizeCopy("1,248 records")}</span>
+                </div>
+                <div className={styles.collectionTools}>
+                  <span>{localizeCopy("Search items")}</span>
+                  <span>＋ {localizeCopy("New Customer")}</span>
+                </div>
+                <table className={styles.objectTable} aria-label={localizeCopy("Customers")}>
+                  <thead>
+                    <tr>
+                      {["", "ID", "Name", "Last name", "Email", "Phone", "Created"].map((column) => (
+                        <th key={column} scope="col">
+                          {localizeCopy(column)}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {customers.map(([id, first, last, date], index) => (
+                      <tr key={id}>
+                        <td>{index + 1}</td>
+                        <th scope="row">{id}</th>
+                        <td>{first}</td>
+                        <td>{last}</td>
+                        <td>
+                          {first.toLowerCase()}.{last.toLowerCase()}@example.com
+                        </td>
+                        <td>+52 55 0100 {String(index + 1).padStart(4, "0")}</td>
+                        <td>{localizeCopy(date)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            ) : (
+              <div className={styles.panelBody}>
+                <p className={styles.anatomyExample}>{localizeCopy(current.example)}</p>
+                <ObjectDetail
+                  record={record}
+                  highlight={active}
+                  sections={["properties", "related", "activity"]}
+                  activityHighlight={active === "activity" ? "assigned" : undefined}
+                />
+              </div>
+            )}
           </PreviewPanel>
         </div>
-        <p className={styles.anatomyExample} aria-hidden="true" key={active}>
-          {localizeCopy(current.example)}
-        </p>
       </PreviewStage>
-      <div className={styles.anatomyItems}>
-        {anatomy.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            aria-pressed={active === item.key}
-            onClick={() => setActive(item.key)}
-            onPointerEnter={(event) => event.pointerType !== "touch" && setActive(item.key)}
-            onFocus={() => setActive(item.key)}
-          >
-            <strong>{localizeCopy(item.title)}</strong>
-            <span>{localizeCopy(item.text)}</span>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

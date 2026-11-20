@@ -15,6 +15,9 @@ import {
   Plus,
   Sparkle,
 } from "@phosphor-icons/react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useLocale } from "next-intl";
+import { Home01Icon, Mail01Icon, DatabaseIcon, DashboardSquare01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "motion/react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useCopy } from "@/i18n/copy";
@@ -162,7 +165,7 @@ function useElapsedSeconds(active: boolean) {
   return seconds;
 }
 
-export function HomeControlCenter() {
+export function HomeControlCenter({ commercial = false }: { commercial?: boolean }) {
   const localizeCopy = useCopy();
   const [run, setRun] = useState(0);
   const reduced = useReducedMotion();
@@ -170,24 +173,35 @@ export function HomeControlCenter() {
   const [scale, setScale] = useState(1);
   useEffect(() => {
     const element = frame.current;
-    if (!element) return;
+    if (!element || commercial) return;
     const observer = new ResizeObserver(([entry]) => {
-      setScale(Math.min(1, Math.max(0.6, entry.contentRect.width / CANVAS_WIDTH)));
+      setScale(Math.max(0.6, entry.contentRect.width / CANVAS_WIDTH));
     });
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [commercial]);
   return (
-    <div className={styles.frame} ref={frame} style={{ height: CANVAS_HEIGHT * scale }}>
+    <div
+      className={styles.frame}
+      data-commercial={commercial || undefined}
+      ref={frame}
+      style={commercial ? undefined : { height: CANVAS_HEIGHT * scale }}
+    >
       <div
         className={styles.canvas}
-        style={{ transform: `scale(${scale})` }}
-        role="img"
+        style={commercial ? undefined : { transform: `scale(${scale})` }}
+        role="group"
         aria-label={localizeCopy(
-          "Superspace home: an AI summary of today's operation, progress charts, overdue orders and the Superspace AI inspector",
+          commercial
+            ? "Superspace home: operational summary, overdue orders and order distribution"
+            : "Superspace home: an AI summary of today's operation, progress charts, overdue orders and the Superspace AI inspector",
         )}
       >
-        <ControlCenter key={run} reduced={reduced} onReplay={() => setRun((value) => value + 1)} />
+        {commercial ? (
+          <HomeDashboard />
+        ) : (
+          <ControlCenter key={run} reduced={reduced} onReplay={() => setRun((value) => value + 1)} />
+        )}
       </div>
     </div>
   );
@@ -216,6 +230,110 @@ function nextAfter(
     default:
       return null;
   }
+}
+
+const railSections = [
+  { name: "Home", icon: Home01Icon },
+  { name: "Inbox", icon: Mail01Icon },
+  { name: "Database", icon: DatabaseIcon },
+  { name: "Apps", icon: DashboardSquare01Icon },
+];
+const dailyVolume = [
+  [44, 19, 7], [33, 11, 4], [20, 8, 5], [47, 21, 14], [53, 18, 9], [46, 24, 12], [54, 23, 13],
+  [49, 16, 8], [31, 9, 5], [18, 6, 3], [48, 22, 13], [51, 17, 6], [56, 20, 11], [38, 29, 15],
+];
+const volumeStatuses = ["Completed", "In progress", "Confirmed"];
+
+function OrderVolume() {
+  const copy = useCopy();
+  const [selected, setSelected] = useState(dailyVolume.length - 1);
+  const locale = useLocale();
+  const formatter = new Intl.DateTimeFormat(locale, { month: "short", day: "numeric", timeZone: "UTC" });
+  const dates = dailyVolume.map((_, i) => formatter.format(Date.UTC(2026, 9, 23 + i)));
+  const counts = dailyVolume[selected];
+  return (
+    <section className={styles.volume} aria-label={copy("Order distribution")}>
+      <header>
+        <strong>{copy("Order distribution")}</strong>
+        <span>
+          {dates[selected]} · <b>{counts.reduce((sum, value) => sum + value, 0)}</b> {copy("orders")}
+        </span>
+      </header>
+      <div className={styles.volumePlot}>
+        <div className={styles.volumeAxis} aria-hidden="true">
+          {[100, 75, 50, 25, 0].map(value => <span key={value} style={{ top: (100 - value) + "%" }}>{value}</span>)}
+        </div>
+        {dailyVolume.map((values, index) => (
+          <button
+            type="button"
+            key={dates[index]}
+            aria-pressed={index === selected}
+            aria-label={[dates[index], ...values.map((value, i) => value + " " + copy(volumeStatuses[i]))].join(", ")}
+            onClick={() => setSelected(index)}
+          >
+            <span className={styles.barTrack}>
+              {values.map((value, i) => (
+                <i key={volumeStatuses[i]} style={{ height: value + "%" }} />
+              ))}
+            </span>
+            <span className={styles.dayLabel}>{[0, 4, 9, 13].includes(index) ? dates[index] : ""}</span>
+          </button>
+        ))}
+      </div>
+      <ul className={styles.volumeLegend}>
+        {volumeStatuses.map((label, i) => (
+          <li key={label}>
+            <i />
+            {copy(label)} <b>{counts[i]}</b>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function HomeDashboard() {
+  const copy = useCopy();
+  const [tab, setTab] = useState<Tab>("Orders");
+  return (
+    <div className={styles.control}>
+      <aside className={styles.homeRail} aria-label={copy("Home views")}>
+        <Image src="/assets/figma/logos/Logo-Aliada.png" alt="Aliada" width={30} height={30} />
+        <nav aria-label={copy("Home views")}>
+          {railSections.map(({ name, icon }) => (
+            <button key={name} type="button" disabled={name !== "Home"} aria-current={name === "Home" ? "page" : undefined}
+              title={copy(name)} aria-label={copy(name)} onClick={() => setTab("Orders")}>
+              <HugeiconsIcon icon={icon} size={17} aria-hidden="true" />
+            </button>
+          ))}
+        </nav>
+        <span className={styles.operator} title="Ana Torres">
+          AT
+        </span>
+      </aside>
+      <div className={styles.main}>
+        <div className={styles.column}>
+          <header className={styles.intro}>
+            <p className={styles.date}>{copy("Thu 5 Nov, 2:05 PM")}</p>
+            <h2 className={styles.hello}>{copy("Hello Ana!")}</h2>
+          </header>
+          <div className={styles.summaryBlock}>
+            <strong>{copy("Summary")}</strong>
+            <p>{copy(SUMMARY)}</p>
+          </div>
+          <div className={styles.tabs} role="group" aria-label={copy("Home views")}>
+            {tabs.map((name) => (
+              <button key={name} type="button" aria-pressed={tab === name} onClick={() => setTab(name)}>
+                {copy(name)}
+              </button>
+            ))}
+          </div>
+          <OverdueCard heading={copy(tabCards[tab].heading)} rows={tabCards[tab].rows} compact />
+          {tab === "Orders" && <OrderVolume />}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () => void }) {
@@ -286,7 +404,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
         </button>
       </div>
       <div className={styles.body}>
-        <main className={styles.main}>
+        <div className={styles.main}>
           <div className={styles.column}>
             <header className={`${styles.intro} ${styles.stagger}`} style={enterAt(0)}>
               <p className={styles.date}>{localizeCopy("Thu 5 Nov, 2:05 PM")}</p>
@@ -294,7 +412,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
               <h3 className={styles.today}>{localizeCopy("Today")}</h3>
             </header>
 
-            <div className={styles.stagger} style={enterAt(300)}>
+            <div className={`${styles.summaryBlock} ${styles.stagger}`} style={enterAt(300)}>
               <AiSummary
                 generating={false}
                 text={
@@ -344,7 +462,7 @@ function ControlCenter({ reduced, onReplay }: { reduced: boolean; onReplay: () =
 
             {tab === "Orders" && <ProgressCard />}
           </div>
-        </main>
+        </div>
 
         <section className={styles.inspector} aria-label={localizeCopy("Superspace AI inspector")}>
           <div className={styles.inspectorTabs} role="tablist" aria-label={localizeCopy("Inspector")}>
@@ -642,7 +760,7 @@ function Tag({ tone, children }: { tone: Tone; children: ReactNode }) {
   );
 }
 
-function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
+function OverdueCard({ heading, rows, compact = false }: { heading: string; rows: Row[]; compact?: boolean }) {
   const localizeCopy = useCopy();
   /* Assignment labels carry a driver name after the "Driver:" prefix; only the prefix is copy. */
   const assignmentLabel = (label: string) =>
@@ -656,9 +774,11 @@ function OverdueCard({ heading, rows }: { heading: string; rows: Row[] }) {
           </span>
           {heading}
         </span>
-        <button className={styles.itemMore} aria-label={localizeCopy("More options")}>
-          <Image src="/assets/figma/home-control/list/more.svg" alt="" width={14} height={14} />
-        </button>
+        {!compact && (
+          <button className={styles.itemMore} aria-label={localizeCopy("More options")}>
+            <Image src="/assets/figma/home-control/list/more.svg" alt="" width={14} height={14} />
+          </button>
+        )}
       </header>
       <ul className={styles.itemRows}>
         {rows.map((row) => (

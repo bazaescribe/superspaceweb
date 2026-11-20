@@ -149,7 +149,10 @@ const subscribeToHydration = () => () => {};
 const clientHydrationSnapshot = () => true;
 const serverHydrationSnapshot = () => false;
 
-export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
+export function Header({
+  tone: toneOverride,
+  desktopBookingLabel,
+}: { tone?: HeaderTone; desktopBookingLabel?: string } = {}) {
   const localizeCopy = useCopy();
   const pathname = usePathname();
   const usesHeroCtaTrigger = pathname === "/" || navigation.some(({ href }) => pathname === href);
@@ -172,6 +175,7 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
   // The floating CTA steps aside while the Monday product demonstration is on screen.
   const [demoInView, setDemoInView] = useState(false);
   const showCta = (!usesHeroCtaTrigger || heroActionsPassed) && !demoInView;
+  const showDesktopCta = !!desktopBookingLabel || showCta;
   const buttonRef = useRef<HTMLButtonElement>(null);
   const chromeRef = useRef<HTMLElement>(null);
   const shadeRef = useRef<HTMLDivElement>(null);
@@ -288,14 +292,14 @@ export function Header({ tone: toneOverride }: { tone?: HeaderTone } = {}) {
           className="header__cta"
           initial={false}
           animate={{
-            width: showCta ? "auto" : 0,
+            width: showDesktopCta ? "auto" : 0,
           }}
           transition={{ duration: reduceMotion ? 0 : 0.48, ease: motionEase }}
-          inert={!showCta}
-          aria-hidden={!showCta}
+          inert={!showDesktopCta}
+          aria-hidden={!showDesktopCta}
         >
           <div className="header__cta-content">
-            <BookingLink inverse={dark} placement="header_desktop" />
+            <BookingLink inverse={dark} placement="header_desktop" label={desktopBookingLabel} />
           </div>
         </motion.div>
         <button

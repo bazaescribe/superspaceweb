@@ -1,11 +1,13 @@
 import sharp from "sharp";
-import { readdir, mkdir, writeFile } from "node:fs/promises";
+import { readdir, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 // Preserve Figma exports; generate delivery assets and tiny inline placeholders.
 const root = path.resolve("public/assets/figma/backgrounds");
 const output = path.join(root, "optimized");
 await mkdir(output, { recursive: true });
+const manifestPath = "src/components/preview-backgrounds.json";
+const existing = JSON.parse(await readFile(manifestPath, "utf8"));
 const manifest = {};
 for (const file of (await readdir(root)).filter((file) => file.endsWith(".png")).sort()) {
   const source = path.join(root, file);
@@ -28,4 +30,6 @@ for (const file of (await readdir(root)).filter((file) => file.endsWith(".png"))
   const blur = await sharp(source).resize({ width: 12 }).webp({ quality: 45 }).toBuffer();
   manifest[file] = { width, height, variants, blurDataURL: `data:image/webp;base64,${blur.toString("base64")}` };
 }
-await writeFile("src/components/preview-backgrounds.json", JSON.stringify(manifest, null, 2) + "\n");
+// The commercial model uses a separately cropped JPEG delivery set.
+if (existing["Commercial model"]) manifest["Commercial model"] = existing["Commercial model"];
+await writeFile(manifestPath, JSON.stringify(manifest, null, 2) + "\n");

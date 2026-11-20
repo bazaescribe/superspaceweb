@@ -43,7 +43,7 @@
 .steps button:focus-visible,
 .next:focus-visible,
 .anatomyItems button:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 .stepCopy {
@@ -125,93 +125,167 @@
 }
 
 /* Operation anatomy */
+.anatomy {
+  display: grid;
+  grid-template-columns: minmax(0, 284fr) minmax(0, 948fr);
+  gap: clamp(24px, 4vw, var(--space-12));
+  align-items: start;
+}
 .anatomyStage.anatomyStage {
-  aspect-ratio: 2.1;
+  aspect-ratio: 3 / 2;
+  height: auto;
+  border-radius: var(--radius-panel);
 }
 .anatomyPanel {
   position: absolute;
-  left: 6%;
-  top: 9%;
-  width: 50%;
-  bottom: -4%;
-  font-size: clamp(9px, 0.9cqw, 12px);
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 600ms var(--ease-standard),
-    transform 600ms var(--ease-standard);
-}
-.anatomyPanel[data-entered="true"] {
-  opacity: 1;
-  transform: none;
+  inset: 10% 0 0 7%;
+  padding: 5px;
+  border-radius: var(--radius-panel);
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--shadow-figma-frosted);
 }
 .panel.panel {
   height: 100%;
-  background: radial-gradient(ellipse at top left, #111116, #070709);
-  border-color: #202024;
-  box-shadow: 0 4px 48px #0005;
-  font-size: inherit;
+  overflow: auto;
+  border: 0;
+  border-radius: calc(var(--radius-panel) - 5px);
+  background: var(--color-background-secondary-dark);
 }
 .panelBody {
-  padding: 2.4em 2.4em 0;
+  padding: var(--space-4);
 }
 .anatomyExample {
-  position: absolute;
-  z-index: 1;
-  left: 62%;
-  right: 5%;
-  top: 38%;
-  margin: 0;
-  font: 500 clamp(16px, 2.3cqw, 30px) / 1.2 var(--font-body);
-  letter-spacing: 0.01em;
-  color: white;
-  text-shadow: 0 2px 24px #0006;
-  animation: example-in 400ms var(--ease-standard) both;
+  margin: 0 0 var(--space-3);
+  color: var(--preview-secondary);
+}
+.objectTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.objectTable caption,
+.objectTable :is(th, td) {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border-dark);
+}
+.objectTable caption {
+  font-weight: 600;
+}
+.objectTable :is(th, td) {
+  font-weight: 400;
+}
+.objectTable thead,
+.objectTable td {
+  color: var(--preview-secondary);
+}
+.anatomySidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-self: stretch;
+  gap: var(--space-6);
 }
 .anatomyItems {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 24px;
-  margin-top: 32px;
+  gap: var(--space-6);
+}
+.anatomyItems h3 {
+  margin: 0;
+  font: 700 var(--text-heading-5)/1.15 var(--font-heading);
 }
 .anatomyItems button {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px 0 0;
+  padding: 0;
   border: 0;
-  border-top: 1px solid var(--color-border);
+  border-radius: var(--radius-figma-xs);
   background: none;
-  color: var(--color-content-secondary);
+  color: var(--color-content);
+  opacity: 0.48;
+  font: inherit;
   text-align: left;
   cursor: pointer;
-  transition:
-    color 200ms ease,
-    border-color 200ms ease;
+  transition: opacity 420ms var(--ease-standard);
 }
-.anatomyItems strong {
-  font: 600 18px/1.3 var(--font-body);
-  color: white;
-}
-.anatomyItems span {
-  font: 400 var(--type-section-body-size) / var(--type-section-body-leading) var(--font-body);
-}
-.anatomyItems button[aria-pressed="true"] {
-  border-top-color: #8f72ff;
-  color: white;
-}
-@keyframes example-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+@media (hover: hover) {
+  .anatomyItems button:hover {
+    opacity: 0.72;
   }
+}
+.anatomyItems button:is(:focus-visible, [aria-expanded="true"]) {
+  opacity: 1;
+}
+.anatomyDescription {
+  display: grid;
+  grid-template-rows: 0fr;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    grid-template-rows 420ms var(--ease-standard),
+    clip-path 420ms var(--ease-standard);
+}
+.anatomyDescription[data-expanded="true"] {
+  grid-template-rows: 1fr;
+  clip-path: inset(0);
+}
+.anatomyDescription > div {
+  min-height: 0;
+  overflow: hidden;
 }
 @media (prefers-reduced-motion: reduce) {
-  .anatomyPanel {
+  .anatomyItems button,
+  .anatomyDescription {
     transition: none;
   }
-  .anatomyExample {
-    animation: none;
+}
+.anatomyItems p {
+  margin: 4px 0 0;
+  font: 400 var(--type-section-body-size)/var(--type-section-body-leading) var(--font-body);
+  color: var(--color-content-secondary);
+}
+.anatomyProgress {
+  display: grid;
+  place-items: center;
+  width: var(--control-touch-size);
+  height: var(--control-touch-size);
+  margin-inline-start: -8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-content);
+  cursor: pointer;
+}
+.anatomyProgress > svg {
+  grid-area: 1 / 1;
+}
+.anatomyProgress > svg:first-child {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+.progressTrack,
+.progressFill {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2px;
+}
+.progressTrack {
+  opacity: 0.18;
+}
+.progressFill {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  animation: anatomy-progress 7s linear forwards paused;
+}
+.progressFill[data-running="true"] {
+  animation-play-state: running;
+}
+@keyframes anatomy-progress {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 @media (max-width: 900px) {
@@ -232,26 +306,60 @@
     flex-direction: column;
     gap: 12px;
   }
+  .anatomy {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .anatomyStage.anatomyStage {
-    aspect-ratio: auto;
-    height: 460px;
-  }
-  .anatomyPanel {
-    left: 16px;
-    right: 16px;
-    width: auto;
-    top: 96px;
-    bottom: -40px;
-    font-size: 11px;
-  }
-  .anatomyExample {
-    left: 16px;
-    right: 16px;
-    top: 24px;
-    font-size: 18px;
+    min-height: 330px;
   }
   .anatomyItems {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px 16px;
+    gap: var(--space-4);
   }
+}
+.anatomyStage.anatomyStage::after {
+  display: none;
+}
+
+.anatomyPanel[data-collection] {
+  inset: 10% -3% -7% 7%;
+}
+.anatomyPanel[data-collection] .panel {
+  overflow: hidden;
+  background: #1f1f1f;
+}
+.collectionBar,
+.collectionTools {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-dark);
+}
+.collectionBar {
+  text-align: center;
+}
+.collectionBar span {
+  margin-inline-start: 4px;
+  color: var(--preview-secondary);
+}
+.collectionTools {
+  display: flex;
+  justify-content: space-between;
+}
+.collectionTools span {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgb(255 255 255 / 0.08);
+  color: var(--preview-secondary);
+}
+.collectionTools span:last-child {
+  background: white;
+  color: #292929;
+}
+.objectTable {
+  white-space: nowrap;
+}
+.objectTable :is(th, td) {
+  padding: 7px 12px;
+  font-size: 11px;
+}
+.objectTable thead {
+  background: rgb(0 0 0 / 0.2);
 }

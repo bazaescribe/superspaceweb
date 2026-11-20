@@ -23,29 +23,31 @@ const defaultCta: FooterCta = {
 };
 
 /** Pages with their own closing argument can replace the shared footer call to action. */
-export function Footer({ cta = defaultCta }: { cta?: FooterCta }) {
+export function Footer({ cta = defaultCta }: { cta?: FooterCta | null }) {
   const localizeCopy = useCopy();
   return (
     <FooterReveal>
       <footer className="v2-footer shell">
-        <div className="footer-cta">
-          <EntranceHeading>{localizeCopy(cta.title)}</EntranceHeading>
-          <p>{localizeCopy(cta.text)}</p>
-          <div className="hero-actions">
-            <BookingLink
-              placement={cta.placement ?? "footer"}
-              label={cta.label && localizeCopy(cta.label)}
-              subject={cta.subject}
-              designIcon
-              inverse
-            />
-            {cta.secondary && (
-              <Link className="button button--secondary" href={cta.secondary.href}>
-                {localizeCopy(cta.secondary.label)}
-              </Link>
-            )}
+        {cta && (
+          <div className="footer-cta">
+            <EntranceHeading>{localizeCopy(cta.title)}</EntranceHeading>
+            <p>{localizeCopy(cta.text)}</p>
+            <div className="hero-actions">
+              <BookingLink
+                placement={cta.placement ?? "footer"}
+                label={cta.label && localizeCopy(cta.label)}
+                subject={cta.subject}
+                designIcon
+                inverse
+              />
+              {cta.secondary && (
+                <Link className="button button--secondary" href={cta.secondary.href}>
+                  {localizeCopy(cta.secondary.label)}
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         <div className="v2-footer__top">
           {footerGroups.map((group) => (
             <nav className="v2-footer__group" aria-label={localizeCopy(group.title)} key={group.title}>
