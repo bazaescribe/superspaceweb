@@ -310,6 +310,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .anatomyStage.anatomyStage {
+    width: 100%;
     min-height: 330px;
   }
   .anatomyItems {

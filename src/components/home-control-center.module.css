@@ -1341,3 +1341,85 @@
 .volumeAxis span::after { content: ""; position: absolute; left: 26px; right: 0; border-top: 1px solid rgb(255 255 255 / 9%); }
 .dayLabel { white-space: nowrap; min-height: 14px; }
 .volumePlot button:last-child .dayLabel { justify-self: end; }
+
+@media (max-width: 760px) {
+  .frame[data-commercial] {
+    aspect-ratio: auto;
+  }
+
+  .frame[data-commercial] :is(.canvas, .control) {
+    position: relative;
+    height: auto;
+  }
+
+  .frame[data-commercial] .control {
+    color: #20212a;
+    background: linear-gradient(155deg, #eef0f7, #f9faff 42%, #fff 85%);
+  }
+
+  .frame[data-commercial] .main {
+    display: block;
+    padding: clamp(16px, 5vw, 32px);
+    overflow: visible;
+  }
+
+  .frame[data-commercial] .column {
+    gap: 18px;
+    width: 100%;
+    padding: 0;
+  }
+
+  .frame[data-commercial] :is(.hello, .itemName, .volume b) {
+    color: inherit;
+  }
+
+  .frame[data-commercial] :is(.date, .rowId, .itemMeta, .summaryBlock p, .volume header span, .volumeLegend, .volumeAxis span, .volumePlot button) {
+    color: #565b6d;
+  }
+
+  .frame[data-commercial] :is(.itemCard, .volume) {
+    padding: 12px;
+    border: 1px solid #e3e5ee;
+    border-radius: 12px;
+    background: #fff;
+  }
+
+  .frame[data-commercial] .tabs {
+    flex-wrap: wrap;
+  }
+
+  .frame[data-commercial] .tabs button {
+    height: 36px;
+    background: #eceef4;
+    color: #4e5264;
+  }
+
+  .frame[data-commercial] .tabs button[aria-pressed="true"] {
+    background: #e0def5;
+    color: #302465;
+  }
+
+  .frame[data-commercial] .itemCard .tone_red {
+    color: #a52536;
+  }
+
+  .frame[data-commercial] .itemCard .tone_amber {
+    color: #815200;
+  }
+
+  .frame[data-commercial] .itemCard .tone_green {
+    color: #16634d;
+  }
+
+  .frame[data-commercial] .volumeAxis span::after {
+    border-color: #e5e7ee;
+  }
+
+  .frame[data-commercial] .volumePlot button[aria-pressed="true"] {
+    color: #25213d;
+  }
+
+  .frame[data-commercial] .volumeLegend {
+    gap: 6px 10px;
+  }
+}
