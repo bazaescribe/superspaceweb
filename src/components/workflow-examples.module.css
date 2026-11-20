@@ -118,14 +118,26 @@
   font-size: var(--text-meta);
 }
 @media (max-width: 47.5rem) {
+  .stage {
+    gap: 24px;
+    padding: 24px 16px 0;
+  }
+  .intro h3 {
+    margin-bottom: 16px;
+  }
+  .intro dl {
+    gap: 12px 24px;
+  }
   .mockups {
-    min-height: 440px;
+    aspect-ratio: 5 / 6;
+    min-height: 340px;
+    max-height: 500px;
   }
   .frame {
     width: 92%;
   }
   .frame + .frame {
-    inset-block-start: 50%;
+    inset-block-start: 42%;
     width: 90%;
   }
 }

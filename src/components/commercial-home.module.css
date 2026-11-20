@@ -67,3 +67,13 @@
     background-size: 100% 235.02%;
   }
 }
+
+@media (max-width: 45rem) {
+  .cta {
+    align-content: center;
+    min-height: clamp(420px, 115vw, 540px);
+    padding: 56px 24px;
+    gap: 32px;
+    background-position: 50% 30%;
+  }
+}
